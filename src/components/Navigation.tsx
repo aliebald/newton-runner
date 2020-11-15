@@ -16,6 +16,9 @@ export default function Navigation(): ReactElement {
 				<Link to="/ExampleQuest2">
 					<li>Example Quest 2</li>
 				</Link>
+				<Link to="/Tutorial">
+					<li>Tutorial</li>
+				</Link>
 			</ul>
 		</nav>
 	);

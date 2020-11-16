@@ -2,3 +2,15 @@ nav {
 	min-height: 8vh;
 	margin-bottom: 1rem;
 }
+
+.navLink {
+	display: flex;
+	align-items: center;
+	list-style: none;
+}
+
+.navLink .navElem {
+	padding-right: 1rem;
+	padding-left: 1rem;
+	color: rgba(255, 255, 255, 0.5);
+}

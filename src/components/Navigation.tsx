@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
-import "./../css/styles.css";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 export default function Navigation(): ReactElement {

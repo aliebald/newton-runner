@@ -18,3 +18,8 @@ nav {
 	padding-left: 1rem;
 	color: rgba(255, 255, 255, 0.5);
 }
+
+.row-card-overview {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}

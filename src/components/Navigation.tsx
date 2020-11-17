@@ -14,6 +14,9 @@ export default function Navigation(): ReactElement {
 					<Link to="/" className="navElem">
 						Landing Page
 					</Link>
+					<Link to="/LevelOverview" className="navElem">
+						LevelOverview
+					</Link>
 					<Link to="/Tutorial" className="navElem">
 						Tutorial
 					</Link>

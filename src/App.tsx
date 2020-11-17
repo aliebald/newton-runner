@@ -2,8 +2,8 @@ import React, { ReactElement } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
-import ExampleQuest1 from "./levels/exampleLevel/quest1/Quest";
-import ExampleQuest2 from "./levels/exampleLevel/quest2/Quest";
+import ExampleQuest1 from "./levels/exampleLevel/quest1/QuestConfig";
+import ExampleQuest2 from "./levels/exampleLevel/quest2/QuestConfig";
 import Tutorial from "./components/Tutorial";
 import LevelOverview from "./components/LevelOverview";
 

@@ -1,3 +1,7 @@
+.debug {
+	border: 1px dotted black;
+}
+
 nav {
 	min-height: 8vh;
 	margin-bottom: 1rem;

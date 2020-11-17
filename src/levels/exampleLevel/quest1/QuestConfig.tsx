@@ -1,13 +1,10 @@
 import React, { ReactElement } from "react";
+import Quest from "./../../../components/Quest";
 
 /*
  This is component represents a single quest
 */
 
 export default function quest(): ReactElement {
-	return (
-		<div>
-			<p>This is a quest (2)</p>
-		</div>
-	);
+	return <Quest text="Quest 1"></Quest>;
 }

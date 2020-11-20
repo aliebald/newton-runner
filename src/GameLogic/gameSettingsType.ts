@@ -1,6 +1,10 @@
 import Game from "./game";
 
 export interface gameSettingsType {
+	gameWorld: {
+		height: number;
+		width: number;
+	};
 	onPreload?: (this: Game) => void;
 	preCreate?: (this: Game) => void;
 	afterCreate?: (this: Game) => void;

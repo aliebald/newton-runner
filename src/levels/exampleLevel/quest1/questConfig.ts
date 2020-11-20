@@ -8,6 +8,10 @@ import Game from "../../../GameLogic/game";
  */
 
 const settings: gameSettingsType = {
+	gameWorld: {
+		height: 600,
+		width: 800 * 2
+	},
 	onPreload: onPreload,
 	preCreate: preCreate,
 	afterCreate: afterCreate,

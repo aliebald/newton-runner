@@ -1,15 +1,15 @@
 import "phaser";
 import { gameSettingsType, controlType } from "./gameSettingsType";
 
-let gameSettings: gameSettingsType;
+let settings: gameSettingsType;
 
 export default class Game extends Phaser.Scene {
 	/**
 	 * @param {gameSettings} settings - settings for phaser
 	 */
-	constructor(settings: gameSettingsType) {
+	constructor(gameSettings: gameSettingsType) {
 		super("Game");
-		gameSettings = settings;
+		settings = gameSettings;
 	}
 
 	// private settings: gameSettings;
@@ -51,18 +51,19 @@ export default class Game extends Phaser.Scene {
 			frameHeight: 32
 		}); // 8 frames
 
-		if (gameSettings.onPreload) {
-			gameSettings.onPreload.call(this);
+		if (settings.onPreload) {
+			settings.onPreload.call(this);
 		}
 	}
 
 	create(): void {
-		if (gameSettings.preCreate) {
-			gameSettings.preCreate.call(this);
+		if (settings.preCreate) {
+			settings.preCreate.call(this);
 		}
 
-		this.physics.world.bounds.setSize(800 * 2, 600);
-		this.cameras.main.setBounds(0, 0, 800 * 2, 600);
+		this.physics.world.bounds.setSize(settings.gameWorld.width, settings.gameWorld.height);
+		this.cameras.main.setBounds(0, 0, settings.gameWorld.width, settings.gameWorld.height);
+
 		this.cursors = this.input.keyboard.createCursorKeys();
 
 		// Add platforms / ground
@@ -125,13 +126,13 @@ export default class Game extends Phaser.Scene {
 			fill: "#000"
 		});
 
-		if (gameSettings.afterCreate) {
-			gameSettings.afterCreate.call(this);
+		if (settings.afterCreate) {
+			settings.afterCreate.call(this);
 		}
 	}
 
 	update(): void {
-		if (gameSettings.controls === controlType.arrowKeys) {
+		if (settings.controls === controlType.arrowKeys) {
 			// Arrow keys control. Intended for debugging and development only
 			if (this.cursors.left?.isDown) {
 				this.player.setVelocityX(-220);
@@ -149,8 +150,8 @@ export default class Game extends Phaser.Scene {
 			}
 		}
 
-		if (gameSettings.onUpdate) {
-			gameSettings.onUpdate.call(this);
+		if (settings.onUpdate) {
+			settings.onUpdate.call(this);
 		}
 	}
 

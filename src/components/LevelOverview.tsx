@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { Button, ButtonGroup, ButtonToolbar, Container, Row, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Controller from "./Controller";
 
 export default function LevelOverview(): ReactElement {
 	return (
@@ -57,6 +58,7 @@ export default function LevelOverview(): ReactElement {
 					</Card.Body>
 				</Card>
 			</Row>
+			<Controller></Controller>
 		</Container>
 	);
 }

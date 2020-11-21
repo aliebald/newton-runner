@@ -18,7 +18,7 @@ type ControllerState = {
 	};
 };
 
-export default class Controller extends React.Component<unknown, ControllerState> {
+export default class Controller extends React.Component<unknown, { options: Highcharts.Options }> {
 	internalChart!: Chart;
 
 	constructor(props: unknown) {
@@ -31,10 +31,11 @@ export default class Controller extends React.Component<unknown, ControllerState
 				},
 				series: [
 					{
+						type: "line",
 						dragDrop: {
 							draggableY: true
 						},
-						data: [10, 20, 50, 30, 40]
+						data: [10, 20, 30, 40, 50]
 					}
 				]
 			}
@@ -42,7 +43,7 @@ export default class Controller extends React.Component<unknown, ControllerState
 	}
 
 	getData(): Array<number> {
-		return this.state.options.series[0].data;
+		return this.internalChart.series[0].points.map((p: Highcharts.Point) => p.x);
 	}
 
 	afterChartCreated(chart: Chart): void {

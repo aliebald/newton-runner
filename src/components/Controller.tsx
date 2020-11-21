@@ -8,16 +8,6 @@ HC_more(Highcharts);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("highcharts/modules/draggable-points")(Highcharts);
 
-type ControllerState = {
-	options: {
-		yAxis: unknown;
-		series: Array<{
-			dragDrop: unknown;
-			data: Array<number>;
-		}>;
-	};
-};
-
 export default class Controller extends React.Component<unknown, { options: Highcharts.Options }> {
 	internalChart!: Chart;
 
@@ -43,7 +33,8 @@ export default class Controller extends React.Component<unknown, { options: High
 	}
 
 	getData(): Array<number> {
-		return this.internalChart.series[0].points.map((p: Highcharts.Point) => p.x);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		return this.internalChart.series[0].points.map((p: Highcharts.Point) => p.y!);
 	}
 
 	afterChartCreated(chart: Chart): void {

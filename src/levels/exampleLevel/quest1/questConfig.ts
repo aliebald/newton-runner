@@ -1,4 +1,4 @@
-import { gameSettingsType, controlType } from "../../../GameLogic/gameSettingsType";
+import { gameSettingsType, controlType, character } from "../../../GameLogic/gameSettingsType";
 import Game from "../../../GameLogic/game";
 
 /*
@@ -15,7 +15,8 @@ const settings: gameSettingsType = {
 	onPreload: onPreload,
 	preCreate: preCreate,
 	afterCreate: afterCreate,
-	controls: controlType.arrowKeys
+	controls: controlType.arrowKeys,
+	character: character.hiker
 };
 
 // TODO documentation

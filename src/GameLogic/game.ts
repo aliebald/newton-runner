@@ -1,5 +1,5 @@
 import "phaser";
-import { gameSettingsType, controlType } from "./gameSettingsType";
+import { gameSettingsType, controlType, character } from "./gameSettingsType";
 
 let settings: gameSettingsType;
 
@@ -15,7 +15,7 @@ export default class Game extends Phaser.Scene {
 	// private settings: gameSettings;
 
 	public player!: Phaser.Physics.Arcade.Sprite;
-	private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+	public cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
 	public stars!: Phaser.Physics.Arcade.Group;
 	public platforms!: Phaser.Physics.Arcade.StaticGroup;
 	public score!: number;
@@ -42,14 +42,9 @@ export default class Game extends Phaser.Scene {
 
 	preload(): void {
 		console.log("Called preload()");
-		this.load.spritesheet("characterIdle", "assets/character/Idle.png", {
-			frameWidth: 32,
-			frameHeight: 32
-		}); // 6 frames
-		this.load.spritesheet("characterWalk", "assets/character/Walk.png", {
-			frameWidth: 32,
-			frameHeight: 32
-		}); // 8 frames
+
+		// Load character spritesheet-s
+		loadCharacter.call(this);
 
 		if (settings.onPreload) {
 			settings.onPreload.call(this);
@@ -79,26 +74,8 @@ export default class Game extends Phaser.Scene {
 		this.cameras.main.startFollow(this.player, true);
 		// this.cameras.main.setZoom(2);
 
-		// Add animations
-		this.anims.create({
-			key: "idle",
-			frames: this.anims.generateFrameNumbers("characterIdle", {
-				start: 0,
-				end: 5
-			}),
-			frameRate: 5,
-			repeat: -1
-		});
-
-		this.anims.create({
-			key: "right",
-			frames: this.anims.generateFrameNumbers("characterWalk", {
-				start: 0,
-				end: 7
-			}),
-			frameRate: 10,
-			repeat: -1
-		});
+		// Load character animations
+		loadCharacterAnimations.call(this);
 
 		// Add stars
 		this.stars = this.physics.add.group();
@@ -132,23 +109,7 @@ export default class Game extends Phaser.Scene {
 	}
 
 	update(): void {
-		if (settings.controls === controlType.arrowKeys) {
-			// Arrow keys control. Intended for debugging and development only
-			if (this.cursors.left?.isDown) {
-				this.player.setVelocityX(-220);
-				this.player.anims.play("right", true);
-			} else if (this.cursors.right?.isDown) {
-				this.player.setVelocityX(220);
-				this.player.anims.play("right", true);
-			} else {
-				this.player.setVelocityX(0);
-				this.player.anims.play("idle", true);
-			}
-
-			if (this.cursors.up?.isDown && this.player.body.touching.down) {
-				this.player.setVelocityY(-330);
-			}
-		}
+		loadControls.call(this);
 
 		if (settings.onUpdate) {
 			settings.onUpdate.call(this);
@@ -157,3 +118,88 @@ export default class Game extends Phaser.Scene {
 
 	game = new Phaser.Game(this.config);
 }
+
+/**
+ * loads all necessary sprite seeds for the selected character (in settings).
+ *
+ * Must be called in preload.
+ *
+ * For each character, this function provides the following spritesheet-s:
+ * - "characterIdle"
+ * - "characterWalk"
+ * - TODO: more spritesheet-s
+ */
+const loadCharacter = function loadCharacter(this: Game) {
+	// TODO select correct character using the character enum in settings (as soon as we have more than one character)
+
+	this.load.spritesheet("characterIdle", "assets/character/Idle.png", {
+		frameWidth: 32,
+		frameHeight: 32
+	}); // 6 frames
+
+	this.load.spritesheet("characterWalk", "assets/character/Walk.png", {
+		frameWidth: 32,
+		frameHeight: 32
+	}); // 8 frames
+};
+
+/**
+ * Creates all necessary character animations.
+ *
+ * Must be called in create.
+ *
+ * For each character, this function provides the following animations:
+ * - "idle"
+ * - "right"
+ * - TODO: more animations
+ */
+const loadCharacterAnimations = function loadCharacterAnimations(this: Game) {
+	// TODO select correct character using the character enum in settings (as soon as we have more than one character)
+
+	this.anims.create({
+		key: "idle",
+		frames: this.anims.generateFrameNumbers("characterIdle", {
+			start: 0,
+			end: 5
+		}),
+		frameRate: 5,
+		repeat: -1
+	});
+
+	this.anims.create({
+		key: "right",
+		frames: this.anims.generateFrameNumbers("characterWalk", {
+			start: 0,
+			end: 7
+		}),
+		frameRate: 10,
+		repeat: -1
+	});
+};
+
+/**
+ * Loads the in setting.controls defined controls.
+ */
+const loadControls = function loadControls(this: Game) {
+	// TODO add more controls
+
+	if (settings.controls === controlType.arrowKeys) {
+		// Arrow keys control. Intended for debugging and development only
+		if (this.cursors.left?.isDown) {
+			this.player.setVelocityX(-220);
+			this.player.anims.play("right", true);
+		} else if (this.cursors.right?.isDown) {
+			this.player.setVelocityX(220);
+			this.player.anims.play("right", true);
+		} else {
+			this.player.setVelocityX(0);
+			this.player.anims.play("idle", true);
+		}
+
+		if (this.cursors.up?.isDown && this.player.body.touching.down) {
+			this.player.setVelocityY(-330);
+		}
+	}
+
+	// Does not load any controls if settings.controls is "none"
+};

@@ -63,9 +63,17 @@ export interface gameSettingsType {
 	 * Required
 	 *
 	 * If controls is not "none", this will add the specified controls to the game.
-	 * See controlType for more information.
+	 * See controlType enum for more information.
 	 */
 	controls: controlType;
+
+	/**
+	 * Required
+	 *
+	 * The game automatically loads all necessary sprite sheets (animations) for the selected character.
+	 * See character enum for more information.
+	 */
+	character: character;
 }
 
 /**
@@ -77,4 +85,14 @@ export interface gameSettingsType {
 export enum controlType {
 	none,
 	arrowKeys
+}
+
+/**
+ * @typedef {object} character contains all possible characters.
+ * The game automatically loads all necessary sprite sheets (animations) for the selected character.
+ *
+ * TODO: More characters will be added here
+ */
+export enum character {
+	hiker
 }

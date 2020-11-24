@@ -8,24 +8,46 @@ HC_more(Highcharts);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("highcharts/modules/draggable-points")(Highcharts);
 
-export default class Controller extends React.Component<unknown, { options: Highcharts.Options }> {
+export interface ControllerConfig {
+	title: string;
+	minY: number;
+	maxY: number;
+	amountXVal: number;
+}
+
+export default class Controller extends React.Component<
+	{
+		cfg: ControllerConfig;
+	},
+	{ options: Highcharts.Options }
+> {
 	internalChart!: Chart;
 
-	constructor(props: unknown) {
+	constructor(props: { cfg: ControllerConfig }) {
 		super(props);
+		const data: number[] = [];
+		const mean = (props.cfg.minY + props.cfg.maxY) / 2;
+		for (let i = 0; i < props.cfg.amountXVal; i++) {
+			data.push(mean);
+		}
 		this.state = {
 			options: {
+				title: {
+					text: props.cfg.title
+				},
 				yAxis: {
-					softMin: 0,
-					softMax: 100
+					min: props.cfg.minY,
+					max: props.cfg.maxY
 				},
 				series: [
 					{
 						type: "line",
 						dragDrop: {
-							draggableY: true
+							draggableY: true,
+							dragMaxY: props.cfg.maxY,
+							dragMinY: props.cfg.minY
 						},
-						data: [10, 20, 30, 40, 50]
+						data: data
 					}
 				]
 			}

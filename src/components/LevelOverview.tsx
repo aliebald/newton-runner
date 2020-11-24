@@ -2,6 +2,14 @@ import React, { ReactElement } from "react";
 import { Button, ButtonGroup, ButtonToolbar, Container, Row, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Controller from "./Controller";
+import { ControllerConfig } from "./Controller";
+
+const ccfg: ControllerConfig = {
+	title: "Test",
+	minY: 0,
+	maxY: 100,
+	amountXVal: 7
+};
 
 export default function LevelOverview(): ReactElement {
 	return (
@@ -58,7 +66,7 @@ export default function LevelOverview(): ReactElement {
 					</Card.Body>
 				</Card>
 			</Row>
-			<Controller></Controller>
+			<Controller cfg={ccfg}></Controller>
 		</Container>
 	);
 }

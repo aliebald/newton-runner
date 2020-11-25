@@ -8,7 +8,8 @@ const ccfg: GraphInputConfig = {
 	title: "Test",
 	minY: 0,
 	maxY: 100,
-	amountXVal: 7
+	// amountXVal: 7
+	data: [1, 1, 1, 1, 1, 1]
 };
 
 export default function LevelOverview(): ReactElement {

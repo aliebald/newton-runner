@@ -12,7 +12,7 @@ export interface GraphInputConfig {
 	title: string;
 	minY: number;
 	maxY: number;
-	amountXVal: number;
+	data: Array<number>;
 }
 
 export default class GraphInput extends React.Component<
@@ -23,11 +23,11 @@ export default class GraphInput extends React.Component<
 
 	constructor(props: { cfg: GraphInputConfig }) {
 		super(props);
-		const data: number[] = [];
-		const mean = (props.cfg.minY + props.cfg.maxY) / 2;
-		for (let i = 0; i < props.cfg.amountXVal; i++) {
-			data.push(mean);
-		}
+		// const data: number[] = [];
+		// const mean = (props.cfg.minY + props.cfg.maxY) / 2;
+		// for (let i = 0; i < props.cfg.amountXVal; i++) {
+		// 	data.push(mean);
+		// }
 		this.state = {
 			options: {
 				title: {
@@ -45,7 +45,7 @@ export default class GraphInput extends React.Component<
 							dragMaxY: props.cfg.maxY,
 							dragMinY: props.cfg.minY
 						},
-						data: data
+						data: props.cfg.data
 					}
 				]
 			}

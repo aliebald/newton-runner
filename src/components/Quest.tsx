@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { GameConfig } from "../GameLogic/GameConfig";
 import GameComponent from "./GameComponent";
 import GraphInput, { GraphInputConfig } from "./GraphInput";
@@ -12,6 +12,8 @@ export interface QuestConfig {
 
 // TODO: Add Game component and Controller component
 export default function Quest(props: { config: QuestConfig }): ReactElement {
+	const runGame = () => console.log(props.config.graph.data);
+
 	return (
 		<Container fluid>
 			<Row>
@@ -23,6 +25,9 @@ export default function Quest(props: { config: QuestConfig }): ReactElement {
 				<Col sm="12" md="6">
 					<p>Controller</p>
 					<GraphInput cfg={props.config.graph}></GraphInput>
+					<Button variant="primary" onClick={runGame}>
+						Log Data array
+					</Button>
 				</Col>
 				<Col sm="12" md="6">
 					<p>Game</p>

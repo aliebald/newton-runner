@@ -3,7 +3,7 @@ import Game from "./game";
 /**
  * @typedef {object} gameSettingsType - collection of settings for a (phaser) game. For implementation examples see example levels.
  */
-export interface gameSettingsType {
+export interface GameConfig {
 	/**
 	 * Required
 	 *

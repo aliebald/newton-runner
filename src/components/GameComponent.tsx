@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
 import Game from "../GameLogic/game";
-import { gameSettingsType } from "../GameLogic/gameSettingsType";
+import { GameConfig } from "../GameLogic/GameConfig";
 
-export default class GameComponent extends React.Component<{ settings: gameSettingsType }> {
+export default class GameComponent extends React.Component<{ settings: GameConfig }> {
 	render(): ReactElement {
 		return <div id="gameDestination"></div>;
 	}

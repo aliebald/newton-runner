@@ -1,4 +1,4 @@
-import { gameSettingsType, controlType, character } from "../../../GameLogic/gameSettingsType";
+import { GameConfig, controlType, character } from "../../../GameLogic/GameConfig";
 import Game from "../../../GameLogic/game";
 import { GraphInputConfig } from "../../../components/GraphInput";
 import { QuestConfig } from "../../../components/Quest";
@@ -16,7 +16,7 @@ const graph: GraphInputConfig = {
 	amountXVal: 7
 };
 
-const game: gameSettingsType = {
+const game: GameConfig = {
 	gameWorld: {
 		height: 600,
 		width: 800 * 2

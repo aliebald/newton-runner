@@ -1,12 +1,12 @@
 import React, { ReactElement } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { gameSettingsType } from "../GameLogic/gameSettingsType";
+import { GameConfig } from "../GameLogic/GameConfig";
 import GameComponent from "./GameComponent";
 import GraphInput, { GraphInputConfig } from "./GraphInput";
 
 export interface QuestConfig {
 	title: string;
-	game: gameSettingsType;
+	game: GameConfig;
 	graph: GraphInputConfig;
 }
 

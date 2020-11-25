@@ -1,13 +1,13 @@
 import "phaser";
-import { gameSettingsType, controlType, character } from "./gameSettingsType";
+import { GameConfig, controlType, character } from "./GameConfig";
 
-let settings: gameSettingsType;
+let settings: GameConfig;
 
 export default class Game extends Phaser.Scene {
 	/**
 	 * @param {gameSettings} settings - settings for phaser
 	 */
-	constructor(gameSettings: gameSettingsType) {
+	constructor(gameSettings: GameConfig) {
 		super("Game");
 		settings = gameSettings;
 	}

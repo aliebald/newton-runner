@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
 import { Button, ButtonGroup, ButtonToolbar, Container, Row, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Controller from "./Controller";
-import { ControllerConfig } from "./Controller";
+import GraphInput from "./GraphInput";
+import { GraphInputConfig } from "./GraphInput";
 
-const ccfg: ControllerConfig = {
+const ccfg: GraphInputConfig = {
 	title: "Test",
 	minY: 0,
 	maxY: 100,
@@ -66,7 +66,7 @@ export default function LevelOverview(): ReactElement {
 					</Card.Body>
 				</Card>
 			</Row>
-			<Controller cfg={ccfg}></Controller>
+			<GraphInput cfg={ccfg}></GraphInput>
 		</Container>
 	);
 }

@@ -8,22 +8,20 @@ HC_more(Highcharts);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("highcharts/modules/draggable-points")(Highcharts);
 
-export interface ControllerConfig {
+export interface GraphInputConfig {
 	title: string;
 	minY: number;
 	maxY: number;
 	amountXVal: number;
 }
 
-export default class Controller extends React.Component<
-	{
-		cfg: ControllerConfig;
-	},
+export default class GraphInput extends React.Component<
+	{ cfg: GraphInputConfig },
 	{ options: Highcharts.Options }
 > {
 	internalChart!: Chart;
 
-	constructor(props: { cfg: ControllerConfig }) {
+	constructor(props: { cfg: GraphInputConfig }) {
 		super(props);
 		const data: number[] = [];
 		const mean = (props.cfg.minY + props.cfg.maxY) / 2;

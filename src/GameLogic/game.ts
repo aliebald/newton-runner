@@ -2,14 +2,16 @@ import "phaser";
 import { GameConfig, controlType, character } from "./GameConfig";
 
 let settings: GameConfig;
+let start: () => boolean;
 
 export default class Game extends Phaser.Scene {
 	/**
 	 * @param {gameSettings} settings - settings for phaser
 	 */
-	constructor(gameSettings: GameConfig) {
+	constructor(gameSettings: GameConfig, data: Array<number>, started: () => boolean) {
 		super("Game");
 		settings = gameSettings;
+		start = started;
 	}
 
 	// private settings: gameSettings;
@@ -109,10 +111,13 @@ export default class Game extends Phaser.Scene {
 	}
 
 	update(): void {
-		loadControls.call(this);
+		console.log(start());
+		if (start()) {
+			loadControls.call(this);
 
-		if (settings.onUpdate) {
-			settings.onUpdate.call(this);
+			if (settings.onUpdate) {
+				settings.onUpdate.call(this);
+			}
 		}
 	}
 

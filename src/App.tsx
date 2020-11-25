@@ -20,16 +20,12 @@ function App(): ReactElement {
 					<Route
 						path="/ExampleQuest1"
 						exact
-						component={() => (
-							<Quest title="Example Quest 1" settings={exampleQuest1}></Quest>
-						)}
+						component={() => <Quest config={exampleQuest1}></Quest>}
 					/>
 					<Route
 						path="/ExampleQuest2"
 						exact
-						component={() => (
-							<Quest title="Example Quest 2" settings={exampleQuest2}></Quest>
-						)}
+						component={() => <Quest config={exampleQuest2}></Quest>}
 					/>
 					<Route path="/Tutorial" exact component={Tutorial} />
 				</Switch>

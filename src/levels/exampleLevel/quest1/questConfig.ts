@@ -1,5 +1,7 @@
 import { gameSettingsType, controlType, character } from "../../../GameLogic/gameSettingsType";
 import Game from "../../../GameLogic/game";
+import { GraphInputConfig } from "../../../components/GraphInput";
+import { QuestConfig } from "../../../components/Quest";
 
 /*
  * The settings constant represents contains all settings required for a single quest.
@@ -7,7 +9,14 @@ import Game from "../../../GameLogic/game";
  * The App component loads this into a Quest component.
  */
 
-const settings: gameSettingsType = {
+const graph: GraphInputConfig = {
+	title: "Test",
+	minY: 0,
+	maxY: 100,
+	amountXVal: 7
+};
+
+const game: gameSettingsType = {
 	gameWorld: {
 		height: 600,
 		width: 800 * 2
@@ -17,6 +26,12 @@ const settings: gameSettingsType = {
 	afterCreate: afterCreate,
 	controls: controlType.arrowKeys,
 	character: character.hiker
+};
+
+const settings: QuestConfig = {
+	title: "Beispiel Quest 1",
+	graph: graph,
+	game: game
 };
 
 // TODO documentation

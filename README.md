@@ -61,18 +61,13 @@ Major errors will be shown in the terminal and in the browser. For minor errors 
 
 -   **src/levels**: contains all levels
 
--   **src/levels/exampleLevel**: contains all quests for _exampleLevel_
+-   **src/levels/exampleLevels**: contains all quests for the _exampleLevels_ level
 
-    -   May contain react components, css, js or ts files that are only used by this level
-
--   **src/levels/exampleLevel/questX**: contains at least the quest component (currently named _quest.tsx_)
-    -   May contain react components, css, js or ts files that are only used by this quest
+    -   Each quest has one .ts file, exporting a QuestConfig constant (see Quest component).
 
 <br>
 
 # Naming conventions
 
-TODO: This is just a small suggestion
-
--   React Components: _UpperCamelCase_
--   Rest: _lowerCamelCase_
+-   React Components, Types & Interfaces: _UpperCamelCase_
+-   Everything else: _lowerCamelCase_

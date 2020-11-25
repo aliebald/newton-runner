@@ -1,7 +1,7 @@
-import { GameConfig, controlType, character } from "../../../GameLogic/GameConfig";
-import Game from "../../../GameLogic/game";
-import { GraphInputConfig } from "../../../components/GraphInput";
-import { QuestConfig } from "../../../components/Quest";
+import { GameConfig, controlType, character } from "../../GameLogic/GameConfig";
+import Game from "../../GameLogic/game";
+import { GraphInputConfig } from "../../components/GraphInput";
+import { QuestConfig } from "../../components/Quest";
 
 /*
  * The settings constant represents contains all settings required for a single quest.

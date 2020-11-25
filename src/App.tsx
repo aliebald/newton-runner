@@ -6,8 +6,8 @@ import Quest from "./components/Quest";
 import Tutorial from "./components/Tutorial";
 import LevelOverview from "./components/LevelOverview";
 
-import exampleQuest1 from "./levels/exampleLevel/quest1/questConfig";
-import exampleQuest2 from "./levels/exampleLevel/quest2/questConfig";
+import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
+import exampleQuest2 from "./levels/exampleLevels/exampleQuest2";
 
 function App(): ReactElement {
 	return (

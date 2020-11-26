@@ -44,7 +44,7 @@ export interface GameConfig {
 	 * The create function is the second function that gets executed, after preload and before update.
 	 *
 	 * Initiation of assets should in this function.
-	 * Add all static platforms to this.platforms and all stars to this.stars
+	 * Add all static platforms to this.platforms and all collectable points to this.points
 	 */
 	afterCreate?: (this: Game) => void;
 

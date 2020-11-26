@@ -20,7 +20,7 @@ export default class Game extends Phaser.Scene {
 
 	public player!: Phaser.Physics.Arcade.Sprite;
 	public cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-	public stars!: Phaser.Physics.Arcade.Group;
+	public points!: Phaser.Physics.Arcade.Group;
 	public platforms!: Phaser.Physics.Arcade.StaticGroup;
 	public score!: number;
 	private scoreText!: Phaser.GameObjects.Text;
@@ -83,19 +83,19 @@ export default class Game extends Phaser.Scene {
 		// Load character animations
 		loadCharacterAnimations.call(this);
 
-		// Add stars
-		this.stars = this.physics.add.group();
-		this.physics.add.collider(this.stars, this.platforms);
+		// Add points
+		this.points = this.physics.add.group();
+		this.physics.add.collider(this.points, this.platforms);
 
-		// collect stars
+		// collect points
 		this.score = 0;
 		this.physics.add.overlap(
 			this.player,
-			this.stars,
-			(player: Phaser.GameObjects.GameObject, star: Phaser.GameObjects.GameObject) => {
-				console.log("collectStar()");
-				const s = star as Phaser.Physics.Arcade.Image;
-				s.disableBody(true, true);
+			this.points,
+			(player: Phaser.GameObjects.GameObject, point: Phaser.GameObjects.GameObject) => {
+				console.log("collectPoint()");
+				const p = point as Phaser.Physics.Arcade.Image;
+				p.disableBody(true, true);
 				this.score += 10;
 				this.scoreText.setText("Score: " + this.score);
 			},

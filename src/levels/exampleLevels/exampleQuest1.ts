@@ -64,13 +64,13 @@ function afterCreate(this: Game): void {
 	this.platforms.create(-130, 300, "ground");
 	this.platforms.create(950, 250, "ground");
 
-	// Add stars
-	this.stars.create(100, 60, "star");
-	this.stars.create(300, 60, "star");
-	this.stars.create(680, 60, "star");
+	// Add stars as points
+	this.points.create(100, 60, "star");
+	this.points.create(300, 60, "star");
+	this.points.create(680, 60, "star");
 
-	// Set random bounce on stars
-	this.stars.children.iterate((c) => {
+	// Set random bounce on points
+	this.points.children.iterate((c) => {
 		const child = (c as unknown) as Phaser.Physics.Arcade.Body;
 		child.setBounceY(Phaser.Math.FloatBetween(0.3, 0.5));
 	});

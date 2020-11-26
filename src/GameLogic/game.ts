@@ -22,6 +22,7 @@ export default class Game extends Phaser.Scene {
 	public cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
 	public points!: Phaser.Physics.Arcade.Group;
 	public platforms!: Phaser.Physics.Arcade.StaticGroup;
+	public traps!: Phaser.Physics.Arcade.StaticGroup;
 	public score!: number;
 	private scoreText!: Phaser.GameObjects.Text;
 
@@ -103,6 +104,18 @@ export default class Game extends Phaser.Scene {
 			this
 		);
 
+		// Add traps
+		this.traps = this.physics.add.staticGroup();
+		this.physics.add.overlap(
+			this.player,
+			this.traps,
+			(player: Phaser.GameObjects.GameObject, trap: Phaser.GameObjects.GameObject) => {
+				loseGame.call(this, player, trap);
+			},
+			undefined,
+			this
+		);
+
 		// score
 		this.scoreText = this.add.text(16, 16, "Score: 0", {
 			fontSize: "32px",
@@ -119,14 +132,14 @@ export default class Game extends Phaser.Scene {
 			if (!this.gameEnded) {
 				loadControls.call(this);
 			}
-
-			if (settings.onUpdate) {
-				settings.onUpdate.call(this);
-			}
 		} else {
 			// Game is not yet started, stay idle
 			this.player.setVelocityX(0);
 			this.player.anims.play("idle", true);
+		}
+
+		if (settings.onUpdate) {
+			settings.onUpdate.call(this);
 		}
 	}
 
@@ -262,10 +275,8 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 			this.player.setVelocityX(0);
 			this.player.anims.play("idle", true);
 
-			if (!this.gameEnded) {
-				this.gameEnded = true;
-				endGame.call(this);
-			}
+			winGame.call(this);
+			this.gameEnded = true;
 
 			return;
 		}
@@ -298,6 +309,28 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
  *
  * TODO: implement
  */
-const endGame = function endGame(this: Game): void {
-	alert("Congratulations, you achieved " + this.score + " Points!");
+const winGame = function winGame(this: Game): void {
+	if (!this.gameEnded) {
+		alert("Congratulations, you achieved " + this.score + " Points!");
+		this.gameEnded = true;
+	}
+};
+
+/**
+ * This function gets called when the game is lost.
+ *
+ * TODO
+ */
+const loseGame = function loseGame(
+	this: Game,
+	player: Phaser.GameObjects.GameObject,
+	trap: Phaser.GameObjects.GameObject
+) {
+	if (!this.gameEnded) {
+		this.gameEnded = true;
+		this.player.setVelocityX(0);
+		this.player.anims.play("idle", true);
+		console.log("LOST");
+		alert("you lost");
+	}
 };

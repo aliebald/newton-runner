@@ -26,7 +26,8 @@ const game: GameConfig = {
 	preCreate: preCreate,
 	afterCreate: afterCreate,
 	controls: controlType.t_v_graph,
-	character: character.hiker
+	character: character.hiker,
+	onUpdate: onUpdate
 };
 
 const settings: QuestConfig = {
@@ -69,10 +70,21 @@ function afterCreate(this: Game): void {
 	this.points.create(300, 60, "star");
 	this.points.create(680, 60, "star");
 
+	// Add a sample trap
+	this.traps.create(500, 500, "star").setScale(2).refreshBody();
+
 	// Set random bounce on points
 	this.points.children.iterate((c) => {
 		const child = (c as unknown) as Phaser.Physics.Arcade.Body;
 		child.setBounceY(Phaser.Math.FloatBetween(0.3, 0.5));
+	});
+}
+
+function onUpdate(this: Game): void {
+	// Rotate the trap
+	this.traps.children.iterate((c) => {
+		const child = (c as unknown) as Phaser.Physics.Arcade.Body;
+		child.angle += 2;
 	});
 }
 

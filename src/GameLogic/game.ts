@@ -16,16 +16,41 @@ export default class Game extends Phaser.Scene {
 		inputData = data;
 	}
 
-	// private settings: gameSettings;
-
 	public player!: Phaser.Physics.Arcade.Sprite;
 	public cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-	public points!: Phaser.Physics.Arcade.Group;
+
+	/**
+	 * Physics group for all static objects that should collide with the Player.
+	 *
+	 * Add ground, walls, platforms etc. to this group by using `this.platforms.create(x, y, key)`.
+	 * See `create()` for more information.
+	 */
 	public platforms!: Phaser.Physics.Arcade.StaticGroup;
+
+	/**
+	 * Physics group for all static objects that end the game if the player collides with them.
+	 *
+	 * Add traps to this group by using `this.traps.create(x, y, key)`.
+	 * See `create()` for more information.
+	 */
 	public traps!: Phaser.Physics.Arcade.StaticGroup;
+
+	/**
+	 * Physics group for all objects that can be collected by the player to add points to the score.
+	 * The logic for collection the object, making it invisible and adding points to `this.score`
+	 * are already implemented for every object you add.
+	 *
+	 * Add points to this group by using `this.points.create(x, y, key)`.
+	 * See `create()` for more information.
+	 */
+	public points!: Phaser.Physics.Arcade.Group;
 	public score!: number;
 	private scoreText!: Phaser.GameObjects.Text;
 
+	/**
+	 * A flag that is set to true is either the game is lost, won or no controls are left to execute.
+	 * This can be used in onUpdate to check whether the game is still running or not.
+	 */
 	public gameEnded = false;
 
 	config = {

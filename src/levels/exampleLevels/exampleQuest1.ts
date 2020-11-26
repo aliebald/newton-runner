@@ -14,7 +14,7 @@ const graph: GraphInputConfig = {
 	minY: 0,
 	maxY: 100,
 	// amountXVal: 7
-	data: [1, 10, 100, 1, 10, 100]
+	data: [0, 50, 100, 100, 50, 100, 75, 50]
 };
 
 const game: GameConfig = {
@@ -25,7 +25,7 @@ const game: GameConfig = {
 	onPreload: onPreload,
 	preCreate: preCreate,
 	afterCreate: afterCreate,
-	controls: controlType.arrowKeys,
+	controls: controlType.t_v_graph,
 	character: character.hiker
 };
 

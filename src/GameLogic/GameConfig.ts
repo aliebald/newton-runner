@@ -83,8 +83,34 @@ export interface GameConfig {
  * TODO: More control types will be added here
  */
 export enum controlType {
+	/**
+	 * Adds no controls
+	 */
 	none,
-	arrowKeys
+
+	/**
+	 * Adds controls using the arrow keys. Intended for level building and debugging only!
+	 */
+	arrowKeys,
+
+	/**
+	 * Adds t-v-graph controls.
+	 *
+	 * The current speed will be the value current datapoint.
+	 *
+	 * After one second the current datapoint will be set to the next datapoint.
+	 */
+	t_v_graph,
+
+	/**
+	 * Adds t-v-graph controls.
+	 *
+	 * The current speed will be the interpolated value between the current datapoint and the next datapoint.
+	 * This means that the speed will not jump from the current value to the next, but slowly rise/lower itself to the next value.
+	 *
+	 * After one second the current datapoint will be set to the next datapoint.
+	 */
+	t_v_graph_interpolated
 }
 
 /**

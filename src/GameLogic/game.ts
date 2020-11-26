@@ -3,6 +3,7 @@ import { GameConfig, controlType, character } from "./GameConfig";
 
 let settings: GameConfig;
 let start: () => boolean;
+let inputData: Array<number>;
 
 export default class Game extends Phaser.Scene {
 	/**
@@ -12,6 +13,7 @@ export default class Game extends Phaser.Scene {
 		super("Game");
 		settings = gameSettings;
 		start = started;
+		inputData = data;
 	}
 
 	// private settings: gameSettings;
@@ -22,6 +24,8 @@ export default class Game extends Phaser.Scene {
 	public platforms!: Phaser.Physics.Arcade.StaticGroup;
 	public score!: number;
 	private scoreText!: Phaser.GameObjects.Text;
+
+	public gameEnded = false;
 
 	config = {
 		type: Phaser.AUTO,
@@ -111,13 +115,18 @@ export default class Game extends Phaser.Scene {
 	}
 
 	update(): void {
-		console.log(start());
 		if (start()) {
-			loadControls.call(this);
+			if (!this.gameEnded) {
+				loadControls.call(this);
+			}
 
 			if (settings.onUpdate) {
 				settings.onUpdate.call(this);
 			}
+		} else {
+			// Game is not yet started, stay idle
+			this.player.setVelocityX(0);
+			this.player.anims.play("idle", true);
 		}
 	}
 
@@ -188,23 +197,107 @@ const loadCharacterAnimations = function loadCharacterAnimations(this: Game) {
 const loadControls = function loadControls(this: Game) {
 	// TODO add more controls
 
-	if (settings.controls === controlType.arrowKeys) {
-		// Arrow keys control. Intended for debugging and development only
-		if (this.cursors.left?.isDown) {
-			this.player.setVelocityX(-220);
-			this.player.anims.play("right", true);
-		} else if (this.cursors.right?.isDown) {
-			this.player.setVelocityX(220);
-			this.player.anims.play("right", true);
-		} else {
-			this.player.setVelocityX(0);
-			this.player.anims.play("idle", true);
+	switch (settings.controls) {
+		case controlType.t_v_graph: {
+			t_v_controls.call(this, false);
+			break;
 		}
 
-		if (this.cursors.up?.isDown && this.player.body.touching.down) {
-			this.player.setVelocityY(-330);
+		case controlType.t_v_graph_interpolated: {
+			t_v_controls.call(this, true);
+			break;
+		}
+
+		// Arrow keys control. Intended for debugging and development only
+		case controlType.arrowKeys: {
+			if (this.cursors.left?.isDown) {
+				this.player.setVelocityX(-220);
+				this.player.anims.play("right", true);
+			} else if (this.cursors.right?.isDown) {
+				this.player.setVelocityX(220);
+				this.player.anims.play("right", true);
+			} else {
+				this.player.setVelocityX(0);
+				this.player.anims.play("idle", true);
+			}
+
+			if (this.cursors.up?.isDown && this.player.body.touching.down) {
+				this.player.setVelocityY(-330);
+			}
 		}
 	}
 
 	// Does not load any controls if settings.controls is "none"
+};
+
+// variables for t_v_graph controls
+let timeStamp: number;
+let index = 0;
+
+/**
+ * T-V-Graph Controls
+ *
+ * If interpolate is true, the current speed will depend on the current and next datapoint (linear interpolation).
+ * If interpolate is false, the current speed will be the value of the current datapoint.
+ * After one second the current datapoint will be set to the next datapoint.
+ */
+const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): void {
+	if (this.gameEnded) {
+		return;
+	}
+
+	if (timeStamp == undefined) {
+		timeStamp = new Date().getTime();
+	}
+
+	// Increase index every second
+	const time = new Date().getTime();
+	const timeDiff = time - timeStamp;
+	if (timeDiff > 1000) {
+		index++;
+		timeStamp = time;
+
+		// end the game if all datapoints are processed
+		if (index >= inputData.length) {
+			this.player.setVelocityX(0);
+			this.player.anims.play("idle", true);
+
+			if (!this.gameEnded) {
+				this.gameEnded = true;
+				endGame.call(this);
+			}
+
+			return;
+		}
+	}
+
+	let speed;
+	if (index + 1 >= inputData.length || !interpolate) {
+		speed = inputData[index];
+	} else {
+		const progress = timeDiff / 1000;
+		speed = inputData[index] + progress * (inputData[index + 1] - inputData[index]);
+		// speed = (1 - progress) * inputData[index] + inputData[index + 1] * progress;
+	}
+
+	console.log("inputData[" + index + "] = " + inputData[index]);
+
+	// Set velocity of player
+	this.player.setVelocityX(speed);
+
+	// play correct animation
+	if (inputData[index] > 0) {
+		this.player.anims.play("right", true);
+	} else {
+		this.player.anims.play("idle", true);
+	}
+};
+
+/**
+ * finishes the game by showing the results
+ *
+ * TODO: implement
+ */
+const endGame = function endGame(this: Game): void {
+	alert("Congratulations, you achieved " + this.score + " Points!");
 };

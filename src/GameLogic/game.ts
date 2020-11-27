@@ -28,12 +28,20 @@ export default class Game extends Phaser.Scene {
 	public platforms!: Phaser.Physics.Arcade.StaticGroup;
 
 	/**
-	 * Physics group for all static objects that end the game if the player collides with them.
+	 * Physics group for all static objects that end (lose) the game if the player collides with them.
 	 *
 	 * Add traps to this group by using `this.traps.create(x, y, key)`.
 	 * See `create()` for more information.
 	 */
 	public traps!: Phaser.Physics.Arcade.StaticGroup;
+
+	/**
+	 * Physics group for all static objects that end (win) the game if the player collides with them.
+	 *
+	 * Add goals to this group by using `this.goals.create(x, y, key)`.
+	 * See `create()` for more information.
+	 */
+	public goals!: Phaser.Physics.Arcade.StaticGroup;
 
 	/**
 	 * Physics group for all objects that can be collected by the player to add points to the score.
@@ -140,6 +148,10 @@ export default class Game extends Phaser.Scene {
 			undefined,
 			this
 		);
+
+		// Add goals
+		this.goals = this.physics.add.staticGroup();
+		this.physics.add.overlap(this.player, this.goals, winGame, undefined, this);
 
 		// score
 		this.scoreText = this.add.text(16, 16, "Score: 0", {
@@ -300,7 +312,7 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 			this.player.setVelocityX(0);
 			this.player.anims.play("idle", true);
 
-			winGame.call(this);
+			winGame.call(this); // TODO: Win or lose?
 			this.gameEnded = true;
 
 			return;
@@ -336,8 +348,11 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
  */
 const winGame = function winGame(this: Game): void {
 	if (!this.gameEnded) {
-		alert("Congratulations, you achieved " + this.score + " Points!");
 		this.gameEnded = true;
+		this.player.setVelocityX(0);
+		this.player.anims.play("idle", true);
+		console.log("Won");
+		alert("Congratulations, you won with " + this.score + " Points!");
 	}
 };
 

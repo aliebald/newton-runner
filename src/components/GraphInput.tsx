@@ -1,7 +1,6 @@
 import React, { ReactElement, RefObject } from "react";
 import Highcharts, { Chart } from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
-
 import HC_more from "highcharts/highcharts-more";
 HC_more(Highcharts);
 
@@ -12,7 +11,7 @@ export interface GraphInputConfig {
 	title: string;
 	minY: number;
 	maxY: number;
-	data: Array<number>;
+	data: Array<{ y: number }>;
 }
 
 export default class GraphInput extends React.Component<
@@ -25,9 +24,7 @@ export default class GraphInput extends React.Component<
 		super(props);
 		// const data: number[] = [];
 		// const mean = (props.cfg.minY + props.cfg.maxY) / 2;
-		// for (let i = 0; i < props.cfg.amountXVal; i++) {
-		// 	data.push(mean);
-		// }
+
 		this.state = {
 			options: {
 				title: {

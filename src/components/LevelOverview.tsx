@@ -3,13 +3,13 @@ import { Button, ButtonGroup, ButtonToolbar, Container, Row, Card } from "react-
 import { Link } from "react-router-dom";
 import GraphInput from "./GraphInput";
 import { GraphInputConfig } from "./GraphInput";
+import convertDataArray from "../questSetupHelper";
 
 const ccfg: GraphInputConfig = {
 	title: "Test",
 	minY: 0,
 	maxY: 100,
-	// amountXVal: 7
-	data: [1, 1, 1, 1, 1, 1]
+	data: convertDataArray([1, 1, 1, 1, 1, 1])
 };
 
 export default function LevelOverview(): ReactElement {

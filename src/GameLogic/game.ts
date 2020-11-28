@@ -3,13 +3,13 @@ import { GameConfig, controlType, character } from "./GameConfig";
 
 let settings: GameConfig;
 let start: () => boolean;
-let inputData: Array<number>;
+let inputData: Array<{ y: number }>;
 
 export default class Game extends Phaser.Scene {
 	/**
 	 * @param {gameSettings} settings - settings for phaser
 	 */
-	constructor(gameSettings: GameConfig, data: Array<number>, started: () => boolean) {
+	constructor(gameSettings: GameConfig, data: Array<{ y: number }>, started: () => boolean) {
 		super("Game");
 		settings = gameSettings;
 		start = started;
@@ -321,20 +321,20 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 
 	let speed;
 	if (index + 1 >= inputData.length || !interpolate) {
-		speed = inputData[index];
+		speed = inputData[index].y;
 	} else {
 		const progress = timeDiff / 1000;
-		speed = inputData[index] + progress * (inputData[index + 1] - inputData[index]);
-		// speed = (1 - progress) * inputData[index] + inputData[index + 1] * progress;
+		speed = inputData[index].y + progress * (inputData[index + 1].y - inputData[index].y);
+		// speed = (1 - progress) * inputData[index].y + inputData[index + 1].y * progress;
 	}
 
-	console.log("inputData[" + index + "] = " + inputData[index]);
+	console.log("inputData[" + index + "] = " + inputData[index].y);
 
 	// Set velocity of player
 	this.player.setVelocityX(speed);
 
 	// play correct animation
-	if (inputData[index] > 0) {
+	if (inputData[index].y > 0) {
 		this.player.anims.play("right", true);
 	} else {
 		this.player.anims.play("idle", true);

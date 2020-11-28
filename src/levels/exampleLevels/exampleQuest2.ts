@@ -2,6 +2,7 @@ import { GameConfig, controlType, character } from "../../GameLogic/GameConfig";
 import Game from "../../GameLogic/game";
 import { GraphInputConfig } from "../../components/GraphInput";
 import { QuestConfig } from "../../components/Quest";
+import convertDataArray from "../../questSetupHelper";
 
 /*
  * The settings constant represents contains all settings required for a single quest.
@@ -13,8 +14,7 @@ const graph: GraphInputConfig = {
 	title: "Test",
 	minY: 0,
 	maxY: 100,
-	// amountXVal: 7
-	data: [1, 10, 100, 1, 10, 100, 100, 25]
+	data: convertDataArray([1, 10, 100, 1, 10, 100, 100, 25])
 };
 
 const game: GameConfig = {

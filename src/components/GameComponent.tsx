@@ -4,7 +4,7 @@ import { GameConfig } from "../GameLogic/GameConfig";
 
 export default class GameComponent extends React.Component<{
 	settings: GameConfig;
-	data: Array<number>;
+	data: Array<{ y: number }>;
 	started: () => boolean;
 }> {
 	render(): ReactElement {

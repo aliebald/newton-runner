@@ -23,3 +23,11 @@ nav {
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
+
+/*
+ The height of gameDestination sets the maximum height of the game frame
+ and therefore must be the height of the game (currently 600)!
+ */
+#gameDestination {
+	height: 600px !important;
+}

@@ -2,17 +2,15 @@ import "phaser";
 import { GameConfig, controlType, character } from "./GameConfig";
 
 let settings: GameConfig;
-let start: () => boolean;
 let inputData: Array<{ y: number }>;
 
 export default class Game extends Phaser.Scene {
 	/**
 	 * @param {gameSettings} settings - settings for phaser
 	 */
-	constructor(gameSettings: GameConfig, data: Array<{ y: number }>, started: () => boolean) {
+	constructor(gameSettings: GameConfig, data: Array<{ y: number }>) {
 		super("Game");
 		settings = gameSettings;
-		start = started;
 		inputData = data;
 	}
 
@@ -72,10 +70,11 @@ export default class Game extends Phaser.Scene {
 	private scoreText!: Phaser.GameObjects.Text;
 
 	/**
-	 * A flag that is set to true is either the game is lost, won or no controls are left to execute.
+	 * A flag that is set to true if the game is currently running.
+	 *
 	 * This can be used in onUpdate to check whether the game is still running or not.
 	 */
-	public gameEnded = false;
+	public gameRunning = false;
 
 	config = {
 		type: Phaser.AUTO,
@@ -110,6 +109,36 @@ export default class Game extends Phaser.Scene {
 	create(): void {
 		if (settings.preCreate) {
 			settings.preCreate.call(this);
+		}
+
+		// restart the scene after a fade out
+		this.cameras.main.on(
+			"camerafadeoutcomplete",
+			() => {
+				this.scene.restart();
+			},
+			this
+		);
+
+		// Add the restart scene button, if it exists
+		const restartBtn = document.getElementById("restartGameBtn");
+		if (restartBtn) {
+			restartBtn.addEventListener("click", (e: Event) => {
+				restartGame.call(this);
+			});
+		} else {
+			console.log("WARNING: restartGameBtn not found!");
+		}
+
+		// Add the start game button
+		const startBtn = document.getElementById("startGameBtn");
+		if (startBtn) {
+			startBtn.addEventListener("click", (e: Event) => {
+				timeStamp = new Date().getTime();
+				this.gameRunning = true;
+			});
+		} else {
+			console.log("WARNING: startGameBtn not found!");
 		}
 
 		this.physics.world.bounds.setSize(settings.gameWorld.width, settings.gameWorld.height);
@@ -207,10 +236,8 @@ export default class Game extends Phaser.Scene {
 	}
 
 	update(): void {
-		if (start()) {
-			if (!this.gameEnded) {
-				loadControls.call(this);
-			}
+		if (this.gameRunning) {
+			loadControls.call(this);
 		} else {
 			// Game is not yet started, stay idle
 			this.player.setVelocityX(0);
@@ -334,7 +361,7 @@ let index = 0;
  * After one second the current datapoint will be set to the next datapoint.
  */
 const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): void {
-	if (this.gameEnded) {
+	if (!this.gameRunning) {
 		return;
 	}
 
@@ -355,7 +382,7 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 			this.player.anims.play("idle", true);
 
 			winGame.call(this); // TODO: Win or lose?
-			this.gameEnded = true;
+			this.gameRunning = false;
 
 			return;
 		}
@@ -383,14 +410,20 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 	}
 };
 
+const restartGame = function restartGame(this: Game): void {
+	this.gameRunning = false;
+	index = 0;
+	this.cameras.main.fade(2000, 255, 255, 255);
+};
+
 /**
  * finishes the game by showing the results
  *
  * TODO: implement
  */
 const winGame = function winGame(this: Game): void {
-	if (!this.gameEnded) {
-		this.gameEnded = true;
+	if (this.gameRunning) {
+		this.gameRunning = false;
 		this.player.setVelocityX(0);
 		this.player.anims.play("idle", true);
 		console.log("Won");
@@ -408,11 +441,13 @@ const loseGame = function loseGame(
 	player: Phaser.GameObjects.GameObject,
 	trap: Phaser.GameObjects.GameObject
 ) {
-	if (!this.gameEnded) {
-		this.gameEnded = true;
+	if (this.gameRunning) {
+		this.gameRunning = false;
 		this.player.setVelocityX(0);
 		this.player.anims.play("idle", true);
 		console.log("LOST");
-		alert("you lost");
+		if (confirm("you lost the game with " + this.score + " points. Restart?")) {
+			restartGame.call(this);
+		}
 	}
 };

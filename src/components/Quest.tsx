@@ -10,23 +10,9 @@ export interface QuestConfig {
 	graph: GraphInputConfig;
 }
 
-// Game started?
-let start = false;
-
 export default function Quest(props: { config: QuestConfig }): ReactElement {
 	// Log game data (for debugging)
 	const logData = () => console.log(props.config.graph.data);
-
-	// Start the game
-	const startGame = () => {
-		start = true;
-		console.log("Game started");
-	};
-
-	// Get the state of start from another component
-	const started = () => {
-		return start;
-	};
 
 	return (
 		<Container fluid>
@@ -42,17 +28,16 @@ export default function Quest(props: { config: QuestConfig }): ReactElement {
 					<Button variant="secondary" onClick={logData}>
 						Log Data array
 					</Button>{" "}
-					<Button variant="primary" onClick={startGame}>
+					<Button variant="primary" id="startGameBtn">
 						Start Game
+					</Button>{" "}
+					<Button variant="primary" id="restartGameBtn">
+						Restart Game
 					</Button>
 				</Col>
 				<Col sm="12" md="6">
 					<p>Game</p>
-					<GameComponent
-						settings={props.config.game}
-						data={props.config.graph.data}
-						started={started}
-					/>
+					<GameComponent settings={props.config.game} data={props.config.graph.data} />
 				</Col>
 			</Row>
 		</Container>

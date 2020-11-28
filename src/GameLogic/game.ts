@@ -153,7 +153,16 @@ export default class Game extends Phaser.Scene {
 		this.platforms = this.physics.add.staticGroup();
 
 		// Add player
-		this.player = this.physics.add.sprite(100, 450, "characterWalk", 0);
+		if (settings.characterSpawnXY) {
+			this.player = this.physics.add.sprite(
+				settings.characterSpawnXY.x,
+				settings.characterSpawnXY.y,
+				"characterWalk",
+				0
+			);
+		} else {
+			this.player = this.physics.add.sprite(100, 450, "characterWalk", 0);
+		}
 		this.player.setBounce(0.15);
 		this.player.setScale(2.7);
 		this.player.setCollideWorldBounds(true);

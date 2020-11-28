@@ -74,6 +74,16 @@ export interface GameConfig {
 	 * See character enum for more information.
 	 */
 	character: character;
+
+	/**
+	 * Optional
+	 *
+	 * Set the spawn coordinates for the player.
+	 */
+	characterSpawnXY?: {
+		x: number;
+		y: number;
+	};
 }
 
 /**

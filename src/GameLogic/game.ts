@@ -30,18 +30,34 @@ export default class Game extends Phaser.Scene {
 	/**
 	 * Physics group for all static objects that end (lose) the game if the player collides with them.
 	 *
-	 * Add traps to this group by using `this.traps.create(x, y, key)`.
+	 * Add traps to this group by using `this.staticTraps.create(x, y, key)`.
 	 * See `create()` for more information.
 	 */
-	public traps!: Phaser.Physics.Arcade.StaticGroup;
+	public staticTraps!: Phaser.Physics.Arcade.StaticGroup;
+
+	/**
+	 * Physics group for all dynamic objects that end (lose) the game if the player collides with them.
+	 *
+	 * Add traps to this group by using `this.dynamicTraps.create(x, y, key)`.
+	 * See `create()` for more information.
+	 */
+	public dynamicTraps!: Phaser.Physics.Arcade.Group;
 
 	/**
 	 * Physics group for all static objects that end (win) the game if the player collides with them.
 	 *
-	 * Add goals to this group by using `this.goals.create(x, y, key)`.
+	 * Add goals to this group by using `this.staticGoals.create(x, y, key)`.
 	 * See `create()` for more information.
 	 */
-	public goals!: Phaser.Physics.Arcade.StaticGroup;
+	public staticGoals!: Phaser.Physics.Arcade.StaticGroup;
+
+	/**
+	 * Physics group for all dynamic objects that end (win) the game if the player collides with them.
+	 *
+	 * Add goals to this group by using `this.dynamicGoals.create(x, y, key)`.
+	 * See `create()` for more information.
+	 */
+	public dynamicGoals!: Phaser.Physics.Arcade.Group;
 
 	/**
 	 * Physics group for all objects that can be collected by the player to add points to the score.
@@ -137,11 +153,11 @@ export default class Game extends Phaser.Scene {
 			this
 		);
 
-		// Add traps
-		this.traps = this.physics.add.staticGroup();
+		// Add static traps
+		this.staticTraps = this.physics.add.staticGroup();
 		this.physics.add.overlap(
 			this.player,
-			this.traps,
+			this.staticTraps,
 			(player: Phaser.GameObjects.GameObject, trap: Phaser.GameObjects.GameObject) => {
 				loseGame.call(this, player, trap);
 			},
@@ -149,9 +165,35 @@ export default class Game extends Phaser.Scene {
 			this
 		);
 
-		// Add goals
-		this.goals = this.physics.add.staticGroup();
-		this.physics.add.overlap(this.player, this.goals, winGame, undefined, this);
+		// Add dynamic traps
+		this.dynamicTraps = this.physics.add.group();
+		this.physics.add.overlap(
+			this.player,
+			this.dynamicTraps,
+			(player: Phaser.GameObjects.GameObject, trap: Phaser.GameObjects.GameObject) => {
+				loseGame.call(this, player, trap);
+			},
+			undefined,
+			this
+		);
+		this.physics.add.collider(this.dynamicTraps, this.platforms);
+
+		// Add static goals
+		this.staticGoals = this.physics.add.staticGroup();
+		this.physics.add.overlap(this.player, this.staticGoals, winGame, undefined, this);
+
+		// Add dynamic goals
+		this.dynamicGoals = this.physics.add.group();
+		this.physics.add.overlap(
+			this.player,
+			this.dynamicGoals,
+			(player: Phaser.GameObjects.GameObject, trap: Phaser.GameObjects.GameObject) => {
+				loseGame.call(this, player, trap);
+			},
+			undefined,
+			this
+		);
+		this.physics.add.collider(this.dynamicGoals, this.platforms);
 
 		// score
 		this.scoreText = this.add.text(16, 16, "Score: 0", {

@@ -82,7 +82,7 @@ function afterCreate(this: Game): void {
 	this.points.create(880, 60, "coinGold");
 
 	// Add a sample trap
-	this.goals.create(1400, 500, "keyYellow");
+	this.dynamicGoals.create(1400, 500, "keyYellow");
 
 	// Set random bounce on points
 	this.points.children.iterate((c) => {

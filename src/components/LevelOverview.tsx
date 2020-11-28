@@ -6,7 +6,8 @@ import { GraphInputConfig } from "./GraphInput";
 import convertDataArray from "../questSetupHelper";
 
 const ccfg: GraphInputConfig = {
-	title: "Test",
+	xTitle: "time in s",
+	yTitle: "velocity in m/s",
 	minY: 0,
 	maxY: 100,
 	data: convertDataArray([1, 1, 1, 1, 1, 1])

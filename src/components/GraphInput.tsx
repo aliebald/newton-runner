@@ -8,7 +8,9 @@ HC_more(Highcharts);
 require("highcharts/modules/draggable-points")(Highcharts);
 
 export interface GraphInputConfig {
-	title: string;
+	title?: string;
+	xTitle: string;
+	yTitle: string;
 	minY: number;
 	maxY: number;
 	data: Array<{ y: number }>;
@@ -22,8 +24,6 @@ export default class GraphInput extends React.Component<
 
 	constructor(props: { cfg: GraphInputConfig }) {
 		super(props);
-		// const data: number[] = [];
-		// const mean = (props.cfg.minY + props.cfg.maxY) / 2;
 
 		this.state = {
 			options: {
@@ -31,27 +31,32 @@ export default class GraphInput extends React.Component<
 					text: props.cfg.title
 				},
 				yAxis: {
+					title: {
+						text: props.cfg.yTitle
+					},
 					min: props.cfg.minY,
 					max: props.cfg.maxY
+				},
+				xAxis: {
+					title: {
+						text: props.cfg.xTitle
+					}
 				},
 				series: [
 					{
 						type: "line",
 						dragDrop: {
 							draggableY: true,
+							dragPrecisionY: 1,
 							dragMaxY: props.cfg.maxY,
 							dragMinY: props.cfg.minY
 						},
+						showInLegend: false,
 						data: props.cfg.data
 					}
 				]
 			}
 		};
-	}
-
-	getData(): Array<number> {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		return this.internalChart.series[0].points.map((p: Highcharts.Point) => p.y!);
 	}
 
 	afterChartCreated(chart: Chart): void {

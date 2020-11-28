@@ -12,6 +12,8 @@ import convertDataArray from "../../questSetupHelper";
 
 const graph: GraphInputConfig = {
 	title: "Test",
+	xTitle: "time in s",
+	yTitle: "velocity in m/s",
 	minY: 0,
 	maxY: 100,
 	data: convertDataArray([0, 50, 100, 100, 50, 100, 75, 50])

@@ -20,13 +20,20 @@ export default function Navigation(): ReactElement {
 					<Link to="/Tutorial" className="navElem">
 						Tutorial
 					</Link>
-
 					<NavDropdown title="Example level" id="nav-dropdown">
 						<Link to="/ExampleQuest1" className="dropdown-item">
 							Example Quest 1
 						</Link>
 						<Link to="/ExampleQuest2" className="dropdown-item">
 							Example Quest 2
+						</Link>
+					</NavDropdown>
+					<NavDropdown title="Level 1" id="nav-dropdown">
+						<Link to="/level1Quest1" className="dropdown-item">
+							Quest 1
+						</Link>
+						<Link to="/level1Quest2" className="dropdown-item">
+							Quest 2
 						</Link>
 					</NavDropdown>
 				</Nav>

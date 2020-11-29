@@ -121,10 +121,10 @@ function afterCreate(this: Game): void {
 	this.dynamicGoals.create(1400, 500, "keyYellow");
 
 	// Set random bounce on points
-	this.points.children.iterate((c) => {
-		const child = (c as unknown) as Phaser.Physics.Arcade.Body;
-		child.setBounceY(Phaser.Math.FloatBetween(0.3, 0.5));
-	});
+	Game.setRandomBounce.call(this, this.points);
+
+	// Set random bounce on dynamicGoals
+	Game.setRandomBounce.call(this, this.dynamicGoals);
 }
 
 export default settings;

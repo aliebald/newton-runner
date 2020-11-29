@@ -76,6 +76,18 @@ export default class Game extends Phaser.Scene {
 	 */
 	public gameRunning = false;
 
+	/**
+	 * Applies a random bounce to all members of a physics group.
+	 *
+	 * @param group physics group the bounce should be applied to
+	 */
+	public static setRandomBounce(group: Phaser.Physics.Arcade.Group): void {
+		group.children.iterate((c) => {
+			const child = (c as unknown) as Phaser.Physics.Arcade.Body;
+			child.setBounceY(Phaser.Math.FloatBetween(0.3, 0.5));
+		});
+	}
+
 	config = {
 		type: Phaser.AUTO,
 		width: 800,

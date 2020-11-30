@@ -11,7 +11,6 @@ import convertDataArray from "../../questSetupHelper";
  */
 
 const graph: GraphInputConfig = {
-	title: "Test",
 	xTitle: "time in s",
 	yTitle: "velocity in m/s",
 	minY: 0,
@@ -39,6 +38,8 @@ const game: GameConfig = {
 
 const settings: QuestConfig = {
 	title: "Beispiel Quest 2",
+	description:
+		"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", // cspell: disable-line
 	graph: graph,
 	game: game
 };

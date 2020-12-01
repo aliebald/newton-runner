@@ -19,22 +19,22 @@ nav {
 	color: rgba(255, 255, 255, 0.5);
 }
 
-.row-card-overview {
+.rowCardOverview {
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
 
-.badge-theory {
+.badgeTheory {
 	background-color: blue;
 	color: white;
 }
 
-.badge-game {
+.badgeGame {
 	background-color: orange;
 	color: white;
 }
 
-.badge-quiz {
+.badgeQuiz {
 	background-color: green;
 	color: white;
 }

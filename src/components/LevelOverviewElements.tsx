@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
-import { Button, Container, Row, Card, Badge, CardGroup, Image } from "react-bootstrap";
+import { Button, Row, Card, Badge, CardGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export function LevelOverviewBar(props: { config: LevelOverviewCardConfig[] }): ReactElement {
 	return (
-		<Row className="justify-content-center row-card-overview">
+		<Row className="justify-content-center rowCardOverview">
 			<CardGroup> {props.config.map((e) => LevelOverviewCard({ config: e }))}</CardGroup>
 		</Row>
 	);
@@ -27,11 +27,11 @@ export enum BadgeType {
 
 function getCode(type: BadgeType): ReactElement {
 	if (type === BadgeType.THEORIE) {
-		return <Badge className="badge-theory">&#128161; Theorie</Badge>;
-	} else if (type == BadgeType.SPIEL) {
-		return <Badge className="badge-game">&#x1F3AE; Spiel</Badge>;
-	} else if (type == BadgeType.QUIZ) {
-		return <Badge className="badge-quiz">&#x1F914; Quiz</Badge>;
+		return <Badge className="badgeTheory">&#128161; Theorie</Badge>;
+	} else if (type === BadgeType.SPIEL) {
+		return <Badge className="badgeGame">&#x1F3AE; Spiel</Badge>;
+	} else if (type === BadgeType.QUIZ) {
+		return <Badge className="badgeQuiz">&#x1F914; Quiz</Badge>;
 	} else return <></>;
 }
 

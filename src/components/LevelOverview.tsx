@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
-import { Button, ButtonGroup, ButtonToolbar, Container, Row, Card, Badge } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Container, Jumbotron } from "react-bootstrap";
 import { BadgeType, LevelOverviewBar, LevelOverviewCardConfig } from "./LevelOverviewElements";
 
 const barConfig1: Array<LevelOverviewCardConfig> = [
@@ -68,8 +67,16 @@ const barConfig2: Array<LevelOverviewCardConfig> = [
 export default function LevelOverview(): ReactElement {
 	return (
 		<Container fluid>
-			<LevelOverviewBar config={barConfig1}></LevelOverviewBar>
-			<LevelOverviewBar config={barConfig2}></LevelOverviewBar>
+			<Jumbotron fluid>
+				<h1>Tutorial</h1>
+				<p>Hier gibt es spannenden stuff zu lernen</p>
+				<LevelOverviewBar config={barConfig1}></LevelOverviewBar>
+			</Jumbotron>
+			<Jumbotron fluid>
+				<h1>tv-Diagramm</h1>
+				<p>Nein, tv soll hier nicht television heißen.</p>
+				<LevelOverviewBar config={barConfig2}></LevelOverviewBar>
+			</Jumbotron>
 		</Container>
 	);
 }

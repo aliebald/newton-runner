@@ -24,6 +24,21 @@ nav {
 	margin-bottom: 30px;
 }
 
+.badge-theory {
+	background-color: blue;
+	color: white;
+}
+
+.badge-game {
+	background-color: orange;
+	color: white;
+}
+
+.badge-quiz {
+	background-color: green;
+	color: white;
+}
+
 /*
  The height of gameDestination sets the maximum height of the game frame
  and therefore must be the height of the game (currently 600)!

@@ -25,7 +25,7 @@ export default function Quest(props: { config: QuestConfig }): ReactElement {
 				<Col sm="12" md="6">
 					<GameComponent settings={props.config.game} data={props.config.graph.data} />
 					<div className="pt-2">
-						<Button variant="primary" id="cameraLeft" className="px-3 mx-1">
+						<Button variant="primary" id="cameraLeftBtn" className="px-3 mx-1">
 							<span>&lt;</span>
 						</Button>
 						<Button variant="primary" id="startGameBtn" className="px-3 mx-1">
@@ -34,7 +34,7 @@ export default function Quest(props: { config: QuestConfig }): ReactElement {
 						<Button variant="primary" id="restartGameBtn" className="px-3 mx-1">
 							Nochmal&nbsp;versuchen
 						</Button>
-						<Button variant="primary" id="cameraRight" className="px-3 mx-1">
+						<Button variant="primary" id="cameraRightBtn" className="px-3 mx-1">
 							<span>&gt;</span>
 						</Button>
 					</div>

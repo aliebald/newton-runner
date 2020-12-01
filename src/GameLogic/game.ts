@@ -3,6 +3,9 @@ import { GameConfig, controlType, character } from "./GameConfig";
 
 let settings: GameConfig;
 let inputData: Array<{ y: number }>;
+// moveCamRight & moveCamLeft are true if the move camera buttons are clicked
+let moveCamRight = false;
+let moveCamLeft = false;
 
 export default class Game extends Phaser.Scene {
 	/**
@@ -135,29 +138,11 @@ export default class Game extends Phaser.Scene {
 			this
 		);
 
-		// Add the restart scene button, if it exists
-		const restartBtn = document.getElementById("restartGameBtn");
-		if (restartBtn) {
-			restartBtn.addEventListener("click", (e: Event) => {
-				restartGame.call(this);
-			});
-		} else {
-			console.log("WARNING: restartGameBtn not found!");
-		}
-
-		// Add the start game button
-		const startBtn = document.getElementById("startGameBtn");
-		if (startBtn) {
-			startBtn.addEventListener("click", (e: Event) => {
-				timeStamp = new Date().getTime();
-				this.gameRunning = true;
-			});
-		} else {
-			console.log("WARNING: startGameBtn not found!");
-		}
-
 		this.physics.world.bounds.setSize(settings.gameWorld.width, settings.gameWorld.height);
 		this.cameras.main.setBounds(0, 0, settings.gameWorld.width, settings.gameWorld.height);
+
+		// Load the start, restart and camera buttons
+		loadExternalButtons.call(this);
 
 		this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -180,8 +165,7 @@ export default class Game extends Phaser.Scene {
 		this.player.setCollideWorldBounds(true);
 		this.physics.add.collider(this.player, this.platforms);
 
-		this.cameras.main.startFollow(this.player, true);
-		// this.cameras.main.setZoom(2);
+		// this.cameras.main.startFollow(this.player, true);
 
 		// Load character animations
 		loadCharacterAnimations.call(this);
@@ -266,6 +250,19 @@ export default class Game extends Phaser.Scene {
 			// Game is not yet started, stay idle
 			this.player.setVelocityX(0);
 			this.player.anims.play("idle", true);
+
+			// camera if game is not running
+			if (moveCamRight || this.cursors.right?.isDown) {
+				this.cameras.main.scrollX += 5;
+			} else if (moveCamLeft || this.cursors.left?.isDown) {
+				this.cameras.main.scrollX -= 5;
+			}
+
+			if (this.cursors.up?.isDown) {
+				this.cameras.main.scrollY -= 5;
+			} else if (this.cursors.down?.isDown) {
+				this.cameras.main.scrollY += 5;
+			}
 		}
 
 		if (settings.onUpdate) {
@@ -473,5 +470,64 @@ const loseGame = function loseGame(
 		if (confirm("you lost the game with " + this.score + " points. Restart?")) {
 			restartGame.call(this);
 		}
+	}
+};
+
+/**
+ * Starts the game
+ */
+const startGame = function startGame(this: Game) {
+	this.gameRunning = true;
+	this.cameras.main.startFollow(this.player, true);
+	timeStamp = new Date().getTime();
+};
+
+/**
+ * Loads the logic for all external buttons
+ */
+const loadExternalButtons = function loadExternalButtons(this: Game) {
+	// Add the restart scene button, if it exists
+	const restartBtn = document.getElementById("restartGameBtn");
+	if (restartBtn) {
+		restartBtn.addEventListener("click", () => {
+			restartGame.call(this);
+		});
+	} else {
+		console.log("WARNING: restartGameBtn not found!");
+	}
+
+	// Add the start game button
+	const startBtn = document.getElementById("startGameBtn");
+	if (startBtn) {
+		startBtn.addEventListener("click", () => {
+			startGame.call(this);
+		});
+	} else {
+		console.log("WARNING: startGameBtn not found!");
+	}
+
+	// Add camera buttons
+	const cameraRightBtn = document.getElementById("cameraRightBtn");
+	if (cameraRightBtn) {
+		cameraRightBtn.addEventListener("mousedown", () => {
+			moveCamRight = true;
+		});
+		cameraRightBtn.addEventListener("mouseup", () => {
+			moveCamRight = false;
+		});
+	} else {
+		console.log("WARNING: cameraRightBtn not found!");
+	}
+
+	const cameraLeftBtn = document.getElementById("cameraLeftBtn");
+	if (cameraLeftBtn) {
+		cameraLeftBtn.addEventListener("mousedown", () => {
+			moveCamLeft = true;
+		});
+		cameraLeftBtn.addEventListener("mouseup", () => {
+			moveCamLeft = false;
+		});
+	} else {
+		console.log("WARNING: cameraLeftBtn not found!");
 	}
 };

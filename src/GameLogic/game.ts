@@ -563,7 +563,7 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 	this.player.setVelocityX(speed);
 
 	// play correct animation
-	if (inputData[index].y > 0) {
+	if (speed > 0) {
 		this.player.anims.play("right", true);
 	} else {
 		this.player.anims.play("idle", true);

@@ -646,7 +646,7 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 			restartGame.call(this);
 		});
 	} else {
-		console.log("WARNING: restartGameBtn not found!");
+		console.log("%cERROR: restartGameBtn not found!", "color: red");
 	}
 
 	// Add the start game button
@@ -656,7 +656,7 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 			startGame.call(this);
 		});
 	} else {
-		console.log("WARNING: startGameBtn not found!");
+		console.log("%cERROR: startGameBtn not found!", "color: red");
 	}
 
 	// Add camera buttons
@@ -670,7 +670,7 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 			moveCamRight = false;
 		});
 	} else {
-		console.log("WARNING: cameraRightBtn not found!");
+		console.log("%cERROR: cameraRightBtn not found!", "color: red");
 	}
 
 	const cameraLeftBtn = document.getElementById("cameraLeftBtn");
@@ -683,6 +683,6 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 			moveCamLeft = false;
 		});
 	} else {
-		console.log("WARNING: cameraLeftBtn not found!");
+		console.log("%cERROR: cameraLeftBtn not found!", "color: red");
 	}
 };

@@ -33,7 +33,21 @@ const game: GameConfig = {
 	characterSpawnXY: {
 		x: 100,
 		y: 400
-	}
+	},
+	cameraRide: [
+		// First move to (400,0) and wait a second
+		{
+			x: 400,
+			y: 0,
+			wait: 1000
+		},
+		// Then move back to (150,0) and wait a second
+		{
+			x: 150,
+			y: 0,
+			wait: 1000
+		}
+	]
 };
 
 const settings: QuestConfig = {

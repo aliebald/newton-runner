@@ -60,6 +60,26 @@ export interface GameConfig {
 	onUpdate?: (this: Game) => void;
 
 	/**
+	 * Optional
+	 *
+	 * An array of objects, containing x, y and wait values.
+	 *
+	 * The game goes through this array when the page loads.
+	 * Goes to the given `x`, `y` coordinates and waits for `wait` milliseconds, before moving on to the next coordinates.
+	 * The coordinates define the top left corner of the camera.
+	 * If the given value is to large, a warning will be logged and the camera will simply move as far as possible into that direction.
+	 *
+	 * Max x value: game bounds - width of the game canvas (which is responsive)
+	 *
+	 * Max y value: game bounds - height of the game canvas.
+	 */
+	cameraRide?: {
+		x: number;
+		y: number;
+		wait: number;
+	}[];
+
+	/**
 	 * Required
 	 *
 	 * If controls is not "none", this will add the specified controls to the game.

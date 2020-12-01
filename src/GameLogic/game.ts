@@ -3,9 +3,15 @@ import { GameConfig, controlType, character } from "./GameConfig";
 
 let settings: GameConfig;
 let inputData: Array<{ y: number }>;
+
 // moveCamRight & moveCamLeft are true if the move camera buttons are clicked
 let moveCamRight = false;
 let moveCamLeft = false;
+
+// cameraRide is true as long as the cameraRide is not finished.
+let cameraRide = false;
+let cameraRideIndex = 0;
+let cameraWait = 0;
 
 export default class Game extends Phaser.Scene {
 	/**
@@ -129,6 +135,18 @@ export default class Game extends Phaser.Scene {
 			settings.preCreate.call(this);
 		}
 
+		// check if a cameraRide is requested
+		if (settings.cameraRide) {
+			cameraRide = true;
+
+			// Add the origin to the end of the cameraRide
+			settings.cameraRide.push({
+				x: 0,
+				y: 0,
+				wait: 0
+			});
+		}
+
 		// restart the scene after a fade out
 		this.cameras.main.on(
 			"camerafadeoutcomplete",
@@ -244,6 +262,11 @@ export default class Game extends Phaser.Scene {
 	}
 
 	update(): void {
+		if (cameraRide) {
+			cameraRideFunc.call(this);
+			return;
+		}
+
 		if (this.gameRunning) {
 			loadControls.call(this);
 		} else {
@@ -272,6 +295,122 @@ export default class Game extends Phaser.Scene {
 
 	game = new Phaser.Game(this.config);
 }
+
+/**
+ * Executes the camera ride for a Game. Needs to be called from within the update function
+ */
+const cameraRideFunc = function cameraRideFunc(this: Game) {
+	if (!settings.cameraRide) {
+		return;
+	}
+
+	if (cameraRideIndex >= settings.cameraRide.length) {
+		// Ends the camera ride
+		cameraRide = false;
+		console.log("%cFinished cameraRide", "color: green");
+		return;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	const canvasWidth = document.getElementById("gameDestination")?.firstChild.width;
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	const canvasHeight = document.getElementById("gameDestination")?.firstChild.height;
+
+	const xUnreachable: boolean =
+		settings.cameraRide[cameraRideIndex].x + canvasWidth > settings.gameWorld.width &&
+		this.cameras.main.scrollX + canvasWidth + 5 > settings.gameWorld.width;
+
+	const yUnreachable: boolean =
+		settings.cameraRide[cameraRideIndex].y + canvasHeight > settings.gameWorld.height &&
+		this.cameras.main.scrollY + canvasHeight + 5 > settings.gameWorld.height;
+
+	const xReached: boolean =
+		Math.abs(settings.cameraRide[cameraRideIndex].x - this.cameras.main.scrollX) <= 5;
+
+	const yReached: boolean =
+		Math.abs(settings.cameraRide[cameraRideIndex].y - this.cameras.main.scrollY) <= 5;
+
+	// check if we reached the next x coordinate
+	if ((xReached && yReached) || cameraWait > 0) {
+		if (cameraWait === 0) {
+			// set waiting time
+			cameraWait = new Date().getTime() + settings.cameraRide[cameraRideIndex].wait;
+			return;
+		}
+
+		if (new Date().getTime() > cameraWait) {
+			// waiting time over
+			cameraWait = 0;
+			cameraRideIndex++;
+		}
+		return;
+	}
+
+	/*
+	// Debug output
+	console.log(
+		"x: " + this.cameras.main.scrollX,
+		"y: " + this.cameras.main.scrollY,
+		"width: " + canvasWidth,
+		"index: " + cameraRideIndex
+	);
+	*/
+
+	let error = false;
+
+	// check if the current x value can be reached
+	if (xUnreachable && (yReached || yUnreachable)) {
+		// value unreachable because it is outside the game bounds
+		console.log(
+			"%cWARNING:\nThe x coordinate " +
+				settings.cameraRide[cameraRideIndex].x +
+				" is outside of the game bounds.\nMax x value with the current window size is: " +
+				(settings.gameWorld.width - canvasWidth) +
+				". This value depends on the size of the game canvas!",
+			"color: orange"
+		);
+		error = true;
+	}
+
+	// check if the current y value can be reached
+	if (yUnreachable && (xReached || xUnreachable)) {
+		// value unreachable because it is outside the game bounds
+		console.log(
+			"%cWARNING:\nThe y coordinate " +
+				settings.cameraRide[cameraRideIndex].y +
+				" is outside of the game bounds.\nMax y value size is: " +
+				(settings.gameWorld.height - canvasHeight),
+			"color: orange"
+		);
+		error = true;
+	}
+
+	if (error) {
+		// set waiting time
+		cameraWait = new Date().getTime() + settings.cameraRide[cameraRideIndex].wait;
+		return;
+	}
+
+	// move along the x axis
+	if (!xReached) {
+		if (this.cameras.main.scrollX < settings.cameraRide[cameraRideIndex].x) {
+			this.cameras.main.scrollX += 3;
+		} else if (this.cameras.main.scrollX > settings.cameraRide[cameraRideIndex].x) {
+			this.cameras.main.scrollX -= 3;
+		}
+	}
+
+	// move along the y axis
+	if (!yReached) {
+		if (this.cameras.main.scrollY < settings.cameraRide[cameraRideIndex].y) {
+			this.cameras.main.scrollY += 3;
+		} else if (this.cameras.main.scrollY > settings.cameraRide[cameraRideIndex].y) {
+			this.cameras.main.scrollY -= 3;
+		}
+	}
+};
 
 /**
  * loads all necessary sprite seeds for the selected character (in settings).
@@ -431,7 +570,17 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 	}
 };
 
+/**
+ * Restarts the game
+ */
 const restartGame = function restartGame(this: Game): void {
+	if (settings.cameraRide) {
+		setTimeout(function () {
+			cameraRide = true;
+			cameraRideIndex = 0;
+			cameraWait = 0;
+		}, 2000);
+	}
 	this.gameRunning = false;
 	index = 0;
 	this.cameras.main.fade(2000, 255, 255, 255);
@@ -477,6 +626,10 @@ const loseGame = function loseGame(
  * Starts the game
  */
 const startGame = function startGame(this: Game) {
+	// Stop cameraRide
+	cameraRide = false;
+
+	// Start game
 	this.gameRunning = true;
 	this.cameras.main.startFollow(this.player, true);
 	timeStamp = new Date().getTime();
@@ -510,6 +663,7 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 	const cameraRightBtn = document.getElementById("cameraRightBtn");
 	if (cameraRightBtn) {
 		cameraRightBtn.addEventListener("mousedown", () => {
+			cameraRide = false;
 			moveCamRight = true;
 		});
 		cameraRightBtn.addEventListener("mouseup", () => {
@@ -522,6 +676,7 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 	const cameraLeftBtn = document.getElementById("cameraLeftBtn");
 	if (cameraLeftBtn) {
 		cameraLeftBtn.addEventListener("mousedown", () => {
+			cameraRide = false;
 			moveCamLeft = true;
 		});
 		cameraLeftBtn.addEventListener("mouseup", () => {

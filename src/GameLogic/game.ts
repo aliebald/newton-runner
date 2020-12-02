@@ -7,6 +7,8 @@ let inputData: Array<{ y: number }>;
 // moveCamRight & moveCamLeft are true if the move camera buttons are clicked
 let moveCamRight = false;
 let moveCamLeft = false;
+let moveCamUp = false;
+let moveCamDown = false;
 
 // cameraRide is true as long as the cameraRide is not finished.
 let cameraRide = false;
@@ -281,9 +283,9 @@ export default class Game extends Phaser.Scene {
 				this.cameras.main.scrollX -= 5;
 			}
 
-			if (this.cursors.up?.isDown) {
+			if (moveCamUp || this.cursors.up?.isDown) {
 				this.cameras.main.scrollY -= 5;
-			} else if (this.cursors.down?.isDown) {
+			} else if (moveCamDown || this.cursors.down?.isDown) {
 				this.cameras.main.scrollY += 5;
 			}
 		}
@@ -684,5 +686,31 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 		});
 	} else {
 		console.log("%cERROR: cameraLeftBtn not found!", "color: red");
+	}
+
+	const cameraUpBtn = document.getElementById("cameraUpBtn");
+	if (cameraUpBtn) {
+		cameraUpBtn.addEventListener("mousedown", () => {
+			cameraRide = false;
+			moveCamUp = true;
+		});
+		cameraUpBtn.addEventListener("mouseup", () => {
+			moveCamUp = false;
+		});
+	} else {
+		console.log("%cERROR: cameraUpBtn not found!", "color: red");
+	}
+
+	const cameraDownBtn = document.getElementById("cameraDownBtn");
+	if (cameraDownBtn) {
+		cameraDownBtn.addEventListener("mousedown", () => {
+			cameraRide = false;
+			moveCamDown = true;
+		});
+		cameraDownBtn.addEventListener("mouseup", () => {
+			moveCamDown = false;
+		});
+	} else {
+		console.log("%cERROR: cameraDownBtn not found!", "color: red");
 	}
 };

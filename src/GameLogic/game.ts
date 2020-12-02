@@ -662,55 +662,51 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 	}
 
 	// Add camera buttons
-	const cameraRightBtn = document.getElementById("cameraRightBtn");
-	if (cameraRightBtn) {
-		cameraRightBtn.addEventListener("mousedown", () => {
-			cameraRide = false;
-			moveCamRight = true;
-		});
-		cameraRightBtn.addEventListener("mouseup", () => {
-			moveCamRight = false;
-		});
-	} else {
-		console.log("%cERROR: cameraRightBtn not found!", "color: red");
-	}
+	addEvents(["mousedown", "touchstart"], "cameraRightBtn", () => {
+		cameraRide = false;
+		moveCamRight = true;
+	});
 
-	const cameraLeftBtn = document.getElementById("cameraLeftBtn");
-	if (cameraLeftBtn) {
-		cameraLeftBtn.addEventListener("mousedown", () => {
-			cameraRide = false;
-			moveCamLeft = true;
-		});
-		cameraLeftBtn.addEventListener("mouseup", () => {
-			moveCamLeft = false;
-		});
-	} else {
-		console.log("%cERROR: cameraLeftBtn not found!", "color: red");
-	}
+	addEvents(["mouseup", "touchend"], "cameraRightBtn", () => {
+		moveCamRight = false;
+	});
 
-	const cameraUpBtn = document.getElementById("cameraUpBtn");
-	if (cameraUpBtn) {
-		cameraUpBtn.addEventListener("mousedown", () => {
-			cameraRide = false;
-			moveCamUp = true;
-		});
-		cameraUpBtn.addEventListener("mouseup", () => {
-			moveCamUp = false;
-		});
-	} else {
-		console.log("%cERROR: cameraUpBtn not found!", "color: red");
-	}
+	addEvents(["mousedown", "touchstart"], "cameraLeftBtn", () => {
+		cameraRide = false;
+		moveCamLeft = true;
+	});
 
-	const cameraDownBtn = document.getElementById("cameraDownBtn");
-	if (cameraDownBtn) {
-		cameraDownBtn.addEventListener("mousedown", () => {
-			cameraRide = false;
-			moveCamDown = true;
-		});
-		cameraDownBtn.addEventListener("mouseup", () => {
-			moveCamDown = false;
-		});
-	} else {
-		console.log("%cERROR: cameraDownBtn not found!", "color: red");
+	addEvents(["mouseup", "touchend"], "cameraLeftBtn", () => {
+		moveCamLeft = false;
+	});
+
+	addEvents(["mousedown", "touchstart"], "cameraUpBtn", () => {
+		cameraRide = false;
+		moveCamUp = true;
+	});
+
+	addEvents(["mouseup", "touchend"], "cameraUpBtn", () => {
+		moveCamUp = false;
+	});
+
+	addEvents(["mousedown", "touchstart"], "cameraDownBtn", () => {
+		cameraRide = false;
+		moveCamDown = true;
+	});
+
+	addEvents(["mouseup", "touchend"], "cameraDownBtn", () => {
+		moveCamDown = false;
+	});
+
+	// Adds the given function for all given events to the element with the given id
+	function addEvents(events: string[], buttonId: string, action: () => void): void {
+		const btn = document.getElementById(buttonId);
+		if (btn) {
+			events.forEach((event) => {
+				btn.addEventListener(event, action);
+			});
+		} else {
+			console.log("%cERROR: " + buttonId + " not found!", "color: red");
+		}
 	}
 };

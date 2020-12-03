@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Container, Jumbotron } from "react-bootstrap";
+import { Container, Card, Nav, Tab } from "react-bootstrap";
 import { BadgeType, LevelOverviewBar, LevelOverviewCardConfig } from "./LevelOverviewElements";
 
 const barConfig1: Array<LevelOverviewCardConfig> = [
@@ -67,16 +67,46 @@ const barConfig2: Array<LevelOverviewCardConfig> = [
 export default function LevelOverview(): ReactElement {
 	return (
 		<Container fluid>
-			<Jumbotron fluid>
-				<h1>Tutorial</h1>
-				<p>Hier gibt es spannenden stuff zu lernen</p>
-				<LevelOverviewBar config={barConfig1}></LevelOverviewBar>
-			</Jumbotron>
-			<Jumbotron fluid>
-				<h1>tv-Diagramm</h1>
-				<p>Nein, tv soll hier nicht television heißen.</p>
-				<LevelOverviewBar config={barConfig2}></LevelOverviewBar>
-			</Jumbotron>
+			<Tab.Container defaultActiveKey="tutorial">
+				<Nav justify variant="pills">
+					<Nav.Item>
+						<Nav.Link eventKey="tutorial">Tutorial</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link eventKey="level1">Level 1</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link eventKey="disabled" disabled>
+							Disabled
+						</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link eventKey="disabled" disabled>
+							Disabled
+						</Nav.Link>
+					</Nav.Item>
+				</Nav>
+				<Tab.Content>
+					<Tab.Pane eventKey="tutorial">
+						<Card>
+							<Card.Body>
+								<h1>Tutorial</h1>
+								<p>Hier gibt es spannenden stuff zu lernen</p>
+								<LevelOverviewBar config={barConfig1}></LevelOverviewBar>
+							</Card.Body>
+						</Card>
+					</Tab.Pane>
+					<Tab.Pane eventKey="level1">
+						<Card>
+							<Card.Body>
+								<h1>tv-Diagramm</h1>
+								<p>Nein, tv soll hier nicht television heißen.</p>
+								<LevelOverviewBar config={barConfig2}></LevelOverviewBar>
+							</Card.Body>
+						</Card>
+					</Tab.Pane>
+				</Tab.Content>
+			</Tab.Container>
 		</Container>
 	);
 }

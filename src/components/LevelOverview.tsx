@@ -2,65 +2,54 @@ import React, { ReactElement } from "react";
 import { Container, Card, Nav, Tab } from "react-bootstrap";
 import { BadgeType, LevelOverviewBar, LevelOverviewCardConfig } from "./LevelOverviewElements";
 
-const barConfig1: Array<LevelOverviewCardConfig> = [
+const barConfigTutorial: Array<LevelOverviewCardConfig> = [
 	{
-		title: "Newtons Laws",
+		title: "Tutorial",
 		badge: BadgeType.THEORIE,
-		text: "interessantes Zeug und so",
-		buttonLink: "/ExampleQuest1",
-		buttonName: "Quest 0.1"
-	},
-	{
-		title: "Bewegung",
-		badge: BadgeType.THEORIE,
-		text: "mach mehr Sport.",
-		buttonLink: "/ExampleQuest1",
-		buttonName: "Quest 0.2"
-	},
-	{
-		title: "Beschleunigung",
-		badge: BadgeType.THEORIE,
-		text: "mach mehr Sport.",
-		buttonLink: "/ExampleQuest1",
-		buttonName: "Quest 0.3"
-	},
-	{
-		title: "Quiz Newton",
-		badge: BadgeType.QUIZ,
-		text: "Hefte weg, wir schreiben einen Test!",
-		buttonLink: "/ExampleQuest1",
-		buttonName: "Quest 0.4"
+		text: "hier lernst du worum es geht",
+		buttonLink: "/Tutorial",
+		buttonName: "Learn"
 	}
 ];
 
-const barConfig2: Array<LevelOverviewCardConfig> = [
+const barConfigExample: Array<LevelOverviewCardConfig> = [
+	{
+		title: "Example 1",
+		badge: BadgeType.SPIEL,
+		text: "mach mehr Sport.",
+		buttonLink: "/ExampleQuest1",
+		buttonName: "Play"
+	},
+	{
+		title: "Example 2",
+		badge: BadgeType.SPIEL,
+		text: "mach mehr Sport.",
+		buttonLink: "/ExampleQuest2",
+		buttonName: "Play"
+	}
+];
+
+const barConfig1: Array<LevelOverviewCardConfig> = [
 	{
 		title: "tv-Diagramm",
 		badge: BadgeType.THEORIE,
 		text: "interessantes Zeug und so",
-		buttonLink: "/ExampleQuest1",
-		buttonName: "Quest 1.1"
+		buttonLink: "/Tutorial",
+		buttonName: "Learn"
 	},
 	{
-		title: "Bewegung",
+		title: "Quest 1 : Bewegung",
 		badge: BadgeType.SPIEL,
-		text: "mach mehr Sport.",
-		buttonLink: "/ExampleQuest1",
-		buttonName: "Quest 1.2"
+		text: "hier steht text",
+		buttonLink: "/level1Quest1",
+		buttonName: "Play"
 	},
 	{
-		title: "Beschleunigung",
+		title: "Quest 2 : Beschleunigung",
 		badge: BadgeType.SPIEL,
-		text: "mach mehr Sport.",
-		buttonLink: "/ExampleQuest1",
-		buttonName: "Quest 1.3"
-	},
-	{
-		title: "Quiz Newton",
-		badge: BadgeType.QUIZ,
-		text: "Hefte weg, wir schreiben einen Test!",
-		buttonLink: "/ExampleQuest1",
-		buttonName: "Quest 1.4"
+		text: "hier steht text",
+		buttonLink: "/level1Quest2",
+		buttonName: "Play"
 	}
 ];
 
@@ -71,6 +60,9 @@ export default function LevelOverview(): ReactElement {
 				<Nav justify variant="pills">
 					<Nav.Item>
 						<Nav.Link eventKey="tutorial">Tutorial</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link eventKey="exampleLevel">Example Level</Nav.Link>
 					</Nav.Item>
 					<Nav.Item>
 						<Nav.Link eventKey="level1">Level 1</Nav.Link>
@@ -92,7 +84,16 @@ export default function LevelOverview(): ReactElement {
 							<Card.Body>
 								<h1>Tutorial</h1>
 								<p>Hier gibt es spannenden stuff zu lernen</p>
-								<LevelOverviewBar config={barConfig1}></LevelOverviewBar>
+								<LevelOverviewBar config={barConfigTutorial}></LevelOverviewBar>
+							</Card.Body>
+						</Card>
+					</Tab.Pane>
+					<Tab.Pane eventKey="exampleLevel">
+						<Card>
+							<Card.Body>
+								<h1>Example Level</h1>
+								<p>Ein paar Beispiele für Level</p>
+								<LevelOverviewBar config={barConfigExample}></LevelOverviewBar>
 							</Card.Body>
 						</Card>
 					</Tab.Pane>
@@ -101,7 +102,7 @@ export default function LevelOverview(): ReactElement {
 							<Card.Body>
 								<h1>tv-Diagramm</h1>
 								<p>Nein, tv soll hier nicht television heißen.</p>
-								<LevelOverviewBar config={barConfig2}></LevelOverviewBar>
+								<LevelOverviewBar config={barConfig1}></LevelOverviewBar>
 							</Card.Body>
 						</Card>
 					</Tab.Pane>

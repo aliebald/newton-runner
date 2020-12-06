@@ -1,22 +1,98 @@
+:root {
+	/*
+	 * These are our main colors. Please use them, e.g.: `color: var(--primaryColor)`.
+	 */
+	--navText: rgb(0, 0, 0, 0.5); /* #c1006b; */
+	--footerText: rgb(0, 0, 0, 0.7); /* #b02e5d */
+	--primaryColor: #f6d927;
+	--secondaryColor: #ef9d00;
+	--tertiaryColor: #ee5508;
+}
+
+/*****************
+	Bootstrap
+******************/
+
+.bg-custom {
+	background-color: var(--secondaryColor);
+}
+
+@media (min-width: 992px) {
+	.navbar-expand-lg .navbar-nav .nav-link {
+		padding-right: 1rem;
+		padding-left: 1rem;
+	}
+}
+
+.navbar-light .navbar-nav .active > .nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show > .nav-link {
+	color: var(--navText);
+}
+
+.navbar-light .navbar-nav .nav-link {
+	transition: color 0.2s;
+	color: var(--navText);
+}
+
+/*****************
+	Custom CSS
+******************/
+
 .debug {
-	border: 1px dotted black;
+	border: 1px dotted red;
 }
 
 nav {
-	min-height: 8vh;
-	margin-bottom: 1rem;
+	min-height: 7vh;
+	margin-bottom: 1.5rem;
 }
 
-.navLink {
-	display: flex;
-	align-items: center;
-	list-style: none;
+body {
+	background-color: var(--primaryColor) !important;
 }
 
-.navLink .navElem {
+.btn-primary {
+	background-color: var(--secondaryColor) !important;
+	border-color: var(--secondaryColor) !important;
+}
+
+.btn-primary:hover {
+	background-color: var(--tertiaryColor) !important;
+}
+
+.title {
+	text-decoration-style: solid;
+	text-decoration: underline;
+	text-decoration-color: var(--secondaryColor);
+}
+
+.boxWrapper {
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	border-radius: 5px;
+	padding: 15px 0px 15px 0px;
+}
+
+.navbarTitle {
+	font-size: 1.5rem;
 	padding-right: 1rem;
-	padding-left: 1rem;
-	color: rgba(255, 255, 255, 0.5);
+}
+
+.navElem,
+.navElem a {
+	vertical-align: middle;
+	font-size: 1rem;
+	font-weight: 500;
+	line-height: 15px;
+	letter-spacing: 1px;
+}
+
+.navElem:hover,
+.navElem a:hover {
+	color: var(--tertiaryColor) !important;
 }
 
 .rowCardOverview {

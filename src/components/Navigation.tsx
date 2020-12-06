@@ -4,38 +4,39 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 export default function Navigation(): ReactElement {
 	return (
-		<Navbar bg="dark" variant="dark" expand="lg">
-			<Link to="/" className="navbar-brand">
+		<Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+			<Navbar.Brand as={Link} to="/" className="navbarTitle">
 				Physics Game
-			</Link>
-			<Navbar.Toggle aria-controls="navbar-nav" />
-			<Navbar.Collapse id="navbar-nav">
-				<Nav className="mr-auto navLink">
-					<Link to="/" className="navElem">
-						Landing Page
-					</Link>
-					<Link to="/LevelOverview" className="navElem">
-						LevelOverview
-					</Link>
-					<Link to="/Tutorial" className="navElem">
-						Tutorial
-					</Link>
-					<NavDropdown title="Example level" id="nav-dropdown">
-						<Link to="/ExampleQuest1" className="dropdown-item">
-							Example Quest 1
-						</Link>
-						<Link to="/ExampleQuest2" className="dropdown-item">
-							Example Quest 2
-						</Link>
+			</Navbar.Brand>
+			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+			<Navbar.Collapse id="responsive-navbar-nav">
+				<Nav>
+					<Nav.Link as={Link} to="/" className="navElem">
+						Home
+					</Nav.Link>
+					<Nav.Link as={Link} to="/LevelOverview" className="navElem">
+						&Uuml;bersicht
+					</Nav.Link>
+					<NavDropdown title="Aufgaben" id="collasible-nav-dropdown" className="navElem">
+						<NavDropdown.Item as={Link} to="/ExampleQuest1" className="navElem">
+							Beispiel Aufgabe 1
+						</NavDropdown.Item>
+						<NavDropdown.Item as={Link} to="/ExampleQuest2" className="navElem">
+							Beispiel Aufgabe 2
+						</NavDropdown.Item>
+						<NavDropdown.Divider />
+						<NavDropdown.Item as={Link} to="/level1Quest1" className="navElem">
+							Level 1 Aufgabe 1
+						</NavDropdown.Item>
+						<NavDropdown.Item as={Link} to="/level1Quest2" className="navElem">
+							Level 1 Aufgabe 2
+						</NavDropdown.Item>
 					</NavDropdown>
-					<NavDropdown title="Level 1" id="nav-dropdown">
-						<Link to="/level1Quest1" className="dropdown-item">
-							Quest 1
-						</Link>
-						<Link to="/level1Quest2" className="dropdown-item">
-							Quest 2
-						</Link>
-					</NavDropdown>
+				</Nav>
+				<Nav className="ml-auto">
+					<Nav.Link as={Link} to="/" className="navElem">
+						Anmelden
+					</Nav.Link>
 				</Nav>
 			</Navbar.Collapse>
 		</Navbar>

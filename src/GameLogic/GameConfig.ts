@@ -17,6 +17,16 @@ export interface GameConfig {
 	/**
 	 * Optional
 	 *
+	 * onStart gets executed when the game starts.
+	 *
+	 * Important: Please be aware that the game can start multiple times, if the player restarts the game.
+	 * Make sure to the the function for this case.
+	 */
+	onStart?: (this: Game) => void;
+
+	/**
+	 * Optional
+	 *
 	 * onPreload gets executed with the preload function of phaser.
 	 *
 	 * The preload function is the first function that gets executed, before create and update.

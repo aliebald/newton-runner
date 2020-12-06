@@ -581,15 +581,11 @@ const endGame = function endGame(this: Game): void {
 		this.player.anims.play("idle", true);
 
 		// decide if the player won or lost
-		const pointsToWin = settings.pointsToWin ? settings.pointsToWin : 0;
-
-		if (this.score >= pointsToWin || this.collectedGoal) {
-			// Player won
+		if ((settings.pointsToWin && this.score >= settings.pointsToWin) || this.collectedGoal) {
 			console.log("Won");
 			alert("Congratulations, you won with " + this.score + " Points!");
 		} else {
-			// Player Lost
-			console.log("LOST");
+			console.log("Lost");
 			if (confirm("you lost the game with " + this.score + " points. Restart?")) {
 				restartGame.call(this);
 			}
@@ -622,6 +618,11 @@ const collideWithTrap = function collideWithTrap(
  * Starts the game
  */
 const startGame = function startGame(this: Game) {
+	// check if game is already running
+	if (this.gameRunning) {
+		return;
+	}
+
 	// Stop cameraRide
 	cameraRide = false;
 
@@ -629,6 +630,10 @@ const startGame = function startGame(this: Game) {
 	this.gameRunning = true;
 	this.cameras.main.startFollow(this.player, true);
 	timeStamp = new Date().getTime();
+
+	if (settings.onStart) {
+		settings.onStart.call(this);
+	}
 };
 
 /**

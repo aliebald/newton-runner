@@ -88,6 +88,11 @@ export default class Game extends Phaser.Scene {
 	public gameRunning = false;
 
 	/**
+	 * collectedGoal is true if the player collided with a object in staticGoals or dynamicGoals.
+	 */
+	public collectedGoal = false;
+
+	/**
 	 * Applies a random bounce to all members of a physics group.
 	 *
 	 * @param group physics group the bounce should be applied to
@@ -203,7 +208,7 @@ export default class Game extends Phaser.Scene {
 				console.log("collectPoint()");
 				const p = point as Phaser.Physics.Arcade.Image;
 				p.disableBody(true, true);
-				this.score += 10;
+				this.score++;
 				this.scoreText.setText("Score: " + this.score);
 			},
 			undefined,
@@ -212,44 +217,20 @@ export default class Game extends Phaser.Scene {
 
 		// Add static traps
 		this.staticTraps = this.physics.add.staticGroup();
-		this.physics.add.overlap(
-			this.player,
-			this.staticTraps,
-			(player: Phaser.GameObjects.GameObject, trap: Phaser.GameObjects.GameObject) => {
-				loseGame.call(this, player, trap);
-			},
-			undefined,
-			this
-		);
+		this.physics.add.overlap(this.player, this.staticTraps, collideWithTrap, undefined, this);
 
 		// Add dynamic traps
 		this.dynamicTraps = this.physics.add.group();
-		this.physics.add.overlap(
-			this.player,
-			this.dynamicTraps,
-			(player: Phaser.GameObjects.GameObject, trap: Phaser.GameObjects.GameObject) => {
-				loseGame.call(this, player, trap);
-			},
-			undefined,
-			this
-		);
+		this.physics.add.overlap(this.player, this.dynamicTraps, collideWithTrap, undefined, this);
 		this.physics.add.collider(this.dynamicTraps, this.platforms);
 
 		// Add static goals
 		this.staticGoals = this.physics.add.staticGroup();
-		this.physics.add.overlap(this.player, this.staticGoals, winGame, undefined, this);
+		this.physics.add.overlap(this.player, this.staticGoals, collectGoal, undefined, this);
 
 		// Add dynamic goals
 		this.dynamicGoals = this.physics.add.group();
-		this.physics.add.overlap(
-			this.player,
-			this.dynamicGoals,
-			(player: Phaser.GameObjects.GameObject, trap: Phaser.GameObjects.GameObject) => {
-				loseGame.call(this, player, trap);
-			},
-			undefined,
-			this
-		);
+		this.physics.add.overlap(this.player, this.dynamicGoals, collectGoal, undefined, this);
 		this.physics.add.collider(this.dynamicGoals, this.platforms);
 
 		// score
@@ -543,7 +524,7 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 			this.player.setVelocityX(0);
 			this.player.anims.play("idle", true);
 
-			winGame.call(this); // TODO: Win or lose?
+			endGame.call(this); // TODO: Win or lose?
 			this.gameRunning = false;
 
 			return;
@@ -589,17 +570,30 @@ const restartGame = function restartGame(this: Game): void {
 };
 
 /**
- * finishes the game by showing the results
+ * Ends The game and evaluates the result
  *
  * TODO: implement
  */
-const winGame = function winGame(this: Game): void {
+const endGame = function endGame(this: Game): void {
 	if (this.gameRunning) {
 		this.gameRunning = false;
 		this.player.setVelocityX(0);
 		this.player.anims.play("idle", true);
-		console.log("Won");
-		alert("Congratulations, you won with " + this.score + " Points!");
+
+		// decide if the player won or lost
+		const pointsToWin = settings.pointsToWin ? settings.pointsToWin : 0;
+
+		if (this.score >= pointsToWin || this.collectedGoal) {
+			// Player won
+			console.log("Won");
+			alert("Congratulations, you won with " + this.score + " Points!");
+		} else {
+			// Player Lost
+			console.log("LOST");
+			if (confirm("you lost the game with " + this.score + " points. Restart?")) {
+				restartGame.call(this);
+			}
+		}
 	}
 };
 
@@ -608,7 +602,7 @@ const winGame = function winGame(this: Game): void {
  *
  * TODO
  */
-const loseGame = function loseGame(
+const collideWithTrap = function collideWithTrap(
 	this: Game,
 	player: Phaser.GameObjects.GameObject,
 	trap: Phaser.GameObjects.GameObject
@@ -635,6 +629,22 @@ const startGame = function startGame(this: Game) {
 	this.gameRunning = true;
 	this.cameras.main.startFollow(this.player, true);
 	timeStamp = new Date().getTime();
+};
+
+/**
+ * Gets called when the player collides with a goal
+ *
+ * @param player the player
+ * @param goal the goal the player collides with
+ */
+const collectGoal = function collectGoal(
+	this: Game,
+	player: Phaser.GameObjects.GameObject,
+	goal: Phaser.GameObjects.GameObject
+): void {
+	this.collectedGoal = true;
+	const g = goal as Phaser.Physics.Arcade.Image;
+	g.setAlpha(0.5);
 };
 
 /**

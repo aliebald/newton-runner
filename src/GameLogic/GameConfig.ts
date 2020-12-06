@@ -104,6 +104,14 @@ export interface GameConfig {
 		x: number;
 		y: number;
 	};
+
+	/**
+	 * Optional
+	 *
+	 * If the Player has at least `pointsToWin` points at the end of the game (and did not collide with a trap), he win's.
+	 * Note that the player also wins if he collects a goal.
+	 */
+	pointsToWin?: number;
 }
 
 /**

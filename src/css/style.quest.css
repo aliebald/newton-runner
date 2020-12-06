@@ -39,3 +39,19 @@
 	flex-direction: column;
 	justify-content: center;
 }
+
+.btnWrapper {
+	display: inline-flex;
+	width: 100%;
+}
+
+.btnWrapper .btnWrapperLeft,
+.btnWrapper .btnWrapperRight {
+	position: relative;
+	align-self: center;
+	padding-top: 0.5rem;
+}
+
+.btnWrapperRight {
+	margin-left: auto;
+}

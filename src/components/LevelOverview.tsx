@@ -38,6 +38,13 @@ const barConfig1: Array<LevelOverviewCardConfig> = [
 		buttonName: "Learn"
 	},
 	{
+		title: "Quiz 1 : Bewegung",
+		badge: BadgeType.QUIZ,
+		text: "Teste deine Wissen über die Grundlagen der Bewegung",
+		buttonLink: "/level1Quiz1",
+		buttonName: "Play"
+	},
+	{
 		title: "Quest 1 : Bewegung",
 		badge: BadgeType.SPIEL,
 		text: "hier steht text",

@@ -5,6 +5,7 @@ import LandingPage from "./components/LandingPage";
 import Quest from "./components/Quest";
 import Tutorial from "./components/Tutorial";
 import LevelOverview from "./components/LevelOverview";
+import Quiz from "./components/Questions";
 
 import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
 import exampleQuest2 from "./levels/exampleLevels/exampleQuest2";
@@ -39,6 +40,7 @@ function App(): ReactElement {
 						exact
 						component={() => <Quest config={level1Quest2}></Quest>}
 					/>
+					<Route path="/level1Quiz1" exact component={Quiz} />
 					<Route path="/Tutorial" exact component={Tutorial} />
 				</Switch>
 			</div>

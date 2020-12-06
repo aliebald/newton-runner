@@ -6,6 +6,7 @@ import Quest from "./components/Quest";
 import Tutorial from "./components/Tutorial";
 import LevelOverview from "./components/LevelOverview";
 import Quiz from "./components/Questions";
+import Footer from "./components/Footer";
 
 import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
 import exampleQuest2 from "./levels/exampleLevels/exampleQuest2";
@@ -44,6 +45,7 @@ function App(): ReactElement {
 					<Route path="/Tutorial" exact component={Tutorial} />
 				</Switch>
 			</div>
+			<Footer />
 		</BrowserRouter>
 	);
 }

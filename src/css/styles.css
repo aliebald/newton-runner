@@ -2,8 +2,8 @@
 	/*
 	 * These are our main colors. Please use them, e.g.: `color: var(--primaryColor)`.
 	 */
-	--navText: rgb(0, 0, 0, 0.5); /* #c1006b; */
-	--footerText: rgb(0, 0, 0, 0.7); /* #b02e5d */
+	--navText: rgb(0, 0, 0, 0.5);
+	--footerText: rgb(0, 0, 0, 0.7);
 	--primaryColor: #f6d927;
 	--secondaryColor: #ef9d00;
 	--tertiaryColor: #ee5508;
@@ -93,6 +93,49 @@ body {
 .navElem:hover,
 .navElem a:hover {
 	color: var(--tertiaryColor) !important;
+}
+
+.footer {
+	display: inline-flex;
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	height: 30px;
+	background-color: white;
+	letter-spacing: 0.5px;
+	font-size: 0.8rem;
+}
+
+.footer .footerRight,
+.footer .footerLeft {
+	position: relative;
+	align-self: center;
+	text-align: center;
+}
+
+.footer .footerRight {
+	padding-right: 1rem;
+	margin-left: auto;
+}
+
+.footer .footerLeft {
+	padding-left: 1rem;
+}
+
+.footer .footerText {
+	color: var(--footerText);
+	margin-bottom: 0;
+}
+
+.footer .footerLink {
+	color: var(--footerText);
+	text-decoration: none;
+	padding-left: 1.5rem;
+}
+
+.footer .footerLink:hover {
+	transition: color 0.2s;
+	color: var(--tertiaryColor);
 }
 
 .rowCardOverview {

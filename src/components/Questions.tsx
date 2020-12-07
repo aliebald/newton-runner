@@ -81,7 +81,7 @@ export function SingleChoice(props: { config: SingleChoiceConfig; idx: number })
 		<Card style={{ width: "40rem" }} key={props.idx.toString()}>
 			{getOptionalImage()}
 			<Card.Body>
-				<Card.Text>{props.config.text}</Card.Text>
+				<Card.Text className="text-left">{props.config.text}</Card.Text>
 				<br />
 				<Card.Subtitle className="mb-2 text-muted">
 					Es ist genau eine Antwort richtig.
@@ -133,7 +133,7 @@ export function MultipleChoice(props: { config: MultipleChoiceConfig; idx: numbe
 		<Card style={{ width: "40rem" }} key={props.idx.toString()}>
 			{getOptionalImage()}
 			<Card.Body>
-				<Card.Text>{props.config.text}</Card.Text>
+				<Card.Text className="text-left">{props.config.text}</Card.Text>
 				<br />
 				<Card.Subtitle className="mb-2 text-muted">
 					Es können beliebig viele Antworten richtig sein.
@@ -164,7 +164,7 @@ export function TrueFalse(props: { config: StatementConfig; idx: number }): Reac
 		<Card style={{ width: "40rem" }} key={props.idx.toString()}>
 			{getOptionalImage()}
 			<Card.Body>
-				<Card.Text>{props.config.text}</Card.Text>
+				<Card.Text className="text-left">{props.config.text}</Card.Text>
 				<Form>
 					<div key="default-radio" className="mb-3">
 						<fieldset>

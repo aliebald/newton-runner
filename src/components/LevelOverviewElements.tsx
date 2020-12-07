@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 export function LevelOverviewBar(props: { config: LevelOverviewCardConfig[] }): ReactElement {
 	return (
 		<Row className="justify-content-center rowCardOverview">
-			<CardGroup> {props.config.map((e) => LevelOverviewCard({ config: e }))}</CardGroup>
+			<CardGroup>
+				{props.config.map((e, idx) => LevelOverviewCard({ config: e, idx: idx }))}
+			</CardGroup>
 		</Row>
 	);
 }
@@ -35,9 +37,12 @@ function getCode(type: BadgeType): ReactElement {
 	} else return <></>;
 }
 
-export function LevelOverviewCard(props: { config: LevelOverviewCardConfig }): ReactElement {
+export function LevelOverviewCard(props: {
+	config: LevelOverviewCardConfig;
+	idx: number;
+}): ReactElement {
 	return (
-		<Card>
+		<Card key={props.idx.toString()}>
 			<Card.Body>
 				<Card.Title>{props.config.title}</Card.Title>
 				<Card.Subtitle>{getCode(props.config.badge)}</Card.Subtitle>

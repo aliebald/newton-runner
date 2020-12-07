@@ -25,6 +25,10 @@ export default function Navigation(): ReactElement {
 							Beispiel Aufgabe 2
 						</NavDropdown.Item>
 						<NavDropdown.Divider />
+						<NavDropdown.Item as={Link} to="/ExampleQuiz1" className="navElem">
+							Beispiel Quiz 1
+						</NavDropdown.Item>
+						<NavDropdown.Divider />
 						<NavDropdown.Item as={Link} to="/level1Quest1" className="navElem">
 							Level 1 Aufgabe 1
 						</NavDropdown.Item>

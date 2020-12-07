@@ -9,8 +9,10 @@ import Footer from "./components/Footer";
 
 import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
 import exampleQuest2 from "./levels/exampleLevels/exampleQuest2";
+import exampleQuiz1 from "./levels/exampleLevels/exampleQuiz1";
 import level1Quest1 from "./levels/level1/level1Quest1";
 import level1Quest2 from "./levels/level1/level1Quest2";
+import { Quiz } from "./components/Quiz";
 
 function App(): ReactElement {
 	return (
@@ -29,6 +31,11 @@ function App(): ReactElement {
 						path="/ExampleQuest2"
 						exact
 						component={() => <Quest config={exampleQuest2}></Quest>}
+					/>
+					<Route
+						path="/ExampleQuiz1"
+						exact
+						component={() => <Quiz config={exampleQuiz1}></Quiz>}
 					/>
 					<Route
 						path="/level1Quest1"

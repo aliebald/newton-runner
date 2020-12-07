@@ -158,6 +158,10 @@ body {
 	color: white;
 }
 
+.quizBox {
+	margin: 2rem;
+}
+
 /*
  The height of gameDestination sets the maximum height of the game frame
  and therefore must be the height of the game (currently 600)!

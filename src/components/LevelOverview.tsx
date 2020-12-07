@@ -26,6 +26,13 @@ const barConfigExample: Array<LevelOverviewCardConfig> = [
 		text: "mach mehr Sport.",
 		buttonLink: "/ExampleQuest2",
 		buttonName: "Play"
+	},
+	{
+		title: "Example Quiz 1",
+		badge: BadgeType.QUIZ,
+		text: "strng dein Hirn an",
+		buttonLink: "/ExampleQuiz1",
+		buttonName: "Solve"
 	}
 ];
 

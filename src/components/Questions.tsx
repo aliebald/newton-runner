@@ -38,11 +38,83 @@ export function TextInput(props: { config: TextInputConfig }): ReactElement {
 }
 
 export function SingleChoice(props: { config: SingleChoiceConfig }): ReactElement {
-	return <></>;
+	function getRadioButtons(): ReactElement {
+		return (
+			<Form>
+				<div key="default-radio" className="mb-3">
+					<fieldset>
+						{props.config.statements.map((e, idx) => mapStatementToButton(e, idx))}
+					</fieldset>
+				</div>
+			</Form>
+		);
+	}
+
+	function mapStatementToButton(elementConfig: StatementConfig, idx: number): ReactElement {
+		return (
+			<FormCheck
+				type="radio"
+				id={idx.toString()}
+				label={elementConfig.text}
+				name="scRadioButton"
+			/>
+		);
+	}
+
+	return (
+		<Card style={{ width: "40rem" }}>
+			<Card.Body>
+				<Card.Text>{props.config.text}</Card.Text>
+				<br />
+				<Card.Subtitle className="mb-2 text-muted">
+					Es ist genau eine Antwort richtig.
+				</Card.Subtitle>
+				{getRadioButtons()}
+			</Card.Body>
+			<Card.Footer>
+				<Button variant="success">Lösen</Button>
+			</Card.Footer>
+		</Card>
+	);
 }
 
 export function MultipleChoice(props: { config: MultipleChoiceConfig }): ReactElement {
-	return <></>;
+	function getCheckboxes(): ReactElement {
+		return (
+			<Form>
+				<div key="default-radio" className="mb-3">
+					{props.config.statements.map((e, idx) => mapStatementToButton(e, idx))}
+				</div>
+			</Form>
+		);
+	}
+
+	function mapStatementToButton(elementConfig: StatementConfig, idx: number): ReactElement {
+		return (
+			<FormCheck
+				type="checkbox"
+				id={idx.toString()}
+				label={elementConfig.text}
+				name="mcCheckbox"
+			/>
+		);
+	}
+
+	return (
+		<Card style={{ width: "40rem" }}>
+			<Card.Body>
+				<Card.Text>{props.config.text}</Card.Text>
+				<br />
+				<Card.Subtitle className="mb-2 text-muted">
+					Es können beliebig viele Antworten richtig sein.
+				</Card.Subtitle>
+				{getCheckboxes()}
+			</Card.Body>
+			<Card.Footer>
+				<Button variant="success">Lösen</Button>
+			</Card.Footer>
+		</Card>
+	);
 }
 
 export function TrueFalse(props: { config: StatementConfig }): ReactElement {

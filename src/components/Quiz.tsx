@@ -16,7 +16,9 @@ export function Quiz(props: { config: QuizConfig }): ReactElement {
 	return (
 		<Container>
 			<h1>{props.config.title}</h1> <p>{props.config.text}</p>
-			{props.config.questions.map((e) => Question({ config: e })).map((e) => center(e))}
+			{props.config.questions
+				.map((e, idx) => Question({ config: e, idx: idx }))
+				.map((e) => center(e))}
 		</Container>
 	);
 }

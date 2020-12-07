@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Button, Card, Form, FormCheck } from "react-bootstrap";
+import { Button, Card, Form, FormCheck, Image } from "react-bootstrap";
 
 export type QuestionConfig =
 	| SingleChoiceConfig
@@ -11,6 +11,7 @@ export interface TextInputConfig {
 	kind: "TextInput";
 	text: string;
 	correctInputValues: Array<string>;
+	imgPath?: string;
 }
 
 export interface SingleChoiceConfig {
@@ -18,6 +19,7 @@ export interface SingleChoiceConfig {
 	text: string;
 	statements: Array<StatementConfig>;
 	shuffleStatements?: boolean;
+	imgPath?: string;
 }
 
 export interface MultipleChoiceConfig {
@@ -25,19 +27,21 @@ export interface MultipleChoiceConfig {
 	text: string;
 	statements: Array<StatementConfig>;
 	shuffleStatements?: boolean;
+	imgPath?: string;
 }
 
 export interface StatementConfig {
 	kind: "Statement";
 	text: string;
 	isTrue: boolean;
+	imgPath?: string;
 }
 
-export function TextInput(props: { config: TextInputConfig }): ReactElement {
+export function TextInput(props: { config: TextInputConfig; idx: number }): ReactElement {
 	return <></>;
 }
 
-export function SingleChoice(props: { config: SingleChoiceConfig }): ReactElement {
+export function SingleChoice(props: { config: SingleChoiceConfig; idx: number }): ReactElement {
 	function getRadioButtons(): ReactElement {
 		return (
 			<Form>
@@ -48,6 +52,18 @@ export function SingleChoice(props: { config: SingleChoiceConfig }): ReactElemen
 				</div>
 			</Form>
 		);
+	}
+
+	function getOptionalImage(): ReactElement {
+		if (props.config.imgPath === undefined) {
+			return <></>;
+		} else {
+			return (
+				<Card.Header>
+					<Image src={props.config.imgPath} fluid rounded />
+				</Card.Header>
+			);
+		}
 	}
 
 	function mapStatementToButton(elementConfig: StatementConfig, idx: number): ReactElement {
@@ -62,14 +78,15 @@ export function SingleChoice(props: { config: SingleChoiceConfig }): ReactElemen
 	}
 
 	return (
-		<Card style={{ width: "40rem" }}>
+		<Card style={{ width: "40rem" }} key={props.idx.toString()}>
+			{getOptionalImage()}
 			<Card.Body>
 				<Card.Text>{props.config.text}</Card.Text>
 				<br />
 				<Card.Subtitle className="mb-2 text-muted">
 					Es ist genau eine Antwort richtig.
 				</Card.Subtitle>
-				{getRadioButtons()}
+				<fieldset>{getRadioButtons()}</fieldset>
 			</Card.Body>
 			<Card.Footer>
 				<Button variant="success">Lösen</Button>
@@ -78,7 +95,7 @@ export function SingleChoice(props: { config: SingleChoiceConfig }): ReactElemen
 	);
 }
 
-export function MultipleChoice(props: { config: MultipleChoiceConfig }): ReactElement {
+export function MultipleChoice(props: { config: MultipleChoiceConfig; idx: number }): ReactElement {
 	function getCheckboxes(): ReactElement {
 		return (
 			<Form>
@@ -87,6 +104,18 @@ export function MultipleChoice(props: { config: MultipleChoiceConfig }): ReactEl
 				</div>
 			</Form>
 		);
+	}
+
+	function getOptionalImage(): ReactElement {
+		if (props.config.imgPath === undefined) {
+			return <></>;
+		} else {
+			return (
+				<Card.Header>
+					<Image src={props.config.imgPath} fluid rounded />
+				</Card.Header>
+			);
+		}
 	}
 
 	function mapStatementToButton(elementConfig: StatementConfig, idx: number): ReactElement {
@@ -101,14 +130,15 @@ export function MultipleChoice(props: { config: MultipleChoiceConfig }): ReactEl
 	}
 
 	return (
-		<Card style={{ width: "40rem" }}>
+		<Card style={{ width: "40rem" }} key={props.idx.toString()}>
+			{getOptionalImage()}
 			<Card.Body>
 				<Card.Text>{props.config.text}</Card.Text>
 				<br />
 				<Card.Subtitle className="mb-2 text-muted">
 					Es können beliebig viele Antworten richtig sein.
 				</Card.Subtitle>
-				{getCheckboxes()}
+				<fieldset>{getCheckboxes()}</fieldset>
 			</Card.Body>
 			<Card.Footer>
 				<Button variant="success">Lösen</Button>
@@ -117,9 +147,22 @@ export function MultipleChoice(props: { config: MultipleChoiceConfig }): ReactEl
 	);
 }
 
-export function TrueFalse(props: { config: StatementConfig }): ReactElement {
+export function TrueFalse(props: { config: StatementConfig; idx: number }): ReactElement {
+	function getOptionalImage(): ReactElement {
+		if (props.config.imgPath === undefined) {
+			return <></>;
+		} else {
+			return (
+				<Card.Header>
+					<Image src={props.config.imgPath} fluid rounded />
+				</Card.Header>
+			);
+		}
+	}
+
 	return (
-		<Card style={{ width: "40rem" }}>
+		<Card style={{ width: "40rem" }} key={props.idx.toString()}>
+			{getOptionalImage()}
 			<Card.Body>
 				<Card.Text>{props.config.text}</Card.Text>
 				<Form>
@@ -143,17 +186,20 @@ export function TrueFalse(props: { config: StatementConfig }): ReactElement {
 	);
 }
 
-export function Question(props: { config: QuestionConfig }): ReactElement {
+export function Question(props: { config: QuestionConfig; idx: number }): ReactElement {
 	function getQuestionCode(): ReactElement {
 		switch (props.config.kind) {
 			case "TextInput":
-				return TextInput({ config: props.config as TextInputConfig });
+				return TextInput({ config: props.config as TextInputConfig, idx: props.idx });
 			case "SingleChoice":
-				return SingleChoice({ config: props.config as SingleChoiceConfig });
+				return SingleChoice({ config: props.config as SingleChoiceConfig, idx: props.idx });
 			case "MultipleChoice":
-				return MultipleChoice({ config: props.config as MultipleChoiceConfig });
+				return MultipleChoice({
+					config: props.config as MultipleChoiceConfig,
+					idx: props.idx
+				});
 			case "Statement":
-				return TrueFalse({ config: props.config as StatementConfig });
+				return TrueFalse({ config: props.config as StatementConfig, idx: props.idx });
 			default:
 				return <></>;
 		}

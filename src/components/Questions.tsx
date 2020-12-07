@@ -1,25 +1,49 @@
 import React, { ReactElement } from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
 
-export default function Questions(): ReactElement {
-	return (
-		<>
-			<style type="text/css">
-				{`
-    .btn-flat {
-      background-color: blue;
-      color: white;
-    }
+export type QuestionConfig =
+	| SingleChoiceConfig
+	| MultipleChoiceConfig
+	| TextInputConfig
+	| StatementConfig;
 
-    `}
-			</style>
+export interface TextInputConfig {
+	kind: "TextDropDown";
+	text: string;
+	correctInputValues: Array<string>;
+}
 
-			<Button variant="flat" size="lg">
-				flat button
-			</Button>
-			<Button variant="flat" size="lg">
-				second
-			</Button>
-		</>
-	);
+export interface SingleChoiceConfig {
+	kind: "SingleChoice";
+	text: string;
+	statements: Array<StatementConfig>;
+	shuffleStatements: boolean;
+}
+
+export interface MultipleChoiceConfig {
+	kind: "MultipleChoice";
+	text: string;
+	statements: Array<StatementConfig>;
+	shuffleStatements: boolean;
+}
+
+export interface StatementConfig {
+	kind: "Statement";
+	text: string;
+	isTrue: boolean;
+}
+
+export function TextDropDown(props: { cfg: TextInputConfig }): ReactElement {
+	return <></>;
+}
+
+export function SingleChoice(props: { cfg: SingleChoiceConfig }): ReactElement {
+	return <></>;
+}
+
+export function MultipleChoice(props: { cfg: MultipleChoiceConfig }): ReactElement {
+	return <></>;
+}
+
+export function TrueFalse(props: { cfg: StatementConfig }): ReactElement {
+	return <></>;
 }

@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
-import { Button, Card, Form, FormCheck, Image } from "react-bootstrap";
+import { Button, Card, Form, FormCheck } from "react-bootstrap";
+import { getOptionalImageElement } from "../questionLogic/questionUtility";
 
 export interface StatementConfig {
 	kind: "Statement";
@@ -9,21 +10,9 @@ export interface StatementConfig {
 }
 
 export function BooleanQuestion(props: { config: StatementConfig; idx: number }): ReactElement {
-	function getOptionalImage(): ReactElement {
-		if (props.config.imgPath === undefined) {
-			return <></>;
-		} else {
-			return (
-				<Card.Header>
-					<Image src={props.config.imgPath} fluid rounded />
-				</Card.Header>
-			);
-		}
-	}
-
 	return (
 		<Card style={{ width: "40rem" }} key={props.idx.toString()}>
-			{getOptionalImage()}
+			{getOptionalImageElement(props.config.imgPath)}
 			<Card.Body>
 				<Card.Text className="text-left">{props.config.text}</Card.Text>
 				<Form>

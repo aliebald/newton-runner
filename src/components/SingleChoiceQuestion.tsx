@@ -1,6 +1,10 @@
 import React, { ReactElement, useState } from "react";
-import { Button, Card, Col, Form, FormCheck, Image, Row } from "react-bootstrap";
-import { equal } from "../questionLogic/questionUtility";
+import { Button, Card, Col, Form, FormCheck, Row } from "react-bootstrap";
+import {
+	equal,
+	getOptionalImageElement,
+	getQuestionStatusElement
+} from "../questionLogic/questionUtility";
 import { StatementConfig } from "./BooleanQuestion";
 import { QuestionStatus } from "./Question";
 
@@ -37,17 +41,6 @@ export function SingleChoiceQuestion(props: {
 		setSelected(old);
 	}
 
-	function getStatusText(): ReactElement {
-		switch (status) {
-			case "Correct":
-				return <p>Korrekt!</p>;
-			case "Wrong":
-				return <p>Falsch</p>;
-			default:
-				return <></>;
-		}
-	}
-
 	function getRadioButtons(): ReactElement {
 		return (
 			<Form>
@@ -58,18 +51,6 @@ export function SingleChoiceQuestion(props: {
 				</div>
 			</Form>
 		);
-	}
-
-	function getOptionalImage(): ReactElement {
-		if (props.config.imgPath === undefined) {
-			return <></>;
-		} else {
-			return (
-				<Card.Header>
-					<Image src={props.config.imgPath} fluid rounded />
-				</Card.Header>
-			);
-		}
 	}
 
 	function mapStatementToButton(elementConfig: StatementConfig, idx: number): ReactElement {
@@ -86,7 +67,7 @@ export function SingleChoiceQuestion(props: {
 
 	return (
 		<Card style={{ width: "40rem" }} key={props.idx.toString()}>
-			{getOptionalImage()}
+			{getOptionalImageElement(props.config.imgPath)}
 			<Card.Body>
 				<Card.Text className="text-left">{props.config.text}</Card.Text>
 				<br />
@@ -103,7 +84,7 @@ export function SingleChoiceQuestion(props: {
 							Lösen
 						</Button>
 					</Col>
-					<Col>{getStatusText()}</Col>
+					<Col>{getQuestionStatusElement(status)}</Col>
 				</Row>
 			</Card.Footer>
 		</Card>

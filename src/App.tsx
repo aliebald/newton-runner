@@ -25,12 +25,16 @@ function App(): ReactElement {
 					<Route
 						path="/ExampleQuest1"
 						exact
-						component={() => <Quest config={exampleQuest1}></Quest>}
+						component={() => (
+							<Quest config={exampleQuest1} nextPage="/ExampleQuest2"></Quest>
+						)}
 					/>
 					<Route
 						path="/ExampleQuest2"
 						exact
-						component={() => <Quest config={exampleQuest2}></Quest>}
+						component={() => (
+							<Quest config={exampleQuest2} nextPage="/ExampleQuiz1"></Quest>
+						)}
 					/>
 					<Route
 						path="/ExampleQuiz1"
@@ -40,12 +44,16 @@ function App(): ReactElement {
 					<Route
 						path="/level1Quest1"
 						exact
-						component={() => <Quest config={level1Quest1}></Quest>}
+						component={() => (
+							<Quest config={level1Quest1} nextPage="/level1Quest1"></Quest>
+						)}
 					/>
 					<Route
 						path="/level1Quest2"
 						exact
-						component={() => <Quest config={level1Quest2}></Quest>}
+						component={() => (
+							<Quest config={level1Quest2} nextPage="/ExampleQuest1"></Quest>
+						)}
 					/>
 					<Route path="/Tutorial" exact component={Tutorial} />
 				</Switch>

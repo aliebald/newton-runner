@@ -12,7 +12,7 @@ export interface QuestConfig {
 	graph: GraphInputConfig;
 }
 
-export default function Quest(props: { config: QuestConfig }): ReactElement {
+export default function Quest(props: { config: QuestConfig; nextPage: string }): ReactElement {
 	return (
 		<Container fluid>
 			<Row className="mx-auto mt-1 boxWrapper">
@@ -24,7 +24,11 @@ export default function Quest(props: { config: QuestConfig }): ReactElement {
 					</div>
 				</Col>
 				<Col sm="12" md="6">
-					<GameComponent settings={props.config.game} data={props.config.graph.data} />
+					<GameComponent
+						settings={props.config.game}
+						data={props.config.graph.data}
+						nextPage={props.nextPage}
+					/>
 					<div className="btnWrapper">
 						<div className="btnWrapperLeft">
 							<Button variant="primary" id="startGameBtn" className="px-3 mr-1">

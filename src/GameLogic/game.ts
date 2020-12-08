@@ -2,7 +2,7 @@ import "phaser";
 import { GameConfig, controlType, character } from "./GameConfig";
 
 let settings: GameConfig;
-let inputData: Array<{ y: number }>;
+let inputData: { y: number }[];
 
 // moveCamRight & moveCamLeft are true if the move camera buttons are clicked
 let moveCamRight = false;
@@ -15,14 +15,23 @@ let cameraRide = false;
 let cameraRideIndex = 0;
 let cameraWait = 0;
 
+let gameEndModal: (goal: boolean, trap: boolean, score: number, restart: () => void) => void;
+
 export default class Game extends Phaser.Scene {
 	/**
 	 * @param {gameSettings} settings - settings for phaser
+	 * @param Array data - movement data for controls
+	 * @param function gameEnded - function that will be called when the game ended
 	 */
-	constructor(gameSettings: GameConfig, data: Array<{ y: number }>) {
+	constructor(
+		gameSettings: GameConfig,
+		data: { y: number }[],
+		gameEnded: (goal: boolean, trap: boolean, score: number, restart: () => void) => void
+	) {
 		super("Game");
 		settings = gameSettings;
 		inputData = data;
+		gameEndModal = gameEnded;
 	}
 
 	public player!: Phaser.Physics.Arcade.Sprite;
@@ -493,7 +502,7 @@ const loadControls = function loadControls(this: Game) {
 };
 
 // variables for t_v_graph controls
-let timeStamp: number;
+let timeStamp: number | undefined;
 let index = 0;
 
 /**
@@ -571,8 +580,6 @@ const restartGame = function restartGame(this: Game): void {
 
 /**
  * Ends The game and evaluates the result
- *
- * TODO: implement
  */
 const endGame = function endGame(this: Game): void {
 	if (this.gameRunning) {
@@ -580,23 +587,12 @@ const endGame = function endGame(this: Game): void {
 		this.player.setVelocityX(0);
 		this.player.anims.play("idle", true);
 
-		// decide if the player won or lost
-		if ((settings.pointsToWin && this.score >= settings.pointsToWin) || this.collectedGoal) {
-			console.log("Won");
-			alert("Congratulations, you won with " + this.score + " Points!");
-		} else {
-			console.log("Lost");
-			if (confirm("you lost the game with " + this.score + " points. Restart?")) {
-				restartGame.call(this);
-			}
-		}
+		gameEndModal(this.collectedGoal, false, this.score, restartGame.bind(this));
 	}
 };
 
 /**
- * This function gets called when the game is lost.
- *
- * TODO
+ * This function gets called when the player collides with a trap.
  */
 const collideWithTrap = function collideWithTrap(
 	this: Game,
@@ -607,10 +603,8 @@ const collideWithTrap = function collideWithTrap(
 		this.gameRunning = false;
 		this.player.setVelocityX(0);
 		this.player.anims.play("idle", true);
-		console.log("LOST");
-		if (confirm("you lost the game with " + this.score + " points. Restart?")) {
-			restartGame.call(this);
-		}
+
+		gameEndModal(this.collectedGoal, true, this.score, restartGame.bind(this));
 	}
 };
 

@@ -1,7 +1,12 @@
-import React, { ReactElement } from "react";
-import { Button, Card, Form, FormCheck } from "react-bootstrap";
-import { getOptionalImageElement } from "../questionLogic/questionUtility";
+import React, { ReactElement, useState } from "react";
+import { Button, Card, Col, Form, FormCheck, Row } from "react-bootstrap";
+import {
+	equal,
+	getOptionalImageElement,
+	getQuestionStatusElement
+} from "../questionLogic/questionUtility";
 import { StatementConfig } from "./BooleanQuestion";
+import { QuestionStatus } from "./Question";
 
 export interface MultipleChoiceConfig {
 	kind: "MultipleChoice";
@@ -14,6 +19,28 @@ export function MultipleChoiceQuestion(props: {
 	config: MultipleChoiceConfig;
 	idx: number;
 }): ReactElement {
+	const [status, setStatus] = useState("Unsolved" as QuestionStatus);
+	const [correctValues, setCorrectValues] = useState(
+		props.config.statements.map((s) => s.isTrue)
+	);
+	const [selected, setSelected] = useState(props.config.statements.map((s) => false));
+
+	function check(): void {
+		if (status == "Unsolved") {
+			if (equal(selected, correctValues)) {
+				setStatus("Correct");
+			} else {
+				setStatus("Wrong");
+			}
+		}
+	}
+
+	function select(idx: number) {
+		const old = selected.slice();
+		old[idx] = !old[idx];
+		setSelected(old);
+	}
+
 	function getCheckboxes(): ReactElement {
 		return (
 			<Form>
@@ -31,6 +58,7 @@ export function MultipleChoiceQuestion(props: {
 				id={idx.toString()}
 				label={elementConfig.text}
 				name="mcCheckbox"
+				onChange={() => select(idx)}
 			/>
 		);
 	}
@@ -47,7 +75,15 @@ export function MultipleChoiceQuestion(props: {
 				<fieldset>{getCheckboxes()}</fieldset>
 			</Card.Body>
 			<Card.Footer>
-				<Button variant="success">Lösen</Button>
+				<Row>
+					<Col></Col>
+					<Col>
+						<Button variant="success" onClick={() => check()}>
+							Lösen
+						</Button>
+					</Col>
+					<Col>{getQuestionStatusElement(status)}</Col>
+				</Row>
 			</Card.Footer>
 		</Card>
 	);

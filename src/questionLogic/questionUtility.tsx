@@ -1,6 +1,6 @@
 import React from "react";
 import { ReactElement } from "react";
-import { Card, Image } from "react-bootstrap";
+import { Badge, Card, Image } from "react-bootstrap";
 import { QuestionStatus } from "../components/Question";
 
 export function equal(array1: Array<boolean>, array2: Array<boolean>): boolean {
@@ -17,11 +17,23 @@ export function equal(array1: Array<boolean>, array2: Array<boolean>): boolean {
 export function getQuestionStatusElement(status: QuestionStatus): ReactElement {
 	switch (status) {
 		case "Correct":
-			return <p> Korrekt! </p>;
+			return (
+				<h4>
+					<Badge variant="success">Korrekt</Badge>
+				</h4>
+			);
 		case "Wrong":
-			return <p> Falsch </p>;
+			return (
+				<h4>
+					<Badge variant="danger">Falsch</Badge>
+				</h4>
+			);
 		default:
-			return <></>;
+			return (
+				<h4>
+					<Badge variant="info">Ungelöst</Badge>
+				</h4>
+			);
 	}
 }
 

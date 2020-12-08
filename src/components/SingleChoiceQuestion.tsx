@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { Button, Card, Col, Form, FormCheck, Image, Row } from "react-bootstrap";
-import { equal } from "../QuestionLogic/questionUtility";
+import { equal } from "../questionLogic/questionUtility";
 import { StatementConfig } from "./BooleanQuestion";
 import { QuestionStatus } from "./Question";
 

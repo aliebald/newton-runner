@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import Game from "../GameLogic/game";
-import { GameConfig } from "../GameLogic/GameConfig";
+import Game from "../gameLogic/game";
+import { GameConfig } from "../gameLogic/GameConfig";
 import { Redirect } from "react-router-dom";
 
 // Information about the Error: https://github.com/react-bootstrap/react-bootstrap/issues/5075

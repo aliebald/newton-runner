@@ -1,5 +1,5 @@
-import { GameConfig, controlType, character } from "../../GameLogic/GameConfig";
-import Game from "../../GameLogic/game";
+import { GameConfig, controlType, character } from "../../gameLogic/GameConfig";
+import Game from "../../gameLogic/game";
 import { GraphInputConfig } from "../../components/GraphInput";
 import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";

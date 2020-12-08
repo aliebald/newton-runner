@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { GameConfig } from "../GameLogic/GameConfig";
+import { GameConfig } from "../gameLogic/GameConfig";
 import GameComponent from "./GameComponent";
 import GraphInput, { GraphInputConfig } from "./GraphInput";
 import "./../css/style.quest.css";

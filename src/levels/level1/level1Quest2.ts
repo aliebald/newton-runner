@@ -1,8 +1,8 @@
-import { GameConfig, controlType, character } from "../../GameLogic/GameConfig";
+import { GameConfig, controlType, character } from "../../gameLogic/GameConfig";
 import { GraphInputConfig } from "../../components/GraphInput";
 import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
-import Game from "../../GameLogic/game";
+import Game from "../../gameLogic/game";
 
 // TODO adjust GraphInputConfig
 const graph: GraphInputConfig = {

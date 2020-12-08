@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { CardGroup, Col, Container, Row } from "react-bootstrap";
-import { Question, QuestionConfig } from "./Questions";
+import { Question, QuestionConfig } from "./Question";
 
 export interface QuizConfig {
 	title: string;

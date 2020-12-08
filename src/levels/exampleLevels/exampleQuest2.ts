@@ -33,7 +33,8 @@ const game: GameConfig = {
 	characterSpawnXY: {
 		x: 100,
 		y: 400
-	}
+	},
+	pointsToWin: 1
 };
 
 const settings: QuestConfig = {

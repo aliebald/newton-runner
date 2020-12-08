@@ -57,7 +57,7 @@ export function SingleChoiceQuestion(props: {
 		return (
 			<FormCheck
 				type="radio"
-				id={idx.toString()}
+				id={props.idx.toString() + "-sc-" + idx.toString()}
 				label={elementConfig.text}
 				name="scRadioButton"
 				onChange={() => select(idx)}

@@ -52,14 +52,14 @@ export function BooleanQuestion(props: { config: StatementConfig; idx: number })
 						<fieldset>
 							<FormCheck
 								type="radio"
-								id="true"
+								id={props.idx.toString() + "-bool-true"}
 								label="Wahr"
 								name="trueFalseRadios"
 								onChange={() => select(0)}
 							/>
 							<FormCheck
 								type="radio"
-								id="false"
+								id={props.idx.toString() + "-bool-false"}
 								label="Falsch"
 								name="trueFalseRadios"
 								onChange={() => select(1)}

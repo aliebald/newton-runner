@@ -55,7 +55,7 @@ export function MultipleChoiceQuestion(props: {
 		return (
 			<FormCheck
 				type="checkbox"
-				id={idx.toString()}
+				id={props.idx.toString() + "-mc-" + idx.toString()}
 				label={elementConfig.text}
 				name="mcCheckbox"
 				onChange={() => select(idx)}

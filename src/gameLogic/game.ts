@@ -5,17 +5,21 @@ let settings: GameConfig;
 let inputData: { y: number }[];
 
 // moveCamRight & moveCamLeft are true if the move camera buttons are clicked
-let moveCamRight = false;
-let moveCamLeft = false;
-let moveCamUp = false;
-let moveCamDown = false;
+let moveCamRight: boolean;
+let moveCamLeft: boolean;
+let moveCamUp: boolean;
+let moveCamDown: boolean;
 
 // cameraRide is true as long as the cameraRide is not finished.
-let cameraRide = false;
-let cameraRideIndex = 0;
-let cameraWait = 0;
+let cameraRide: boolean;
+let cameraRideIndex: number;
+let cameraWait: number;
 
 let gameEndModal: (goal: boolean, trap: boolean, score: number, restart: () => void) => void;
+
+// variables for t_v_graph controls
+let timeStamp: number | undefined;
+let index: number;
 
 export default class Game extends Phaser.Scene {
 	/**
@@ -29,6 +33,19 @@ export default class Game extends Phaser.Scene {
 		gameEnded: (goal: boolean, trap: boolean, score: number, restart: () => void) => void
 	) {
 		super("Game");
+		console.log("%cInitiated new Game", "color: green");
+		moveCamRight = false;
+		moveCamLeft = false;
+		moveCamUp = false;
+		moveCamDown = false;
+		cameraRide = false;
+		cameraRideIndex = 0;
+		cameraWait = 0;
+		timeStamp = undefined;
+		index = 0;
+
+		this.gameRunning = false;
+
 		settings = gameSettings;
 		inputData = data;
 		gameEndModal = gameEnded;
@@ -500,10 +517,6 @@ const loadControls = function loadControls(this: Game) {
 
 	// Does not load any controls if settings.controls is "none"
 };
-
-// variables for t_v_graph controls
-let timeStamp: number | undefined;
-let index = 0;
 
 /**
  * T-V-Graph Controls

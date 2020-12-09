@@ -127,7 +127,6 @@ export default class GameComponent extends React.Component<
 	};
 
 	componentDidMount(): void {
-		console.log("%cInitiated new Game", "color: green");
 		new Game(this.props.settings, this.props.data, this.gameEnded.bind(this));
 	}
 

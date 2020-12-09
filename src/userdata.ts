@@ -4,7 +4,8 @@
  *
  * Relevant exports:
  * - Task: internal representation of quests and quizzes
- * - saveTaskProgress
+ * - saveTaskProgress() & loadTaskProgress()
+ * - resetUserdata()
  */
 
 /**
@@ -66,6 +67,15 @@ export function loadTaskProgress(id: string): Task | undefined {
 		return userdata.tasks[index];
 	}
 	return undefined;
+}
+
+/**
+ * Deletes all userdata. Use with caution!
+ */
+export function resetUserdata(): void {
+	if (confirm("Fortschritt und Nutzerdaten löschen?")) {
+		localStorage.removeItem("userdata");
+	}
 }
 
 /**

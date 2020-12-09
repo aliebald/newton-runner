@@ -45,7 +45,7 @@ function App(): ReactElement {
 						path="/level1Quest1"
 						exact
 						component={() => (
-							<Quest config={level1Quest1} nextPage="/level1Quest1"></Quest>
+							<Quest config={level1Quest1} nextPage="/level1Quest2"></Quest>
 						)}
 					/>
 					<Route

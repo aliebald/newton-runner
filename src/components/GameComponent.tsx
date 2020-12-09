@@ -3,6 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import Game from "../gameLogic/game";
 import { GameConfig } from "../gameLogic/GameConfig";
 import { Redirect } from "react-router-dom";
+import { saveTaskProgress, loadTaskProgress } from "../userdata";
 
 // Information about the Error: https://github.com/react-bootstrap/react-bootstrap/issues/5075
 
@@ -10,6 +11,8 @@ export default class GameComponent extends React.Component<
 	{
 		settings: GameConfig;
 		data: { y: number }[];
+		title: string;
+		id: string;
 		nextPage: string;
 	},
 	{
@@ -20,20 +23,42 @@ export default class GameComponent extends React.Component<
 		redirect: string | null;
 	}
 > {
-	constructor(props: { settings: GameConfig; data: { y: number }[]; nextPage: string }) {
+	constructor(props: {
+		settings: GameConfig;
+		data: { y: number }[];
+		title: string;
+		id: string;
+		nextPage: string;
+	}) {
 		super(props);
-		this.state = {
-			showModal: false,
-			restart: undefined,
-			title: "",
-			text: "",
-			redirect: null
-		};
+		// check if this game was already won once
+		const task = loadTaskProgress(props.id);
+		if (task && task.won) {
+			this.state = {
+				showModal: true,
+				restart: () => {
+					this.setState({ showModal: false });
+				},
+				title: "Aufgabe bereits geschafft",
+				text:
+					"Sieht so aus als hättest du diese Aufgabe bereits geschafft. Willst du sie trotzdem nochmal versuchen?",
+				redirect: null
+			};
+		} else {
+			this.state = {
+				showModal: false,
+				restart: undefined,
+				title: "",
+				text: "",
+				redirect: null
+			};
+		}
 	}
 
 	public gameEnded = (goal: boolean, trap: boolean, score: number, restart: () => void): void => {
 		this.setState({ restart: restart });
 
+		let won = false;
 		if (trap) {
 			this.setState({
 				showModal: true,
@@ -45,6 +70,7 @@ export default class GameComponent extends React.Component<
 			(this.props.settings.pointsToWin && score >= this.props.settings.pointsToWin) ||
 			goal
 		) {
+			won = true;
 			console.log("Won");
 			this.setState({
 				showModal: true,
@@ -62,6 +88,16 @@ export default class GameComponent extends React.Component<
 				text: "Schade, vielleicht klappt es ja beim nächsten Versuch"
 			});
 		}
+
+		// Save as task
+		saveTaskProgress({
+			type: "quest",
+			id: this.props.id,
+			title: this.props.title,
+			won: won,
+			achievedPoints: score,
+			possiblePoints: 0 //TODO
+		});
 	};
 
 	/**

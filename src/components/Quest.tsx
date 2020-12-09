@@ -7,6 +7,7 @@ import "./../css/style.quest.css";
 
 export interface QuestConfig {
 	title: string;
+	id: string;
 	description: string;
 	game: GameConfig;
 	graph: GraphInputConfig;
@@ -26,6 +27,8 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 				<Col sm="12" md="6">
 					<GameComponent
 						settings={props.config.game}
+						title={props.config.title}
+						id={props.config.id}
 						data={props.config.graph.data}
 						nextPage={props.nextPage}
 					/>

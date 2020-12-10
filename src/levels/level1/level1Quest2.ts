@@ -71,6 +71,7 @@ function preCreate(this: Phaser.Scene): void {
 	for (let i = 0; i < 5; i++) {
 		this.add.image(256 * i, 0, "bg").setOrigin(0);
 		this.add.image(256 * i, 256, "bg").setOrigin(0);
+		this.add.image(256 * i, 512, "bg").setOrigin(0);
 	}
 
 	// Add clouds
@@ -99,8 +100,11 @@ function afterCreate(this: Game): void {
 	// Add platforms / ground
 	const tileWidth = 70;
 	for (let i = 0; i * tileWidth < width; i++) {
-		this.platforms.create(35 + tileWidth * i, 500, "grassMid");
-		this.platforms.create(35 + tileWidth * i, 570, "grassCenter");
+		//gap at 385
+		if (i != 5) {
+			this.platforms.create(35 + tileWidth * i, 500, "grassMid");
+			this.platforms.create(35 + tileWidth * i, 570, "grassCenter");
+		}
 	}
 
 	// Add coinGold as points
@@ -110,6 +114,7 @@ function afterCreate(this: Game): void {
 
 	// Add a sample trap
 	this.staticTraps.create(1080, 433, "spikes").setScale(0.5);
+	this.staticTraps.create(385, 650, "spikes").setScale(0.5);
 
 	// Set random bounce on points
 	Game.setRandomBounce.call(this, this.points);

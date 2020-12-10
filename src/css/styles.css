@@ -175,6 +175,10 @@ body {
 	justify-content: center;
 }
 
+.quizStatusBadgeBox {
+	font-size: x-large;
+}
+
 /*
  The height of gameDestination sets the maximum height of the game frame
  and therefore must be the height of the game (currently 600)!

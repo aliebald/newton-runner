@@ -15,19 +15,19 @@ export function equal(array1: Array<boolean>, array2: Array<boolean>): boolean {
 }
 export class QuestionStatus {
 	static Correct = (
-		<h4>
+		<div className="quizStatusBadgeBox">
 			<Badge variant="success">Korrekt</Badge>
-		</h4>
+		</div>
 	);
 	static Wrong = (
-		<h4>
+		<div className="quizStatusBadgeBox">
 			<Badge variant="danger">Falsch</Badge>
-		</h4>
+		</div>
 	);
 	static Unsolved = (
-		<h4>
+		<div className="quizStatusBadgeBox">
 			<Badge variant="info">Ungelöst</Badge>
-		</h4>
+		</div>
 	);
 }
 

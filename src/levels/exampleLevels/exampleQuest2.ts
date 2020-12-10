@@ -14,8 +14,8 @@ const graph: GraphInputConfig = {
 	xTitle: "time in s",
 	yTitle: "velocity in m/s",
 	minY: 0,
-	maxY: 100,
-	data: convertDataArray([50, 50, 50, 50, 50, 50, 50, 50, 50])
+	maxY: 5,
+	data: convertDataArray([2, 2, 0, 0, 0, 0, 0])
 };
 
 const width = 1200;

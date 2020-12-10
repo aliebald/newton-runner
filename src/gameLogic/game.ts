@@ -559,8 +559,8 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 	} else {
 		const progress = timeDiff / 1000;
 		speed = inputData[index].y + progress * (inputData[index + 1].y - inputData[index].y);
-		// speed = (1 - progress) * inputData[index].y + inputData[index + 1].y * progress;
 	}
+	speed *= 30;
 
 	console.log("inputData[" + index + "] = " + inputData[index].y);
 

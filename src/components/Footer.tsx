@@ -19,7 +19,7 @@ export default function Footer(): ReactElement {
 					Feedback
 				</Link>
 				<Link to="/" className="footerLink">
-					Impressum
+					Team
 				</Link>
 				<Link to="/" className="footerLink">
 					Kontakt

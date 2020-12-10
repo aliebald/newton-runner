@@ -159,8 +159,20 @@ body {
 	color: white;
 }
 
-.quizBox {
+.questionBox {
 	margin: 2rem;
+	justify-content: center;
+}
+
+.questionCard {
+	min-width: 80%;
+	max-width: 80%;
+}
+
+.quizPageTextBox {
+	min-width: 80%;
+	max-width: 80%;
+	justify-content: center;
 }
 
 /*

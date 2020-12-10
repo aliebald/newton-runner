@@ -43,7 +43,7 @@ export function BooleanQuestion(props: { config: StatementConfig; idx: number })
 		setSelected(old);
 	}
 	return (
-		<Card style={{ width: "40rem" }} key={props.idx.toString()}>
+		<Card className="questionBox" key={props.idx.toString()}>
 			{getOptionalImageElement(props.config.imgPath)}
 			<Card.Body>
 				<Card.Text className="text-left">{props.config.text}</Card.Text>

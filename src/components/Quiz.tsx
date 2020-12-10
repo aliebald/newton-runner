@@ -10,27 +10,18 @@ export interface QuizConfig {
 }
 
 export function Quiz(props: { config: QuizConfig }): ReactElement {
-	function center(element: ReactElement, idx: number): ReactElement {
-		return (
-			<Row className="d-flex justify-content-center quizBox" key={idx.toString()}>
-				{element}
-			</Row>
-		);
-	}
 	return (
 		<Container>
 			<Row className="justify-content-center">
-				<h1>{props.config.title}</h1>
-			</Row>
-			<Row className="justify-content-center">
-				<p className="text-left">{props.config.text}</p>
+				<div className="quizPageTextBox">
+					<h1>{props.config.title}</h1>
+					<p className="text-left">{props.config.text}</p>
+				</div>
 			</Row>
 			<Row>
-				<Col>
-					{props.config.questions
-						.map((e, idx) => Question({ config: e, idx: idx }))
-						.map((e, idx) => center(e, idx))}
-				</Col>
+				<div className="questionBox">
+					{props.config.questions.map((e, idx) => Question({ config: e, idx: idx }))}
+				</div>
 			</Row>
 		</Container>
 	);

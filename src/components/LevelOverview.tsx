@@ -64,31 +64,27 @@ export default function LevelOverview(): ReactElement {
 	return (
 		<Container fluid>
 			<Tab.Container defaultActiveKey="tutorial">
-				<Nav justify variant="pills">
-					<Nav.Item>
-						<Nav.Link eventKey="tutorial">Tutorial</Nav.Link>
-					</Nav.Item>
-					<Nav.Item>
-						<Nav.Link eventKey="exampleLevel">Example Level</Nav.Link>
-					</Nav.Item>
-					<Nav.Item>
-						<Nav.Link eventKey="level1">Level 1</Nav.Link>
-					</Nav.Item>
-					<Nav.Item>
-						<Nav.Link eventKey="disabled" disabled>
-							Disabled
-						</Nav.Link>
-					</Nav.Item>
-					<Nav.Item>
-						<Nav.Link eventKey="disabled" disabled>
-							Disabled
-						</Nav.Link>
-					</Nav.Item>
+				<Nav justify className="overviewTab" variant="pills">
+					<Nav.Link eventKey="tutorial" className="justify-content-center">
+						<Nav.Item className="col-8">Tutorial</Nav.Item>
+					</Nav.Link>
+					<Nav.Link eventKey="exampleLevel" className="justify-content-center">
+						<Nav.Item className="col-8">Example Level</Nav.Item>
+					</Nav.Link>
+					<Nav.Link eventKey="level1" className="justify-content-center">
+						<Nav.Item className="col-8">Level 1</Nav.Item>
+					</Nav.Link>
+					<Nav.Link eventKey="disabled" disabled className="justify-content-center">
+						<Nav.Item className="col-8">Disabled</Nav.Item>
+					</Nav.Link>
+					<Nav.Link eventKey="disabled" disabled className="justify-content-center">
+						<Nav.Item className="col-8">Disabled</Nav.Item>
+					</Nav.Link>
 				</Nav>
 				<Tab.Content>
 					<Tab.Pane eventKey="tutorial">
 						<Card>
-							<Card.Body>
+							<Card.Body className="justify-content-center">
 								<h1>Tutorial</h1>
 								<p>Hier gibt es spannenden stuff zu lernen</p>
 								<LevelOverviewBar config={barConfigTutorial}></LevelOverviewBar>
@@ -97,7 +93,7 @@ export default function LevelOverview(): ReactElement {
 					</Tab.Pane>
 					<Tab.Pane eventKey="exampleLevel">
 						<Card>
-							<Card.Body>
+							<Card.Body className="justify-content-center">
 								<h1>Example Level</h1>
 								<p>Ein paar Beispiele für Level</p>
 								<LevelOverviewBar config={barConfigExample}></LevelOverviewBar>

@@ -1,14 +1,12 @@
 import React, { ReactElement } from "react";
-import { Button, Row, Card, Badge, CardGroup } from "react-bootstrap";
+import { Button, Row, Card, Badge, CardGroup, CardDeck, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export function LevelOverviewBar(props: { config: LevelOverviewCardConfig[] }): ReactElement {
 	return (
-		<Row className="justify-content-center rowCardOverview">
-			<CardGroup>
-				{props.config.map((e, idx) => LevelOverviewCard({ config: e, idx: idx }))}
-			</CardGroup>
-		</Row>
+		<CardDeck className="justify-content-center">
+			{props.config.map((e, idx) => LevelOverviewCard({ config: e, idx: idx }))}
+		</CardDeck>
 	);
 }
 
@@ -42,10 +40,11 @@ export function LevelOverviewCard(props: {
 	idx: number;
 }): ReactElement {
 	return (
-		<Card key={props.idx.toString()}>
+		<Card className="overviewCard" key={props.idx.toString()}>
 			<Card.Body>
 				<Card.Title>{props.config.title}</Card.Title>
 				<Card.Subtitle>{getCode(props.config.badge)}</Card.Subtitle>
+				<br />
 				<Card.Text>{props.config.text}</Card.Text>
 			</Card.Body>
 			<Card.Footer>

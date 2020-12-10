@@ -139,9 +139,17 @@ body {
 	color: var(--tertiaryColor);
 }
 
-.rowCardOverview {
+.overviewCard {
+	min-width: 15rem;
+	max-width: 15rem;
+	min-height: 20rem;
+	max-height: 20rem;
 	margin-top: 30px;
 	margin-bottom: 30px;
+}
+
+.overviewTab {
+	background-color: white;
 }
 
 .badgeTheory {

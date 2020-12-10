@@ -3,6 +3,8 @@ import { GameConfig, controlType, character } from "./GameConfig";
 
 let settings: GameConfig;
 let inputData: { y: number }[];
+// inputDataCopy is a copy of inputData when the game started
+let inputDataCopy: { y: number }[];
 
 // moveCamRight & moveCamLeft are true if the move camera buttons are clicked
 let moveCamRight: boolean;
@@ -542,11 +544,12 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 		timeStamp = time;
 
 		// end the game if all datapoints are processed
-		if (index >= inputData.length) {
+		if (index >= inputDataCopy.length) {
 			this.player.setVelocityX(0);
 			this.player.anims.play("idle", true);
 
-			endGame.call(this); // TODO: Win or lose?
+			// End the game by calling the function passed in from GameComponent
+			endGame.call(this);
 			this.gameRunning = false;
 
 			return;
@@ -554,15 +557,17 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 	}
 
 	let speed;
-	if (index + 1 >= inputData.length || !interpolate) {
-		speed = inputData[index].y;
+	if (index + 1 >= inputDataCopy.length || !interpolate) {
+		speed = inputDataCopy[index].y;
 	} else {
 		const progress = timeDiff / 1000;
-		speed = inputData[index].y + progress * (inputData[index + 1].y - inputData[index].y);
+		speed =
+			inputDataCopy[index].y +
+			progress * (inputDataCopy[index + 1].y - inputDataCopy[index].y);
 	}
 	speed *= 30;
 
-	console.log("inputData[" + index + "] = " + inputData[index].y);
+	console.log("inputDataCopy[" + index + "] = " + inputDataCopy[index].y);
 
 	// Set velocity of player
 	this.player.setVelocityX(speed);
@@ -632,6 +637,12 @@ const startGame = function startGame(this: Game) {
 
 	// Stop cameraRide
 	cameraRide = false;
+
+	// Clone the array and the objects within
+	inputDataCopy = [];
+	for (let i = 0; i < inputData.length; i++) {
+		inputDataCopy.push({ y: inputData[i].y });
+	}
 
 	// Start game
 	this.gameRunning = true;

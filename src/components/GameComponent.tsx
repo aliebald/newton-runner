@@ -21,6 +21,8 @@ export default class GameComponent extends React.Component<
 		title: string;
 		text: string;
 		redirect: string | null;
+		nextBtnCSS: "none" | "inline-block";
+		retryBtnVariant: "primary" | "outline-primary";
 	}
 > {
 	constructor(props: {
@@ -42,7 +44,9 @@ export default class GameComponent extends React.Component<
 				title: "Aufgabe bereits geschafft",
 				text:
 					"Sieht so aus als hättest du diese Aufgabe bereits geschafft. Willst du sie trotzdem nochmal versuchen?",
-				redirect: null
+				redirect: null,
+				nextBtnCSS: "inline-block",
+				retryBtnVariant: "outline-primary"
 			};
 		} else {
 			this.state = {
@@ -50,7 +54,9 @@ export default class GameComponent extends React.Component<
 				restart: undefined,
 				title: "",
 				text: "",
-				redirect: null
+				redirect: null,
+				nextBtnCSS: "none",
+				retryBtnVariant: "outline-primary"
 			};
 		}
 	}
@@ -62,6 +68,8 @@ export default class GameComponent extends React.Component<
 		if (trap) {
 			this.setState({
 				showModal: true,
+				nextBtnCSS: "none",
+				retryBtnVariant: "primary",
 				title: "Aufgabe fehlgeschlagen",
 				text:
 					"Pass auf, du bist in eine Falle getreten! Versuch das nächste mal nicht mit der Falle in berührung zu kommen."
@@ -74,6 +82,8 @@ export default class GameComponent extends React.Component<
 			console.log("Won");
 			this.setState({
 				showModal: true,
+				nextBtnCSS: "inline-block",
+				retryBtnVariant: "outline-primary",
 				title: "Aufgabe erfolgreich abgeschlossen",
 				text:
 					"Gratuliere, du hast die Aufgabe erfolgreich mit " +
@@ -84,6 +94,8 @@ export default class GameComponent extends React.Component<
 			console.log("Lost");
 			this.setState({
 				showModal: true,
+				nextBtnCSS: "none",
+				retryBtnVariant: "primary",
 				title: "Aufgabe fehlgeschlagen",
 				text: "Schade, vielleicht klappt es ja beim nächsten Versuch"
 			});
@@ -98,6 +110,8 @@ export default class GameComponent extends React.Component<
 			achievedPoints: score,
 			possiblePoints: 0 //TODO
 		});
+
+		console.log("btn: " + this.state.nextBtnCSS);
 	};
 
 	/**
@@ -148,13 +162,17 @@ export default class GameComponent extends React.Component<
 					<Modal.Body>{this.state.text}</Modal.Body>
 					<Modal.Footer>
 						<Button
-							variant="secondary"
+							variant={this.state.retryBtnVariant}
 							id="restartGameBtnModal"
 							onClick={this.handleRestart}
 						>
 							Nochmal versuchen
 						</Button>
-						<Button variant="primary" onClick={this.handleNext}>
+						<Button
+							style={{ display: this.state.nextBtnCSS }}
+							variant="primary"
+							onClick={this.handleNext}
+						>
 							N&auml;chste Aufgabe
 						</Button>
 					</Modal.Footer>

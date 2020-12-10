@@ -36,6 +36,26 @@
 	color: var(--navText);
 }
 
+.btn-primary {
+	background-color: var(--secondaryColor) !important;
+	border-color: var(--secondaryColor) !important;
+}
+
+.btn-primary:hover {
+	background-color: var(--tertiaryColor) !important;
+}
+
+.btn-outline-primary {
+	color: var(--secondaryColor);
+	border-color: var(--secondaryColor);
+}
+
+.btn-outline-primary:hover {
+	color: white;
+	border-color: var(--tertiaryColor);
+	background-color: var(--tertiaryColor);
+}
+
 /*****************
 	Custom CSS
 ******************/
@@ -51,15 +71,6 @@ nav {
 
 body {
 	background-color: var(--primaryColor) !important;
-}
-
-.btn-primary {
-	background-color: var(--secondaryColor) !important;
-	border-color: var(--secondaryColor) !important;
-}
-
-.btn-primary:hover {
-	background-color: var(--tertiaryColor) !important;
 }
 
 .title {

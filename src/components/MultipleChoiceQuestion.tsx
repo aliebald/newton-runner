@@ -1,39 +1,37 @@
 import React, { ReactElement, useState } from "react";
-import { Button, Card, Col, Form, FormCheck, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import {
 	equal,
-	getOptionalImageElement,
-	getQuestionStatusElement
+	getOptionalImageHeader,
+	QuestionStatus,
+	getCorrectAnswerVector,
+	getEmptyAnswerVector,
+	getAnswerBoxes
 } from "../questionLogic/questionUtility";
-import { StatementConfig } from "./BooleanQuestion";
-import { QuestionStatus } from "./Question";
 
 export interface MultipleChoiceConfig {
-	kind: "MultipleChoice";
+	kind: "MultipleChoice" | "SingleChoice";
 	text: string;
 	statements: Array<StatementConfig>;
 	imgPath?: string;
 }
 
+export interface StatementConfig {
+	kind: "Statement";
+	text: string;
+	isTrue: boolean;
+	imgPath?: string;
+}
+
 export function MultipleChoiceQuestion(props: {
-	config: MultipleChoiceConfig;
+	config: MultipleChoiceConfig | StatementConfig;
 	idx: number;
 }): ReactElement {
-	const [status, setStatus] = useState("Unsolved" as QuestionStatus);
-	const [correctValues, setCorrectValues] = useState(
-		props.config.statements.map((s) => s.isTrue)
-	);
-	const [selected, setSelected] = useState(props.config.statements.map((s) => false));
-
-	function check(): void {
-		if (status == "Unsolved") {
-			if (equal(selected, correctValues)) {
-				setStatus("Correct");
-			} else {
-				setStatus("Wrong");
-			}
-		}
-	}
+	const [status, setStatus] = useState(QuestionStatus.Unsolved);
+	const [correctValues] = useState(getCorrectAnswerVector(props.config));
+	const [selected, setSelected] = useState(getEmptyAnswerVector(props.config));
+	const [answerBoxes] = useState(getAnswerBoxes(props.config, props.idx, select));
+	const [image] = useState(getOptionalImageHeader(props.config.imgPath));
 
 	function select(idx: number) {
 		const old = selected.slice();
@@ -41,38 +39,23 @@ export function MultipleChoiceQuestion(props: {
 		setSelected(old);
 	}
 
-	function getCheckboxes(): ReactElement {
-		return (
-			<Form>
-				<div key="default-radio" className="mb-3">
-					{props.config.statements.map((e, idx) => mapStatementToButton(e, idx))}
-				</div>
-			</Form>
-		);
-	}
-
-	function mapStatementToButton(elementConfig: StatementConfig, idx: number): ReactElement {
-		return (
-			<FormCheck
-				type="checkbox"
-				id={props.idx.toString() + "-mc-" + idx.toString()}
-				label={elementConfig.text}
-				name="mcCheckbox"
-				onChange={() => select(idx)}
-			/>
-		);
+	function check(): void {
+		if (status === QuestionStatus.Unsolved) {
+			if (equal(selected, correctValues)) {
+				setStatus(QuestionStatus.Correct);
+			} else {
+				setStatus(QuestionStatus.Wrong);
+			}
+		}
 	}
 
 	return (
 		<Card className="questionBox" key={props.idx.toString()}>
-			{getOptionalImageElement(props.config.imgPath)}
+			{image}
 			<Card.Body>
 				<Card.Text className="text-left">{props.config.text}</Card.Text>
 				<br />
-				<Card.Subtitle className="mb-2 text-muted">
-					Es können beliebig viele Antworten richtig sein.
-				</Card.Subtitle>
-				<fieldset>{getCheckboxes()}</fieldset>
+				<fieldset>{answerBoxes}</fieldset>
 			</Card.Body>
 			<Card.Footer>
 				<Row>
@@ -82,7 +65,7 @@ export function MultipleChoiceQuestion(props: {
 							Lösen
 						</Button>
 					</Col>
-					<Col>{getQuestionStatusElement(status)}</Col>
+					<Col>{status}</Col>
 				</Row>
 			</Card.Footer>
 		</Card>

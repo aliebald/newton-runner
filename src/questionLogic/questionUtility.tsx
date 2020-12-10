@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactElement } from "react";
-import { Badge, Card, Image } from "react-bootstrap";
-import { QuestionStatus } from "../components/Question";
+import { Badge, Card, Form, FormCheck, Image } from "react-bootstrap";
+import { MultipleChoiceConfig, StatementConfig } from "../components/MultipleChoiceQuestion";
 
 export function equal(array1: Array<boolean>, array2: Array<boolean>): boolean {
 	if (array1.length == array2.length) {
@@ -13,31 +13,25 @@ export function equal(array1: Array<boolean>, array2: Array<boolean>): boolean {
 		return true;
 	} else return false;
 }
-
-export function getQuestionStatusElement(status: QuestionStatus): ReactElement {
-	switch (status) {
-		case "Correct":
-			return (
-				<h4>
-					<Badge variant="success">Korrekt</Badge>
-				</h4>
-			);
-		case "Wrong":
-			return (
-				<h4>
-					<Badge variant="danger">Falsch</Badge>
-				</h4>
-			);
-		default:
-			return (
-				<h4>
-					<Badge variant="info">Ungelöst</Badge>
-				</h4>
-			);
-	}
+export class QuestionStatus {
+	static Correct = (
+		<h4>
+			<Badge variant="success">Korrekt</Badge>
+		</h4>
+	);
+	static Wrong = (
+		<h4>
+			<Badge variant="danger">Falsch</Badge>
+		</h4>
+	);
+	static Unsolved = (
+		<h4>
+			<Badge variant="info">Ungelöst</Badge>
+		</h4>
+	);
 }
 
-export function getOptionalImageElement(path: string | undefined): ReactElement {
+export function getOptionalImageHeader(path: string | undefined): ReactElement {
 	if (path === undefined) {
 		return <></>;
 	} else {
@@ -47,4 +41,151 @@ export function getOptionalImageElement(path: string | undefined): ReactElement 
 			</Card.Header>
 		);
 	}
+}
+
+export function getCorrectAnswerVector(
+	config: MultipleChoiceConfig | StatementConfig
+): Array<boolean> {
+	switch (config.kind) {
+		case "MultipleChoice":
+			return config.statements.map((s) => s.isTrue);
+		case "SingleChoice":
+			return config.statements.map((s) => s.isTrue);
+		case "Statement":
+			return [config.isTrue, !config.isTrue];
+	}
+}
+
+export function getEmptyAnswerVector(
+	config: MultipleChoiceConfig | StatementConfig
+): Array<boolean> {
+	switch (config.kind) {
+		case "MultipleChoice":
+			return config.statements.map((_) => false);
+		case "SingleChoice":
+			return config.statements.map((_) => false);
+		case "Statement":
+			return [false, false];
+	}
+}
+
+export function getAnswerBoxes(
+	config: MultipleChoiceConfig | StatementConfig,
+	questionIdx: number,
+	onSelect: (buttonNumber: number) => void
+): ReactElement {
+	switch (config.kind) {
+		case "MultipleChoice":
+			return getCheckboxes(config, questionIdx, onSelect);
+		case "SingleChoice":
+			return getRadioButtons(config, questionIdx, onSelect);
+		case "Statement":
+			return getBooleanRadioButtons(questionIdx, onSelect);
+	}
+}
+
+function getCheckboxes(
+	config: MultipleChoiceConfig,
+	questionIdx: number,
+	onSelect: (buttonNumber: number) => void
+): ReactElement {
+	return (
+		<>
+			<Card.Subtitle className="mb-2 text-muted">
+				Es können beliebig viele Antworten richtig sein.
+			</Card.Subtitle>
+			<Form>
+				<div key="default-radio" className="mb-3">
+					{config.statements.map((e, idx) =>
+						mapStatementToCheckbox(e, questionIdx, idx, onSelect)
+					)}
+				</div>
+			</Form>
+		</>
+	);
+}
+
+function mapStatementToCheckbox(
+	elementConfig: StatementConfig,
+	questionIdx: number,
+	answerIdx: number,
+	onSelect: (buttonNumber: number) => void
+): ReactElement {
+	return (
+		<FormCheck
+			type="checkbox"
+			id={questionIdx.toString() + "-mc-" + answerIdx.toString()}
+			label={elementConfig.text}
+			name="mcCheckbox"
+			onChange={() => onSelect(answerIdx)}
+		/>
+	);
+}
+
+function getRadioButtons(
+	config: MultipleChoiceConfig,
+	questionIdx: number,
+	onSelect: (buttonNumber: number) => void
+): ReactElement {
+	return (
+		<>
+			<Card.Subtitle className="mb-2 text-muted">
+				Es ist genau eine Antwort richtig.
+			</Card.Subtitle>
+			<Form>
+				<div key="default-radio" className="mb-3">
+					<fieldset>
+						{config.statements.map((e, idx) =>
+							mapStatementToButton(e, questionIdx, idx, onSelect)
+						)}
+					</fieldset>
+				</div>
+			</Form>
+		</>
+	);
+}
+
+function mapStatementToButton(
+	elementConfig: StatementConfig,
+	questionIdx: number,
+	answerIdx: number,
+	onSelect: (buttonNumber: number) => void
+): ReactElement {
+	return (
+		<FormCheck
+			type="radio"
+			id={questionIdx.toString() + "-sc-" + answerIdx.toString()}
+			label={elementConfig.text}
+			name="scRadioButton"
+			onChange={() => onSelect(answerIdx)}
+		/>
+	);
+}
+
+function getBooleanRadioButtons(
+	questionIdx: number,
+	onSelect: (buttonNumber: number) => void
+): ReactElement {
+	return (
+		<Form>
+			<div key="default-radio" className="mb-3">
+				<fieldset>
+					<FormCheck
+						type="radio"
+						id={questionIdx.toString() + "-bool-true"}
+						label="Wahr"
+						name="trueFalseRadios"
+						onChange={() => onSelect(0)}
+					/>
+					<FormCheck
+						type="radio"
+						id={questionIdx.toString() + "-bool-false"}
+						label="Falsch"
+						name="trueFalseRadios"
+						onChange={() => onSelect(1)}
+					/>
+				</fieldset>
+			</div>
+		</Form>
+	);
 }

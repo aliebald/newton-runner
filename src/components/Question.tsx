@@ -1,18 +1,20 @@
 import React, { ReactElement } from "react";
-import { StatementConfig, BooleanQuestion } from "./BooleanQuestion";
-import { MultipleChoiceConfig, MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
-import { SingleChoiceQuestion, SingleChoiceConfig } from "./SingleChoiceQuestion";
+import {
+	MultipleChoiceConfig,
+	MultipleChoiceQuestion,
+	StatementConfig
+} from "./MultipleChoiceQuestion";
 
 export type QuestionStatus = "Unsolved" | "Correct" | "Wrong";
 
-export type QuestionConfig = SingleChoiceConfig | MultipleChoiceConfig | StatementConfig;
+export type QuestionConfig = MultipleChoiceConfig | StatementConfig;
 
 export function Question(props: { config: QuestionConfig; idx: number }): ReactElement {
 	function getQuestionCode(): ReactElement {
 		switch (props.config.kind) {
 			case "SingleChoice":
-				return SingleChoiceQuestion({
-					config: props.config as SingleChoiceConfig,
+				return MultipleChoiceQuestion({
+					config: props.config as MultipleChoiceConfig,
 					idx: props.idx
 				});
 			case "MultipleChoice":
@@ -21,9 +23,10 @@ export function Question(props: { config: QuestionConfig; idx: number }): ReactE
 					idx: props.idx
 				});
 			case "Statement":
-				return BooleanQuestion({ config: props.config as StatementConfig, idx: props.idx });
-			default:
-				return <></>;
+				return MultipleChoiceQuestion({
+					config: props.config as StatementConfig,
+					idx: props.idx
+				});
 		}
 	}
 

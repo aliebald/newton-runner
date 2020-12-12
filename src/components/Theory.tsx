@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Card, Carousel, Container, Image } from "react-bootstrap";
+import { Card, Carousel, Col, Container, Image } from "react-bootstrap";
 
 export interface SlideConfig {
 	imgPath?: string;
@@ -11,15 +11,9 @@ export function Slide(props: { config: SlideConfig; idx: number }): ReactElement
 	const [optionalImage] = useState(getOptionalImage(props.config.imgPath));
 
 	return (
-		<Carousel.Item key={props.idx.toString()}>
-			<Card className="carouselSlideCard justify-content-center">
-				<Card.Body className="d-flex align-items-center justify-content-center">
-					<div className="carouselSlideTextBox">
-						{optionalImage}
-						{optionalCaptionBody}
-					</div>
-				</Card.Body>
-			</Card>
+		<Carousel.Item className="carouselSlide" key={props.idx.toString()}>
+			{optionalImage}
+			{optionalCaptionBody}
 		</Carousel.Item>
 	);
 }
@@ -28,7 +22,11 @@ function getOptionalCaption(text: string | undefined): ReactElement {
 	if (text === undefined) {
 		return <></>;
 	} else {
-		return <p className="p-2">{text}</p>;
+		return (
+			<div className="carouselSlideTextBox">
+				<p className="p-2">{text}</p>
+			</div>
+		);
 	}
 }
 
@@ -36,7 +34,11 @@ function getOptionalImage(path: string | undefined): ReactElement {
 	if (path === undefined) {
 		return <></>;
 	} else {
-		return <Image src={path} fluid rounded />;
+		return (
+			<div className="carouselSlideImageBox">
+				<Image src={path} fluid rounded className="d-block w-100" />
+			</div>
+		);
 	}
 }
 
@@ -46,10 +48,12 @@ export interface TheoryConfig {
 
 export function Theory(props: { config: TheoryConfig }): ReactElement {
 	return (
-		<Container>
-			<Carousel>
-				{props.config.slides.map((c, idx) => Slide({ config: c, idx: idx }))}
-			</Carousel>
+		<Container className="theoryContainer">
+			<Col>
+				<Carousel interval={null}>
+					{props.config.slides.map((c, idx) => Slide({ config: c, idx: idx }))}
+				</Carousel>
+			</Col>
 		</Container>
 	);
 }

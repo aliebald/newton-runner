@@ -195,16 +195,31 @@ body {
 	font-size: x-large;
 }
 
-.carouselSlideCard {
+.carouselSlide {
 	color: black;
-	background-color: grey;
-	height: 42rem;
+	background-color: white;
+	justify-content: center;
+	align-items: center;
+	min-height: 40rem;
 }
 
 .carouselSlideTextBox {
-	background-color: white;
-	width: 80%;
-	padding: 1rem 1rem 1rem 1rem;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem 2rem 2rem 2rem;
+	margin-left: 3rem;
+	margin-right: 3rem;
+}
+
+.carouselSlideImageBox {
+	align-items: center;
+	justify-content: center;
+	padding: 2rem 2rem 2rem 2rem;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+	filter: invert(100%);
 }
 
 /*

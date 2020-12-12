@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Button, Row, Card, Badge, CardGroup, CardDeck, Col } from "react-bootstrap";
+import { Button, Card, Badge, CardDeck } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export function LevelOverviewBar(props: { config: LevelOverviewCardConfig[] }): ReactElement {

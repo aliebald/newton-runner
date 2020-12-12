@@ -194,6 +194,18 @@ body {
 	font-size: x-large;
 }
 
+.carouselSlideCard {
+	color: black;
+	background-color: grey;
+	height: 42rem;
+}
+
+.carouselSlideTextBox {
+	background-color: white;
+	width: 80%;
+	padding: 1rem 1rem 1rem 1rem;
+}
+
 /*
  The height of gameDestination sets the maximum height of the game frame
  and therefore must be the height of the game (currently 600)!

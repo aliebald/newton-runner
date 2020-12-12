@@ -14,6 +14,13 @@ const barConfigTutorial: Array<LevelOverviewCardConfig> = [
 
 const barConfigExample: Array<LevelOverviewCardConfig> = [
 	{
+		title: "Example Theory 1",
+		badge: BadgeType.THEORIE,
+		text: "hier kommt Input",
+		buttonLink: "/ExampleTheory1",
+		buttonName: "Read"
+	},
+	{
 		title: "Example 1",
 		badge: BadgeType.SPIEL,
 		text: "mach mehr Sport.",

@@ -10,9 +10,11 @@ import Footer from "./components/Footer";
 import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
 import exampleQuest2 from "./levels/exampleLevels/exampleQuest2";
 import exampleQuiz1 from "./levels/exampleLevels/exampleQuiz1";
+import exampleTheory1 from "./levels/exampleLevels/exampleTheory1";
 import level1Quest1 from "./levels/level1/level1Quest1";
 import level1Quest2 from "./levels/level1/level1Quest2";
 import { Quiz } from "./components/Quiz";
+import { Theory } from "./components/Theory";
 
 function App(): ReactElement {
 	return (
@@ -40,6 +42,11 @@ function App(): ReactElement {
 						path="/ExampleQuiz1"
 						exact
 						component={() => <Quiz config={exampleQuiz1}></Quiz>}
+					/>
+					<Route
+						path="/ExampleTheory1"
+						exact
+						component={() => <Theory config={exampleTheory1}></Theory>}
 					/>
 					<Route
 						path="/level1Quest1"

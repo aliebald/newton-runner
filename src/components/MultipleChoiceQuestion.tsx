@@ -56,12 +56,12 @@ export function MultipleChoiceQuestion(props: {
 		<Card className="questionBox" key={props.idx.toString()}>
 			{image}
 			<Card.Body>
-				<Card.Text className="text-left">{props.config.text}</Card.Text>
+				<Card.Text>{props.config.text}</Card.Text>
 				<br />
-				<fieldset>{answerBoxes}</fieldset>
+				<fieldset className="text-center">{answerBoxes}</fieldset>
 			</Card.Body>
 			<Card.Footer>
-				<Row>
+				<Row className="text-center">
 					<Col></Col>
 					<Col>{solveButton}</Col>
 					<Col>{status}</Col>

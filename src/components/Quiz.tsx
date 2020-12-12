@@ -14,8 +14,8 @@ export function Quiz(props: { config: QuizConfig }): ReactElement {
 		<Container>
 			<Col>
 				<div className="quizPageTextBox">
-					<h1>{props.config.title}</h1>
-					<p className="text-left">{props.config.text}</p>
+					<h1 className="text-center">{props.config.title}</h1>
+					<p>{props.config.text}</p>
 				</div>
 				{props.config.questions.map((e, idx) => Question({ config: e, idx: idx }))}
 			</Col>

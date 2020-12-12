@@ -86,8 +86,10 @@ export default function LevelOverview(): ReactElement {
 					<Tab.Pane eventKey="tutorial">
 						<Card>
 							<Card.Body className="justify-content-center">
-								<h1>Tutorial</h1>
-								<p>Hier gibt es spannenden stuff zu lernen</p>
+								<h1 className="text-center">Tutorial</h1>
+								<p className="text-center">
+									Hier gibt es spannenden stuff zu lernen
+								</p>
 								<LevelOverviewBar config={barConfigTutorial}></LevelOverviewBar>
 							</Card.Body>
 						</Card>
@@ -95,8 +97,8 @@ export default function LevelOverview(): ReactElement {
 					<Tab.Pane eventKey="exampleLevel">
 						<Card>
 							<Card.Body className="justify-content-center">
-								<h1>Example Level</h1>
-								<p>Ein paar Beispiele für Level</p>
+								<h1 className="text-center">Example Level</h1>
+								<p className="text-center">Ein paar Beispiele für Level</p>
 								<LevelOverviewBar config={barConfigExample}></LevelOverviewBar>
 							</Card.Body>
 						</Card>
@@ -104,8 +106,10 @@ export default function LevelOverview(): ReactElement {
 					<Tab.Pane eventKey="level1">
 						<Card>
 							<Card.Body>
-								<h1>tv-Diagramm</h1>
-								<p>Nein, tv soll hier nicht television heißen.</p>
+								<h1 className="text-center">tv-Diagramm</h1>
+								<p className="text-center">
+									Nein, tv soll hier nicht television heißen.
+								</p>
 								<LevelOverviewBar config={barConfig1}></LevelOverviewBar>
 							</Card.Body>
 						</Card>

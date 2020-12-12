@@ -20,51 +20,47 @@ function App(): ReactElement {
 	return (
 		<BrowserRouter>
 			<Navigation />
-			<div className="text-center">
-				<Switch>
-					<Route path="/" exact component={LandingPage} />
-					<Route path="/LevelOverview" exact component={LevelOverview} />
-					<Route
-						path="/ExampleQuest1"
-						exact
-						component={() => (
-							<Quest config={exampleQuest1} nextPage="/ExampleQuest2"></Quest>
-						)}
-					/>
-					<Route
-						path="/ExampleQuest2"
-						exact
-						component={() => (
-							<Quest config={exampleQuest2} nextPage="/ExampleQuiz1"></Quest>
-						)}
-					/>
-					<Route
-						path="/ExampleQuiz1"
-						exact
-						component={() => <Quiz config={exampleQuiz1}></Quiz>}
-					/>
-					<Route
-						path="/ExampleTheory1"
-						exact
-						component={() => <Theory config={exampleTheory1}></Theory>}
-					/>
-					<Route
-						path="/level1Quest1"
-						exact
-						component={() => (
-							<Quest config={level1Quest1} nextPage="/level1Quest2"></Quest>
-						)}
-					/>
-					<Route
-						path="/level1Quest2"
-						exact
-						component={() => (
-							<Quest config={level1Quest2} nextPage="/ExampleQuest1"></Quest>
-						)}
-					/>
-					<Route path="/Tutorial" exact component={Tutorial} />
-				</Switch>
-			</div>
+			<Switch>
+				<Route path="/" exact component={LandingPage} />
+				<Route path="/LevelOverview" exact component={LevelOverview} />
+				<Route
+					path="/ExampleQuest1"
+					exact
+					component={() => (
+						<Quest config={exampleQuest1} nextPage="/ExampleQuest2"></Quest>
+					)}
+				/>
+				<Route
+					path="/ExampleQuest2"
+					exact
+					component={() => (
+						<Quest config={exampleQuest2} nextPage="/ExampleQuiz1"></Quest>
+					)}
+				/>
+				<Route
+					path="/ExampleQuiz1"
+					exact
+					component={() => <Quiz config={exampleQuiz1}></Quiz>}
+				/>
+				<Route
+					path="/ExampleTheory1"
+					exact
+					component={() => <Theory config={exampleTheory1}></Theory>}
+				/>
+				<Route
+					path="/level1Quest1"
+					exact
+					component={() => <Quest config={level1Quest1} nextPage="/level1Quest2"></Quest>}
+				/>
+				<Route
+					path="/level1Quest2"
+					exact
+					component={() => (
+						<Quest config={level1Quest2} nextPage="/ExampleQuest1"></Quest>
+					)}
+				/>
+				<Route path="/Tutorial" exact component={Tutorial} />
+			</Switch>
 			<Footer />
 		</BrowserRouter>
 	);

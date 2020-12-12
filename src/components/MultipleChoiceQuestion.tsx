@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
+import { getSolveButton } from "../questionLogic/questionUtility";
 import {
 	equal,
 	getOptionalImageHeader,
@@ -32,6 +33,7 @@ export function MultipleChoiceQuestion(props: {
 	const [selected, setSelected] = useState(getEmptyAnswerVector(props.config));
 	const [answerBoxes] = useState(getAnswerBoxes(props.config, props.idx, select));
 	const [image] = useState(getOptionalImageHeader(props.config.imgPath));
+	const [solveButton, setSolveButton] = useState(getSolveButton(check));
 
 	function select(idx: number) {
 		const old = selected.slice();
@@ -46,6 +48,7 @@ export function MultipleChoiceQuestion(props: {
 			} else {
 				setStatus(QuestionStatus.Wrong);
 			}
+			setSolveButton(getSolveButton(check, false));
 		}
 	}
 
@@ -60,11 +63,7 @@ export function MultipleChoiceQuestion(props: {
 			<Card.Footer>
 				<Row>
 					<Col></Col>
-					<Col>
-						<Button variant="success" onClick={() => check()}>
-							Lösen
-						</Button>
-					</Col>
+					<Col>{solveButton}</Col>
 					<Col>{status}</Col>
 				</Row>
 			</Card.Footer>

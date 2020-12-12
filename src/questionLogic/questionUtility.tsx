@@ -1,6 +1,6 @@
 import React from "react";
 import { ReactElement } from "react";
-import { Badge, Card, Form, FormCheck, Image } from "react-bootstrap";
+import { Badge, Button, Card, Form, FormCheck, Image } from "react-bootstrap";
 import { MultipleChoiceConfig, StatementConfig } from "../components/MultipleChoiceQuestion";
 
 export function equal(array1: Array<boolean>, array2: Array<boolean>): boolean {
@@ -187,5 +187,13 @@ function getBooleanRadioButtons(
 				</fieldset>
 			</div>
 		</Form>
+	);
+}
+
+export function getSolveButton(onClickFkt: () => void, isEnabled = true): ReactElement {
+	return (
+		<Button variant="success" disabled={!isEnabled} onClick={onClickFkt}>
+			Lösen
+		</Button>
 	);
 }

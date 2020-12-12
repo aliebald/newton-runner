@@ -211,10 +211,10 @@ export default class Game extends Phaser.Scene {
 				0
 			);
 		} else {
-			this.player = this.physics.add.sprite(100, 450, "characterWalk", 0);
+			this.player = this.physics.add.sprite(100, 450, "WalkAdjusted", 0);
 		}
 		this.player.setBounce(0.15);
-		this.player.setScale(2.7);
+		// this.player.setScale(2.7);
 		this.player.setCollideWorldBounds(true);
 		this.physics.add.collider(this.player, this.platforms);
 
@@ -436,14 +436,14 @@ const cameraRideFunc = function cameraRideFunc(this: Game) {
 const loadCharacter = function loadCharacter(this: Game) {
 	// TODO select correct character using the character enum in settings (as soon as we have more than one character)
 
-	this.load.spritesheet("characterIdle", "assets/character/Idle.png", {
-		frameWidth: 32,
-		frameHeight: 32
+	this.load.spritesheet("characterIdle", "assets/character/IdleAdjusted.png", {
+		frameWidth: 64,
+		frameHeight: 100
 	}); // 6 frames
 
-	this.load.spritesheet("characterWalk", "assets/character/Walk.png", {
-		frameWidth: 32,
-		frameHeight: 32
+	this.load.spritesheet("characterWalk", "assets/character/WalkAdjusted.png", {
+		frameWidth: 64,
+		frameHeight: 96
 	}); // 8 frames
 };
 
@@ -476,7 +476,7 @@ const loadCharacterAnimations = function loadCharacterAnimations(this: Game) {
 			start: 0,
 			end: 7
 		}),
-		frameRate: 10,
+		frameRate: 8,
 		repeat: -1
 	});
 };

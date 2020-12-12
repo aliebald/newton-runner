@@ -1,5 +1,5 @@
 import React, { ReactElement, RefObject } from "react";
-import Highcharts, { Chart } from "highcharts/highstock";
+import Highcharts, { Chart, SeriesOptionsType } from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import HC_more from "highcharts/highcharts-more";
 HC_more(Highcharts);
@@ -20,56 +20,64 @@ export default class GraphInput extends React.Component<
 	{ cfg: GraphInputConfig },
 	{ options: Highcharts.Options }
 > {
-	internalChart!: Chart;
+	private internalChart!: Chart;
 
-	constructor(props: { cfg: GraphInputConfig }) {
-		super(props);
-
-		this.state = {
-			options: {
-				title: {
-					text: props.cfg.title
-				},
-				yAxis: {
-					title: {
-						text: props.cfg.yTitle
-					},
-					min: props.cfg.minY,
-					max: props.cfg.maxY
-				},
-				xAxis: {
-					title: {
-						text: props.cfg.xTitle
-					}
-				},
-				series: [
-					{
-						type: "line",
-						dragDrop: {
-							draggableY: true,
-							dragPrecisionY: 1,
-							dragMaxY: props.cfg.maxY,
-							dragMinY: props.cfg.minY
-						},
-						showInLegend: false,
-						data: props.cfg.data
-					}
-				]
+	private options: Highcharts.Options = {
+		title: {
+			text: this.props.cfg.title
+		},
+		yAxis: {
+			title: {
+				text: this.props.cfg.yTitle
+			},
+			min: this.props.cfg.minY,
+			max: this.props.cfg.maxY
+		},
+		xAxis: {
+			title: {
+				text: this.props.cfg.xTitle
 			}
-		};
+		},
+		series: [
+			{
+				type: "line",
+				dragDrop: {
+					draggableY: true,
+					dragPrecisionY: 1,
+					dragMaxY: this.props.cfg.maxY,
+					dragMinY: this.props.cfg.minY
+				},
+				showInLegend: false,
+				data: this.props.cfg.data,
+				zoneAxis: "x",
+				zones: [{ value: 0 }, { value: 0, color: "red" }]
+			}
+		]
+	};
+
+	colorGraphUpToX(x: number): void {
+		console.log("Internal Chart", this.internalChart);
+		const series = this.options.series;
+		if (series && series[0]) {
+			// here should be some highcharts type, but it's not avaiable
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			(series[0] as any).zones[1].value = x;
+			this.internalChart.update(this.options);
+		}
 	}
 
 	afterChartCreated(chart: Chart): void {
 		this.internalChart = chart;
+		console.log("afterChartCreated", this.internalChart);
 	}
 
 	render(): ReactElement {
 		return (
 			<HighchartsReact
 				constructorType={"chart"}
-				callback={this.afterChartCreated}
+				callback={this.afterChartCreated.bind(this)}
 				highcharts={Highcharts}
-				options={this.state.options}
+				options={this.options}
 			/>
 		);
 	}

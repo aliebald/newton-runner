@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { GameConfig } from "../gameLogic/GameConfig";
 import GameComponent from "./GameComponent";
@@ -14,15 +14,22 @@ export interface QuestConfig {
 }
 
 export default function Quest(props: { config: QuestConfig; nextPage: string }): ReactElement {
+	const graphInputRef = React.createRef<GraphInput>();
+	const graphInputComponent = (
+		<GraphInput cfg={props.config.graph} ref={graphInputRef}></GraphInput>
+	);
+
+	function setColorUpToX(x: number): void {
+		graphInputRef?.current?.colorGraphUpToX(x);
+	}
+
 	return (
 		<Container fluid>
 			<Row className="mx-auto mt-1 boxWrapper">
 				<Col sm="12" md="6">
 					<h2 className="text-left title">{props.config.title}</h2>
 					<p className="text-left">{props.config.description}</p>
-					<div className="pt-3">
-						<GraphInput cfg={props.config.graph}></GraphInput>
-					</div>
+					<div className="pt-3">{graphInputComponent}</div>
 				</Col>
 				<Col sm="12" md="6">
 					<GameComponent
@@ -30,6 +37,8 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 						title={props.config.title}
 						id={props.config.id}
 						data={props.config.graph.data}
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						setGraphProgress={setColorUpToX}
 						nextPage={props.nextPage}
 					/>
 					<div className="btnWrapper">

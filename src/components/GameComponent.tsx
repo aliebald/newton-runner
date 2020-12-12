@@ -11,6 +11,7 @@ export default class GameComponent extends React.Component<
 	{
 		settings: GameConfig;
 		data: { y: number }[];
+		setGraphProgress: (x: number) => void;
 		title: string;
 		id: string;
 		nextPage: string;
@@ -28,6 +29,7 @@ export default class GameComponent extends React.Component<
 	constructor(props: {
 		settings: GameConfig;
 		data: { y: number }[];
+		setGraphProgress: (x: number) => void;
 		title: string;
 		id: string;
 		nextPage: string;

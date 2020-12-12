@@ -65,20 +65,14 @@ export default function LevelOverview(): ReactElement {
 		<Container fluid>
 			<Tab.Container defaultActiveKey="tutorial">
 				<Nav justify className="overviewTab" variant="pills">
-					<Nav.Link eventKey="tutorial" className="justify-content-center">
-						<Nav.Item className="col-8">Tutorial</Nav.Item>
+					<Nav.Link eventKey="tutorial">Tutorial</Nav.Link>
+					<Nav.Link eventKey="exampleLevel">Example Level</Nav.Link>
+					<Nav.Link eventKey="level1">Level 1</Nav.Link>
+					<Nav.Link eventKey="disabled" disabled>
+						Disabled
 					</Nav.Link>
-					<Nav.Link eventKey="exampleLevel" className="justify-content-center">
-						<Nav.Item className="col-8">Example Level</Nav.Item>
-					</Nav.Link>
-					<Nav.Link eventKey="level1" className="justify-content-center">
-						<Nav.Item className="col-8">Level 1</Nav.Item>
-					</Nav.Link>
-					<Nav.Link eventKey="disabled" disabled className="justify-content-center">
-						<Nav.Item className="col-8">Disabled</Nav.Item>
-					</Nav.Link>
-					<Nav.Link eventKey="disabled" disabled className="justify-content-center">
-						<Nav.Item className="col-8">Disabled</Nav.Item>
+					<Nav.Link eventKey="disabled" disabled>
+						Disabled
 					</Nav.Link>
 				</Nav>
 				<Tab.Content>

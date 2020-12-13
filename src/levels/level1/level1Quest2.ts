@@ -9,8 +9,8 @@ const graph: GraphInputConfig = {
 	xTitle: "time in s",
 	yTitle: "velocity in m/s",
 	minY: 0,
-	maxY: 100,
-	data: convertDataArray([50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50])
+	maxY: 20,
+	data: convertDataArray([5, 5, 5, 5, 5])
 };
 
 const width = 1200;
@@ -24,6 +24,7 @@ const game: GameConfig = {
 	onPreload: onPreload,
 	preCreate: preCreate,
 	afterCreate: afterCreate,
+	onUpdate: onUpdate,
 	controls: controlType.t_v_graph_interpolated,
 	character: character.hiker,
 	characterSpawnXY: {
@@ -37,7 +38,7 @@ const settings: QuestConfig = {
 	title: "Quest 2",
 	id: "level1Quest2",
 	description:
-		"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", // cspell: disable-line
+		"Du hast verzauberte Stiefel bekommen, mit denen du selbst Usain Bolt neidisch machen könntest. Schaffst du es mit genügend Schwung auf die andere Seite und dort bei der Fahne stehen zu bleiben? Probiere es ruhig ein paar mal aus, es ist ungewohnt mit neuen Latschen.", // cspell: disable-line
 	graph: graph,
 	game: game
 };
@@ -50,7 +51,7 @@ function onPreload(this: Phaser.Scene): void {
 	this.load.image("grassMid", "assets/PlatformerAssetsBase/Tiles/grassMid.png");
 	this.load.image("grassCenter", "assets/PlatformerAssetsBase/Tiles/grassCenter.png");
 
-	this.load.image("tower", "assets/PlatformerAssetsBase/Items/tower_beige.png");
+	this.load.image("house_front", "assets/BackgroundElements/house_beige_front.png");
 	this.load.image("mushroom", "assets/PlatformerAssetsBase/Items/mushroomRed.png");
 	this.load.image("grassBush", "assets/PlatformerAssetsBase/Items/grass4.png");
 	this.load.image("signRight", "assets/PlatformerAssetsBase/Tiles/signRight.png");
@@ -59,8 +60,11 @@ function onPreload(this: Phaser.Scene): void {
 	this.load.image("cloud1", "assets/PlatformerAssetsBase/Items/cloud1.png");
 	this.load.image("cloud2", "assets/PlatformerAssetsBase/Items/cloud2.png");
 	this.load.image("cloud3", "assets/PlatformerAssetsBase/Items/cloud3.png");
+	this.load.image("tree_beige", "assets/BackgroundElements/tree01.png");
+	this.load.image("tree_green_1", "assets/BackgroundElements/tree02.png");
+	this.load.image("tree_green_2", "assets/BackgroundElements/tree21.png");
 	this.load.image("coinGold", "assets/PlatformerAssetsBase/Items/coinGold.png");
-	this.load.image("flag", "assets/PlatformerAssetsBase/Items/flagBlue2.png");
+	this.load.image("keyYellow", "assets/PlatformerAssetsBase/Items/keyYellow.png");
 	this.load.image("spikes", "assets/PlatformerAssetsBase/Items/spikes.png");
 }
 
@@ -80,18 +84,23 @@ function preCreate(this: Phaser.Scene): void {
 	this.add.image(730, 110, "cloud2");
 	this.add.image(1030, 90, "cloud3");
 
+	// Add house
+	this.add.image(40, 360, "house_front").setScale(2);
+
 	// Add signRight
 	this.add.image(140, 430, "signRight");
 
-	// Add tower
-	this.add.image(40, 360, "tower");
+	this.add.image(720, 350, "tree_beige");
+	this.add.image(840, 350, "tree_green_1");
+	this.add.image(1000, 350, "tree_green_2");
+	this.add.image(1100, 350, "tree_beige");
+	this.add.image(1200, 350, "tree_green_1");
 
 	this.add.image(160, 450, "grassBush");
-	this.add.image(500, 450, "grassBush");
-	this.add.image(700, 450, "grassBush");
+	this.add.image(700, 450, "grassBush").setScale(-1, 1);
 
-	this.add.image(300, 400, "mushroom");
-	this.add.image(600, 400, "mushroom");
+	this.add.image(740, 430, "mushroom").setScale(0.5);
+	this.add.image(1030, 430, "mushroom").setScale(0.5);
 }
 
 function afterCreate(this: Game): void {
@@ -101,26 +110,32 @@ function afterCreate(this: Game): void {
 	const tileWidth = 70;
 	for (let i = 0; i * tileWidth < width; i++) {
 		//gap at 385
-		if (i != 5) {
+		if (i != 5 && i != 6) {
 			this.platforms.create(35 + tileWidth * i, 500, "grassMid");
 			this.platforms.create(35 + tileWidth * i, 570, "grassCenter");
 		}
 	}
 
 	// Add coinGold as points
-	this.points.create(350, 60, "coinGold");
-	this.points.create(500, 60, "coinGold");
-	this.staticGoals.create(950, 400, "flag");
+	this.points.create(300, 60, "coinGold");
+	this.points.create(540, 60, "coinGold");
+	this.dynamicGoals.create(950, 50, "keyYellow");
 
 	// Add a sample trap
 	this.staticTraps.create(1080, 433, "spikes").setScale(0.5);
-	this.staticTraps.create(385, 650, "spikes").setScale(0.5);
+	this.staticTraps.create(420, 650, "spikes").setScale(0.5);
+
+	this.staticTraps.create(420, 650, "spikes").setScale(0.5);
 
 	// Set random bounce on points
 	Game.setRandomBounce.call(this, this.points);
 
 	// Set random bounce on dynamicGoals
 	Game.setRandomBounce.call(this, this.dynamicGoals);
+}
+
+function onUpdate(this: Game): void {
+	//pass
 }
 
 export default settings;

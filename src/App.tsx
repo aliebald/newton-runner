@@ -18,6 +18,8 @@ import level1Quest2 from "./levels/level1/level1Quest2";
 import level2Quest1 from "./levels/level2/level2Quest1";
 
 function App(): ReactElement {
+	// For deployment to GH Pages:
+	// Change <BrowserRouter> to <HashRouter basename="/">
 	return (
 		<BrowserRouter>
 			<Navigation />

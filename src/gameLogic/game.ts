@@ -54,7 +54,15 @@ export default class Game extends Phaser.Scene {
 		settings = gameSettings;
 		inputData = data;
 		gameEndModal = gameEnded;
+
+		this.variables = new Map();
 	}
+
+	/**
+	 * In this map any used objects, variables or anything else used inside the configs can be saved for later use.
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	public variables: Map<string, any>;
 
 	public player!: Phaser.Physics.Arcade.Sprite;
 	public cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -167,6 +175,7 @@ export default class Game extends Phaser.Scene {
 	}
 
 	create(): void {
+		this.variables = new Map();
 		if (settings.preCreate) {
 			settings.preCreate.call(this);
 		}

@@ -67,6 +67,17 @@ const barConfig1: Array<LevelOverviewCardConfig> = [
 	}
 ];
 
+const barConfig2: Array<LevelOverviewCardConfig> = [
+	{
+		title: "Vorschau",
+		badge: BadgeType.SPIEL,
+		text:
+			"In Level 2 wird der Spieler sich auf eine Stattereise begeben. Schau dir das Setting jetzt schon an!",
+		buttonLink: "/Level2Quest1",
+		buttonName: "Play"
+	}
+];
+
 export default function LevelOverview(): ReactElement {
 	return (
 		<Container fluid>
@@ -75,9 +86,7 @@ export default function LevelOverview(): ReactElement {
 					<Nav.Link eventKey="tutorial">Tutorial</Nav.Link>
 					<Nav.Link eventKey="exampleLevel">Example Level</Nav.Link>
 					<Nav.Link eventKey="level1">Level 1</Nav.Link>
-					<Nav.Link eventKey="disabled" disabled>
-						Disabled
-					</Nav.Link>
+					<Nav.Link eventKey="level2">Level 2</Nav.Link>
 					<Nav.Link eventKey="disabled" disabled>
 						Disabled
 					</Nav.Link>
@@ -111,6 +120,18 @@ export default function LevelOverview(): ReactElement {
 									Nein, tv soll hier nicht television heißen.
 								</p>
 								<LevelOverviewBar config={barConfig1}></LevelOverviewBar>
+							</Card.Body>
+						</Card>
+					</Tab.Pane>
+					<Tab.Pane eventKey="level2">
+						<Card>
+							<Card.Body>
+								<h1 className="text-center">Stattereise</h1>
+								<p className="text-center">
+									In Level 2 wird der Spieler sich auf eine Stattereise begeben.
+									Schau dir das Setting jetzt schon an!
+								</p>
+								<LevelOverviewBar config={barConfig2}></LevelOverviewBar>
 							</Card.Body>
 						</Card>
 					</Tab.Pane>

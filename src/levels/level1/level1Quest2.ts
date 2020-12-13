@@ -171,6 +171,7 @@ function onUpdate(this: Game): void {
 	}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function rotate(object: any, endAngle: number, timeStart: number, timeEnd: number) {
 	const deltaTime = (new Date().getTime() - timeStart) / (timeEnd - timeStart);
 	object.angle = endAngle * deltaTime;

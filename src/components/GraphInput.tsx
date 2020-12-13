@@ -56,7 +56,6 @@ export default class GraphInput extends React.Component<
 	};
 
 	colorGraphUpToX(x: number): void {
-		console.log("Internal Chart", this.internalChart);
 		const series = this.options.series;
 		if (series && series[0]) {
 			// here should be some highcharts type, but it's not avaiable
@@ -68,7 +67,6 @@ export default class GraphInput extends React.Component<
 
 	afterChartCreated(chart: Chart): void {
 		this.internalChart = chart;
-		console.log("afterChartCreated", this.internalChart);
 	}
 
 	render(): ReactElement {

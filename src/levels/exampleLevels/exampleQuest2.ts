@@ -52,8 +52,6 @@ const settings: QuestConfig = {
  * For more information see GameConfig (just hover over the variables in a GameConfig variable, e.g. game)
  */
 function onPreload(this: Phaser.Scene): void {
-	console.log("onPreload called");
-
 	this.load.image("bg", "assets/PlatformerAssetsBase/Background/bg.png");
 	this.load.image("ground", "assets/platform.png");
 
@@ -76,8 +74,6 @@ function onPreload(this: Phaser.Scene): void {
  * For more information see GameConfig (just hover over the variables in a GameConfig variable, e.g. game)
  */
 function preCreate(this: Phaser.Scene): void {
-	console.log("preCreate called");
-
 	// Add background
 	for (let i = 0; i < 5; i++) {
 		this.add.image(256 * i, 0, "bg").setOrigin(0);
@@ -106,8 +102,6 @@ function preCreate(this: Phaser.Scene): void {
  * For more information see GameConfig (just hover over the variables in a GameConfig variable, e.g. game)
  */
 function afterCreate(this: Game): void {
-	console.log("afterCreate called");
-
 	// Add platforms / ground
 	const tileWidth = 70;
 	for (let i = 0; i * tileWidth < width; i++) {

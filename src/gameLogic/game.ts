@@ -158,8 +158,6 @@ export default class Game extends Phaser.Scene {
 	};
 
 	preload(): void {
-		console.log("Called preload()");
-
 		// Load character spritesheet-s
 		loadCharacter.call(this);
 
@@ -575,7 +573,8 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 	// set progress in graph
 	graphProgress(index + progress);
 
-	console.log("inputDataCopy[" + index + "] = " + inputDataCopy[index].y);
+	// Debug output
+	// console.log("inputDataCopy[" + index + "] = " + inputDataCopy[index].y);
 
 	// Set velocity of player
 	this.player.setVelocityX(speed);

@@ -43,9 +43,6 @@ const settings: QuestConfig = {
 };
 
 function onPreload(this: Phaser.Scene): void {
-	// TODO: Load all required images
-	console.log("onPreload called");
-
 	this.load.image("bg", "assets/PlatformerAssetsBase/Background/bg.png");
 
 	this.load.image("grassMid", "assets/PlatformerAssetsBase/Tiles/grassMid.png");
@@ -91,8 +88,6 @@ function onPreload(this: Phaser.Scene): void {
 }
 
 function preCreate(this: Phaser.Scene): void {
-	console.log("preCreate called");
-	// TODO: Add background
 	for (let i = 0; i < 5; i++) {
 		this.add.image(256 * i, 0, "bg").setOrigin(0);
 		this.add.image(256 * i, 256, "bg").setOrigin(0);

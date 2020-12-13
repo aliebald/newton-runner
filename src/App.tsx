@@ -6,6 +6,8 @@ import Quest from "./components/Quest";
 import Tutorial from "./components/Tutorial";
 import LevelOverview from "./components/LevelOverview";
 import Footer from "./components/Footer";
+import { Quiz } from "./components/Quiz";
+import { Theory } from "./components/Theory";
 
 import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
 import exampleQuest2 from "./levels/exampleLevels/exampleQuest2";
@@ -13,8 +15,7 @@ import exampleQuiz1 from "./levels/exampleLevels/exampleQuiz1";
 import exampleTheory1 from "./levels/exampleLevels/exampleTheory1";
 import level1Quest1 from "./levels/level1/level1Quest1";
 import level1Quest2 from "./levels/level1/level1Quest2";
-import { Quiz } from "./components/Quiz";
-import { Theory } from "./components/Theory";
+import level2Quest1 from "./levels/level2/level2Quest1";
 
 function App(): ReactElement {
 	return (
@@ -55,8 +56,13 @@ function App(): ReactElement {
 				<Route
 					path="/level1Quest2"
 					exact
+					component={() => <Quest config={level1Quest2} nextPage="/level2Quest1"></Quest>}
+				/>
+				<Route
+					path="/level2Quest1"
+					exact
 					component={() => (
-						<Quest config={level1Quest2} nextPage="/ExampleQuest1"></Quest>
+						<Quest config={level2Quest1} nextPage="/ExampleQuest1"></Quest>
 					)}
 				/>
 				<Route path="/Tutorial" exact component={Tutorial} />

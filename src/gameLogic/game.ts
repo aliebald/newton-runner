@@ -18,6 +18,7 @@ let cameraRideIndex: number;
 let cameraWait: number;
 
 let gameEndModal: (goal: boolean, trap: boolean, score: number, restart: () => void) => void;
+let graphProgress: (x: number) => void;
 
 // variables for t_v_graph controls
 let timeStamp: number | undefined;
@@ -32,7 +33,8 @@ export default class Game extends Phaser.Scene {
 	constructor(
 		gameSettings: GameConfig,
 		data: { y: number }[],
-		gameEnded: (goal: boolean, trap: boolean, score: number, restart: () => void) => void
+		gameEnded: (goal: boolean, trap: boolean, score: number, restart: () => void) => void,
+		setGraphProgress: (x: number) => void
 	) {
 		super("Game");
 		console.log("%cInitiated new Game", "color: green");
@@ -43,6 +45,7 @@ export default class Game extends Phaser.Scene {
 		cameraRide = false;
 		cameraRideIndex = 0;
 		cameraWait = 0;
+		graphProgress = setGraphProgress;
 		timeStamp = undefined;
 		index = 0;
 
@@ -544,11 +547,12 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 		timeStamp = time;
 
 		// end the game if all datapoints are processed
-		if (index >= inputDataCopy.length) {
+		if (index >= inputDataCopy.length - 1) {
 			this.player.setVelocityX(0);
 			this.player.anims.play("idle", true);
 
 			// End the game by calling the function passed in from GameComponent
+			graphProgress(index + 0.01);
 			endGame.call(this);
 			this.gameRunning = false;
 
@@ -557,15 +561,19 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 	}
 
 	let speed;
-	if (index + 1 >= inputDataCopy.length || !interpolate) {
+	let progress = 0;
+	if (!interpolate) {
 		speed = inputDataCopy[index].y;
 	} else {
-		const progress = timeDiff / 1000;
+		progress = timeDiff / 1000;
 		speed =
 			inputDataCopy[index].y +
 			progress * (inputDataCopy[index + 1].y - inputDataCopy[index].y);
 	}
 	speed *= 30;
+
+	// set progress in graph
+	graphProgress(index + progress);
 
 	console.log("inputDataCopy[" + index + "] = " + inputDataCopy[index].y);
 
@@ -591,6 +599,7 @@ const restartGame = function restartGame(this: Game): void {
 			cameraWait = 0;
 		}, 2000);
 	}
+	graphProgress(0);
 	this.gameRunning = false;
 	index = 0;
 	this.cameras.main.fade(2000, 255, 255, 255);

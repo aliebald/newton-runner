@@ -143,7 +143,12 @@ export default class GameComponent extends React.Component<
 	};
 
 	componentDidMount(): void {
-		new Game(this.props.settings, this.props.data, this.gameEnded.bind(this));
+		new Game(
+			this.props.settings,
+			this.props.data,
+			this.gameEnded.bind(this),
+			this.props.setGraphProgress
+		);
 	}
 
 	render(): ReactElement {

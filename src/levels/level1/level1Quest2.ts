@@ -9,8 +9,8 @@ const graph: GraphInputConfig = {
 	xTitle: "time in s",
 	yTitle: "velocity in m/s",
 	minY: 0,
-	maxY: 20,
-	data: convertDataArray([5, 5, 5, 5, 5])
+	maxY: 5,
+	data: convertDataArray([2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 };
 
 const width = 1200;
@@ -50,6 +50,8 @@ function onPreload(this: Phaser.Scene): void {
 
 	this.load.image("grassMid", "assets/PlatformerAssetsBase/Tiles/grassMid.png");
 	this.load.image("grassCenter", "assets/PlatformerAssetsBase/Tiles/grassCenter.png");
+	this.load.image("bridge_down", "assets/PlatformerAssetsBase/Tiles/bridge_double_down_cut.png");
+	this.load.image("bridge_up", "assets/PlatformerAssetsBase/Tiles/bridge_double_up_cut.png");
 
 	this.load.image("house_front", "assets/BackgroundElements/house_beige_front.png");
 	this.load.image("mushroom", "assets/PlatformerAssetsBase/Items/mushroomRed.png");
@@ -60,6 +62,10 @@ function onPreload(this: Phaser.Scene): void {
 	this.load.image("cloud1", "assets/PlatformerAssetsBase/Items/cloud1.png");
 	this.load.image("cloud2", "assets/PlatformerAssetsBase/Items/cloud2.png");
 	this.load.image("cloud3", "assets/PlatformerAssetsBase/Items/cloud3.png");
+
+	this.load.image("switchLeft", "assets/PlatformerAssetsBase/Items/switchLeft.png");
+	this.load.image("switchRight", "assets/PlatformerAssetsBase/Items/switchRight.png");
+
 	this.load.image("tree_beige", "assets/BackgroundElements/tree01.png");
 	this.load.image("tree_green_1", "assets/BackgroundElements/tree02.png");
 	this.load.image("tree_green_2", "assets/BackgroundElements/tree21.png");
@@ -116,9 +122,16 @@ function afterCreate(this: Game): void {
 		}
 	}
 
+	const bridge: Phaser.GameObjects.Image = this.platforms.create(500, 393, "bridge_up");
+	bridge.setOrigin(0, 1);
+
+	bridge.x = 485;
+	bridge.y = 480;
+	this.variables.set("bridge", bridge);
+
 	// Add coinGold as points
-	this.points.create(300, 60, "coinGold");
-	this.points.create(540, 60, "coinGold");
+	this.points.create(300, 60, "switchLeft");
+	this.points.create(560, 60, "coinGold");
 	this.dynamicGoals.create(950, 50, "keyYellow");
 
 	// Add a sample trap
@@ -135,7 +148,32 @@ function afterCreate(this: Game): void {
 }
 
 function onUpdate(this: Game): void {
-	//pass
+	if (this.gameRunning) {
+		if (this.player.x >= 230 && !this.variables.get("rotate_bridge_start")) {
+			this.variables.set("rotate_bridge_start", new Date().getTime());
+			this.variables.set("rotate_bridge_end", new Date().getTime() + 4000);
+		}
+		if (this.variables.get("rotate_bridge_start")) {
+			const bridge = this.variables.get("bridge");
+			if (bridge.angle > -90) {
+				rotate(
+					bridge,
+					-90,
+					this.variables.get("rotate_bridge_start"),
+					this.variables.get("rotate_bridge_end")
+				);
+			} else if (bridge.angle <= -90 && !this.variables.get("changed_bridge")) {
+				this.platforms.remove(bridge, true);
+				this.platforms.create(420, 475, "bridge_down");
+				this.variables.set("changed_bridge", true);
+			}
+		}
+	}
+}
+
+function rotate(object: any, endAngle: number, timeStart: number, timeEnd: number) {
+	const deltaTime = (new Date().getTime() - timeStart) / (timeEnd - timeStart);
+	object.angle = endAngle * deltaTime;
 }
 
 export default settings;

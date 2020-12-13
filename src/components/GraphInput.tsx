@@ -38,12 +38,17 @@ export default class GraphInput extends React.Component<
 				text: this.props.cfg.xTitle
 			}
 		},
+		tooltip: {
+			formatter: function () {
+				return this.y.toFixed(1);
+			}
+		},
 		series: [
 			{
 				type: "line",
 				dragDrop: {
 					draggableY: true,
-					dragPrecisionY: 1,
+					dragPrecisionY: 0.1,
 					dragMaxY: this.props.cfg.maxY,
 					dragMinY: this.props.cfg.minY
 				},

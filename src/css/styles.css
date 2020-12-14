@@ -56,6 +56,19 @@
 	background-color: var(--tertiaryColor);
 }
 
+.btn-outline-primary:active {
+	background-color: var(--tertiaryColor) !important;
+	border: inherit !important;
+}
+
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn:focus,
+.btn:active {
+	outline: none !important;
+	box-shadow: none !important;
+}
+
 /*****************
 	Custom CSS
 ******************/
@@ -103,6 +116,11 @@ body {
 .navElem:hover,
 .navElem a:hover {
 	color: var(--tertiaryColor) !important;
+}
+
+.navElem:visited,
+.navElem a:visited {
+	background-color: inherit;
 }
 
 .footer {

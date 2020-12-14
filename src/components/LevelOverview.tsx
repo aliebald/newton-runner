@@ -6,7 +6,7 @@ const barConfigTutorial: Array<LevelOverviewCardConfig> = [
 	{
 		title: "Tutorial",
 		badge: BadgeType.THEORIE,
-		text: "hier lernst du worum es geht",
+		text: "Grundlegende Theorie",
 		buttonLink: "/level1Theory1",
 		buttonName: "Learn"
 	}
@@ -14,32 +14,18 @@ const barConfigTutorial: Array<LevelOverviewCardConfig> = [
 
 const barConfigExample: Array<LevelOverviewCardConfig> = [
 	{
-		title: "Example Theory 1",
-		badge: BadgeType.THEORIE,
-		text: "hier kommt Input",
-		buttonLink: "/ExampleTheory1",
-		buttonName: "Read"
-	},
-	{
 		title: "Example 1",
 		badge: BadgeType.SPIEL,
-		text: "mach mehr Sport.",
+		text: "Eine Demo, wie das Spiel funktioniert.",
 		buttonLink: "/ExampleQuest1",
 		buttonName: "Play"
 	},
 	{
 		title: "Example 2",
 		badge: BadgeType.SPIEL,
-		text: "mach mehr Sport.",
+		text: "Eine weitere Demo, wie das Spiel funktioniert.",
 		buttonLink: "/ExampleQuest2",
 		buttonName: "Play"
-	},
-	{
-		title: "Example Quiz 1",
-		badge: BadgeType.QUIZ,
-		text: "strng dein Hirn an",
-		buttonLink: "/ExampleQuiz1",
-		buttonName: "Solve"
 	}
 ];
 
@@ -125,9 +111,7 @@ export default function LevelOverview(): ReactElement {
 						<Card className="overviewTabCard">
 							<Card.Body className="justify-content-center">
 								<h1 className="text-center">Tutorial</h1>
-								<p className="text-center">
-									Hier gibt es spannenden stuff zu lernen
-								</p>
+								<p className="text-center">Hier lernst du die Grundlagen kennen.</p>
 								<LevelOverviewBar config={barConfigTutorial}></LevelOverviewBar>
 							</Card.Body>
 						</Card>

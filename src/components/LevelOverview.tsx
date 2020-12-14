@@ -45,23 +45,30 @@ const barConfigExample: Array<LevelOverviewCardConfig> = [
 
 const barConfig1: Array<LevelOverviewCardConfig> = [
 	{
-		title: "tv-Diagramm",
+		title: "Grundlagen",
 		badge: BadgeType.THEORIE,
-		text: "interessantes Zeug und so",
-		buttonLink: "/Tutorial",
+		text: "Bewegung, das 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagramme",
+		buttonLink: "/level1Theory1",
 		buttonName: "Learn"
 	},
 	{
-		title: "Quest 1 : Bewegung",
+		title: "Quiz 1",
+		badge: BadgeType.QUIZ,
+		text: "Überprüfe ob du die Theorie verstanden hast",
+		buttonLink: "/level1Quiz1",
+		buttonName: "Solve"
+	},
+	{
+		title: "Quest 1 : Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
-		text: "hier steht text",
+		text: "Lerne die Steuerung anhand einer einfachen Quest",
 		buttonLink: "/level1Quest1",
 		buttonName: "Play"
 	},
 	{
-		title: "Quest 2 : Beschleunigung",
+		title: "Quest 2 : Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
-		text: "hier steht text",
+		text: "Eine etwas schwierige Quest",
 		buttonLink: "/level1Quest2",
 		buttonName: "Play"
 	}

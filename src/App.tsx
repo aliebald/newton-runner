@@ -13,6 +13,8 @@ import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
 import exampleQuest2 from "./levels/exampleLevels/exampleQuest2";
 import exampleQuiz1 from "./levels/exampleLevels/exampleQuiz1";
 import exampleTheory1 from "./levels/exampleLevels/exampleTheory1";
+import level1Theory1 from "./levels/level1/level1Theory1";
+import level1Quiz1 from "./levels/level1/level1Quiz1";
 import level1Quest1 from "./levels/level1/level1Quest1";
 import level1Quest2 from "./levels/level1/level1Quest2";
 import level2Quest1 from "./levels/level2/level2Quest1";
@@ -50,7 +52,19 @@ function App(): ReactElement {
 				<Route
 					path="/ExampleQuiz1"
 					exact
-					component={() => <Quiz config={exampleQuiz1} nextPage="/level1Quest1"></Quiz>}
+					component={() => <Quiz config={exampleQuiz1} nextPage="/level1Theory1"></Quiz>}
+				/>
+				<Route
+					path="/level1Theory1"
+					exact
+					component={() => (
+						<Theory config={level1Theory1} nextPage="/level1Quiz1"></Theory>
+					)}
+				/>
+				<Route
+					path="/level1Quiz1"
+					exact
+					component={() => <Quiz config={level1Quiz1} nextPage="/level1Quest1"></Quiz>}
 				/>
 				<Route
 					path="/level1Quest1"

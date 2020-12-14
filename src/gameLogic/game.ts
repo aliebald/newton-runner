@@ -117,7 +117,6 @@ export default class Game extends Phaser.Scene {
 	 */
 	public points!: Phaser.Physics.Arcade.Group;
 	public score!: number;
-	private scoreText!: Phaser.GameObjects.Text;
 
 	/**
 	 * A flag that is set to true if the game is currently running.
@@ -247,7 +246,6 @@ export default class Game extends Phaser.Scene {
 				const p = point as Phaser.Physics.Arcade.Image;
 				p.disableBody(true, true);
 				this.score++;
-				this.scoreText.setText("Score: " + this.score);
 			},
 			undefined,
 			this
@@ -270,12 +268,6 @@ export default class Game extends Phaser.Scene {
 		this.dynamicGoals = this.physics.add.group();
 		this.physics.add.overlap(this.player, this.dynamicGoals, collectGoal, undefined, this);
 		this.physics.add.collider(this.dynamicGoals, this.platforms);
-
-		// score
-		this.scoreText = this.add.text(16, 16, "Score: 0", {
-			fontSize: "32px",
-			fill: "#000"
-		});
 
 		if (settings.afterCreate) {
 			settings.afterCreate.call(this);

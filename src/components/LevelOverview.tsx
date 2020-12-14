@@ -71,6 +71,13 @@ const barConfig1: Array<LevelOverviewCardConfig> = [
 		text: "Eine etwas schwierige Quest",
 		buttonLink: "/level1Quest2",
 		buttonName: "Play"
+	},
+	{
+		title: "Quest 3 : Zeit-Geschwindigkeits-Diagramm",
+		badge: BadgeType.SPIEL,
+		text: "Schaffst du diese Quest?",
+		buttonLink: "/level1Quest3",
+		buttonName: "Play"
 	}
 ];
 

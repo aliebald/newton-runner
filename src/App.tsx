@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
 import Quest from "./components/Quest";
-import Tutorial from "./components/Tutorial";
 import LevelOverview from "./components/LevelOverview";
 import Footer from "./components/Footer";
 import { Quiz } from "./components/Quiz";
@@ -83,7 +82,6 @@ function App(): ReactElement {
 						<Quest config={level2Quest1} nextPage="/ExampleQuest1"></Quest>
 					)}
 				/>
-				<Route path="/Tutorial" exact component={Tutorial} />
 			</Switch>
 			<Footer />
 		</BrowserRouter>

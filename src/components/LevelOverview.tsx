@@ -7,7 +7,7 @@ const barConfigTutorial: Array<LevelOverviewCardConfig> = [
 		title: "Tutorial",
 		badge: BadgeType.THEORIE,
 		text: "hier lernst du worum es geht",
-		buttonLink: "/Tutorial",
+		buttonLink: "/level1Theory1",
 		buttonName: "Learn"
 	}
 ];

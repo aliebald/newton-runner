@@ -160,8 +160,19 @@ body {
 	text-align: center;
 }
 
+.overviewTabCard {
+	border-top-left-radius: 0rem;
+	border-top-right-radius: 0rem;
+}
+
 .overviewTab {
-	background-color: white;
+	background-color: var(--tertiaryColor);
+	border-top-left-radius: 0.25rem;
+	border-top-right-radius: 0.25rem;
+}
+
+.overviewNavLink {
+	color: white;
 }
 
 .badgeTheory {

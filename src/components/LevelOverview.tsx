@@ -82,18 +82,26 @@ export default function LevelOverview(): ReactElement {
 	return (
 		<Container fluid>
 			<Tab.Container defaultActiveKey="tutorial">
-				<Nav justify className="overviewTab" variant="pills">
-					<Nav.Link eventKey="tutorial">Tutorial</Nav.Link>
-					<Nav.Link eventKey="exampleLevel">Example Level</Nav.Link>
-					<Nav.Link eventKey="level1">Level 1</Nav.Link>
-					<Nav.Link eventKey="level2">Level 2</Nav.Link>
-					<Nav.Link eventKey="disabled" disabled>
+				<Nav justify className="overviewTab" variant="tabs">
+					<Nav.Link eventKey="tutorial" className="overviewNavLink">
+						Tutorial
+					</Nav.Link>
+					<Nav.Link eventKey="exampleLevel" className="overviewNavLink">
+						Example Level
+					</Nav.Link>
+					<Nav.Link eventKey="level1" className="overviewNavLink">
+						Level 1
+					</Nav.Link>
+					<Nav.Link eventKey="level2" className="overviewNavLink">
+						Level 2
+					</Nav.Link>
+					<Nav.Link eventKey="disabled" className="overviewNavLink" disabled>
 						Disabled
 					</Nav.Link>
 				</Nav>
 				<Tab.Content>
 					<Tab.Pane eventKey="tutorial">
-						<Card>
+						<Card className="overviewTabCard">
 							<Card.Body className="justify-content-center">
 								<h1 className="text-center">Tutorial</h1>
 								<p className="text-center">
@@ -104,7 +112,7 @@ export default function LevelOverview(): ReactElement {
 						</Card>
 					</Tab.Pane>
 					<Tab.Pane eventKey="exampleLevel">
-						<Card>
+						<Card className="overviewTabCard">
 							<Card.Body className="justify-content-center">
 								<h1 className="text-center">Example Level</h1>
 								<p className="text-center">Ein paar Beispiele für Level</p>
@@ -113,7 +121,7 @@ export default function LevelOverview(): ReactElement {
 						</Card>
 					</Tab.Pane>
 					<Tab.Pane eventKey="level1">
-						<Card>
+						<Card className="overviewTabCard">
 							<Card.Body>
 								<h1 className="text-center">tv-Diagramm</h1>
 								<p className="text-center">
@@ -124,7 +132,7 @@ export default function LevelOverview(): ReactElement {
 						</Card>
 					</Tab.Pane>
 					<Tab.Pane eventKey="level2">
-						<Card>
+						<Card className="overviewTabCard">
 							<Card.Body>
 								<h1 className="text-center">Stattereise</h1>
 								<p className="text-center">

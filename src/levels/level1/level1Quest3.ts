@@ -4,18 +4,16 @@ import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 
-// TODO adjust GraphInputConfig
 const graph: GraphInputConfig = {
 	xTitle: "time in s",
 	yTitle: "velocity in m/s",
 	minY: 0,
 	maxY: 5,
-	data: convertDataArray([2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+	data: convertDataArray([2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 };
 
 const width = 1200;
 
-// TODO adjust GameConfig
 const game: GameConfig = {
 	gameWorld: {
 		height: 600,
@@ -36,16 +34,14 @@ const game: GameConfig = {
 // This is the settings json we export
 const settings: QuestConfig = {
 	title: "Quest 2",
-	id: "level1Quest2",
+	id: "level1Quest3",
 	description:
-		"Mit deinen schweren Stiefeln springst du eher ungern. Wozu gibt es denn automatische Aufzüge?", // cspell: disable-line
+		"Mit deinen schweren Stiefeln springst du eher ungern. Wozu gibt es denn automatische Aufzüge?",
 	graph: graph,
 	game: game
 };
 
 function onPreload(this: Phaser.Scene): void {
-	console.log("onPreload called");
-
 	this.load.image("bg", "assets/PlatformerAssetsBase/Background/bg.png");
 
 	this.load.image("grassMid", "assets/PlatformerAssetsBase/Tiles/grassMid.png");
@@ -80,8 +76,6 @@ function onPreload(this: Phaser.Scene): void {
 }
 
 function preCreate(this: Phaser.Scene): void {
-	console.log("preCreate called");
-
 	// Add background
 	for (let i = 0; i < 5; i++) {
 		this.add.image(256 * i, 0, "bg").setOrigin(0);
@@ -108,8 +102,6 @@ function preCreate(this: Phaser.Scene): void {
 }
 
 function afterCreate(this: Game): void {
-	console.log("afterCreate called");
-
 	// Add platforms / ground
 	const tileWidth = 70;
 	for (let i = 0; i * tileWidth < width; i++) {
@@ -145,9 +137,9 @@ function afterCreate(this: Game): void {
 	this.dynamicGoals.create(950, 300, "keyYellow");
 
 	// Add a sample trap
-	this.staticTraps.create(580, 433, "spikes").setScale(0.5);
-	this.staticTraps.create(430, 650, "spikes").setScale(0.5);
-	this.staticTraps.create(920, 233, "spikes").setScale(0.5);
+	this.staticTraps.create(580, 433, "spikes").setScale(0.5).refreshBody();
+	this.staticTraps.create(920, 233, "spikes").setScale(0.5).refreshBody();
+	this.staticTraps.create(430, 650, "spikes");
 
 	// Set random bounce on points
 	Game.setRandomBounce.call(this, this.points);

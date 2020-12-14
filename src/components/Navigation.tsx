@@ -36,7 +36,7 @@ export default function Navigation(): ReactElement {
 							Level 1 Aufgabe 2
 						</NavDropdown.Item>
 						<NavDropdown.Divider />
-						<NavDropdown.Item as={Link} to="/level1Quest2" className="navElem">
+						<NavDropdown.Item as={Link} to="/level2Quest1" className="navElem">
 							Level 2 Aufgabe 1
 						</NavDropdown.Item>
 					</NavDropdown>

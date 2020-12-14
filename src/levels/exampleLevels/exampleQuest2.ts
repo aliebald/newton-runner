@@ -41,7 +41,7 @@ const settings: QuestConfig = {
 	title: "Beispiel Quest 2",
 	id: "exampleLevelQuest2",
 	description:
-		"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", // cspell: disable-line
+		"Diese Quest ist zur Erklärung unseres Frameworks gedacht und wird nicht Teil des fertigen Spiels sein. Du darfst es heute trotzdem anspielen! Versuche den Coin einzusammeln. Aber pass auf, die Bombe sieht gefährlich aus",
 	graph: graph,
 	game: game
 };

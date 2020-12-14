@@ -54,7 +54,7 @@ const settings: QuestConfig = {
 	title: "Beispiel Quest 1",
 	id: "exampleLevelQuest1",
 	description:
-		"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", // cspell: disable-line
+		"Diese Quest ist zur Erklärung unseres Frameworks gedacht und wird nicht Teil des fertigen Spiels sein. Du darfst es heute trotzdem anspielen! Sammle einfach den Schlüssel am Ende des Levels ein.",
 	graph: graph,
 	game: game
 };

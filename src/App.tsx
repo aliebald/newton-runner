@@ -1,4 +1,5 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
+import { Alert } from "react-bootstrap";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
@@ -20,10 +21,22 @@ import level1Quest3 from "./levels/level1/level1Quest3";
 import level2Quest1 from "./levels/level2/level2Quest1";
 
 function App(): ReactElement {
+	const [showBetaAlert, setShowBetaAlert] = useState(true);
+
 	// For deployment to GH Pages:
 	// Change <BrowserRouter> to <HashRouter basename="/">
 	return (
 		<BrowserRouter>
+			<Alert
+				variant="danger"
+				onClose={() => setShowBetaAlert(false)}
+				dismissible
+				style={{ margin: "0" }}
+				show={showBetaAlert}
+			>
+				Danke fürs testen der <b>Betaversion vom 14. Dezember 2020</b>. Wir würden uns sehr
+				über dein Feedback freuen!
+			</Alert>
 			<Navigation />
 			<Switch>
 				<Route path="/" exact component={LandingPage} />

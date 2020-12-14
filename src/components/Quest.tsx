@@ -25,7 +25,7 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 
 	return (
 		<Container fluid>
-			<Row className="mx-auto mt-1 boxWrapper">
+			<Row className="mx-auto mt-3 boxWrapper">
 				<Col sm="12" md="6">
 					<h2 className="text-left title">{props.config.title}</h2>
 					<p className="text-left">{props.config.description}</p>

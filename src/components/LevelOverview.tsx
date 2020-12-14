@@ -87,7 +87,7 @@ const barConfig2: Array<LevelOverviewCardConfig> = [
 
 export default function LevelOverview(): ReactElement {
 	return (
-		<Container fluid>
+		<Container fluid className="overview">
 			<Tab.Container defaultActiveKey="tutorial">
 				<Nav justify className="overviewTab" variant="tabs">
 					<Nav.Link eventKey="tutorial" className="overviewNavLink">

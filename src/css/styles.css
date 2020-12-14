@@ -200,26 +200,46 @@ body {
 	background-color: white;
 	justify-content: center;
 	align-items: center;
-	min-height: 40rem;
+	height: 45rem;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
 }
 
 .carouselSlideTextBox {
+	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 2rem 2rem 2rem 2rem;
+	padding: 2rem 4rem 2rem 4rem;
 	margin-left: 3rem;
 	margin-right: 3rem;
+	font-size: large;
+	height: 100%;
 }
 
 .carouselSlideImageBox {
+	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 2rem 2rem 2rem 2rem;
+	height: 100%;
+	width: 100%;
 }
 
 .carousel-control-next,
 .carousel-control-prev {
 	filter: invert(100%);
+}
+
+.nextPageButtonRowQuiz {
+	margin-bottom: 6rem;
+	margin-right: 4rem;
+	justify-content: end;
+}
+
+.nextPageButtonRowTheory {
+	margin-bottom: 4rem;
+	margin-right: 1rem;
+	justify-content: end;
 }
 
 /*

@@ -41,14 +41,16 @@ function App(): ReactElement {
 					)}
 				/>
 				<Route
-					path="/ExampleQuiz1"
-					exact
-					component={() => <Quiz config={exampleQuiz1}></Quiz>}
-				/>
-				<Route
 					path="/ExampleTheory1"
 					exact
-					component={() => <Theory config={exampleTheory1}></Theory>}
+					component={() => (
+						<Theory config={exampleTheory1} nextPage="/ExampleQuiz1"></Theory>
+					)}
+				/>
+				<Route
+					path="/ExampleQuiz1"
+					exact
+					component={() => <Quiz config={exampleQuiz1} nextPage="/level1Quest1"></Quiz>}
 				/>
 				<Route
 					path="/level1Quest1"

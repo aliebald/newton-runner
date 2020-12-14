@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from "react";
-import { Card, Carousel, Col, Container, Image } from "react-bootstrap";
+import { Button, Card, Carousel, Col, Container, Image, Row } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 export interface SlideConfig {
 	imgPath?: string;
@@ -24,7 +25,7 @@ function getOptionalCaption(text: string | undefined): ReactElement {
 	} else {
 		return (
 			<div className="carouselSlideTextBox">
-				<p className="p-2">{text}</p>
+				<p>{text}</p>
 			</div>
 		);
 	}
@@ -36,7 +37,7 @@ function getOptionalImage(path: string | undefined): ReactElement {
 	} else {
 		return (
 			<div className="carouselSlideImageBox">
-				<Image src={path} fluid rounded className="d-block w-100" />
+				<Image src={path} fluid rounded className="d-block" />
 			</div>
 		);
 	}
@@ -46,13 +47,19 @@ export interface TheoryConfig {
 	slides: Array<SlideConfig>;
 }
 
-export function Theory(props: { config: TheoryConfig }): ReactElement {
+export function Theory(props: { config: TheoryConfig; nextPage: string }): ReactElement {
+	const { push } = useHistory();
 	return (
-		<Container className="theoryContainer">
+		<Container>
 			<Col>
-				<Carousel interval={null}>
-					{props.config.slides.map((c, idx) => Slide({ config: c, idx: idx }))}
-				</Carousel>
+				<Row>
+					<Carousel interval={null}>
+						{props.config.slides.map((c, idx) => Slide({ config: c, idx: idx }))}
+					</Carousel>
+				</Row>
+				<Row className="nextPageButtonRowTheory">
+					<Button onClick={() => push(props.nextPage)}>N&auml;chste Aufgabe</Button>
+				</Row>
 			</Col>
 		</Container>
 	);

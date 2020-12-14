@@ -187,6 +187,8 @@ body {
 .quizPageTextBox {
 	justify-content: center;
 	background-color: white;
+	border: 1px solid rgba(0, 0, 0, 0.125);
+	border-radius: 0.25rem;
 	padding: 1.5rem;
 	margin: 2rem;
 }

@@ -38,7 +38,7 @@ const settings: QuestConfig = {
 	title: "Quest 2",
 	id: "level1Quest2",
 	description:
-		"Du hast verzauberte Stiefel bekommen, mit denen du selbst Usain Bolt neidisch machen könntest. Schaffst du es mit genügend Schwung auf die andere Seite und dort bei der Fahne stehen zu bleiben? Probiere es ruhig ein paar mal aus, es ist ungewohnt mit neuen Latschen.", // cspell: disable-line
+		"Diese knarzige Brücke sieht so aus, als könnte es kurz dauern, bis sie vollständig heruntergelassen ist.", // cspell: disable-line
 	graph: graph,
 	game: game
 };
@@ -105,8 +105,8 @@ function preCreate(this: Phaser.Scene): void {
 	this.add.image(160, 450, "grassBush");
 	this.add.image(700, 450, "grassBush").setScale(-1, 1);
 
-	this.add.image(740, 430, "mushroom").setScale(0.5);
-	this.add.image(1030, 430, "mushroom").setScale(0.5);
+	this.add.image(740, 432, "mushroom").setScale(0.5);
+	this.add.image(1030, 432, "mushroom").setScale(0.5);
 }
 
 function afterCreate(this: Game): void {
@@ -122,15 +122,20 @@ function afterCreate(this: Game): void {
 		}
 	}
 
+	const imageGroup: Phaser.Physics.Arcade.StaticGroup = this.physics.add.staticGroup();
+
 	const bridge: Phaser.GameObjects.Image = this.platforms.create(500, 393, "bridge_up");
 	bridge.setOrigin(0, 1);
-
 	bridge.x = 485;
 	bridge.y = 480;
+
+	const switchLeft = imageGroup.create(300, 430, "switchLeft");
+
 	this.variables.set("bridge", bridge);
+	this.variables.set("imageGroup", imageGroup);
+	this.variables.set("switchLeft", switchLeft);
 
 	// Add coinGold as points
-	this.points.create(300, 60, "switchLeft");
 	this.points.create(560, 60, "coinGold");
 	this.dynamicGoals.create(950, 50, "keyYellow");
 
@@ -150,6 +155,10 @@ function afterCreate(this: Game): void {
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
 		if (this.player.x >= 230 && !this.variables.get("rotate_bridge_start")) {
+			const imageGroup = this.variables.get("imageGroup");
+			const switchLeft = this.variables.get("switchLeft");
+			imageGroup.remove(switchLeft, true);
+			imageGroup.create(300, 430, "switchRight");
 			this.variables.set("rotate_bridge_start", new Date().getTime());
 			this.variables.set("rotate_bridge_end", new Date().getTime() + 4000);
 		}

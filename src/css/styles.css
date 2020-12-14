@@ -187,13 +187,26 @@ body {
 }
 
 .overviewTab {
-	background-color: var(--tertiaryColor);
+	background-color: white;
 	border-top-left-radius: 0.25rem;
 	border-top-right-radius: 0.25rem;
+	border-bottom: 0px;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+	color: white;
+	background-color: var(--tertiaryColor);
+	border-color: var(--tertiaryColor);
+}
+
+.nav-justified .nav-link:hover {
+	background-color: var(--secondaryColor);
+	color: white;
 }
 
 .overviewNavLink {
-	color: white;
+	color: var(--tertiaryColor);
 }
 
 .badgeTheory {

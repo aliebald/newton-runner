@@ -1,6 +1,5 @@
 {
 	"name": "itbl-physics-game",
-	"homepage": "https://aliebald.github.io/itbl-physics-game",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {

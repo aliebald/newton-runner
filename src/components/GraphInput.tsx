@@ -1,5 +1,5 @@
-import React, { ReactElement, RefObject } from "react";
-import Highcharts, { Chart, SeriesOptionsType } from "highcharts/highstock";
+import React, { ReactElement } from "react";
+import Highcharts, { Chart } from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import HC_more from "highcharts/highcharts-more";
 HC_more(Highcharts);

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { GameConfig } from "../gameLogic/GameConfig";
 import GameComponent from "./GameComponent";

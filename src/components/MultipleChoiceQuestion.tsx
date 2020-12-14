@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { getSolveButton } from "../questionLogic/questionUtility";
 import {
 	equal,

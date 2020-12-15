@@ -4,9 +4,9 @@
 	 */
 	--navText: rgb(0, 0, 0, 0.5);
 	--footerText: rgb(0, 0, 0, 0.7);
-	--primaryColor: #f6d927;
-	--secondaryColor: #ef9d00;
-	--tertiaryColor: #ee5508;
+	--primaryColor: #abe7f5;
+	--secondaryColor: #4c83e0;
+	--tertiaryColor: #3421ff;
 }
 
 /*****************
@@ -43,6 +43,7 @@
 
 .btn-primary:hover {
 	background-color: var(--tertiaryColor) !important;
+	border-color: var(--tertiaryColor) !important ;
 }
 
 .btn-outline-primary {

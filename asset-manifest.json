@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.3c22cc84.chunk.css",
-    "main.js": "/static/js/main.fb862aa5.chunk.js",
-    "main.js.map": "/static/js/main.fb862aa5.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.f0355208.js",
-    "runtime-main.js.map": "/static/js/runtime-main.f0355208.js.map",
-    "static/css/2.1a02f21c.chunk.css": "/static/css/2.1a02f21c.chunk.css",
-    "static/js/2.3d249296.chunk.js": "/static/js/2.3d249296.chunk.js",
-    "static/js/2.3d249296.chunk.js.map": "/static/js/2.3d249296.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/2.1a02f21c.chunk.css.map": "/static/css/2.1a02f21c.chunk.css.map",
-    "static/css/main.3c22cc84.chunk.css.map": "/static/css/main.3c22cc84.chunk.css.map",
-    "static/js/2.3d249296.chunk.js.LICENSE.txt": "/static/js/2.3d249296.chunk.js.LICENSE.txt"
+    "main.css": "/itbl-physics-game/static/css/main.3c22cc84.chunk.css",
+    "main.js": "/itbl-physics-game/static/js/main.fb862aa5.chunk.js",
+    "main.js.map": "/itbl-physics-game/static/js/main.fb862aa5.chunk.js.map",
+    "runtime-main.js": "/itbl-physics-game/static/js/runtime-main.597394e8.js",
+    "runtime-main.js.map": "/itbl-physics-game/static/js/runtime-main.597394e8.js.map",
+    "static/css/2.1a02f21c.chunk.css": "/itbl-physics-game/static/css/2.1a02f21c.chunk.css",
+    "static/js/2.3d249296.chunk.js": "/itbl-physics-game/static/js/2.3d249296.chunk.js",
+    "static/js/2.3d249296.chunk.js.map": "/itbl-physics-game/static/js/2.3d249296.chunk.js.map",
+    "index.html": "/itbl-physics-game/index.html",
+    "static/css/2.1a02f21c.chunk.css.map": "/itbl-physics-game/static/css/2.1a02f21c.chunk.css.map",
+    "static/css/main.3c22cc84.chunk.css.map": "/itbl-physics-game/static/css/main.3c22cc84.chunk.css.map",
+    "static/js/2.3d249296.chunk.js.LICENSE.txt": "/itbl-physics-game/static/js/2.3d249296.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.f0355208.js",
+    "static/js/runtime-main.597394e8.js",
     "static/css/2.1a02f21c.chunk.css",
     "static/js/2.3d249296.chunk.js",
     "static/css/main.3c22cc84.chunk.css",

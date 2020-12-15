@@ -78,8 +78,7 @@ const barConfig2: Array<LevelOverviewCardConfig> = [
 	{
 		title: "Vorschau",
 		badge: BadgeType.SPIEL,
-		text:
-			"In Level 2 wird der Spieler sich auf eine Stattereise begeben. Schau dir das Setting jetzt schon an!",
+		text: "Entdecke neues!",
 		buttonLink: "/Level2Quest1",
 		buttonName: "Play"
 	}
@@ -94,7 +93,7 @@ export default function LevelOverview(): ReactElement {
 						Tutorial
 					</Nav.Link>
 					<Nav.Link eventKey="exampleLevel" className="overviewNavLink">
-						Example Level
+						Beispiel Level
 					</Nav.Link>
 					<Nav.Link eventKey="level1" className="overviewNavLink">
 						Level 1
@@ -119,8 +118,8 @@ export default function LevelOverview(): ReactElement {
 					<Tab.Pane eventKey="exampleLevel">
 						<Card className="overviewTabCard">
 							<Card.Body className="justify-content-center">
-								<h1 className="text-center">Example Level</h1>
-								<p className="text-center">Ein paar Beispiele für Level</p>
+								<h1 className="text-center">Beispiel Level</h1>
+								<p className="text-center">Ein paar Beispiele für Quests</p>
 								<LevelOverviewBar config={barConfigExample}></LevelOverviewBar>
 							</Card.Body>
 						</Card>
@@ -130,7 +129,7 @@ export default function LevelOverview(): ReactElement {
 							<Card.Body>
 								<h1 className="text-center">tv-Diagramm</h1>
 								<p className="text-center">
-									Nein, tv soll hier nicht television heißen.
+									Hier lernst du das Zeit-Geschwindigkeitsdiagramm näher kennen
 								</p>
 								<LevelOverviewBar config={barConfig1}></LevelOverviewBar>
 							</Card.Body>
@@ -139,10 +138,10 @@ export default function LevelOverview(): ReactElement {
 					<Tab.Pane eventKey="level2">
 						<Card className="overviewTabCard">
 							<Card.Body>
-								<h1 className="text-center">Stattereise</h1>
+								<h1 className="text-center">St&auml;dtereise</h1>
 								<p className="text-center">
-									In Level 2 wird der Spieler sich auf eine Stattereise begeben.
-									Schau dir das Setting jetzt schon an!
+									In Level 2 wird der Spieler sich auf eine St&auml;dtereise
+									begeben. Schau dir das Setting jetzt schon an!
 								</p>
 								<LevelOverviewBar config={barConfig2}></LevelOverviewBar>
 							</Card.Body>

@@ -19,7 +19,7 @@ const config: TheoryConfig = {
 			imgPath: "/levels/level1/diagramme_1_slide.jpg"
 		},
 		{
-			imgPath: "/levels/level1/diagramme_2_slide.jpg"
+			imgPath: "/levels/level1/diagramme_2_slide.png"
 		}
 	]
 };

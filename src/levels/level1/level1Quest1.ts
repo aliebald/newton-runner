@@ -4,18 +4,16 @@ import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 
-// TODO adjust GraphInputConfig
 const graph: GraphInputConfig = {
 	xTitle: "time in s",
 	yTitle: "velocity in m/s",
 	minY: 0,
 	maxY: 5,
-	data: convertDataArray([0, 0, 0, 0, 0, 0, 0])
+	data: convertDataArray([0, 0, 0, 0, 0, 0, 0, 0])
 };
 
 const width = 1200;
 
-// TODO adjust GameConfig
 const game: GameConfig = {
 	gameWorld: {
 		height: 600,
@@ -37,7 +35,8 @@ const settings: QuestConfig = {
 	title: "Quest 1",
 	id: "level1Quest1",
 	graph: graph,
-	description: "Lauf los und sammle den Schlüssel auf", // cspell: disable-line
+	description:
+		'Versuche den Schlüssel zwischen den beiden Häusern einzusammeln. Um dich zu bewegen, kannst du das Zeit-Geschwindigkeit-Diagramm anpassen, indem du die Punkte nach oben oder unten ziehst. Wenn du bereit bist, drück einfach auf "Spiel Starten". Um einen neuen versuch zu starten, drück auf "Nochmal versuchen". Du kannst dich auch bevor du loslegst mit den Pfeiltasten unter dem Spiel etwas umschauen',
 	game: game
 };
 
@@ -174,7 +173,7 @@ function preCreate(this: Phaser.Scene): void {
 }
 
 function afterCreate(this: Game): void {
-	// TODO: add platforms / ground, coins, goals, traps etc.
+	// add platforms / ground, coins, goals, traps etc.
 	const tileWidth = 70;
 	for (let i = 0; i * tileWidth < width; i++) {
 		this.platforms.create(35 + tileWidth * i, 500, "grassMid");

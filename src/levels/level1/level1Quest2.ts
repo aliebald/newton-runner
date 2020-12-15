@@ -4,7 +4,7 @@ import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 
-// TODO adjust GraphInputConfig
+// adjust GraphInputConfig
 const graph: GraphInputConfig = {
 	xTitle: "time in s",
 	yTitle: "velocity in m/s",
@@ -15,7 +15,7 @@ const graph: GraphInputConfig = {
 
 const width = 1200;
 
-// TODO adjust GameConfig
+// adjust GameConfig
 const game: GameConfig = {
 	gameWorld: {
 		height: 600,
@@ -38,7 +38,7 @@ const settings: QuestConfig = {
 	title: "Quest 2",
 	id: "level1Quest2",
 	description:
-		"Diese knarzige Brücke sieht so aus, als könnte es kurz dauern, bis sie vollständig heruntergelassen ist.", // cspell: disable-line
+		"Diese knarzige Brücke sieht so aus, als könnte es kurz dauern, bis sie vollständig heruntergelassen ist. Versuche den Schlüssel auf der anderen Seite der Brücke einzusammeln, aber pass auf! Hinter dem Schlüssel sieht es gefährlich aus. Eventuell kannst du ja noch einen Bonuspunkt auf dem Weg einsammeln.",
 	graph: graph,
 	game: game
 };
@@ -140,8 +140,8 @@ function afterCreate(this: Game): void {
 	this.dynamicGoals.create(950, 50, "keyYellow");
 
 	// Add a sample trap
-	this.staticTraps.create(1080, 433, "spikes").setScale(0.5);
-	this.staticTraps.create(420, 650, "spikes").setScale(0.5);
+	this.staticTraps.create(1100, 433, "spikes").setScale(0.5).refreshBody();
+	this.staticTraps.create(1165, 433, "spikes").setScale(0.5).refreshBody();
 
 	this.staticTraps.create(420, 650, "spikes").setScale(0.5);
 

@@ -36,7 +36,7 @@ export function MultipleChoiceQuestion(props: {
 	const [solveButton, setSolveButton] = useState(getSolveButton(check));
 
 	function select(idx: number) {
-		const old = selected.slice();
+		const old = selected;
 		old[idx] = !old[idx];
 		setSelected(old);
 	}

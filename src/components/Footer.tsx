@@ -18,9 +18,6 @@ export default function Footer(): ReactElement {
 				<a href="mailto:physics.game.team@gmail.com" className="footerLink">
 					Feedback
 				</a>
-				<Link to="/" className="footerLink">
-					Team
-				</Link>
 				<a href="mailto:physics.game.team@gmail.com" className="footerLink">
 					Kontakt
 				</a>

@@ -35,7 +35,7 @@ export default function LandingPage(): ReactElement {
 				</Row>
 			</Container>
 			<div className="landingpageBg">
-				<img src="landingPage.png" alt="" className="w-100 pt-5 mb-2" />
+				<img src="other/landingPage.png" alt="" className="w-100 pt-5 mb-2" />
 			</div>
 		</div>
 	);

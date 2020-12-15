@@ -98,11 +98,11 @@ export default function LevelOverview(): ReactElement {
 					<Nav.Link eventKey="level1" className="overviewNavLink">
 						Level 1
 					</Nav.Link>
-					<Nav.Link eventKey="level2" className="overviewNavLink">
+					<Nav.Link eventKey="level2" className="overviewNavLink" disabled>
 						Level 2
 					</Nav.Link>
 					<Nav.Link eventKey="disabled" className="overviewNavLink" disabled>
-						Disabled
+						Level 3
 					</Nav.Link>
 				</Nav>
 				<Tab.Content>

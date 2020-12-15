@@ -33,7 +33,7 @@ const game: GameConfig = {
 
 // This is the settings json we export
 const settings: QuestConfig = {
-	title: "Quest 2",
+	title: "Quest 3",
 	id: "level1Quest3",
 	description:
 		"Mit deinen schweren Stiefeln springst du eher ungern. Wozu gibt es denn automatische Aufzüge?",
@@ -127,7 +127,7 @@ function afterCreate(this: Game): void {
 	this.platforms.create(1020, 300, "grassHalfRight");
 
 	const bridge1 = dynamicPlatform.create(420, 483, "bridge_down");
-	const bridge2 = dynamicPlatform.create(775, 233, "bridge_down");
+	const bridge2 = dynamicPlatform.create(773, 233, "bridge_down");
 
 	this.variables.set("bridge1", bridge1);
 	this.variables.set("bridge2", bridge2);
@@ -150,7 +150,7 @@ function afterCreate(this: Game): void {
 
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
-		if (this.player.x >= 395 && !this.variables.get("bridge1_start")) {
+		if (this.player.x >= 390 && !this.variables.get("bridge1_start")) {
 			this.variables.set("bridge1_start", new Date().getTime());
 			this.variables.set("bridge1_end", new Date().getTime() + 2800);
 			this.variables.set("bridge1StartY", 483);

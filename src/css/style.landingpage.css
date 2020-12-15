@@ -1,4 +1,5 @@
 .btnImage {
+	height: 100%;
 	border: 0;
 	background: transparent;
 	text-align: center;
@@ -17,10 +18,16 @@
 
 .btnImage .btnImageText {
 	position: absolute;
+	font-size: 1rem;
+	letter-spacing: 1px;
 	top: 60%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 2;
+}
+
+.btnImage .btnImageText.large {
+	font-size: 1.2rem;
 }
 
 .btnImage img {
@@ -31,10 +38,14 @@
 	z-index: 1;
 }
 
+.btnImage.large img {
+	height: 10rem;
+}
+
 .landingpage {
 	top: 0 !important;
-	height: 90vh;
-	background-image: linear-gradient(#bdecec, #d4f4f4);
+	height: 80vh;
+	background-image: linear-gradient(#afe4e4, #d4f4f4);
 }
 
 .landingpageBg {

@@ -18,9 +18,9 @@ export default function LandingPage(): ReactElement {
 					</Col>
 					<Col sm className="mt-4 d-flex justify-content-center">
 						<Link to="/level1Theory1" className="mx-auto">
-							<button type="submit" className="btnImage">
+							<button type="submit" className="btnImage large">
 								<img src="assets/PlatformerAssetsBase/Items/cloud1.png" alt="" />
-								<div className="btnImageText">Jetzt&nbsp;Anfangen</div>
+								<div className="btnImageText large">Jetzt&nbsp;Anfangen</div>
 							</button>
 						</Link>
 					</Col>

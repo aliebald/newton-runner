@@ -12,16 +12,16 @@ export default function Footer(): ReactElement {
 				<a onClick={resetUserdata} className="footerLink">
 					Fortschritt zur&uuml;cksetzen
 				</a>
-				<a href="mailto:physics.game.team" className="footerLink">
+				<a href="mailto:physics.game.team@gmail.com" className="footerLink">
 					Bug&nbsp;Melden
 				</a>
-				<a href="mailto:physics.game.team" className="footerLink">
+				<a href="mailto:physics.game.team@gmail.com" className="footerLink">
 					Feedback
 				</a>
 				<Link to="/" className="footerLink">
 					Team
 				</Link>
-				<a href="mailto:physics.game.team" className="footerLink">
+				<a href="mailto:physics.game.team@gmail.com" className="footerLink">
 					Kontakt
 				</a>
 			</div>

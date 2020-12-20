@@ -33,8 +33,9 @@ function App(): ReactElement {
 				style={{ margin: "0" }}
 				show={showBetaAlert}
 			>
-				Danke fürs testen der <b>Betaversion vom 14. Dezember 2020</b>. Wir würden uns sehr
-				über dein Feedback freuen!
+				Danke fürs testen der <b>Betaversion vom 15. Dezember 2020</b>. Wir w&uuml;rden uns
+				sehr über dein Feedback freuen!{" "}
+				<a href="mailto:physics.game.team@gmail.com">Kontakt</a>
 			</Alert>
 			<Navigation />
 			<Switch>

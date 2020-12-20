@@ -491,31 +491,8 @@ const loadControls = function loadControls(this: Game) {
 
 	switch (settings.controls) {
 		case controlType.t_v_graph: {
-			t_v_controls.call(this, false);
+			t_v_controls.call(this);
 			break;
-		}
-
-		case controlType.t_v_graph_interpolated: {
-			t_v_controls.call(this, true);
-			break;
-		}
-
-		// Arrow keys control. Intended for debugging and development only
-		case controlType.arrowKeys: {
-			if (this.cursors.left?.isDown) {
-				this.player.setVelocityX(-220);
-				this.player.anims.play("right", true);
-			} else if (this.cursors.right?.isDown) {
-				this.player.setVelocityX(220);
-				this.player.anims.play("right", true);
-			} else {
-				this.player.setVelocityX(0);
-				this.player.anims.play("idle", true);
-			}
-
-			if (this.cursors.up?.isDown && this.player.body.touching.down) {
-				this.player.setVelocityY(-330);
-			}
 		}
 	}
 
@@ -524,12 +501,8 @@ const loadControls = function loadControls(this: Game) {
 
 /**
  * T-V-Graph Controls
- *
- * If interpolate is true, the current speed will depend on the current and next datapoint (linear interpolation).
- * If interpolate is false, the current speed will be the value of the current datapoint.
- * After one second the current datapoint will be set to the next datapoint.
  */
-const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): void {
+const t_v_controls = function t_v_controls(this: Game): void {
 	if (!this.gameRunning) {
 		return;
 	}
@@ -561,14 +534,11 @@ const t_v_controls = function t_v_controls(this: Game, interpolate: boolean): vo
 
 	let speed;
 	let progress = 0;
-	if (!interpolate) {
-		speed = inputDataCopy[index].y;
-	} else {
-		progress = timeDiff / 1000;
-		speed =
-			inputDataCopy[index].y +
-			progress * (inputDataCopy[index + 1].y - inputDataCopy[index].y);
-	}
+
+	progress = timeDiff / 1000;
+	speed =
+		inputDataCopy[index].y + progress * (inputDataCopy[index + 1].y - inputDataCopy[index].y);
+
 	speed *= 30;
 
 	// set progress in graph

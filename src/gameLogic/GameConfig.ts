@@ -137,20 +137,6 @@ export enum controlType {
 	none,
 
 	/**
-	 * Adds controls using the arrow keys. Intended for level building and debugging only!
-	 */
-	arrowKeys,
-
-	/**
-	 * Adds t-v-graph controls.
-	 *
-	 * The current speed will be the value current datapoint.
-	 *
-	 * After one second the current datapoint will be set to the next datapoint.
-	 */
-	t_v_graph,
-
-	/**
 	 * Adds t-v-graph controls.
 	 *
 	 * The current speed will be the interpolated value between the current datapoint and the next datapoint.
@@ -158,7 +144,7 @@ export enum controlType {
 	 *
 	 * After one second the current datapoint will be set to the next datapoint.
 	 */
-	t_v_graph_interpolated
+	t_v_graph
 }
 
 /**

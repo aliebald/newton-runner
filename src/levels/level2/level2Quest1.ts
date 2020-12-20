@@ -24,7 +24,7 @@ const game: GameConfig = {
 	onPreload: onPreload,
 	preCreate: preCreate,
 	afterCreate: afterCreate,
-	controls: controlType.t_v_graph_interpolated,
+	controls: controlType.t_v_graph,
 	character: character.hiker
 };
 

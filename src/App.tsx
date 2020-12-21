@@ -18,6 +18,8 @@ import level1Quest1 from "./levels/level1/level1Quest1";
 import level1Quest2 from "./levels/level1/level1Quest2";
 import level1Quest3 from "./levels/level1/level1Quest3";
 import level2Quest1 from "./levels/level2/level2Quest1";
+import level2Quest2 from "./levels/level2/level2Quest2";
+import level2Quest3 from "./levels/level2/level2Quest3";
 
 function App(): ReactElement {
 	const [showBetaAlert, setShowBetaAlert] = useState(true);
@@ -90,8 +92,18 @@ function App(): ReactElement {
 				<Route
 					path="/level2Quest1"
 					exact
+					component={() => <Quest config={level2Quest1} nextPage="/level2Quest2"></Quest>}
+				/>
+				<Route
+					path="/level2Quest2"
+					exact
+					component={() => <Quest config={level2Quest2} nextPage="/level2Quest3"></Quest>}
+				/>
+				<Route
+					path="/level2Quest3"
+					exact
 					component={() => (
-						<Quest config={level2Quest1} nextPage="/ExampleQuest1"></Quest>
+						<Quest config={level2Quest3} nextPage="/ExampleQuest1"></Quest>
 					)}
 				/>
 			</Switch>

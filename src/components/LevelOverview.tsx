@@ -76,10 +76,24 @@ const barConfig1: Array<LevelOverviewCardConfig> = [
 
 const barConfig2: Array<LevelOverviewCardConfig> = [
 	{
-		title: "Vorschau",
+		title: "Quest 1: Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
-		text: "Entdecke neues!",
-		buttonLink: "/Level2Quest1",
+		text: "Lerne die Steuerung anhand einer einfachen Quest",
+		buttonLink: "/level2Quest1",
+		buttonName: "Play"
+	},
+	{
+		title: "Quest 2: TODO",
+		badge: BadgeType.SPIEL,
+		text: "TODO",
+		buttonLink: "/level2Quest2",
+		buttonName: "Play"
+	},
+	{
+		title: "Quest 3: TODO",
+		badge: BadgeType.SPIEL,
+		text: "TODO",
+		buttonLink: "/level2Quest3",
 		buttonName: "Play"
 	}
 ];
@@ -98,7 +112,7 @@ export default function LevelOverview(): ReactElement {
 					<Nav.Link eventKey="level1" className="overviewNavLink">
 						Level 1
 					</Nav.Link>
-					<Nav.Link eventKey="level2" className="overviewNavLink" disabled>
+					<Nav.Link eventKey="level2" className="overviewNavLink">
 						Level 2
 					</Nav.Link>
 					<Nav.Link eventKey="disabled" className="overviewNavLink" disabled>

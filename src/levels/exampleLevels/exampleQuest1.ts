@@ -10,15 +10,15 @@ import convertDataArray from "../../questSetupHelper";
  * The App component loads this into a Quest component.
  */
 
+const width = 1200;
+
 const graph: GraphInputConfig = {
 	xTitle: "time in s",
 	yTitle: "velocity in m/s",
-	minY: 0,
-	maxY: 5,
-	data: convertDataArray([2, 2, 0, 0, 0, 0, 0])
+	minY: 32, // do not go lower than 32, otherwise the character will try to clip out of the world
+	maxY: width - 32, // same as above, just on the right side
+	data: convertDataArray([100, 350, 350, 350, 500, 500, 500])
 };
-
-const width = 1200;
 
 const game: GameConfig = {
 	gameWorld: {
@@ -28,7 +28,7 @@ const game: GameConfig = {
 	onPreload: onPreload,
 	preCreate: preCreate,
 	afterCreate: afterCreate,
-	controls: controlType.t_v_graph,
+	controls: controlType.t_x_graph,
 	character: character.hiker,
 	characterSpawnXY: {
 		x: 100,

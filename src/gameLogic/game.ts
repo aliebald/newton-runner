@@ -216,11 +216,11 @@ export default class Game extends Phaser.Scene {
 			this.player = this.physics.add.sprite(
 				settings.characterSpawnXY.x,
 				settings.characterSpawnXY.y,
-				"characterWalk",
+				"characterWalkRight",
 				0
 			);
 		} else {
-			this.player = this.physics.add.sprite(100, 450, "WalkAdjusted", 0);
+			this.player = this.physics.add.sprite(100, 450, "WalkRightAdjusted", 0);
 		}
 		this.player.setBounce(0.15);
 		// this.player.setScale(2.7);
@@ -443,7 +443,12 @@ const loadCharacter = function loadCharacter(this: Game) {
 		frameHeight: 100
 	}); // 6 frames
 
-	this.load.spritesheet("characterWalk", "assets/character/WalkAdjusted.png", {
+	this.load.spritesheet("characterWalkRight", "assets/character/WalkRightAdjusted.png", {
+		frameWidth: 64,
+		frameHeight: 96
+	}); // 8 frames
+
+	this.load.spritesheet("characterWalkLeft", "assets/character/WalkLeftAdjusted.png", {
 		frameWidth: 64,
 		frameHeight: 96
 	}); // 8 frames
@@ -457,6 +462,7 @@ const loadCharacter = function loadCharacter(this: Game) {
  * For each character, this function provides the following animations:
  * - "idle"
  * - "right"
+ * - "left"
  * - TODO: more animations
  */
 const loadCharacterAnimations = function loadCharacterAnimations(this: Game) {
@@ -474,7 +480,17 @@ const loadCharacterAnimations = function loadCharacterAnimations(this: Game) {
 
 	this.anims.create({
 		key: "right",
-		frames: this.anims.generateFrameNumbers("characterWalk", {
+		frames: this.anims.generateFrameNumbers("characterWalkRight", {
+			start: 0,
+			end: 7
+		}),
+		frameRate: 8,
+		repeat: -1
+	});
+
+	this.anims.create({
+		key: "left",
+		frames: this.anims.generateFrameNumbers("characterWalkLeft", {
 			start: 0,
 			end: 7
 		}),
@@ -487,11 +503,18 @@ const loadCharacterAnimations = function loadCharacterAnimations(this: Game) {
  * Loads the in setting.controls defined controls.
  */
 const loadControls = function loadControls(this: Game) {
-	// TODO add more controls
+	if (!this.gameRunning) {
+		return;
+	}
 
+	// TODO add more controls
 	switch (settings.controls) {
 		case controlType.t_v_graph: {
-			t_v_controls.call(this);
+			diagram_controls.call(this, true);
+			break;
+		}
+		case controlType.t_x_graph: {
+			diagram_controls.call(this, false);
 			break;
 		}
 	}
@@ -500,23 +523,20 @@ const loadControls = function loadControls(this: Game) {
 };
 
 /**
- * T-V-Graph Controls
+ * Graph Controls
+ *
+ * @param t_v - if true, t-v-controls (time-velocity) are loaded, otherwise t-x (time-place) controls are loaded
  */
-const t_v_controls = function t_v_controls(this: Game): void {
-	if (!this.gameRunning) {
-		return;
-	}
-
+const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 	if (timeStamp == undefined) {
 		timeStamp = new Date().getTime();
 	}
 
 	// Increase index every second
 	const time = new Date().getTime();
-	const timeDiff = time - timeStamp;
+	let timeDiff = time - timeStamp;
 	if (timeDiff > 1000) {
 		index++;
-		timeStamp = time;
 
 		// end the game if all datapoints are processed
 		if (index >= inputDataCopy.length - 1) {
@@ -530,16 +550,14 @@ const t_v_controls = function t_v_controls(this: Game): void {
 
 			return;
 		}
+
+		timeStamp = time;
+		timeDiff = 0;
 	}
 
-	let speed;
-	let progress = 0;
-
-	progress = timeDiff / 1000;
-	speed =
+	const progress = timeDiff / 1000;
+	const input =
 		inputDataCopy[index].y + progress * (inputDataCopy[index + 1].y - inputDataCopy[index].y);
-
-	speed *= 30;
 
 	// set progress in graph
 	graphProgress(index + progress);
@@ -547,14 +565,27 @@ const t_v_controls = function t_v_controls(this: Game): void {
 	// Debug output
 	// console.log("inputDataCopy[" + index + "] = " + inputDataCopy[index].y);
 
-	// Set velocity of player
-	this.player.setVelocityX(speed);
+	if (t_v) {
+		this.player.setVelocityX(input * 30);
 
-	// play correct animation
-	if (speed > 0) {
-		this.player.anims.play("right", true);
+		if (input === 0) {
+			this.player.anims.play("idle", true);
+		} else if (input > 0) {
+			this.player.anims.play("right", true);
+		} else {
+			this.player.anims.play("left", true);
+		}
 	} else {
-		this.player.anims.play("idle", true);
+		if (this.player.x === input) {
+			this.player.anims.play("idle", true);
+		} else if (this.player.x < input) {
+			this.player.anims.play("right", true);
+		} else {
+			this.player.anims.play("left", true);
+		}
+
+		// TODO: change from setting pos in pixels to meters
+		this.player.x = input;
 	}
 };
 

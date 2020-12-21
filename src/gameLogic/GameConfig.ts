@@ -144,7 +144,12 @@ export enum controlType {
 	 *
 	 * After one second the current datapoint will be set to the next datapoint.
 	 */
-	t_v_graph
+	t_v_graph,
+
+	/**
+	 * Adds t-x-graph controls.
+	 */
+	t_x_graph
 }
 
 /**

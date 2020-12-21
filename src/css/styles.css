@@ -226,24 +226,6 @@ body {
 	color: white;
 }
 
-.questionBox {
-	margin: 2rem;
-	justify-content: center;
-}
-
-.quizPageTextBox {
-	justify-content: center;
-	background-color: white;
-	border: 1px solid rgba(0, 0, 0, 0.125);
-	border-radius: 0.25rem;
-	padding: 1.5rem;
-	margin: 2rem;
-}
-
-.quizStatusBadgeBox {
-	font-size: x-large;
-}
-
 .carouselSlide {
 	color: black;
 	background-color: white;

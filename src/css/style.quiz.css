@@ -1,0 +1,27 @@
+.quizPageTextBox {
+	text-align: center;
+	background-color: white;
+	border: 1px solid rgba(0, 0, 0, 0.125);
+	border-radius: 0.25rem;
+	padding: 1rem;
+	margin: 1rem 0 0.75rem 0;
+}
+
+.questionBox {
+	margin: 0.75rem 0 0.75rem 0;
+	text-align: center;
+}
+
+.quizStatusBadgeBox {
+	font-size: x-large;
+}
+
+.questionOptionsWrapper {
+	justify-content: center;
+	display: flex;
+}
+
+.questionOption {
+	justify-content: left;
+	display: flex !important;
+}

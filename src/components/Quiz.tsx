@@ -1,31 +1,33 @@
 import React, { ReactElement } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { Question, QuestionConfig } from "./Question";
-import { useHistory } from "react-router";
+import "./../css/style.quiz.css";
 
 export interface QuizConfig {
 	title: string;
-	text: string;
-	questions: Array<QuestionConfig>;
-	shuffleQuestions?: boolean;
+	/** Introduction text to the following questions. Can be a string or JSX.Element, but be careful (test and check console before committing)! */
+	description: JSX.Element | string;
+	questions: QuestionConfig[];
 }
 
 export function Quiz(props: { config: QuizConfig; nextPage: string }): ReactElement {
-	const { push } = useHistory();
 	return (
-		<Container>
-			<Col className="justify-content-center align-items-center">
-				<div className="quizPageTextBox">
-					<h1 className="text-center">{props.config.title}</h1>
-					<p>{props.config.text}</p>
-				</div>
-				{props.config.questions.map((e, idx) => Question({ config: e, idx: idx }))}
-				<Row className="justify-content-end">
-					<Button className="nextPageButtonRowQuiz" onClick={() => push(props.nextPage)}>
-						N&auml;chste Aufgabe
-					</Button>
+		<Container fluid="lg">
+			<Row>
+				<Col>
+					<div className="quizPageTextBox">
+						<h1>{props.config.title}</h1>
+						<p>{props.config.description}</p>
+					</div>
+				</Col>
+			</Row>
+			{props.config.questions.map((question, index) => (
+				<Row key={index}>
+					<Col>
+						<Question config={question} id={index} />
+					</Col>
 				</Row>
-			</Col>
+			))}
 		</Container>
 	);
 }

@@ -2,103 +2,90 @@ import { QuizConfig } from "../../components/Quiz";
 
 const config: QuizConfig = {
 	title: "Level 1 - Quiz 1",
-	text: "Ein Quiz zu Bewegung, dem 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagrammen",
+	description:
+		"Ein Quiz zu Bewegung, dem 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagrammen",
 	questions: [
 		{
-			kind: "MultipleChoice",
-			text: "Was bedeutet Gleichförmige Bewegung?",
-			statements: [
+			type: "multipleChoice",
+			question: "Was bedeutet Gleichförmige Bewegung?",
+			options: [
 				{
-					kind: "Statement",
-					text: "Ein Körper ist immer gleich schnell",
-					isTrue: true
+					answer: "Ein Körper ist immer gleich schnell",
+					correct: true
 				},
 				{
-					kind: "Statement",
-					text: "Ein Körper bewegt sich mit konstanter Geschwindigkeit",
-					isTrue: true
+					answer: "Ein Körper bewegt sich mit konstanter Geschwindigkeit",
+					correct: true
 				},
 				{
-					kind: "Statement",
-					text: "Ein Körper wird gleichmäßig langsamer oder schneller",
-					isTrue: false
+					answer: "Ein Körper wird gleichmäßig langsamer oder schneller",
+					correct: false
 				}
 			]
 		},
 		{
-			kind: "SingleChoice",
-			text: "Was ist die Ursache einer Bewegung?",
-			statements: [
+			type: "singleChoice",
+			question: "Was ist die Ursache einer Bewegung?",
+			options: [
 				{
-					kind: "Statement",
-					text: "Ein Wille",
-					isTrue: false
+					answer: "Ein Wille",
+					correct: false
 				},
 				{
-					kind: "Statement",
-					text: "Eine Kraft",
-					isTrue: true
+					answer: "Eine Kraft",
+					correct: true
 				},
 				{
-					kind: "Statement",
-					text: "Sie braucht keine Ursache",
-					isTrue: false
+					answer: "Sie braucht keine Ursache",
+					correct: false
 				}
 			]
 		},
 		{
-			kind: "SingleChoice",
-			text: "Wie viele unveränderliche Attribute hat ein Körper?",
-			statements: [
+			type: "singleChoice",
+			question: "Wie viele unveränderliche Attribute hat ein Körper?",
+			options: [
 				{
-					kind: "Statement",
-					text: "1",
-					isTrue: true
+					answer: "1",
+					correct: true
 				},
 				{
-					kind: "Statement",
-					text: "2",
-					isTrue: false
+					answer: "2",
+					correct: false
 				},
 				{
-					kind: "Statement",
-					text: "4",
-					isTrue: false
+					answer: "4",
+					correct: false
 				},
 				{
-					kind: "Statement",
-					text: "8",
-					isTrue: false
+					answer: "8",
+					correct: false
 				}
 			]
 		},
 		{
-			kind: "MultipleChoice",
-			text: "Wie lautet das 1. Newtonsche Gesetz?",
-			statements: [
+			type: "multipleChoice",
+			question: "Wie lautet das 1. Newtonsche Gesetz?",
+			options: [
 				{
-					kind: "Statement",
-					text:
+					answer:
 						"In einem Inertialsystem bleibt jeder Körper in Ruhe oder im Zustand gleichförmiger Bewegung, auf den eine Kraft wirkt.",
-					isTrue: false
+					correct: false
 				},
 				{
-					kind: "Statement",
-					text:
+					answer:
 						"In einem Inertialsystem bleibt jeder Körper in Ruhe oder im Zustand gleichförmiger Bewegung, auf den keine Kraft wirkt.",
-					isTrue: true
+					correct: true
 				},
 				{
-					kind: "Statement",
-					text:
+					answer:
 						"In einem Inertialsystem bewegt sich jeder Körper mit gleichförmiger Bewegung.",
-					isTrue: false
+					correct: false
 				},
 				{
-					kind: "Statement",
-					text:
+					answer:
 						"Alle Körper werden durch eine Kraft bewegt und werden entweder langsamer, schneller, oder befinden sich in Ruhe.",
-					isTrue: false
+					correct: false
 				}
 			]
 		}

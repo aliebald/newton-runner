@@ -4,15 +4,15 @@ import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 
+const width = 1200;
+
 const graph: GraphInputConfig = {
-	xTitle: "time in s",
-	yTitle: "velocity in m/s",
+	xTitle: "Zeit in s",
+	yTitle: "Ort in m",
 	minY: 0,
-	maxY: 5,
+	maxY: width / 50,
 	data: convertDataArray([2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 };
-
-const width = 1200;
 
 const game: GameConfig = {
 	gameWorld: {
@@ -23,7 +23,7 @@ const game: GameConfig = {
 	preCreate: preCreate,
 	afterCreate: afterCreate,
 	onUpdate: onUpdate,
-	controls: controlType.t_v_graph,
+	controls: controlType.t_x_graph,
 	character: character.hiker,
 	characterSpawnXY: {
 		x: 100,
@@ -139,7 +139,7 @@ function afterCreate(this: Game): void {
 	// Add a sample trap
 	this.staticTraps.create(580, 433, "spikes").setScale(0.5).refreshBody();
 	this.staticTraps.create(920, 233, "spikes").setScale(0.5).refreshBody();
-	this.staticTraps.create(430, 650, "spikes");
+	this.staticTraps.create(420, 650, "spikes");
 
 	// Set random bounce on points
 	Game.setRandomBounce.call(this, this.points);
@@ -150,9 +150,9 @@ function afterCreate(this: Game): void {
 
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
-		if (this.player.x >= 390 && !this.variables.get("bridge1_start")) {
+		if (this.player.x >= 380 && !this.variables.get("bridge1_start")) {
 			this.variables.set("bridge1_start", new Date().getTime());
-			this.variables.set("bridge1_end", new Date().getTime() + 2800);
+			this.variables.set("bridge1_end", new Date().getTime() + 2600);
 			this.variables.set("bridge1StartY", 483);
 			this.variables.set("bridge1EndY", 225);
 		}

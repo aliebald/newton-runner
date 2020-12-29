@@ -4,16 +4,16 @@ import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 
+const width = 1200;
+
 // adjust GraphInputConfig
 const graph: GraphInputConfig = {
-	xTitle: "time in s",
-	yTitle: "velocity in m/s",
+	xTitle: "Zeit in s",
+	yTitle: "Ort in m",
 	minY: 0,
-	maxY: 5,
-	data: convertDataArray([2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+	maxY: width / 50,
+	data: convertDataArray([2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 };
-
-const width = 1200;
 
 // adjust GameConfig
 const game: GameConfig = {
@@ -25,7 +25,7 @@ const game: GameConfig = {
 	preCreate: preCreate,
 	afterCreate: afterCreate,
 	onUpdate: onUpdate,
-	controls: controlType.t_v_graph,
+	controls: controlType.t_x_graph,
 	character: character.hiker,
 	characterSpawnXY: {
 		x: 100,

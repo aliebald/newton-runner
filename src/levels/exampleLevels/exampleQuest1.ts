@@ -13,8 +13,8 @@ import convertDataArray from "../../questSetupHelper";
 const width = 1200;
 
 const graph: GraphInputConfig = {
-	xTitle: "Zeit in Sekunden",
-	yTitle: "Ort in Meter",
+	xTitle: "Zeit in s",
+	yTitle: "Ort in m",
 	minY: 0,
 	maxY: width / 50,
 	data: convertDataArray([0, 0, 0, 2.5, 5, 5, 2.5, 0, 0])

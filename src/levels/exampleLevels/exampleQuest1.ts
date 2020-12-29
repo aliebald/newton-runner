@@ -13,11 +13,11 @@ import convertDataArray from "../../questSetupHelper";
 const width = 1200;
 
 const graph: GraphInputConfig = {
-	xTitle: "time in s",
-	yTitle: "velocity in m/s",
-	minY: 32, // do not go lower than 32, otherwise the character will try to clip out of the world
-	maxY: width - 32, // same as above, just on the right side
-	data: convertDataArray([100, 350, 350, 350, 500, 500, 500])
+	xTitle: "Zeit in Sekunden",
+	yTitle: "Ort in Meter",
+	minY: 0,
+	maxY: width / 50,
+	data: convertDataArray([0, 0, 0, 2.5, 5, 5, 2.5, 0, 0])
 };
 
 const game: GameConfig = {

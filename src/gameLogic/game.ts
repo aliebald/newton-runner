@@ -558,7 +558,7 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 	}
 
 	const progress = timeDiff / 1000;
-	const input =
+	let input =
 		inputDataCopy[index].y + progress * (inputDataCopy[index + 1].y - inputDataCopy[index].y);
 
 	// set progress in graph
@@ -578,6 +578,12 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 			this.player.anims.play("left", true);
 		}
 	} else {
+		input *= 50;
+		// Check if input position is at the left corner, avoids character clipping out of the game
+		input = input > 32 ? input : 32;
+		// Check if input position is at the right corner, avoids character clipping out of the game
+		input = input <= settings.gameWorld.width - 32 ? input : settings.gameWorld.width - 32;
+
 		if (this.player.x === input) {
 			this.player.anims.play("idle", true);
 		} else if (this.player.x < input) {
@@ -586,7 +592,6 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 			this.player.anims.play("left", true);
 		}
 
-		// TODO: change from setting pos in pixels to meters
 		this.player.x = input;
 	}
 };

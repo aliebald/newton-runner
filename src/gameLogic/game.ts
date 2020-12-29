@@ -272,6 +272,8 @@ export default class Game extends Phaser.Scene {
 		if (settings.afterCreate) {
 			settings.afterCreate.call(this);
 		}
+
+		addMeterRule.call(this);
 	}
 
 	update(): void {
@@ -678,6 +680,35 @@ const collectGoal = function collectGoal(
 	this.collectedGoal = true;
 	const g = goal as Phaser.Physics.Arcade.Image;
 	g.setAlpha(0.5);
+};
+
+/**
+ * Adds a meter rule to the bottom of the game
+ */
+const addMeterRule = function addMeterRule(this: Game) {
+	let size;
+	settings.meterColor = settings.meterColor ? settings.meterColor : "black";
+	settings.meterStroke = settings.meterStroke ? settings.meterStroke : 7;
+
+	for (let i = 0; i < settings.gameWorld.width / 50; i++) {
+		if (i % 5 == 0) {
+			size = 20;
+			this.add
+				.text(10 + 50 * i, settings.gameWorld.height - 25, i + "m", {
+					fontSize: "15px",
+					strokeThickness: settings.meterStroke,
+					color: settings.meterColor
+				})
+				.setOrigin(0.3, 0);
+		} else {
+			size = 12;
+		}
+
+		this.add.text(10 + 50 * i, settings.gameWorld.height - 47, "|", {
+			fontSize: size + "px",
+			color: settings.meterColor
+		});
+	}
 };
 
 /**

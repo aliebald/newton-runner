@@ -122,6 +122,23 @@ export interface GameConfig {
 	 * Note that the player also wins if he collects a goal.
 	 */
 	pointsToWin?: number;
+
+	/**
+	 * Optional
+	 *
+	 * Sets the color of the pocket rule on the bottom of each quest.
+	 * If undefined, the color will be black
+	 */
+	meterColor?: string;
+
+	/**
+	 * Optional
+	 *
+	 * Sets the stroke (white border) of the pocket rule on the bottom of each quest.
+	 * 0 will disable the stroke.
+	 * If undefined, a standard stroke will be set
+	 */
+	meterStroke?: number;
 }
 
 /**

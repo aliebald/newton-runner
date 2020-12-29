@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import Game from "../gameLogic/game";
 import { GameConfig } from "../gameLogic/GameConfig";
 import { Redirect } from "react-router-dom";
-import { saveTaskProgress, loadTaskProgress } from "../userdata";
+import { saveProgress, loadQuestProgress } from "../userdata";
 
 // Information about the Error: https://github.com/react-bootstrap/react-bootstrap/issues/5075
 
@@ -36,8 +36,8 @@ export default class GameComponent extends React.Component<
 	}) {
 		super(props);
 		// check if this game was already won once
-		const task = loadTaskProgress(props.id);
-		if (task && task.won) {
+		const progress = loadQuestProgress(props.id);
+		if (progress && progress.solved) {
 			this.state = {
 				showModal: true,
 				restart: () => {
@@ -104,13 +104,12 @@ export default class GameComponent extends React.Component<
 		}
 
 		// Save as task
-		saveTaskProgress({
-			type: "quest",
+		saveProgress({
 			id: this.props.id,
-			title: this.props.title,
-			won: won,
-			achievedPoints: score,
-			possiblePoints: 0 //TODO
+			solved: won,
+			attemptsLeft: 0, // TODO
+			achievedBonusPoints: score,
+			achievedPoints: 0 // TODO
 		});
 
 		console.log("btn: " + this.state.nextBtnCSS);

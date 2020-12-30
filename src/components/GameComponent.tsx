@@ -15,6 +15,7 @@ export default class GameComponent extends React.Component<
 		title: string;
 		id: string;
 		nextPage: string;
+		setGameState: (state: "ready" | "running" | "ended") => void;
 	},
 	{
 		showModal: boolean;
@@ -33,6 +34,7 @@ export default class GameComponent extends React.Component<
 		title: string;
 		id: string;
 		nextPage: string;
+		setGameState: (state: "ready" | "running" | "ended") => void;
 	}) {
 		super(props);
 		// check if this game was already won once
@@ -153,7 +155,8 @@ export default class GameComponent extends React.Component<
 			this.props.settings,
 			this.props.data,
 			this.gameEnded.bind(this),
-			this.props.setGraphProgress
+			this.props.setGraphProgress,
+			this.props.setGameState
 		);
 	}
 

@@ -25,6 +25,7 @@ let gameEndModal: (
 	restart: () => void
 ) => void;
 let graphProgress: (x: number) => void;
+let updateGameState: (state: "ready" | "running" | "ended") => void;
 
 // variables for t_v_graph controls
 let timeStamp: number | undefined;
@@ -46,7 +47,8 @@ export default class Game extends Phaser.Scene {
 			maxBonusPoints: number,
 			restart: () => void
 		) => void,
-		setGraphProgress: (x: number) => void
+		setGraphProgress: (x: number) => void,
+		setGameState: (state: "ready" | "running" | "ended") => void
 	) {
 		super("Game");
 		console.log("%cInitiated new Game", "color: green");
@@ -60,7 +62,7 @@ export default class Game extends Phaser.Scene {
 		graphProgress = setGraphProgress;
 		timeStamp = undefined;
 		index = 0;
-
+		updateGameState = setGameState;
 		this.gameRunning = false;
 
 		settings = gameSettings;
@@ -560,7 +562,6 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 			// End the game by calling the function passed in from GameComponent
 			graphProgress(index + 0.01);
 			endGame.call(this);
-			this.gameRunning = false;
 
 			return;
 		}
@@ -613,17 +614,21 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
  * Restarts the game
  */
 const restartGame = function restartGame(this: Game): void {
-	if (settings.cameraRide) {
-		setTimeout(function () {
+	const fadeOutTime = 1500;
+
+	setTimeout(function () {
+		updateGameState("ready");
+		if (settings.cameraRide) {
 			cameraRide = true;
 			cameraRideIndex = 0;
 			cameraWait = 0;
-		}, 2000);
-	}
+		}
+	}, fadeOutTime);
+
 	graphProgress(0);
 	this.gameRunning = false;
 	index = 0;
-	this.cameras.main.fade(2000, 255, 255, 255);
+	this.cameras.main.fade(fadeOutTime, 255, 255, 255);
 };
 
 /**
@@ -631,6 +636,7 @@ const restartGame = function restartGame(this: Game): void {
  */
 const endGame = function endGame(this: Game): void {
 	if (this.gameRunning) {
+		updateGameState("ended");
 		this.gameRunning = false;
 		this.player.setVelocityX(0);
 		this.player.anims.play("idle", true);
@@ -654,6 +660,7 @@ const collideWithTrap = function collideWithTrap(
 	trap: Phaser.GameObjects.GameObject
 ) {
 	if (this.gameRunning) {
+		updateGameState("ended");
 		this.gameRunning = false;
 		this.player.setVelocityX(0);
 		this.player.anims.play("idle", true);
@@ -694,6 +701,7 @@ const startGame = function startGame(this: Game) {
 	}
 
 	// Start game
+	updateGameState("running");
 	this.gameRunning = true;
 	this.cameras.main.startFollow(this.player, true);
 	timeStamp = new Date().getTime();

@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useRef, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { GameConfig } from "../gameLogic/GameConfig";
 import GameComponent from "./GameComponent";
@@ -14,13 +14,11 @@ export interface QuestConfig {
 }
 
 export default function Quest(props: { config: QuestConfig; nextPage: string }): ReactElement {
-	const graphInputRef = React.createRef<GraphInput>();
-	const graphInputComponent = (
-		<GraphInput cfg={props.config.graph} ref={graphInputRef}></GraphInput>
-	);
+	const [gameState, setGameState] = useState<"ready" | "running" | "ended">("ready");
+	const graphInput = useRef<GraphInput>(null);
 
 	function setColorUpToX(x: number): void {
-		graphInputRef?.current?.colorGraphUpToX(x);
+		graphInput?.current?.colorGraphUpToX(x);
 	}
 
 	return (
@@ -29,7 +27,9 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 				<Col sm="12" md="6">
 					<h2 className="text-left title">{props.config.title}</h2>
 					<p className="text-left">{props.config.description}</p>
-					<div className="pt-3">{graphInputComponent}</div>
+					<div className="pt-3">
+						<GraphInput cfg={props.config.graph} ref={graphInput}></GraphInput>
+					</div>
 				</Col>
 				<Col sm="12" md="6">
 					<GameComponent
@@ -37,16 +37,26 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 						title={props.config.title}
 						id={props.config.id}
 						data={props.config.graph.data}
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 						setGraphProgress={setColorUpToX}
 						nextPage={props.nextPage}
+						setGameState={setGameState}
 					/>
 					<div className="btnWrapper">
 						<div className="btnWrapperLeft">
-							<Button variant="primary" id="startGameBtn" className="px-3 mr-1">
+							<Button
+								variant="primary"
+								id="startGameBtn"
+								className="px-3 mr-1"
+								disabled={gameState !== "ready"}
+							>
 								Spiel&nbsp;starten
 							</Button>
-							<Button variant="primary" id="restartGameBtn" className="px-3 mx-1">
+							<Button
+								variant="primary"
+								id="restartGameBtn"
+								className="px-3"
+								disabled={gameState === "ready"}
+							>
 								Nochmal&nbsp;versuchen
 							</Button>
 						</div>
@@ -55,6 +65,7 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 								variant="primary"
 								id="cameraLeftBtn"
 								className="px-3 arrowKey my-1"
+								disabled={gameState !== "ready"}
 							>
 								<i className="arrowLeft"></i>
 							</Button>
@@ -63,6 +74,7 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 									variant="primary"
 									id="cameraUpBtn"
 									className="px-3 arrowKey"
+									disabled={gameState !== "ready"}
 								>
 									<i className="arrowUp"></i>
 								</Button>
@@ -70,6 +82,7 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 									variant="primary"
 									id="cameraDownBtn"
 									className="px-3 arrowKey"
+									disabled={gameState !== "ready"}
 								>
 									<i className="arrowDown"></i>
 								</Button>
@@ -78,6 +91,7 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 								variant="primary"
 								id="cameraRightBtn"
 								className="px-3 arrowKey my-1"
+								disabled={gameState !== "ready"}
 							>
 								<i className="arrowRight"></i>
 							</Button>

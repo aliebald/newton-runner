@@ -17,7 +17,13 @@ let cameraRide: boolean;
 let cameraRideIndex: number;
 let cameraWait: number;
 
-let gameEndModal: (goal: boolean, trap: boolean, score: number, restart: () => void) => void;
+let gameEndModal: (
+	goal: boolean,
+	trap: boolean,
+	bonusPoints: number,
+	maxBonusPoints: number,
+	restart: () => void
+) => void;
 let graphProgress: (x: number) => void;
 
 // variables for t_v_graph controls
@@ -33,7 +39,13 @@ export default class Game extends Phaser.Scene {
 	constructor(
 		gameSettings: GameConfig,
 		data: { y: number }[],
-		gameEnded: (goal: boolean, trap: boolean, score: number, restart: () => void) => void,
+		gameEnded: (
+			goal: boolean,
+			trap: boolean,
+			bonusPoints: number,
+			maxBonusPoints: number,
+			restart: () => void
+		) => void,
 		setGraphProgress: (x: number) => void
 	) {
 		super("Game");
@@ -623,7 +635,13 @@ const endGame = function endGame(this: Game): void {
 		this.player.setVelocityX(0);
 		this.player.anims.play("idle", true);
 
-		gameEndModal(this.collectedGoal, false, this.score, restartGame.bind(this));
+		gameEndModal(
+			this.collectedGoal,
+			false,
+			this.score,
+			getMaxBonusPoints.call(this),
+			restartGame.bind(this)
+		);
 	}
 };
 
@@ -640,8 +658,21 @@ const collideWithTrap = function collideWithTrap(
 		this.player.setVelocityX(0);
 		this.player.anims.play("idle", true);
 
-		gameEndModal(this.collectedGoal, true, this.score, restartGame.bind(this));
+		gameEndModal(
+			this.collectedGoal,
+			true,
+			this.score,
+			getMaxBonusPoints.call(this),
+			restartGame.bind(this)
+		);
 	}
+};
+
+/**
+ * Gets the amount of bonus points in the level
+ */
+const getMaxBonusPoints = function getMaxBonusPoints(this: Game): number {
+	return this.points.getLength();
 };
 
 /**

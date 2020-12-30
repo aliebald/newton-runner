@@ -63,11 +63,18 @@ export default class GameComponent extends React.Component<
 		}
 	}
 
-	public gameEnded = (goal: boolean, trap: boolean, score: number, restart: () => void): void => {
+	public gameEnded = (
+		goal: boolean,
+		trap: boolean,
+		bonusPoints: number,
+		maxBonusPoints: number,
+		restart: () => void
+	): void => {
 		this.setState({ restart: restart });
 
 		let won = false;
 		if (trap) {
+			// Case: collided with trap
 			this.setState({
 				showModal: true,
 				nextBtnCSS: "none",
@@ -77,23 +84,25 @@ export default class GameComponent extends React.Component<
 					"Pass auf, du bist in eine Falle getreten! Versuch das nächste mal nicht mit der Falle in berührung zu kommen."
 			});
 		} else if (
-			(this.props.settings.pointsToWin && score >= this.props.settings.pointsToWin) ||
+			(this.props.settings.pointsToWin && bonusPoints >= this.props.settings.pointsToWin) ||
 			goal
 		) {
+			// Case: won
 			won = true;
-			console.log("Won");
+			const text =
+				maxBonusPoints > 0
+					? `Gratuliere, du hast die Aufgabe erfolgreich mit ${bonusPoints} von ${maxBonusPoints} Punkten abgeschlossen`
+					: `Gratuliere, du hast die Aufgabe erfolgreich abgeschlossen`;
+
 			this.setState({
 				showModal: true,
 				nextBtnCSS: "inline-block",
 				retryBtnVariant: "outline-primary",
 				title: "Aufgabe erfolgreich abgeschlossen",
-				text:
-					"Gratuliere, du hast die Aufgabe erfolgreich mit " +
-					score +
-					" Punkten  abgeschlossen"
+				text: text
 			});
 		} else {
-			console.log("Lost");
+			// Case: did not reach goal but time ran out
 			this.setState({
 				showModal: true,
 				nextBtnCSS: "none",
@@ -103,16 +112,14 @@ export default class GameComponent extends React.Component<
 			});
 		}
 
-		// Save as task
+		// Save progress
 		saveProgress({
 			id: this.props.id,
 			solved: won,
 			attemptsLeft: 0, // TODO
-			achievedBonusPoints: score,
+			achievedBonusPoints: bonusPoints,
 			achievedPoints: 0 // TODO
 		});
-
-		console.log("btn: " + this.state.nextBtnCSS);
 	};
 
 	/**

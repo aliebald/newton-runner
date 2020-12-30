@@ -567,8 +567,10 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 	// Debug output
 	// console.log("inputDataCopy[" + index + "] = " + inputDataCopy[index].y);
 
+	// Scale up to meters: 1m = 50px.
+	input *= 50;
 	if (t_v) {
-		this.player.setVelocityX(input * 30);
+		this.player.setVelocityX(input);
 
 		if (input === 0) {
 			this.player.anims.play("idle", true);
@@ -578,7 +580,6 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 			this.player.anims.play("left", true);
 		}
 	} else {
-		input *= 50;
 		// Check if input position is at the left corner, avoids character clipping out of the game
 		input = input > 32 ? input : 32;
 		// Check if input position is at the right corner, avoids character clipping out of the game

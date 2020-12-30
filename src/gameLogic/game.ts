@@ -698,6 +698,15 @@ const startGame = function startGame(this: Game) {
 	inputDataCopy = [];
 	for (let i = 0; i < inputData.length; i++) {
 		inputDataCopy.push({ y: inputData[i].y });
+
+		// check if all values to the right are 0 -> end game
+		let rightSum = 0;
+		for (let j = i; j < inputData.length; j++) {
+			rightSum += inputData[j].y;
+		}
+		if (rightSum === 0) {
+			break;
+		}
 	}
 
 	// Start game

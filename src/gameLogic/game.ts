@@ -234,7 +234,7 @@ export default class Game extends Phaser.Scene {
 				0
 			);
 		} else {
-			this.player = this.physics.add.sprite(100, 450, "WalkRightAdjusted", 0);
+			this.player = this.physics.add.sprite(100, 400, "characterWalkRight", 0);
 		}
 		this.player.setBounce(0.15);
 		// this.player.setScale(2.7);

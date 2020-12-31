@@ -30,8 +30,6 @@ export default class GraphInput extends React.Component<
 		super(props);
 		// eslint-disable-next-line @typescript-eslint/no-this-alias
 		const that = this;
-		this.props.cfg.maxYDistance = 5;
-		this.props.cfg.fixedStart = true;
 		const options: Highcharts.Options = {
 			title: {
 				text: this.props.cfg.title

@@ -555,7 +555,7 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 		index++;
 
 		// end the game if all datapoints are processed
-		if (index >= inputDataCopy.length - 1) {
+		if (index >= inputDataCopy.length - 1 || checkForEarlyEnd.call(this, t_v)) {
 			this.player.setVelocityX(0);
 			this.player.anims.play("idle", true);
 
@@ -609,6 +609,33 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 		this.player.x = input;
 	}
 };
+
+/**
+ * Test if the game can early.
+ * The game ends early if a goal is collected or enough bonuspoints are collected and no further movement is planned
+ *
+ * @param t_v  - if true, t-v-controls (time-velocity) are assumed, otherwise t-x (time-place) controls
+ */
+function checkForEarlyEnd(this: Game, t_v: boolean): boolean {
+	if (!this.collectedGoal && !(settings.pointsToWin && this.score >= settings.pointsToWin)) {
+		return false;
+	}
+
+	if (t_v) {
+		let sumToRight = 0;
+		for (let i = index; i < inputDataCopy.length; i++) {
+			sumToRight += inputDataCopy[i].y;
+		}
+		return sumToRight === 0;
+	} else {
+		for (let i = index; i < inputDataCopy.length; i++) {
+			if (inputDataCopy[index].y !== inputDataCopy[i].y) {
+				return false;
+			}
+		}
+		return true;
+	}
+}
 
 /**
  * Restarts the game
@@ -698,15 +725,6 @@ const startGame = function startGame(this: Game) {
 	inputDataCopy = [];
 	for (let i = 0; i < inputData.length; i++) {
 		inputDataCopy.push({ y: inputData[i].y });
-
-		// check if all values to the right are 0 -> end game
-		let rightSum = 0;
-		for (let j = i; j < inputData.length; j++) {
-			rightSum += inputData[j].y;
-		}
-		if (rightSum === 0) {
-			break;
-		}
 	}
 
 	// Start game

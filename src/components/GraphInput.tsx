@@ -135,10 +135,6 @@ export default class GraphInput extends React.Component<
 				{
 					point: {
 						events: {
-							dragStart: function (e: any) {
-								console.log("this", this);
-								console.log("event", e);
-							},
 							drag: function (e: any) {
 								return that.correctDragPosition(this, e);
 							},

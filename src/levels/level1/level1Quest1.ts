@@ -10,8 +10,9 @@ const graph: GraphInputConfig = {
 	xTitle: "Zeit in s",
 	yTitle: "Ort in m",
 	minY: 0,
+	fixedStart: true,
 	maxY: width / 50,
-	data: convertDataArray([0, 0, 0, 0, 0, 0, 0, 0])
+	data: convertDataArray([2, 0, 0, 0, 0, 0, 0, 0])
 };
 
 const game: GameConfig = {
@@ -23,11 +24,7 @@ const game: GameConfig = {
 	preCreate: preCreate,
 	afterCreate: afterCreate,
 	controls: controlType.t_x_graph,
-	character: character.hiker,
-	characterSpawnXY: {
-		x: 100,
-		y: 400
-	}
+	character: character.hiker
 };
 
 // This is the settings json we export

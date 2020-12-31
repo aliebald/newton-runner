@@ -10,6 +10,7 @@ const graph: GraphInputConfig = {
 	xTitle: "Zeit in s",
 	yTitle: "Ort in m",
 	minY: 0,
+	fixedStart: true,
 	maxY: width / 50,
 	data: convertDataArray([2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 };
@@ -25,10 +26,7 @@ const game: GameConfig = {
 	onUpdate: onUpdate,
 	controls: controlType.t_x_graph,
 	character: character.hiker,
-	characterSpawnXY: {
-		x: 100,
-		y: 400
-	}
+	pointsPerAttempt: [10, 10, 9, 8, 6, 4, 2]
 };
 
 // This is the settings json we export

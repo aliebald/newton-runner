@@ -274,6 +274,18 @@ body {
 	justify-content: end;
 }
 
+.textLineThrough {
+	text-decoration: line-through;
+}
+
+.colorPrimary {
+	color: var(--primaryColor);
+}
+
+.colorSecondary {
+	color: var(--secondaryColor);
+}
+
 /*
  The height of gameDestination sets the maximum height of the game frame
  and therefore must be the height of the game (currently 600)!

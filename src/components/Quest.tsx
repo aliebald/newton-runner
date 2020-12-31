@@ -1,5 +1,5 @@
 import React, { ReactElement, useRef, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, OverlayTrigger, Popover } from "react-bootstrap";
 import { GameConfig } from "../gameLogic/GameConfig";
 import GameComponent from "./GameComponent";
 import GraphInput, { GraphInputConfig } from "./GraphInput";
@@ -15,6 +15,10 @@ export interface QuestConfig {
 
 export default function Quest(props: { config: QuestConfig; nextPage: string }): ReactElement {
 	const [gameState, setGameState] = useState<"ready" | "running" | "ended">("ready");
+	const [attempt, setAttempt] = useState(1);
+	// solvedAtAttempt is -1 if Quest is unsolved and a positive number if it is saved. This number is the attempt at which the quest was solved
+	const [solvedAtAttempt, setSolvedAtAttempt] = useState<number>(-1);
+
 	const graphInput = useRef<GraphInput>(null);
 
 	function setColorUpToX(x: number): void {
@@ -25,8 +29,15 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 		<Container fluid>
 			<Row className="mx-auto mt-3 boxWrapper">
 				<Col sm="12" md="6">
-					<h2 className="text-left title">{props.config.title}</h2>
-					<p className="text-left">{props.config.description}</p>
+					<div className="d-flex">
+						<h2 className="title mr-auto">{props.config.title}</h2>
+						<InfoTags
+							pointsPerAttempt={props.config.game.pointsPerAttempt}
+							attempt={attempt}
+							solvedAtAttempt={solvedAtAttempt}
+						/>
+					</div>
+					<p>{props.config.description}</p>
 					<div className="pt-3">
 						<GraphInput cfg={props.config.graph} ref={graphInput}></GraphInput>
 					</div>
@@ -40,6 +51,8 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 						setGraphProgress={setColorUpToX}
 						nextPage={props.nextPage}
 						setGameState={setGameState}
+						setAttempt={setAttempt}
+						setSolvedAtAttempt={setSolvedAtAttempt}
 					/>
 					<div className="btnWrapper">
 						<div className="btnWrapperLeft">
@@ -101,4 +114,94 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 			</Row>
 		</Container>
 	);
+
+	function InfoTags(props: {
+		pointsPerAttempt?: number[];
+		attempt: number;
+		solvedAtAttempt: number;
+	}): JSX.Element {
+		let label, title;
+		let exerciseMode = false;
+		const text: JSX.Element[] = [];
+
+		if (props.pointsPerAttempt) {
+			exerciseMode = props.solvedAtAttempt > 0;
+			label = exerciseMode ? "Übungsmodus" : "Bewertet";
+			title = exerciseMode
+				? "Du hast die Quest bereits bestanden"
+				: "Diese Quest ist Bewertet";
+		} else {
+			label = "Unbewertet";
+			title = "Diese Quest ist nicht bewertet";
+		}
+
+		if (props.pointsPerAttempt) {
+			// Basic description for rated mode
+			text.push(
+				<div key={"description"} className="pb-1">
+					Umso weniger Versuche du f&uuml;r die Quest ben&ouml;tigst, umso mehr Punkte
+					bekommst du. Die Punkteverteilung ist Quest abh&auml;ngig.
+					<br />
+				</div>
+			);
+			for (let i = 0; i < props.pointsPerAttempt.length; i++) {
+				// Highlight the current or (if exists) successful attempt. Cross out everything before this index (highlight index bellow)
+				const highlight = exerciseMode ? props.solvedAtAttempt : props.attempt;
+				const style =
+					i + 1 === highlight
+						? "colorSecondary"
+						: i + 1 >= highlight
+						? ""
+						: "textLineThrough";
+				// List all attempt / points ratios
+				text.push(
+					<div key={i} className={style}>
+						{i + 1}-ter Versuch: {props.pointsPerAttempt[i]} Punkte
+						<br />
+					</div>
+				);
+			}
+
+			// Note at the bottom if in exerciseMode
+			if (exerciseMode) {
+				text.push(
+					<div key={"exerciseModeNote"} className="pt-1">
+						Du hast die Quest bereits im {solvedAtAttempt} Versuch bestanden. Du kannst
+						deine verdienten Punkte nicht mehr &auml;ndern, aber die Quest trotzdem noch
+						einmal versuchen.
+					</div>
+				);
+			}
+		} else {
+			text.push(
+				<p key={0}>In dieser Aufgabe kannst du keine regul&auml;ren Punkte sammeln.</p>
+			);
+		}
+
+		// The popover you see when hovering over the label
+		const ratingPopover = (
+			<Popover id="ratingPopover">
+				<Popover.Title as="h3">{title}</Popover.Title>
+				<Popover.Content>{text}</Popover.Content>
+			</Popover>
+		);
+
+		return (
+			<>
+				<div className="infoBoxOuter">
+					<div className="infoBoxText">Versuch&nbsp;{props.attempt}</div>
+				</div>
+				<OverlayTrigger
+					placement="right"
+					delay={{ show: 0, hide: 150 }}
+					overlay={ratingPopover}
+				>
+					<div className="infoBoxOuter infoBoxOuterInteractive">
+						<div className="infoBoxText pr-0">{label}&nbsp;</div>
+						<div className="infoIcon">&#x1F6C8;</div>
+					</div>
+				</OverlayTrigger>
+			</>
+		);
+	}
 }

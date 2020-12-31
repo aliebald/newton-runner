@@ -11,9 +11,8 @@
 export interface QuestProgress {
 	id: string;
 
-	/** A task is incorrect if attemptsLeft = 0 and solved is false. If solved is true, the task is solved */
 	solved: boolean;
-	attemptsLeft: number;
+	attempts: number;
 	achievedPoints: number;
 	achievedBonusPoints: number;
 }
@@ -49,6 +48,7 @@ interface Userdata {
 export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
 	if (!valid(progress)) {
 		console.log("%cERROR: cannot save invalid progress", "color: red");
+		console.log(progress);
 		return false;
 	}
 	// Save on server if possible
@@ -187,10 +187,7 @@ function valid(progress: QuizProgress | QuestProgress) {
  */
 function validQuest(quest: QuestProgress): boolean {
 	return (
-		quest.achievedPoints >= 0 &&
-		quest.attemptsLeft >= 0 &&
-		quest.attemptsLeft >= 0 &&
-		quest.id != "" // TODO check if this id exists / is valid
+		quest.achievedPoints >= 0 && quest.attempts >= 0 && quest.id != "" // TODO check if this id exists / is valid
 	);
 }
 

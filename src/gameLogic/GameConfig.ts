@@ -17,6 +17,18 @@ export interface GameConfig {
 	/**
 	 * Optional
 	 *
+	 * Array defining how many points can be achieved depending on the number of attempts required.
+	 *
+	 * E.g. `[10,5,2]` means that the player gets 10 points if his first attempt was successful,
+	 * 5 if his second attempt was and 2 if his third attempt was successful. After that, no regular points can be achieved.
+	 *
+	 * If `pointsPerAttempt` is undefined, the quest is not rated.
+	 */
+	pointsPerAttempt?: number[];
+
+	/**
+	 * Optional
+	 *
 	 * onStart gets executed when the game starts.
 	 *
 	 * Important: Please be aware that the game can start multiple times, if the player restarts the game.

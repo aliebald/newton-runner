@@ -16,6 +16,8 @@ export default class GameComponent extends React.Component<
 		id: string;
 		nextPage: string;
 		setGameState: (state: "ready" | "running" | "ended") => void;
+		setSolvedAtAttempt: (solved: number) => void;
+		setAttempt: (attempt: number) => void;
 	},
 	{
 		showModal: boolean;
@@ -25,6 +27,8 @@ export default class GameComponent extends React.Component<
 		redirect: string | null;
 		nextBtnCSS: "none" | "inline-block";
 		retryBtnVariant: "primary" | "outline-primary";
+		attempt: number;
+		solved: boolean;
 	}
 > {
 	constructor(props: {
@@ -35,34 +39,39 @@ export default class GameComponent extends React.Component<
 		id: string;
 		nextPage: string;
 		setGameState: (state: "ready" | "running" | "ended") => void;
+		setSolvedAtAttempt: (solved: number) => void;
+		setAttempt: (attempt: number) => void;
 	}) {
 		super(props);
 		// check if this game was already won once
 		const progress = loadQuestProgress(props.id);
-		if (progress && progress.solved) {
-			this.state = {
-				showModal: true,
-				restart: () => {
-					this.setState({ showModal: false });
-				},
-				title: "Aufgabe bereits geschafft",
-				text:
-					"Sieht so aus als hättest du diese Aufgabe bereits geschafft. Willst du sie trotzdem nochmal versuchen?",
-				redirect: null,
-				nextBtnCSS: "inline-block",
-				retryBtnVariant: "outline-primary"
-			};
-		} else {
-			this.state = {
-				showModal: false,
-				restart: undefined,
-				title: "",
-				text: "",
-				redirect: null,
-				nextBtnCSS: "none",
-				retryBtnVariant: "outline-primary"
-			};
+		const solved: boolean = progress !== undefined && progress.solved;
+		if (solved && progress?.attempts) {
+			props.setSolvedAtAttempt(progress?.attempts);
 		}
+		this.state = {
+			showModal: solved,
+			restart: () => {
+				this.setState({ showModal: false });
+			},
+			title: solved ? "Quest bereits geschafft" : "",
+			text: solved
+				? `Du hast diese Quest bereits mit 
+				${progress?.achievedPoints} Punkten 
+				${
+					progress?.achievedBonusPoints && progress?.achievedBonusPoints > 0
+						? "und " + progress?.achievedBonusPoints + " Bonuspunkten"
+						: ""
+				}
+				geschafft. Du kannst deine verdienten Punkte nicht mehr ändern, aber die Quest trotzdem noch einmal versuchen (unbewertet).`
+				: "",
+			redirect: null,
+			nextBtnCSS: solved ? "inline-block" : "none",
+			retryBtnVariant: "outline-primary",
+			attempt: progress ? progress.attempts + 1 : 1,
+			solved: solved
+		};
+		this.props.setAttempt(this.state.attempt);
 	}
 
 	public gameEnded = (
@@ -72,16 +81,25 @@ export default class GameComponent extends React.Component<
 		maxBonusPoints: number,
 		restart: () => void
 	): void => {
-		this.setState({ restart: restart });
-
 		let won = false;
+		const points =
+			this.props.settings.pointsPerAttempt &&
+			this.props.settings.pointsPerAttempt.length > this.state.attempt
+				? this.props.settings.pointsPerAttempt[this.state.attempt - 1]
+				: 0;
+		// maxPoints is -1 if pointsPerAttempt is undefined, this is used bellow as a compact check if pointsPerAttempt is defined
+		const maxPoints =
+			this.props.settings.pointsPerAttempt && this.props.settings.pointsPerAttempt.length > 0
+				? max(this.props.settings.pointsPerAttempt)
+				: -1;
+
 		if (trap) {
 			// Case: collided with trap
 			this.setState({
 				showModal: true,
 				nextBtnCSS: "none",
 				retryBtnVariant: "primary",
-				title: "Aufgabe fehlgeschlagen",
+				title: "Quest fehlgeschlagen",
 				text:
 					"Pass auf, du bist in eine Falle getreten! Versuch das nächste mal nicht mit der Falle in berührung zu kommen."
 			});
@@ -91,17 +109,21 @@ export default class GameComponent extends React.Component<
 		) {
 			// Case: won
 			won = true;
-			const text =
-				maxBonusPoints > 0
-					? `Gratuliere, du hast die Aufgabe erfolgreich mit ${bonusPoints} von ${maxBonusPoints} Punkten abgeschlossen`
-					: `Gratuliere, du hast die Aufgabe erfolgreich abgeschlossen`;
-
 			this.setState({
 				showModal: true,
 				nextBtnCSS: "inline-block",
 				retryBtnVariant: "outline-primary",
-				title: "Aufgabe erfolgreich abgeschlossen",
-				text: text
+				title: "Quest erfolgreich abgeschlossen",
+				text: `Gratuliere, du hast die Quest erfolgreich 
+					${maxPoints >= 0 || maxBonusPoints > 0 ? "mit " : ""}
+					${maxPoints >= 0 ? points + " von " + maxPoints + " Punkten und " : ""}
+					${maxBonusPoints > 0 ? bonusPoints + " von " + maxBonusPoints + " Bonuspunkten " : ""}
+					abgeschlossen.
+					${
+						this.state.solved
+							? " Da du in einem vorherigen Versuch die Quest bereits bestanden hast, wird dieser Versuch nicht gewertet."
+							: ""
+					}`
 			});
 		} else {
 			// Case: did not reach goal but time ran out
@@ -109,19 +131,26 @@ export default class GameComponent extends React.Component<
 				showModal: true,
 				nextBtnCSS: "none",
 				retryBtnVariant: "primary",
-				title: "Aufgabe fehlgeschlagen",
+				title: "Quest fehlgeschlagen",
 				text: "Schade, vielleicht klappt es ja beim nächsten Versuch"
 			});
 		}
 
-		// Save progress
-		saveProgress({
-			id: this.props.id,
-			solved: won,
-			attemptsLeft: 0, // TODO
-			achievedBonusPoints: bonusPoints,
-			achievedPoints: 0 // TODO
-		});
+		// Save progress if the quest was not solved before
+		if (!this.state.solved) {
+			saveProgress({
+				id: this.props.id,
+				solved: won,
+				attempts: this.state.attempt,
+				achievedBonusPoints: bonusPoints,
+				achievedPoints: points
+			});
+		}
+		if (won) {
+			this.props.setSolvedAtAttempt(this.state.attempt);
+		}
+		this.setState({ restart: restart, attempt: this.state.attempt + 1 });
+		this.props.setAttempt(this.state.attempt);
 	};
 
 	/**
@@ -182,14 +211,14 @@ export default class GameComponent extends React.Component<
 							id="restartGameBtnModal"
 							onClick={this.handleRestart}
 						>
-							Nochmal versuchen
+							Nochmal&nbsp;versuchen
 						</Button>
 						<Button
 							style={{ display: this.state.nextBtnCSS }}
 							variant="primary"
 							onClick={this.handleNext}
 						>
-							N&auml;chste Aufgabe
+							N&auml;chste&nbsp;Quest
 						</Button>
 					</Modal.Footer>
 				</Modal>
@@ -197,4 +226,15 @@ export default class GameComponent extends React.Component<
 			</>
 		);
 	}
+}
+
+// finds largest value in number array
+function max(array: number[]): number {
+	let ret = array[0];
+	for (let i = 1; i < array.length; i++) {
+		if (array[i] > ret) {
+			ret = array[i];
+		}
+	}
+	return ret;
 }

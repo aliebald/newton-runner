@@ -142,7 +142,7 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 		attempt: number;
 		solvedAtAttempt: number;
 	}): JSX.Element {
-		let label, title;
+		let label: string, title: string;
 		let exerciseMode = false;
 		const text: JSX.Element[] = [];
 
@@ -217,11 +217,19 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 					placement="auto"
 					delay={{ show: 0, hide: 150 }}
 					overlay={ratingPopover}
+					/* setting transition to false will avoids a React.findDOMNode call, which is not strict mode compliant (but still works) */
+					transition={true}
 				>
-					<div className="infoBoxOuter infoBoxOuterInteractive">
-						<div className="infoBoxText pr-0">{label}&nbsp;</div>
-						<div className="infoIcon">&#x1F6C8;</div>
-					</div>
+					{({ ref, ...triggerHandler }) => (
+						<div
+							className="infoBoxOuter infoBoxOuterInteractive"
+							{...triggerHandler}
+							ref={ref}
+						>
+							<div className="infoBoxText pr-0">{label}&nbsp;</div>
+							<div className="infoIcon">&#x1F6C8;</div>
+						</div>
+					)}
 				</OverlayTrigger>
 			</div>
 		);

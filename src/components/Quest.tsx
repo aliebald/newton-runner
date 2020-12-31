@@ -29,15 +29,37 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 		<Container fluid>
 			<Row className="mx-auto mt-3 boxWrapper">
 				<Col sm="12" md="6">
-					<div className="d-flex">
-						<h2 className="title mr-auto">{props.config.title}</h2>
-						<InfoTags
-							pointsPerAttempt={props.config.game.pointsPerAttempt}
-							attempt={attempt}
-							solvedAtAttempt={solvedAtAttempt}
-						/>
-					</div>
-					<p>{props.config.description}</p>
+					<Row>
+						<Col
+							xs={{ span: 12, order: 1 }}
+							sm={{ span: 12, order: 1 }}
+							lg={{ span: 6, order: 1 }}
+							xl={{ span: 7, order: 1 }}
+							className="py-1"
+						>
+							<h2 className="title">{props.config.title}</h2>
+						</Col>
+						<Col
+							xs={{ span: 12, order: 4 }}
+							sm={{ span: 12, order: 4 }}
+							lg={{ span: 6, order: 2 }}
+							xl={{ span: 5, order: 2 }}
+							className="py-1 align-self-center"
+						>
+							<InfoTags
+								pointsPerAttempt={props.config.game.pointsPerAttempt}
+								attempt={attempt}
+								solvedAtAttempt={solvedAtAttempt}
+							/>
+						</Col>
+						<Col
+							xs={{ span: 12, order: 3 }}
+							sm={{ span: 12, order: 3 }}
+							className="py-1"
+						>
+							<p>{props.config.description}</p>
+						</Col>
+					</Row>
 					<div className="pt-3">
 						<GraphInput cfg={props.config.graph} ref={graphInput}></GraphInput>
 					</div>
@@ -187,12 +209,12 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 		);
 
 		return (
-			<>
+			<div className="d-flex justify-content-end">
 				<div className="infoBoxOuter">
 					<div className="infoBoxText">Versuch&nbsp;{props.attempt}</div>
 				</div>
 				<OverlayTrigger
-					placement="right"
+					placement="auto"
 					delay={{ show: 0, hide: 150 }}
 					overlay={ratingPopover}
 				>
@@ -201,7 +223,7 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 						<div className="infoIcon">&#x1F6C8;</div>
 					</div>
 				</OverlayTrigger>
-			</>
+			</div>
 		);
 	}
 }

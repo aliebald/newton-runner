@@ -59,7 +59,6 @@
 .infoBoxOuter {
 	display: flex;
 	cursor: default;
-	height: 80%;
 	margin-left: 0.25rem;
 	align-self: center;
 	color: var(--secondaryColor);

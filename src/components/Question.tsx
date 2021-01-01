@@ -3,6 +3,7 @@ import { Badge, Button, Card, Col, Form, FormCheck, Row } from "react-bootstrap"
 import "./../css/style.quiz.css";
 
 export interface QuestionConfig {
+	id: string;
 	/** The question text. Can be a string or JSX.Element, but be careful (test and check console before committing)! */
 	question: JSX.Element | string;
 	type: "multipleChoice" | "singleChoice";
@@ -14,9 +15,14 @@ export interface QuestionConfig {
 	}[];
 }
 
-export function Question(props: { config: QuestionConfig; id: number }): ReactElement {
-	const [status, setStatus] = useState<"Unsolved" | "Correct" | "Incorrect">("Unsolved");
-	const [badge, setBadge] = useState<"success" | "danger" | "info">("info");
+export type questionStateType = "unsolved" | "correct" | "incorrect";
+
+export function Question(props: {
+	config: QuestionConfig;
+	state: questionStateType;
+	saveState: (state: questionStateType, questionId: string) => void;
+}): ReactElement {
+	const [state, setState] = useState<questionStateType>(props.state);
 	const [selected, setSelected] = useState<boolean[]>(props.config.options.map((_) => false));
 
 	const formType = props.config.type === "multipleChoice" ? "checkbox" : "radio";
@@ -32,19 +38,36 @@ export function Question(props: { config: QuestionConfig; id: number }): ReactEl
 		setSelected(old);
 	}
 
+	function setAndUpdateState(state: questionStateType) {
+		setState(state);
+		props.saveState(state, props.config.id);
+	}
+
+	function getCorrectBadge(state: questionStateType): "success" | "danger" | "info" {
+		switch (state) {
+			case "unsolved": {
+				return "info";
+			}
+			case "correct": {
+				return "success";
+			}
+			case "incorrect": {
+				return "danger";
+			}
+		}
+	}
+
 	// Check if the selected options are correct
 	function check(): void {
-		if (status === "Unsolved") {
+		if (state === "unsolved") {
 			// Check if selected equals correct values
 			for (let i = 0; i < selected.length; i++) {
 				if (selected[i] !== props.config.options[i].correct) {
-					setStatus("Incorrect");
-					setBadge("danger");
+					setAndUpdateState("incorrect");
 					return;
 				}
 			}
-			setStatus("Correct");
-			setBadge("success");
+			setAndUpdateState("correct");
 		}
 	}
 
@@ -59,11 +82,12 @@ export function Question(props: { config: QuestionConfig; id: number }): ReactEl
 							{props.config.options.map((option, index) => (
 								<FormCheck
 									type={formType}
-									key={props.id + "-" + index}
-									id={props.id + "-" + index}
+									name={props.config.id}
+									key={props.config.id + "-" + index}
+									id={props.config.id + "-" + index}
 									label={option.answer}
 									onChange={() => select(index)}
-									disabled={status !== "Unsolved"}
+									disabled={state !== "unsolved"}
 									className="questionOption"
 								/>
 							))}
@@ -77,7 +101,7 @@ export function Question(props: { config: QuestionConfig; id: number }): ReactEl
 					<Col>
 						<Button
 							variant="success"
-							disabled={status !== "Unsolved"}
+							disabled={state !== "unsolved"}
 							onClick={() => {
 								check();
 							}}
@@ -87,7 +111,7 @@ export function Question(props: { config: QuestionConfig; id: number }): ReactEl
 					</Col>
 					<Col>
 						<div className="quizStatusBadgeBox">
-							<Badge variant={badge}>{status}</Badge>
+							<Badge variant={getCorrectBadge(state)}>{state}</Badge>
 						</div>
 					</Col>
 				</Row>

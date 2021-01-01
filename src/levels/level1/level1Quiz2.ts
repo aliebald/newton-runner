@@ -2,10 +2,12 @@ import { QuizConfig } from "../../components/Quiz";
 
 const config: QuizConfig = {
 	title: "Level 1 - Quiz 2",
+	id: "level1Quiz2",
 	description:
 		"Ein Quiz zu Bewegung, dem 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagrammen",
 	questions: [
 		{
+			id: "level1Quiz2Question1",
 			type: "singleChoice",
 			question: "Was ist die Ursache einer Bewegung?",
 			options: [
@@ -24,6 +26,7 @@ const config: QuizConfig = {
 			]
 		},
 		{
+			id: "level1Quiz2Question2",
 			type: "singleChoice",
 			question: "Was ist der Massepunkt?",
 			options: [
@@ -42,6 +45,7 @@ const config: QuizConfig = {
 			]
 		},
 		{
+			id: "level1Quiz2Question3",
 			type: "multipleChoice",
 			question: "Was ist ein Inertialsystem?",
 			options: [

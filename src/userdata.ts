@@ -8,9 +8,10 @@
  * - resetUserdata(): resets all local userdata
  */
 
+import { questionStateType } from "./components/Question";
+
 export interface QuestProgress {
 	id: string;
-
 	solved: boolean;
 	attempts: number;
 	achievedPoints: number;
@@ -19,12 +20,13 @@ export interface QuestProgress {
 
 export interface QuizProgress {
 	id: string;
-
 	rated: boolean;
-	questions: {
-		id: string;
-		status: "Unsolved" | "Correct" | "Incorrect";
-	}[];
+	questions: QuestionProgress[];
+}
+
+export interface QuestionProgress {
+	id: string;
+	state: questionStateType;
 }
 
 /** Internal representation of userdata. Will later on include other things, like purchased items etc. */
@@ -42,6 +44,7 @@ interface Userdata {
 
 /**
  * Updates or saves the given QuizProgress or QuestProgress
+ *
  * @param progress new or updated QuestProgress or QuizProgress
  * @returns false if the given QuizProgress or QuestProgress is invalid or if there was an error while saving, else true.
  */
@@ -55,13 +58,61 @@ export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
 
 	// TODO
 
-	// else, save local
+	// Save local
 	saveUserdataLocal(progress);
 	return true;
 }
 
 /**
+ * Updates or saves the given QuestionProgress. The given `quiz` __must contain__ the given `question`.
+ * This can reduce network traffic by avoiding saving unchanged questions.
+ *
+ * @param quiz - QuizProgress `question` is a part of. This will saved instead of the single question if this QuizProgress does not yet exist
+ * @param question - QuestionProgress to save
+ * @returns false if the given QuestionProgress is invalid, the QuizProgress with the given quiz.id does not contain the question or if there was an error while saving, else true.
+ */
+export function saveSingleQuestion(quiz: QuizProgress, question: QuestionProgress): boolean {
+	const quizProgress = loadQuizProgress(quiz.id);
+	let changed = false;
+	if (quizProgress) {
+		// Replace the question inside userdata. Only required for saving in local storage
+		let found = false;
+		for (let i = 0; i < quizProgress.questions.length; i++) {
+			if (quizProgress.questions[i].id === question.id) {
+				changed = quizProgress.questions[i].state !== question.state;
+				quizProgress.questions[i] = question;
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			console.log(
+				"%cERROR: question " + question.id + " is not part of quiz " + quiz.id,
+				"color: red"
+			);
+			return false;
+		}
+
+		// Only update if something changed
+		if (changed) {
+			// Save the question on server if possible
+
+			// TODO
+
+			// Save local
+			saveUserdataLocal(quiz);
+		}
+	} else {
+		// Case: quizProgress was not found. Save thw whole quiz instead
+		saveUserdataLocal(quiz);
+	}
+
+	return true;
+}
+
+/**
  * Loads the QuizProgress with the given `id`
+ *
  * @param id id of QuizProgress to load
  * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
  */
@@ -78,6 +129,7 @@ export function loadQuizProgress(id: string): QuizProgress | undefined {
 
 /**
  * Loads the QuestProgress with the given `id`
+ *
  * @param id id of QuestProgress to load
  * @returns undefined if there is no QuestProgress with the given id. Otherwise it returns the QuestProgress with the given id
  */
@@ -103,6 +155,7 @@ export function resetUserdata(): void {
 
 /**
  * Saves / updates a __valid__ QuizProgress or QuestProgress in local storage
+ *
  * @param progress QuizProgress or QuestProgress to be saved or updated. Must be validated beforehand using `valid()`, `validQuest()`, or `validQuiz()`.
  */
 function saveUserdataLocal(progress: QuizProgress | QuestProgress): void {
@@ -149,6 +202,7 @@ function loadUserdataLocal(): Userdata {
 
 /**
  * Finds the index of the quiz or quest with the given list of either QuizProgress's or QuestProgress's
+ *
  * @param id id to search for
  * @param array array of QuestProgress or QuizProgress to search in
  * @returns index in `array` of the QuestProgress or QuizProgress with the given `id`, if it exists. If it does not exist it will return -1.
@@ -169,6 +223,7 @@ function isQuizProgress(progress: QuizProgress | QuestProgress) {
 
 /**
  * Checks if the given progress (QuizProgress or QuestProgress) is a valid
+ *
  * @param progress QuizProgress or QuestProgress to be checked
  * @returns true if the given progress is valid, else false
  */
@@ -182,6 +237,7 @@ function valid(progress: QuizProgress | QuestProgress) {
 
 /**
  * Checks if the given QuestProgress is a valid QuestProgress
+ *
  * @param quest QuestProgress to be checked
  * @returns true if the given QuestProgress is valid, else false
  */

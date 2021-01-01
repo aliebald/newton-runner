@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement } from "react";
 import Highcharts, { Chart } from "highcharts/highstock";
@@ -39,83 +40,47 @@ export default class GraphInput extends React.Component<
 					click: function (event: any) {
 						let newY: number = parseFloat(event.yAxis[0].value.toFixed(1));
 						const pointIdx: number = Math.round(event.xAxis[0].value);
-						const series = that.options.series;
-						if (series && series[0]) {
-							if (pointIdx == 0 && that.props.cfg.fixedStart) {
-								return;
-							}
-							if (newY > props.cfg.maxY) {
-								newY = props.cfg.maxY;
-							}
-							if (newY < props.cfg.minY) {
-								newY = props.cfg.minY;
-							}
-							if (that.props.cfg.maxYDistance) {
-								const distance = that.props.cfg.maxYDistance;
-								const isLast = pointIdx == (series[0] as any).data.length - 1;
-								const isFirst = pointIdx == 0;
-								if (isFirst) {
-									const first = newY;
-									const second = (series[0] as any).data[1].y;
-									if (Math.abs(first - second) <= distance) {
-										(series[0] as any).data[pointIdx] = { y: newY };
-									} else if (first < second) {
-										(series[0] as any).data[pointIdx] = {
-											y: second - distance
-										};
-									} else {
-										(series[0] as any).data[pointIdx] = {
-											y: second + distance
-										};
-									}
-								} else if (isLast) {
-									const last = newY;
-									const before = (series[0] as any).data[pointIdx - 1].y;
-									if (Math.abs(last - before) <= distance) {
-										(series[0] as any).data[pointIdx] = { y: newY };
-									} else if (before < last) {
-										(series[0] as any).data[pointIdx] = {
-											y: before + distance
-										};
-									} else {
-										(series[0] as any).data[pointIdx] = {
-											y: before - distance
-										};
-									}
+						const data = that.props.cfg.data;
+						if (pointIdx === 0 && that.props.cfg.fixedStart) {
+							return;
+						}
+
+						if (newY > props.cfg.maxY) {
+							newY = props.cfg.maxY;
+						} else if (newY < props.cfg.minY) {
+							newY = props.cfg.minY;
+						}
+
+						if (that.props.cfg.maxYDistance) {
+							const distance = that.props.cfg.maxYDistance;
+							if (
+								Math.abs(newY - data[0].y) > pointIdx * distance &&
+								that.props.cfg.fixedStart
+							) {
+								if (newY > data[0].y) {
+									newY = data[0].y + pointIdx * distance;
 								} else {
-									const before = (series[0] as any).data[pointIdx - 1].y;
-									const mid = newY;
-									const after = (series[0] as any).data[pointIdx + 1].y;
-									if (
-										Math.abs(before - mid) <= distance &&
-										Math.abs(after - mid) <= distance
-									) {
-										(series[0] as any).data[pointIdx] = { y: newY };
-									} else {
-										if (mid < before && before < after) {
-											(series[0] as any).data[pointIdx] = {
-												y: after - distance
-											};
-										} else if (mid < before && before > after) {
-											(series[0] as any).data[pointIdx] = {
-												y: before - distance
-											};
-										} else if (mid > before && before > after) {
-											(series[0] as any).data[pointIdx] = {
-												y: after + distance
-											};
-										} else {
-											(series[0] as any).data[pointIdx] = {
-												y: before + distance
-											};
-										}
-									}
+									newY = data[0].y - pointIdx * distance;
 								}
-								that.internalChart.update(that.options);
-							} else {
-								(series[0] as any).data[pointIdx] = { y: newY };
-								that.internalChart.update(that.options);
 							}
+							if (pointIdx === 0) {
+								data[pointIdx].y = newY;
+								that.internalChart.update(that.options);
+								that.applyMaxDistanceToPoint(1, false);
+								return;
+							} else if (pointIdx === data.length - 1) {
+								data[pointIdx].y = newY;
+								that.internalChart.update(that.options);
+								that.applyMaxDistanceToPoint(pointIdx - 1, true);
+							} else {
+								data[pointIdx].y = newY;
+								that.internalChart.update(that.options);
+								that.applyMaxDistanceToPoint(pointIdx + 1, false);
+								that.applyMaxDistanceToPoint(pointIdx - 1, true);
+							}
+						} else {
+							data[pointIdx].y = newY;
+							that.internalChart.update(that.options);
 						}
 					}
 				}
@@ -178,6 +143,43 @@ export default class GraphInput extends React.Component<
 		};
 
 		this.options = options;
+	}
+
+	/** Checks wether maxYDistance to neighbour of the point is satisfied
+	 *  (see @param rightOrientation).
+	 * Calls itself to other neighbour to update restriction.
+	 * Point is specified by @param idx
+	 */
+	applyMaxDistanceToPoint(idx: number, rightOrientation: boolean): void {
+		const yData = this.props.cfg.data[idx];
+		const neighborYData = rightOrientation
+			? this.props.cfg.data[idx + 1]
+			: this.props.cfg.data[idx - 1];
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const distance = this.props.cfg.maxYDistance!;
+
+		if (Math.abs(yData.y - neighborYData.y) > distance) {
+			if (yData.y < neighborYData.y) {
+				yData.y = neighborYData.y - distance;
+			} else {
+				yData.y = neighborYData.y + distance;
+			}
+			this.internalChart.update(this.options);
+
+			if (rightOrientation) {
+				if (idx === 0) {
+					return;
+				} else {
+					this.applyMaxDistanceToPoint(idx - 1, rightOrientation);
+				}
+			} else {
+				if (idx === this.props.cfg.data.length - 1) {
+					return;
+				} else {
+					this.applyMaxDistanceToPoint(idx + 1, rightOrientation);
+				}
+			}
+		}
 	}
 
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

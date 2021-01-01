@@ -37,12 +37,18 @@ export default class GraphInput extends React.Component<
 			chart: {
 				events: {
 					click: function (event: any) {
-						const newY: number = parseFloat(event.yAxis[0].value.toFixed(1));
+						let newY: number = parseFloat(event.yAxis[0].value.toFixed(1));
 						const pointIdx: number = Math.round(event.xAxis[0].value);
 						const series = that.options.series;
 						if (series && series[0]) {
 							if (pointIdx == 0 && that.props.cfg.fixedStart) {
 								return;
+							}
+							if (newY > props.cfg.maxY) {
+								newY = props.cfg.maxY;
+							}
+							if (newY < props.cfg.minY) {
+								newY = props.cfg.minY;
 							}
 							if (that.props.cfg.maxYDistance) {
 								const distance = that.props.cfg.maxYDistance;
@@ -128,7 +134,20 @@ export default class GraphInput extends React.Component<
 			},
 			tooltip: {
 				formatter: function (): string {
-					return this.y.toFixed(1);
+					let y: string = this.y.toFixed(1);
+					const maxY: string = props.cfg.maxY.toFixed(1);
+					const minY: string = props.cfg.minY.toFixed(1);
+					if (this.x === 0 && props.cfg.fixedStart) {
+						y = y.concat(" (FIXIERT)");
+					}
+
+					if (y === maxY) {
+						y = y.concat(" (MAXIMUM)");
+					} else if (y === minY) {
+						y = y.concat(" (MINIMUM)");
+					}
+
+					return y;
 				}
 			},
 			series: [

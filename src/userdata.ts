@@ -41,9 +41,9 @@ interface Userdata {
 }
 
 /**
- * Updates or saves the given quest or quiz
+ * Updates or saves the given QuizProgress or QuestProgress
  * @param progress new or updated QuestProgress or QuizProgress
- * @returns false if the given task is invalid or if there was an error while saving, else true.
+ * @returns false if the given QuizProgress or QuestProgress is invalid or if there was an error while saving, else true.
  */
 export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
 	if (!valid(progress)) {
@@ -63,7 +63,7 @@ export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
 /**
  * Loads the QuizProgress with the given `id`
  * @param id id of QuizProgress to load
- * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the Task with the given id
+ * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
  */
 export function loadQuizProgress(id: string): QuizProgress | undefined {
 	// Load from server if possible
@@ -79,7 +79,7 @@ export function loadQuizProgress(id: string): QuizProgress | undefined {
 /**
  * Loads the QuestProgress with the given `id`
  * @param id id of QuestProgress to load
- * @returns undefined if there is no QuestProgress with the given id. Otherwise it returns the Task with the given id
+ * @returns undefined if there is no QuestProgress with the given id. Otherwise it returns the QuestProgress with the given id
  */
 export function loadQuestProgress(id: string): QuestProgress | undefined {
 	// Load from server if possible
@@ -102,8 +102,8 @@ export function resetUserdata(): void {
 }
 
 /**
- * Saves / updates a __valid__ task in local storage
- * @param task task to be saved or updated. Must be validated beforehand using `validTask()`.
+ * Saves / updates a __valid__ QuizProgress or QuestProgress in local storage
+ * @param progress QuizProgress or QuestProgress to be saved or updated. Must be validated beforehand using `valid()`, `validQuest()`, or `validQuiz()`.
  */
 function saveUserdataLocal(progress: QuizProgress | QuestProgress): void {
 	if (!valid(progress)) {

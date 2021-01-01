@@ -1,8 +1,9 @@
 import { QuizConfig } from "../../components/Quiz";
 
 const config: QuizConfig = {
-	title: "Level 1 - Quiz 2",
 	id: "level1Quiz2",
+	title: "Level 1 - Quiz 2",
+	rated: true,
 	description:
 		"Ein Quiz zu Bewegung, dem 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagrammen",
 	questions: [

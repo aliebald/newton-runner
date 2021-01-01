@@ -1,8 +1,9 @@
 import { QuizConfig } from "../../components/Quiz";
 
 const config: QuizConfig = {
-	title: "Level 1 - Quiz 1",
 	id: "level1Quiz1",
+	title: "Level 1 - Quiz 1",
+	rated: false,
 	description:
 		"Ein Quiz zu Bewegung, dem 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagrammen",
 	questions: [
@@ -10,6 +11,8 @@ const config: QuizConfig = {
 			id: "level1Quiz1Question1",
 			type: "multipleChoice",
 			question: "Was bedeutet Gleichförmige Bewegung?",
+			solutionHint:
+				"Hier wird erklärt warum Antwort 1 und 2 korrekt sind, Antwort 3 jedoch nicht.",
 			options: [
 				{
 					answer: "Ein Körper ist immer gleich schnell",
@@ -29,6 +32,8 @@ const config: QuizConfig = {
 			id: "level1Quiz1Question2",
 			type: "singleChoice",
 			question: "Was ist die Ursache einer Bewegung?",
+			solutionHint:
+				"Hier wird erklärt warum Antwort 2 korrekt ist, Antwort 1 und 3 jedoch nicht.",
 			options: [
 				{
 					answer: "Ein Wille",
@@ -48,6 +53,8 @@ const config: QuizConfig = {
 			id: "level1Quiz1Question3",
 			type: "singleChoice",
 			question: "Wie viele unveränderliche Attribute hat ein Körper?",
+			solutionHint:
+				"Hier wird erklärt warum Antwort 1 korrekt ist, Antwort 2, 3 und 4 jedoch nicht.",
 			options: [
 				{
 					answer: "1",
@@ -71,6 +78,8 @@ const config: QuizConfig = {
 			id: "level1Quiz1Question4",
 			type: "multipleChoice",
 			question: "Wie lautet das 1. Newtonsche Gesetz?",
+			solutionHint:
+				"Hier wird erklärt warum Antwort 2 korrekt ist, Antwort 1, 3 und 4 jedoch nicht.",
 			options: [
 				{
 					answer:

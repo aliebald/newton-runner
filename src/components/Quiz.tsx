@@ -2,17 +2,12 @@ import React, { ReactElement } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Question, QuestionConfig, questionStateType } from "./Question";
 import "./../css/style.quiz.css";
-import {
-	saveSingleQuestion,
-	loadQuizProgress,
-	saveProgress,
-	QuestionProgress,
-	QuizProgress
-} from "../userdata";
+import { saveSingleQuestion, loadQuizProgress, QuestionProgress, QuizProgress } from "../userdata";
 
 export interface QuizConfig {
 	id: string;
 	title: string;
+	rated: boolean;
 	/** Introduction text to the following questions. Can be a string or JSX.Element, but be careful (test and check console before committing)! */
 	description: JSX.Element | string;
 	questions: QuestionConfig[];
@@ -38,6 +33,7 @@ export function Quiz(props: { config: QuizConfig; nextPage: string }): ReactElem
 							config={question}
 							state={getQuestionProgress(question.id)}
 							saveState={updateQuestionProgress}
+							rated={props.config.rated}
 						/>
 					</Col>
 				</Row>

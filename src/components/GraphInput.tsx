@@ -70,17 +70,27 @@ export default class GraphInput extends React.Component<
 								return;
 							} else if (pointIdx === data.length - 1) {
 								data[pointIdx].y = newY;
-								that.internalChart.update(that.options);
+								that.internalChart.update(
+									this.options,
+									undefined,
+									undefined,
+									false
+								);
 								that.applyMaxDistanceToPoint(pointIdx - 1, true);
 							} else {
 								data[pointIdx].y = newY;
-								that.internalChart.update(that.options);
+								that.internalChart.update(
+									that.options,
+									undefined,
+									undefined,
+									false
+								);
 								that.applyMaxDistanceToPoint(pointIdx + 1, false);
 								that.applyMaxDistanceToPoint(pointIdx - 1, true);
 							}
 						} else {
 							data[pointIdx].y = newY;
-							that.internalChart.update(that.options);
+							that.internalChart.update(that.options, undefined, undefined, false);
 						}
 					}
 				}
@@ -164,7 +174,7 @@ export default class GraphInput extends React.Component<
 			} else {
 				yData.y = neighborYData.y + distance;
 			}
-			this.internalChart.update(this.options);
+			this.internalChart.update(this.options, undefined, undefined, false);
 
 			if (rightOrientation) {
 				if (idx === 0) {
@@ -222,7 +232,7 @@ export default class GraphInput extends React.Component<
 			// here should be some highcharts type, but it's not avaiable
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			(series[0] as any).zones[1].value = x;
-			this.internalChart.update(this.options);
+			this.internalChart.update(this.options, undefined, undefined, false);
 		}
 	}
 

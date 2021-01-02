@@ -3,9 +3,9 @@ import { controlType, GameConfig } from "../gameLogic/GameConfig";
 
 import exampleQuest1 from "../levels/exampleLevels/exampleQuest1";
 import exampleQuest2 from "../levels/exampleLevels/exampleQuest2";
-import level1Quest1 from "../levels/level1/level1Quest1";
-import level1Quest2 from "../levels/level1/level1Quest2";
-import level1Quest3 from "../levels/level1/level1Quest3";
+import { settings as level1Quest1 } from "../levels/level1/level1Quest1";
+import { settings as level1Quest2 } from "../levels/level1/level1Quest2";
+import { settings as level1Quest3 } from "../levels/level1/level1Quest3";
 import level2Quest1 from "../levels/level2/level2Quest1";
 import level2Quest2 from "../levels/level2/level2Quest2";
 import level2Quest3 from "../levels/level2/level2Quest3";

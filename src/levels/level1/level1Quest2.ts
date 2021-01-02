@@ -11,6 +11,7 @@ const graph: GraphInputConfig = {
 	xTitle: "Zeit in s",
 	yTitle: "Ort in m",
 	minY: 0,
+	maxYDistance: 5,
 	fixedStart: true,
 	maxY: width / 50,
 	data: convertDataArray([2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -141,7 +142,10 @@ function afterCreate(this: Game): void {
 	this.staticTraps.create(1100, 433, "spikes").setScale(0.5).refreshBody();
 	this.staticTraps.create(1165, 433, "spikes").setScale(0.5).refreshBody();
 
-	this.staticTraps.create(420, 650, "spikes").setScale(0.5);
+	this.staticTraps.create(386, 570, "spikes").setScale(0.5).refreshBody();
+	this.staticTraps.create(453, 570, "spikes").setScale(0.5).refreshBody();
+	this.staticTraps.create(287, 540, "spikes").setScale(0);
+	this.staticTraps.create(552, 540, "spikes").setScale(0);
 
 	// Set random bounce on points
 	Game.setRandomBounce.call(this, this.points);

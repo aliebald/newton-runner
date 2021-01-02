@@ -10,6 +10,7 @@ const graph: GraphInputConfig = {
 	xTitle: "Zeit in s",
 	yTitle: "Ort in m",
 	minY: 0,
+	maxYDistance: 5,
 	fixedStart: true,
 	maxY: width / 50,
 	data: convertDataArray([2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -130,14 +131,24 @@ function afterCreate(this: Game): void {
 	this.variables.set("bridge1", bridge1);
 	this.variables.set("bridge2", bridge2);
 
-	// Add coinGold as points
 	this.points.create(560, 60, "coinGold");
+	this.points.create(635, 400, "coinGold");
+
 	this.dynamicGoals.create(950, 300, "keyYellow");
 
-	// Add a sample trap
-	this.staticTraps.create(580, 433, "spikes").setScale(0.5).refreshBody();
+	// Left hole
+	this.staticTraps.create(386, 570, "spikes").setScale(0.5).refreshBody();
+	this.staticTraps.create(453, 570, "spikes").setScale(0.5).refreshBody();
+	this.staticTraps.create(287, 540, "spikes").setScale(0);
+	this.staticTraps.create(552, 540, "spikes").setScale(0);
+	// right hole
+	this.staticTraps.create(736, 570, "spikes").setScale(0.5).refreshBody();
+	this.staticTraps.create(803, 570, "spikes").setScale(0.5).refreshBody();
+	this.staticTraps.create(638, 540, "spikes").setScale(0);
+	this.staticTraps.create(902, 540, "spikes").setScale(0);
+
+	this.staticTraps.create(560, 433, "spikes").setScale(0.5).refreshBody();
 	this.staticTraps.create(920, 233, "spikes").setScale(0.5).refreshBody();
-	this.staticTraps.create(420, 650, "spikes");
 
 	// Set random bounce on points
 	Game.setRandomBounce.call(this, this.points);

@@ -10,6 +10,7 @@ const graph: GraphInputConfig = {
 	xTitle: "Zeit in s",
 	yTitle: "Ort in m",
 	minY: 0,
+	maxYDistance: 5,
 	fixedStart: true,
 	maxY: width / 50,
 	data: convertDataArray([2, 0, 0, 0, 0, 0, 0, 0])

@@ -38,60 +38,9 @@ export default class GraphInput extends React.Component<
 			chart: {
 				events: {
 					click: function (event: any) {
-						let newY: number = parseFloat(event.yAxis[0].value.toFixed(1));
+						const newY: number = parseFloat(event.yAxis[0].value.toFixed(1));
 						const pointIdx: number = Math.round(event.xAxis[0].value);
-						const data = that.props.cfg.data;
-						if (pointIdx === 0 && that.props.cfg.fixedStart) {
-							return;
-						}
-
-						if (newY > props.cfg.maxY) {
-							newY = props.cfg.maxY;
-						} else if (newY < props.cfg.minY) {
-							newY = props.cfg.minY;
-						}
-
-						if (that.props.cfg.maxYDistance) {
-							const distance = that.props.cfg.maxYDistance;
-							if (
-								Math.abs(newY - data[0].y) > pointIdx * distance &&
-								that.props.cfg.fixedStart
-							) {
-								if (newY > data[0].y) {
-									newY = data[0].y + pointIdx * distance;
-								} else {
-									newY = data[0].y - pointIdx * distance;
-								}
-							}
-							if (pointIdx === 0) {
-								data[pointIdx].y = newY;
-								that.internalChart.update(that.options);
-								that.applyMaxDistanceToPoint(1, false);
-								return;
-							} else if (pointIdx === data.length - 1) {
-								data[pointIdx].y = newY;
-								that.internalChart.update(
-									this.options,
-									undefined,
-									undefined,
-									false
-								);
-								that.applyMaxDistanceToPoint(pointIdx - 1, true);
-							} else {
-								data[pointIdx].y = newY;
-								that.internalChart.update(
-									that.options,
-									undefined,
-									undefined,
-									false
-								);
-								that.applyMaxDistanceToPoint(pointIdx + 1, false);
-								that.applyMaxDistanceToPoint(pointIdx - 1, true);
-							}
-						} else {
-							data[pointIdx].y = newY;
-							that.internalChart.update(that.options, undefined, undefined, false);
-						}
+						that.movePoint(newY, pointIdx);
 					}
 				}
 			},
@@ -133,7 +82,10 @@ export default class GraphInput extends React.Component<
 								return that.correctDragPosition(this, e);
 							},
 							drop: function (e: any) {
-								return that.correctDragPosition(this, e);
+								const newY: number = parseFloat(e.newPoint.y.toFixed(1));
+								const pointIdx: number = Math.round(this.x);
+								that.movePoint(newY, pointIdx);
+								return false;
 							}
 						}
 					},
@@ -196,34 +148,60 @@ export default class GraphInput extends React.Component<
 	correctDragPosition(point: Highcharts.Point, e: any): boolean {
 		const newY: number = parseFloat(e.newPoint.y.toFixed(1));
 		const pointIdx: number = Math.round(point.x);
-		const series = this.options.series;
-		if (series && series[0]) {
-			if (pointIdx == 0 && this.props.cfg.fixedStart) {
+		if (this.props.cfg.fixedStart) {
+			if (pointIdx == 0) {
 				return false;
-			}
-			if (this.props.cfg.maxYDistance) {
+			} else if (this.props.cfg.maxYDistance) {
 				const distance = this.props.cfg.maxYDistance;
-				const isLast = pointIdx == (series[0] as any).data.length - 1;
-				const isFirst = pointIdx == 0;
-				if (isFirst) {
-					const first = newY;
-					const second = (series[0] as any).data[1].y;
-					return Math.abs(first - second) <= distance;
-				} else if (isLast) {
-					const last = newY;
-					const before = (series[0] as any).data[pointIdx - 1].y;
-					return Math.abs(last - before) <= distance;
-				} else {
-					const before = (series[0] as any).data[pointIdx - 1].y;
-					const mid = newY;
-					const after = (series[0] as any).data[pointIdx + 1].y;
-					return Math.abs(before - mid) <= distance && Math.abs(after - mid) <= distance;
-				}
+				return Math.abs(newY - this.props.cfg.data[0].y) < distance * pointIdx;
 			} else {
 				return true;
 			}
+		} else {
+			return true;
 		}
-		return false;
+	}
+
+	movePoint(newY: number, pointIdx: number): void {
+		const data = this.props.cfg.data;
+		if (pointIdx === 0 && this.props.cfg.fixedStart) {
+			return;
+		}
+
+		if (newY > this.props.cfg.maxY) {
+			newY = this.props.cfg.maxY;
+		} else if (newY < this.props.cfg.minY) {
+			newY = this.props.cfg.minY;
+		}
+
+		if (this.props.cfg.maxYDistance) {
+			const distance = this.props.cfg.maxYDistance;
+			if (Math.abs(newY - data[0].y) > pointIdx * distance && this.props.cfg.fixedStart) {
+				if (newY > data[0].y) {
+					newY = data[0].y + pointIdx * distance;
+				} else {
+					newY = data[0].y - pointIdx * distance;
+				}
+			}
+			if (pointIdx === 0) {
+				data[pointIdx].y = newY;
+				this.internalChart.update(this.options);
+				this.applyMaxDistanceToPoint(1, false);
+				return;
+			} else if (pointIdx === data.length - 1) {
+				data[pointIdx].y = newY;
+				this.internalChart.update(this.options, undefined, undefined, false);
+				this.applyMaxDistanceToPoint(pointIdx - 1, true);
+			} else {
+				data[pointIdx].y = newY;
+				this.internalChart.update(this.options, undefined, undefined, false);
+				this.applyMaxDistanceToPoint(pointIdx + 1, false);
+				this.applyMaxDistanceToPoint(pointIdx - 1, true);
+			}
+		} else {
+			data[pointIdx].y = newY;
+			this.internalChart.update(this.options, undefined, undefined, false);
+		}
 	}
 
 	colorGraphUpToX(x: number): void {

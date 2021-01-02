@@ -22,7 +22,6 @@ export function Quiz(props: {
 }): ReactElement {
 	const progress = getQuizProgress(props.config.id, props.config.questions);
 	const [allSolved, setallSolved] = useState(checkAllSolved());
-	console.log(allSolved);
 
 	const navButtons = (
 		<div className="d-flex">

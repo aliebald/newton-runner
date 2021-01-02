@@ -1,8 +1,10 @@
 import React, { ReactElement } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Question, QuestionConfig, questionStateType } from "./Question";
 import "./../css/style.quiz.css";
 import { saveSingleQuestion, loadQuizProgress, QuestionProgress, QuizProgress } from "../userdata";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export interface QuizConfig {
 	id: string;
@@ -13,16 +15,58 @@ export interface QuizConfig {
 	questions: QuestionConfig[];
 }
 
-export function Quiz(props: { config: QuizConfig; nextPage: string }): ReactElement {
+export function Quiz(props: {
+	config: QuizConfig;
+	nextPage: string;
+	theoryLink?: string;
+}): ReactElement {
 	const progress = getQuizProgress(props.config.id, props.config.questions);
+	const [allSolved, setallSolved] = useState(checkAllSolved());
+	console.log(allSolved);
+
+	const navButtons = (
+		<div className="d-flex">
+			{props.theoryLink ? (
+				<Link to={props.theoryLink}>
+					<Button variant="primary">Theorie&nbsp;wiederholen</Button>
+				</Link>
+			) : (
+				<></>
+			)}
+			{allSolved ? (
+				<Link to={props.nextPage} className="ml-auto">
+					<Button variant="primary">Weiter</Button>
+				</Link>
+			) : (
+				<OverlayTrigger
+					placement="auto"
+					delay={{ show: 0, hide: 150 }}
+					/* setting transition to false will avoids a React.findDOMNode call, which is not strict mode compliant (but still works) */
+					transition={true}
+					overlay={
+						<Tooltip id="tooltip-disabled">
+							Beantworte erst alle Fragen bevor du weiter gehst
+						</Tooltip>
+					}
+				>
+					<span className="d-inline-block ml-auto">
+						<Button variant="primary" disabled style={{ pointerEvents: "none" }}>
+							Weiter
+						</Button>
+					</span>
+				</OverlayTrigger>
+			)}
+		</div>
+	);
 
 	return (
 		<Container fluid="lg">
 			<Row>
 				<Col>
-					<div className="quizPageTextBox">
-						<h1>{props.config.title}</h1>
-						<p>{props.config.description}</p>
+					<div className="quizPageTextBox pt-3">
+						<h2 className="px-3">{props.config.title}</h2>
+						<p className="px-3">{props.config.description}</p>
+						<div className="px-3 card-footer">{navButtons}</div>
 					</div>
 				</Col>
 			</Row>
@@ -38,6 +82,11 @@ export function Quiz(props: { config: QuizConfig; nextPage: string }): ReactElem
 					</Col>
 				</Row>
 			))}
+			<Row className="pt-2 pb-5">
+				<Col>
+					<div className="boxWrapper px-4">{navButtons}</div>
+				</Col>
+			</Row>
 		</Container>
 	);
 
@@ -79,6 +128,17 @@ export function Quiz(props: { config: QuizConfig; nextPage: string }): ReactElem
 		};
 	}
 
+	/**
+	 * Checks if all questions are solved (correct or incorrect)
+	 */
+	function checkAllSolved() {
+		let allSolved = true;
+		progress.questions.forEach((question) => {
+			allSolved = allSolved && question.state !== "unsolved";
+		});
+		return allSolved;
+	}
+
 	function updateQuestionProgress(state: questionStateType, questionId: string): void {
 		const question: QuestionProgress = {
 			id: questionId,
@@ -92,5 +152,6 @@ export function Quiz(props: { config: QuizConfig; nextPage: string }): ReactElem
 		}
 
 		saveSingleQuestion(progress, question);
+		setallSolved(checkAllSolved());
 	}
 }

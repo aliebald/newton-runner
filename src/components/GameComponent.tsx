@@ -77,10 +77,12 @@ export default class GameComponent extends React.Component<
 	public gameEnded = (
 		goal: boolean,
 		trap: boolean,
+		requiredTime: number,
 		bonusPoints: number,
 		maxBonusPoints: number,
 		restart: () => void
 	): void => {
+		console.log("time: " + requiredTime);
 		let won = false;
 		const points =
 			this.props.settings.pointsPerAttempt &&
@@ -141,6 +143,7 @@ export default class GameComponent extends React.Component<
 			saveProgress({
 				id: this.props.id,
 				solved: won,
+				requiredTime: requiredTime,
 				attempts: this.state.attempt,
 				achievedBonusPoints: bonusPoints,
 				achievedPoints: points

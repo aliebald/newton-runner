@@ -14,6 +14,7 @@ export interface QuestProgress {
 	id: string;
 	solved: boolean;
 	attempts: number;
+	requiredTime: number;
 	achievedPoints: number;
 	achievedBonusPoints: number;
 }
@@ -243,7 +244,7 @@ function valid(progress: QuizProgress | QuestProgress) {
  */
 function validQuest(quest: QuestProgress): boolean {
 	return (
-		quest.achievedPoints >= 0 && quest.attempts >= 0 && quest.id != "" // TODO check if this id exists / is valid
+		quest.achievedPoints >= 0 && quest.attempts >= 0 && quest.requiredTime > 0 && quest.id != "" // TODO check if this id exists / is valid
 	);
 }
 

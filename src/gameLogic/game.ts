@@ -20,6 +20,7 @@ let cameraWait: number;
 let gameEndModal: (
 	goal: boolean,
 	trap: boolean,
+	requiredTime: number,
 	bonusPoints: number,
 	maxBonusPoints: number,
 	restart: () => void
@@ -43,6 +44,7 @@ export default class Game extends Phaser.Scene {
 		gameEnded: (
 			goal: boolean,
 			trap: boolean,
+			requiredTime: number,
 			bonusPoints: number,
 			maxBonusPoints: number,
 			restart: () => void
@@ -671,6 +673,7 @@ const endGame = function endGame(this: Game): void {
 		gameEndModal(
 			this.collectedGoal,
 			false,
+			index,
 			this.score,
 			getMaxBonusPoints.call(this),
 			restartGame.bind(this)
@@ -695,6 +698,7 @@ const collideWithTrap = function collideWithTrap(
 		gameEndModal(
 			this.collectedGoal,
 			true,
+			index,
 			this.score,
 			getMaxBonusPoints.call(this),
 			restartGame.bind(this)

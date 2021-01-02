@@ -56,14 +56,18 @@ export default class GameComponent extends React.Component<
 			},
 			title: solved ? "Quest bereits geschafft" : "",
 			text: solved
-				? `Du hast diese Quest bereits mit 
-				${progress?.achievedPoints} Punkten 
+				? `Du hast diese Quest bereits 
+				${props.settings.pointsPerAttempt ? `mit ${progress?.achievedPoints} Punkten ` : ""}
 				${
 					progress?.achievedBonusPoints && progress?.achievedBonusPoints > 0
 						? "und " + progress?.achievedBonusPoints + " Bonuspunkten"
 						: ""
 				}
-				geschafft. Du kannst deine verdienten Punkte nicht mehr ändern, aber die Quest trotzdem noch einmal versuchen (unbewertet).`
+				geschafft. Du kannst ${
+					props.settings.pointsPerAttempt
+						? "deine verdienten Punkte nicht mehr ändern, aber "
+						: ""
+				} die Quest trotzdem noch einmal versuchen (unbewertet).`
 				: "",
 			redirect: null,
 			nextBtnCSS: solved ? "inline-block" : "none",

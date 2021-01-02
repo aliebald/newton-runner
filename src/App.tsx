@@ -10,6 +10,7 @@ import { Quiz } from "./components/Quiz";
 import { Theory } from "./components/Theory";
 import { Statistics } from "./components/Statistics";
 
+import exampleStory1 from "./levels/exampleLevels/exampleStory1";
 import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
 import exampleQuest2 from "./levels/exampleLevels/exampleQuest2";
 import level1Theory1 from "./levels/level1/level1Theory1";
@@ -45,6 +46,17 @@ function App(): ReactElement {
 				<Route path="/" exact component={LandingPage} />
 				<Route path="/LevelOverview" exact component={LevelOverview} />
 				<Route path="/Statistics" exact component={Statistics} />
+				<Route
+					path="/exampleStory1"
+					exact
+					component={() => (
+						<Theory
+							config={exampleStory1}
+							nextPage="/level1Quiz1"
+							isStory={true}
+						></Theory>
+					)}
+				/>
 				<Route
 					path="/ExampleQuest1"
 					exact

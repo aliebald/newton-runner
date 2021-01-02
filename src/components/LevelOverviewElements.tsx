@@ -22,7 +22,8 @@ export enum BadgeType {
 	THEORIE,
 	SPIEL,
 	QUIZ,
-	ERKLÄRUNG
+	ERKLÄRUNG,
+	STORY
 }
 
 function getCode(type: BadgeType): ReactElement {
@@ -32,7 +33,10 @@ function getCode(type: BadgeType): ReactElement {
 		return <Badge className="badgeGame">&#x1F3AE; Spiel</Badge>;
 	} else if (type === BadgeType.QUIZ) {
 		return <Badge className="badgeQuiz">&#x1F914; Quiz</Badge>;
-	} else return <></>;
+	} else if (type === BadgeType.STORY) {
+		return <Badge className="badgeStory">&#x1F4DC; Story</Badge>;
+	}
+	return <></>;
 }
 
 export function LevelOverviewCard(props: {

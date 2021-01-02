@@ -8,7 +8,7 @@ export function Slide(props: { element: JSX.Element; idx: number }): ReactElemen
 		<Carousel.Item className="carouselSlide" key={props.idx.toString()}>
 			<MathJax.Provider>
 				<div className="carouselSlideBox">
-					<p>{props.element}</p>
+					<div>{props.element}</div>
 				</div>
 			</MathJax.Provider>
 		</Carousel.Item>
@@ -19,8 +19,26 @@ export interface TheoryConfig {
 	slides: Array<JSX.Element>;
 }
 
-export function Theory(props: { config: TheoryConfig; nextPage: string }): ReactElement {
+export function Theory(props: {
+	config: TheoryConfig;
+	nextPage: string;
+	isStory?: boolean;
+}): ReactElement {
 	const { push } = useHistory();
+	const buttonText = props.isStory ? "Auf gehts!" : "Zum Quiz";
+	const lastSlideText = props.isStory ? (
+		<p className="text-center">
+			Bis du schon gespannt was dich erwartet? <br /> Klicke den Button um zu entdecken wie es
+			weiter geht.
+		</p>
+	) : (
+		<p className="text-center">
+			Alles verstanden? <br /> Dann teste dein neu erworbenes Wissen doch gleich in einem Quiz{" "}
+			<br />
+			oder nimm dir nochmal Zeit und lies in Ruhe alles durch.
+		</p>
+	);
+
 	return (
 		<Container>
 			<Carousel interval={null} wrap={false}>
@@ -28,20 +46,14 @@ export function Theory(props: { config: TheoryConfig; nextPage: string }): React
 				{Slide({
 					element: (
 						<>
-							<Row className="justify-content-center">
-								<p className="text-center">
-									Alles verstanden? <br /> Dann teste dein neu erworbenes Wissen
-									doch gleich in einem Quiz <br />
-									oder nimm dir nochmal Zeit und lies in Ruhe alles durch.
-								</p>
-							</Row>
+							<Row className="justify-content-center">{lastSlideText}</Row>
 							<Row className="justify-content-center">
 								<Button
 									className="mr-1"
 									variant="primary"
 									onClick={() => push(props.nextPage)}
 								>
-									Zum Quiz
+									{buttonText}
 								</Button>
 							</Row>
 						</>

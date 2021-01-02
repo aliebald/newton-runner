@@ -133,7 +133,7 @@ export function Question(props: {
 			</Card.Body>
 			<Card.Footer>
 				<Row className="text-center">
-					<Col className="d-flex">
+					<Col className="d-flex" xs={{ span: 6, order: 2 }} sm={{ span: 4, order: 1 }}>
 						<OverlayTrigger
 							placement="auto"
 							delay={{ show: 0, hide: 150 }}
@@ -152,8 +152,14 @@ export function Question(props: {
 							</div>
 						</OverlayTrigger>
 					</Col>
-					<Col>{solveBtn}</Col>
-					<Col className="d-flex justify-content-end">
+					<Col className="py-1" xs={{ span: 12, order: 1 }} sm={{ span: 4, order: 2 }}>
+						{solveBtn}
+					</Col>
+					<Col
+						className="d-flex justify-content-end"
+						xs={{ span: 6, order: 3 }}
+						sm={{ span: 4, order: 3 }}
+					>
 						<div className={"infoBoxOuter " + state}>
 							<div className="infoBoxText">{stateText}</div>
 						</div>

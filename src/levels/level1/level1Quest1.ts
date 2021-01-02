@@ -1,10 +1,19 @@
 import { GameConfig, controlType, character } from "../../gameLogic/GameConfig";
 import { GraphInputConfig } from "../../components/GraphInput";
+import { QuestStatistics } from "../../components/Statistics";
 import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 
 const width = 1200;
+const defaultMovement = [2, 0, 0, 0, 0, 0, 0, 0];
+
+export const questStatistics: QuestStatistics = {
+	title: "Level 1 Quest 1",
+	maxPoints: 0,
+	maxBonuspoints: 0,
+	maxTime: defaultMovement.length
+};
 
 const graph: GraphInputConfig = {
 	xTitle: "Zeit in s",
@@ -13,7 +22,7 @@ const graph: GraphInputConfig = {
 	maxYDistance: 5,
 	fixedStart: true,
 	maxY: width / 50,
-	data: convertDataArray([2, 0, 0, 0, 0, 0, 0, 0])
+	data: convertDataArray(defaultMovement)
 };
 
 const game: GameConfig = {
@@ -29,7 +38,7 @@ const game: GameConfig = {
 };
 
 // This is the settings json we export
-const settings: QuestConfig = {
+export const settings: QuestConfig = {
 	title: "Quest 1",
 	id: "level1Quest1",
 	graph: graph,
@@ -179,5 +188,3 @@ function afterCreate(this: Game): void {
 	}
 	this.dynamicGoals.create(755, 400, "keyYellow");
 }
-
-export default settings;

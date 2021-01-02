@@ -1,10 +1,20 @@
 import { GameConfig, controlType, character } from "../../gameLogic/GameConfig";
 import { GraphInputConfig } from "../../components/GraphInput";
+import { QuestStatistics } from "../../components/Statistics";
 import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 
 const width = 1200;
+const pointsPerAttempt = [10, 10, 9, 8, 6, 4, 2];
+const defaultMovement = [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+export const questStatistics: QuestStatistics = {
+	title: "Level 1 Quest 2",
+	maxPoints: pointsPerAttempt[0],
+	maxBonuspoints: 2,
+	maxTime: defaultMovement.length
+};
 
 const graph: GraphInputConfig = {
 	xTitle: "Zeit in s",
@@ -13,7 +23,7 @@ const graph: GraphInputConfig = {
 	maxYDistance: 5,
 	fixedStart: true,
 	maxY: width / 50,
-	data: convertDataArray([2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+	data: convertDataArray(defaultMovement)
 };
 
 const game: GameConfig = {
@@ -27,11 +37,11 @@ const game: GameConfig = {
 	onUpdate: onUpdate,
 	controls: controlType.t_x_graph,
 	character: character.hiker,
-	pointsPerAttempt: [10, 10, 9, 8, 6, 4, 2]
+	pointsPerAttempt: pointsPerAttempt
 };
 
 // This is the settings json we export
-const settings: QuestConfig = {
+export const settings: QuestConfig = {
 	title: "Quest 3",
 	id: "level1Quest3",
 	description:
@@ -206,5 +216,3 @@ function goUp(object: any, timeStart: number, timeEnd: number) {
 		object.setVelocityY(0);
 	}
 }
-
-export default settings;

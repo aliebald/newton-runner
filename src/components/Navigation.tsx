@@ -55,6 +55,11 @@ export default function Navigation(): ReactElement {
 						</NavDropdown.Item>
 					</NavDropdown>
 				</Nav>
+				<Nav className="ml-auto">
+					<Nav.Link as={Link} to="/Statistics" className="navElem">
+						Statistik
+					</Nav.Link>
+				</Nav>
 			</Navbar.Collapse>
 		</Navbar>
 	);

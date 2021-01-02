@@ -39,6 +39,22 @@ export function Question(props: {
 		props.config.solutionHint !== undefined && state !== "unsolved" && retry === false;
 	console.log("showHint " + showHint);
 
+	let stateText;
+	switch (state) {
+		case "unsolved": {
+			stateText = "Noch nicht gelöst";
+			break;
+		}
+		case "correct": {
+			stateText = "Korrekt";
+			break;
+		}
+		case "incorrect": {
+			stateText = "Inkorrekt";
+			break;
+		}
+	}
+
 	const solveBtn = retry ? (
 		<div className="d-flex justify-content-center">
 			<Button
@@ -112,9 +128,9 @@ export function Question(props: {
 						</div>
 					</Col>
 					<Col>{solveBtn}</Col>
-					<Col>
-						<div className="quizStatusBadgeBox ml-5" style={{ color: "green" }}>
-							<Badge variant={getCorrectBadge(state)}>{state}</Badge>
+					<Col className="d-flex justify-content-end">
+						<div className={"infoBoxOuter " + state}>
+							<div className="infoBoxText">{stateText}</div>
 						</div>
 					</Col>
 				</Row>
@@ -137,20 +153,6 @@ export function Question(props: {
 	function setAndUpdateState(state: questionStateType) {
 		setState(state);
 		props.saveState(state, props.config.id);
-	}
-
-	function getCorrectBadge(state: questionStateType): "success" | "danger" | "info" {
-		switch (state) {
-			case "unsolved": {
-				return "info";
-			}
-			case "correct": {
-				return "success";
-			}
-			case "incorrect": {
-				return "danger";
-			}
-		}
 	}
 
 	/**

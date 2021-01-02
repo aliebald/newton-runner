@@ -315,6 +315,16 @@ body {
 	padding-right: 0.7rem;
 }
 
+.correct {
+	color: green;
+	border-color: green;
+}
+
+.incorrect {
+	color: red;
+	border-color: red;
+}
+
 /*
  The height of gameDestination sets the maximum height of the game frame
  and therefore must be the height of the game (currently 600)!

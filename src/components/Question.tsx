@@ -37,7 +37,6 @@ export function Question(props: {
 
 	const showHint =
 		props.config.solutionHint !== undefined && state !== "unsolved" && retry === false;
-	console.log("showHint " + showHint);
 
 	let stateText;
 	switch (state) {
@@ -173,9 +172,14 @@ export function Question(props: {
 	 * Updates selected options when a option is clicked
 	 */
 	function select(index: number) {
-		const old = selected;
-		old[index] = !old[index];
-		setSelected(old);
+		if (props.config.type === "singleChoice") {
+			const replacement = props.config.options.map((_) => false);
+			replacement[index] = true;
+			setSelected(replacement);
+		} else {
+			selected[index] = !selected[index];
+			setSelected(selected);
+		}
 	}
 
 	/**

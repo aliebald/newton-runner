@@ -15,8 +15,8 @@ export interface GraphInputConfig {
 	yTitle: string;
 	minY: number;
 	maxY: number;
-	fixedStart?: boolean;
-	maxYDistance?: number;
+	fixedStart?: boolean; //if true the first point cant be moved
+	maxYDistance?: number; //max distance between two neighbour points
 	data: Array<{ y: number }>;
 }
 
@@ -144,6 +144,11 @@ export default class GraphInput extends React.Component<
 		}
 	}
 
+	/**
+	 * Checks wether the drag destination is valid
+	 * @param point the highcharts point that is being moved
+	 * @param e the move event
+	 */
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	correctDragPosition(point: Highcharts.Point, e: any): boolean {
 		const newY: number = parseFloat(e.newPoint.y.toFixed(1));
@@ -162,6 +167,11 @@ export default class GraphInput extends React.Component<
 		}
 	}
 
+	/**
+	 * Moves point to a new y-coordinate and adjusts neighbours if necessary
+	 * @param newY y-coordinate where the point is moved to
+	 * @param pointIdx the idx of the point in data
+	 */
 	movePoint(newY: number, pointIdx: number): void {
 		const data = this.props.cfg.data;
 		if (pointIdx === 0 && this.props.cfg.fixedStart) {
@@ -176,6 +186,7 @@ export default class GraphInput extends React.Component<
 
 		if (this.props.cfg.maxYDistance) {
 			const distance = this.props.cfg.maxYDistance;
+			//the wished destination maybe cannot be made possible if the start is fixed
 			if (Math.abs(newY - data[0].y) > pointIdx * distance && this.props.cfg.fixedStart) {
 				if (newY > data[0].y) {
 					newY = data[0].y + pointIdx * distance;

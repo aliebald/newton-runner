@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Badge, Button, Card, Col, Form, FormCheck, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, FormCheck, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import "./../css/style.quiz.css";
 
 export interface QuestionConfig {
@@ -89,6 +89,19 @@ export function Question(props: {
 		</Button>
 	);
 
+	const attemptsTooltip = (
+		<Tooltip id={`Question-${props.config.id}-AttemptsTooltip`}>
+			{props.rated ? (
+				<>Du hast genau einen Versuch f&uuml;r diese Frage.</>
+			) : (
+				<>
+					Ist deine Antwort falsch kannst du dich entscheiden, ob du die Lösung sehen oder
+					es nochmal versuchen willst.
+				</>
+			)}
+		</Tooltip>
+	);
+
 	return (
 		<Card className="questionBox">
 			<Card.Body>
@@ -121,11 +134,23 @@ export function Question(props: {
 			<Card.Footer>
 				<Row className="text-center">
 					<Col className="d-flex">
-						<div className="infoBoxOuter">
-							<div className="infoBoxText">
-								{props.rated ? <>Ein&nbsp;Versuch</> : <>&infin;&nbsp;Versuche</>}
+						<OverlayTrigger
+							placement="auto"
+							delay={{ show: 0, hide: 150 }}
+							overlay={attemptsTooltip}
+							/* setting transition to false will avoids a React.findDOMNode call, which is not strict mode compliant (but still works) */
+							transition={true}
+						>
+							<div className="infoBoxOuter infoBoxOuterInteractive">
+								<div className="infoBoxText">
+									{props.rated ? (
+										<>Ein&nbsp;Versuch</>
+									) : (
+										<>&infin;&nbsp;Versuche</>
+									)}
+								</div>
 							</div>
-						</div>
+						</OverlayTrigger>
 					</Col>
 					<Col>{solveBtn}</Col>
 					<Col className="d-flex justify-content-end">

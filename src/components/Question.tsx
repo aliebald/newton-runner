@@ -38,10 +38,21 @@ export function Question(props: {
 	const showHint =
 		props.config.solutionHint !== undefined && state !== "unsolved" && retry === false;
 
+	let attemptsTooltip = <>Du kannst bereits beantwortete Fragen nicht nochmal beantworten</>;
 	let stateText;
+	let attemptsText = <>Bereits&nbsp;beantwortet</>;
 	switch (state) {
 		case "unsolved": {
 			stateText = "Noch nicht gelöst";
+			attemptsText = props.rated ? <>Ein&nbsp;Versuch</> : <>&infin;&nbsp;Versuche</>;
+			attemptsTooltip = props.rated ? (
+				<>Du hast genau einen Versuch f&uuml;r diese Frage.</>
+			) : (
+				<>
+					Ist deine Antwort falsch kannst du dich entscheiden, ob du die L&ouml;sung sehen
+					oder es nochmal versuchen willst.
+				</>
+			);
 			break;
 		}
 		case "correct": {
@@ -88,19 +99,6 @@ export function Question(props: {
 		</Button>
 	);
 
-	const attemptsTooltip = (
-		<Tooltip id={`Question-${props.config.id}-AttemptsTooltip`}>
-			{props.rated ? (
-				<>Du hast genau einen Versuch f&uuml;r diese Frage.</>
-			) : (
-				<>
-					Ist deine Antwort falsch kannst du dich entscheiden, ob du die Lösung sehen oder
-					es nochmal versuchen willst.
-				</>
-			)}
-		</Tooltip>
-	);
-
 	return (
 		<Card className="questionBox">
 			<Card.Body>
@@ -136,18 +134,16 @@ export function Question(props: {
 						<OverlayTrigger
 							placement="auto"
 							delay={{ show: 0, hide: 150 }}
-							overlay={attemptsTooltip}
+							overlay={
+								<Tooltip id={`Question-${props.config.id}-AttemptsTooltip`}>
+									{attemptsTooltip}
+								</Tooltip>
+							}
 							/* setting transition to false will avoids a React.findDOMNode call, which is not strict mode compliant (but still works) */
 							transition={true}
 						>
 							<div className="infoBoxOuter infoBoxOuterInteractive">
-								<div className="infoBoxText">
-									{props.rated ? (
-										<>Ein&nbsp;Versuch</>
-									) : (
-										<>&infin;&nbsp;Versuche</>
-									)}
-								</div>
+								<div className="infoBoxText">{attemptsText}</div>
 							</div>
 						</OverlayTrigger>
 					</Col>

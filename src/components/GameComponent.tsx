@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import Game from "../gameLogic/game";
 import { GameConfig } from "../gameLogic/GameConfig";
 import { Redirect } from "react-router-dom";
-import { saveProgress, loadQuestProgress } from "../userdata";
+import { loadQuestProgress, saveQuestAttempt } from "../userdata";
 
 // Information about the Error: https://github.com/react-bootstrap/react-bootstrap/issues/5075
 
@@ -45,10 +45,11 @@ export default class GameComponent extends React.Component<
 		super(props);
 		// check if this game was already won once
 		const progress = loadQuestProgress(props.id);
-		const solved: boolean = progress !== undefined && progress.solved;
-		if (solved && progress?.attempts) {
-			props.setSolvedAtAttempt(progress?.attempts);
+		const solved: boolean = progress.solvedAt >= 0;
+		if (solved && progress.attempts) {
+			props.setSolvedAtAttempt(progress.solvedAt);
 		}
+		const attempt = progress.attempts[progress.solvedAt];
 		this.state = {
 			showModal: solved,
 			restart: () => {
@@ -57,10 +58,10 @@ export default class GameComponent extends React.Component<
 			title: solved ? "Quest bereits geschafft" : "",
 			text: solved
 				? `Du hast diese Quest bereits 
-				${props.settings.pointsPerAttempt ? `mit ${progress?.achievedPoints} Punkten ` : ""}
+				${props.settings.pointsPerAttempt ? `mit ${attempt?.achievedPoints} Punkten ` : ""}
 				${
-					progress?.achievedBonusPoints && progress?.achievedBonusPoints > 0
-						? "und " + progress?.achievedBonusPoints + " Bonuspunkten"
+					attempt?.achievedBonusPoints && attempt?.achievedBonusPoints > 0
+						? "und " + attempt?.achievedBonusPoints + " Bonuspunkten"
 						: ""
 				}
 				geschafft. Du kannst ${
@@ -72,7 +73,7 @@ export default class GameComponent extends React.Component<
 			redirect: null,
 			nextBtnCSS: solved ? "inline-block" : "none",
 			retryBtnVariant: "outline-primary",
-			attempt: progress ? progress.attempts + 1 : 1,
+			attempt: progress.attempts.length + 1,
 			solved: solved
 		};
 		this.props.setAttempt(this.state.attempt);
@@ -86,7 +87,6 @@ export default class GameComponent extends React.Component<
 		maxBonusPoints: number,
 		restart: () => void
 	): void => {
-		console.log("time: " + requiredTime);
 		let won = false;
 		const points =
 			this.props.settings.pointsPerAttempt &&
@@ -142,17 +142,13 @@ export default class GameComponent extends React.Component<
 			});
 		}
 
-		// Save progress if the quest was not solved before
-		if (!this.state.solved) {
-			saveProgress({
-				id: this.props.id,
-				solved: won,
-				requiredTime: requiredTime,
-				attempts: this.state.attempt,
-				achievedBonusPoints: bonusPoints,
-				achievedPoints: points
-			});
-		}
+		saveQuestAttempt(this.props.id, {
+			solved: won,
+			requiredTime: requiredTime,
+			achievedBonusPoints: bonusPoints,
+			achievedPoints: points
+		});
+
 		if (won) {
 			this.props.setSolvedAtAttempt(this.state.attempt);
 		}

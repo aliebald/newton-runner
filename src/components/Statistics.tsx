@@ -15,15 +15,15 @@ import { QuizConfig } from "./Quiz";
 export function Statistics(): ReactElement {
 	const quests: { progress: QuestProgress; stats: QuestStats }[] = [];
 	quests.push({
-		progress: getQuestProgress("level1Quest1"),
+		progress: loadQuestProgress("level1Quest1"),
 		stats: level1Quest1
 	});
 	quests.push({
-		progress: getQuestProgress("level1Quest2"),
+		progress: loadQuestProgress("level1Quest2"),
 		stats: level1Quest2
 	});
 	quests.push({
-		progress: getQuestProgress("level1Quest3"),
+		progress: loadQuestProgress("level1Quest3"),
 		stats: level1Quest3
 	});
 
@@ -42,22 +42,6 @@ export function Statistics(): ReactElement {
 			<StatisticsLevel quests={quests} quizzes={quizzes} level={1} />
 		</Container>
 	);
-
-	function getQuestProgress(questId: string) {
-		const progress = loadQuestProgress(questId);
-		if (!progress) {
-			//TODO do sth useful
-			return {
-				id: questId,
-				solved: false,
-				attempts: 0,
-				requiredTime: 0,
-				achievedPoints: 0,
-				achievedBonusPoints: 0
-			};
-		}
-		return progress;
-	}
 }
 
 function StatisticsLevel(props: {
@@ -69,7 +53,7 @@ function StatisticsLevel(props: {
 	const maxCompletion = props.quests.length + props.quizzes.length;
 	// Count solved quests
 	for (let i = 0; i < props.quests.length; i++) {
-		if (props.quests[i].progress.solved) {
+		if (props.quests[i].progress.solvedAt >= 0) {
 			completion++;
 		}
 	}

@@ -12,8 +12,16 @@ import { questionStateType } from "./components/Question";
 
 export interface QuestProgress {
 	id: string;
+	/**
+	 * -1 if not yet solved. Refers to index of attempt, so the actual successful attempt is `solvedAt + 1`.
+	 * The first successful attempt can be found at `attempts[solvedAt]`.
+	 */
+	solvedAt: number;
+	attempts: QuestAttempt[];
+}
+
+export interface QuestAttempt {
 	solved: boolean;
-	attempts: number;
 	requiredTime: number;
 	achievedPoints: number;
 	achievedBonusPoints: number;
@@ -62,6 +70,23 @@ export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
 	// Save local
 	saveUserdataLocal(progress);
 	return true;
+}
+
+/**
+ * Saves a single attempt
+ *
+ * @param `id` id of the QuestProgress this attempt is part of
+ * @param `attempt`
+ */
+export function saveQuestAttempt(id: string, attempt: QuestAttempt): void {
+	// TODO Communicate with server
+
+	const quest = loadQuestProgress(id);
+	if (quest.solvedAt < 0 && attempt.solved) {
+		quest.solvedAt = quest.attempts.length;
+	}
+	quest.attempts.push(attempt);
+	saveProgress(quest);
 }
 
 /**
@@ -134,7 +159,7 @@ export function loadQuizProgress(id: string): QuizProgress | undefined {
  * @param id id of QuestProgress to load
  * @returns undefined if there is no QuestProgress with the given id. Otherwise it returns the QuestProgress with the given id
  */
-export function loadQuestProgress(id: string): QuestProgress | undefined {
+export function loadQuestProgress(id: string): QuestProgress {
 	// Load from server if possible
 
 	// TODO
@@ -142,7 +167,15 @@ export function loadQuestProgress(id: string): QuestProgress | undefined {
 	// else, load from local storage
 	const userdata = loadUserdataLocal();
 	const index = find(id, userdata.quests);
-	return index !== -1 ? userdata.quests[index] : undefined;
+	if (index !== -1) {
+		return userdata.quests[index];
+	} else {
+		return {
+			id: id,
+			solvedAt: -1,
+			attempts: []
+		};
+	}
 }
 
 /**
@@ -243,9 +276,13 @@ function valid(progress: QuizProgress | QuestProgress) {
  * @returns true if the given QuestProgress is valid, else false
  */
 function validQuest(quest: QuestProgress): boolean {
-	return (
-		quest.achievedPoints >= 0 && quest.attempts >= 0 && quest.requiredTime > 0 && quest.id != "" // TODO check if this id exists / is valid
-	);
+	for (let i = 0; i < quest.attempts.length; i++) {
+		if (quest.attempts[i].achievedPoints < 0 && quest.attempts[i].requiredTime <= 0) {
+			return false;
+		}
+	}
+
+	return quest.id != ""; // TODO check if this id exists / is valid
 }
 
 /**

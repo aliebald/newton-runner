@@ -1,35 +1,49 @@
 import React, { ReactElement } from "react";
 import { Container, ProgressBar } from "react-bootstrap";
-import { loadQuestProgress, QuestProgress } from "../userdata";
+import { loadQuestProgress, loadQuizProgress, QuestProgress, QuizProgress } from "../userdata";
+import { StatisticQuest, QuestStats } from "./StatisticQuest";
+import StatisticQuiz from "./StatisticQuiz";
 import "./../css/style.statistics.css";
 
 import { questStatistics as level1Quest1 } from "../levels/level1/level1Quest1";
 import { questStatistics as level1Quest2 } from "../levels/level1/level1Quest2";
 import { questStatistics as level1Quest3 } from "../levels/level1/level1Quest3";
-import { StatisticQuest, QuestStats } from "./StatisticQuest";
+import level1Quiz1 from "../levels/level1/level1Quiz1";
+import level1Quiz2 from "../levels/level1/level1Quiz2";
+import { QuizConfig } from "./Quiz";
 
 export function Statistics(): ReactElement {
-	const stats: { progress: QuestProgress; stats: QuestStats }[] = [];
-	stats.push({
-		progress: getProgress("level1Quest1"),
+	const quests: { progress: QuestProgress; stats: QuestStats }[] = [];
+	quests.push({
+		progress: getQuestProgress("level1Quest1"),
 		stats: level1Quest1
 	});
-	stats.push({
-		progress: getProgress("level1Quest2"),
+	quests.push({
+		progress: getQuestProgress("level1Quest2"),
 		stats: level1Quest2
 	});
-	stats.push({
-		progress: getProgress("level1Quest3"),
+	quests.push({
+		progress: getQuestProgress("level1Quest3"),
 		stats: level1Quest3
+	});
+
+	const quizzes: { progress: QuizProgress | undefined; config: QuizConfig }[] = [];
+	quizzes.push({
+		progress: loadQuizProgress("level1Quiz1"),
+		config: level1Quiz1
+	});
+	quizzes.push({
+		progress: loadQuizProgress("level1Quiz2"),
+		config: level1Quiz2
 	});
 
 	return (
 		<Container className="mb-5">
-			<StatisticsLevel quests={stats} level={1} />
+			<StatisticsLevel quests={quests} quizzes={quizzes} level={1} />
 		</Container>
 	);
 
-	function getProgress(questId: string) {
+	function getQuestProgress(questId: string) {
 		const progress = loadQuestProgress(questId);
 		if (!progress) {
 			//TODO do sth useful
@@ -48,6 +62,7 @@ export function Statistics(): ReactElement {
 
 function StatisticsLevel(props: {
 	quests: { progress: QuestProgress; stats: QuestStats }[];
+	quizzes: { progress: QuizProgress | undefined; config: QuizConfig }[];
 	level: number;
 }): JSX.Element {
 	let completion = 0;
@@ -62,6 +77,14 @@ function StatisticsLevel(props: {
 			questProgress={elem.progress}
 			questStats={elem.stats}
 			key={"stat-lvl-" + elem.progress.id}
+		/>
+	));
+
+	const quizzes = props.quizzes.map((elem) => (
+		<StatisticQuiz
+			quizProgress={elem.progress}
+			quizConfig={elem.config}
+			key={"stat-lvl-" + elem.config.id}
 		/>
 	));
 
@@ -83,6 +106,7 @@ function StatisticsLevel(props: {
 				</div>
 			</div>
 			{quests}
+			{quizzes}
 		</div>
 	);
 }

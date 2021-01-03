@@ -1,6 +1,6 @@
 import { GameConfig, controlType, character } from "../../gameLogic/GameConfig";
+import { QuestStats } from "../../components/StatisticQuest";
 import { GraphInputConfig } from "../../components/GraphInput";
-import { QuestStatistics } from "../../components/Statistics";
 import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
@@ -9,7 +9,7 @@ const width = 1200;
 const pointsPerAttempt = [10, 10, 9, 8, 6, 4, 2];
 const defaultMovement = [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-export const questStatistics: QuestStatistics = {
+export const questStatistics: QuestStats = {
 	title: "Level 1 Quest 2",
 	maxPoints: pointsPerAttempt[0],
 	maxBonuspoints: 2,

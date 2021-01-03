@@ -6,17 +6,10 @@ import "./../css/style.statistics.css";
 import { questStatistics as level1Quest1 } from "../levels/level1/level1Quest1";
 import { questStatistics as level1Quest2 } from "../levels/level1/level1Quest2";
 import { questStatistics as level1Quest3 } from "../levels/level1/level1Quest3";
-import QuestStatistic from "./StatisticQuest";
-
-export interface QuestStatistics {
-	title: string;
-	maxPoints: number;
-	maxBonuspoints: number;
-	maxTime: number;
-}
+import { StatisticQuest, QuestStats } from "./StatisticQuest";
 
 export function Statistics(): ReactElement {
-	const stats: { progress: QuestProgress; stats: QuestStatistics }[] = [];
+	const stats: { progress: QuestProgress; stats: QuestStats }[] = [];
 	stats.push({
 		progress: getProgress("level1Quest1"),
 		stats: level1Quest1
@@ -54,7 +47,7 @@ export function Statistics(): ReactElement {
 }
 
 function StatisticsLevel(props: {
-	quests: { progress: QuestProgress; stats: QuestStatistics }[];
+	quests: { progress: QuestProgress; stats: QuestStats }[];
 	level: number;
 }): JSX.Element {
 	let completion = 0;
@@ -65,7 +58,7 @@ function StatisticsLevel(props: {
 	}
 
 	const quests = props.quests.map((elem) => (
-		<QuestStatistic
+		<StatisticQuest
 			questProgress={elem.progress}
 			questStats={elem.stats}
 			key={"stat-lvl-" + elem.progress.id}

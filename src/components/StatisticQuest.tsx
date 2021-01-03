@@ -1,13 +1,19 @@
 import React, { ReactElement } from "react";
 import { Col, ProgressBar, Row } from "react-bootstrap";
-import { QuestStatistics } from "./Statistics";
 import { QuestProgress } from "../userdata";
 import "./../css/style.statistics.css";
 
+export interface QuestStats {
+	title: string;
+	maxPoints: number;
+	maxBonuspoints: number;
+	maxTime: number;
+}
+
 // Statistics for a single quest. Named StatisticQuest for better overview in components folder
-export default function StatisticQuest(props: {
+export function StatisticQuest(props: {
 	questProgress: QuestProgress;
-	questStats: QuestStatistics;
+	questStats: QuestStats;
 }): ReactElement {
 	return (
 		<div className="separator">

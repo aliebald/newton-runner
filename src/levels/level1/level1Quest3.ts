@@ -177,7 +177,7 @@ function onUpdate(this: Game): void {
 		}
 		if (this.player.x >= 740 && !this.variables.get("bridge2_start")) {
 			this.variables.set("bridge2_start", new Date().getTime());
-			this.variables.set("bridge2_end", new Date().getTime() + 2350);
+			this.variables.set("bridge2_end", new Date().getTime() + 2450);
 			this.variables.set("bridge2StartY", 233);
 			this.variables.set("bridge2EndY", 490);
 		}

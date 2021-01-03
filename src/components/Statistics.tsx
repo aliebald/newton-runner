@@ -66,9 +66,23 @@ function StatisticsLevel(props: {
 	level: number;
 }): JSX.Element {
 	let completion = 0;
+	const maxCompletion = props.quests.length + props.quizzes.length;
+	// Count solved quests
 	for (let i = 0; i < props.quests.length; i++) {
 		if (props.quests[i].progress.solved) {
 			completion++;
+		}
+	}
+	// Count solved questions. Each Quest is 1 point for completion
+	for (let i = 0; i < props.quizzes.length; i++) {
+		if (props.quizzes[i].progress) {
+			const progress = props.quizzes[i].progress as QuizProgress;
+			const questionValue = 1 / progress.questions.length;
+			for (let j = 0; j < progress.questions.length; j++) {
+				if (progress.questions[j].state !== "unsolved") {
+					completion += questionValue;
+				}
+			}
 		}
 	}
 
@@ -91,20 +105,15 @@ function StatisticsLevel(props: {
 	return (
 		<div className="mx-auto mt-3 px-3 boxWrapper">
 			<h3 className="text-center">Level {props.level}</h3>
-			<div className="d-flex align-items-center">
-				<div>Vorschritt:&nbsp;</div>
-				<div className="w-100">
-					<ProgressBar
-						animated
-						striped
-						variant="success"
-						now={completion}
-						max={props.quests.length}
-						key={1}
-						label={((completion / props.quests.length) * 100).toFixed(2) + "%"}
-					/>
-				</div>
-			</div>
+			<ProgressBar
+				animated
+				striped
+				variant="success"
+				now={completion}
+				max={maxCompletion}
+				key={1}
+				label={((completion / maxCompletion) * 100).toFixed(2) + "%"}
+			/>
 			{quests}
 			{quizzes}
 		</div>

@@ -17,7 +17,7 @@ export function StatisticQuest(props: {
 }): ReactElement {
 	return (
 		<div className="separator">
-			<div className="d-flex pt-3">
+			<div className="d-flex pt-4">
 				<h4 className="mr-auto">{props.questStats.title}</h4>
 				<div
 					className={props.questProgress.solved ? "infoBoxOuter correct" : "infoBoxOuter"}

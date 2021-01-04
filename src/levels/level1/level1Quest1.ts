@@ -12,6 +12,7 @@ export const questStatistics: QuestStats = {
 	title: "Level 1 Quest 1",
 	maxPoints: 0,
 	maxBonuspoints: 0,
+	minTimePossible: 3,
 	maxTime: defaultMovement.length
 };
 

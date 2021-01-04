@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Col, ProgressBar, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { QuestProgress } from "../userdata";
 import "./../css/style.statistics.css";
 import TextProgressBar from "./TextProgressBar";
@@ -10,6 +10,9 @@ export interface QuestStats {
 	title: string;
 	maxPoints: number;
 	maxBonuspoints: number;
+	/** Fastest possible attempt */
+	minTimePossible: number;
+	/** slowest possible attempt */
 	maxTime: number;
 }
 
@@ -31,6 +34,62 @@ export function StatisticQuest(props: {
 		return <></>;
 	}
 
+	// Highcharts options
+	const series = [
+		{
+			name: dataName,
+			data: data,
+			color: "#4c83e0"
+		}
+	];
+
+	if (focus === "time") {
+		const timeRequired: number[] = [];
+		props.questProgress.attempts.forEach((elem) => {
+			timeRequired.push(elem.requiredTime);
+		});
+		series.push({
+			name: "Benötigte Zeit",
+			data: timeRequired,
+			color: "grey"
+		});
+	}
+
+	const options = {
+		chart: {
+			type: "spline",
+			height: 300
+		},
+		title: {
+			text: undefined
+		},
+		xAxis: {
+			categories: data.map((_, i) => `Versuch ${i + 1}`),
+			crosshair: true
+		},
+		yAxis: {
+			min: 0,
+			title: {
+				text: focus === "time" ? "Zeit in s" : dataName
+			}
+		},
+		tooltip: {
+			headerFormat: "{point.key}:<br/>",
+			pointFormat:
+				'<span style="color:{series.color};">{series.name}: </span>' +
+				"<b>{point.y:.1f}<br/></b>",
+			shared: true,
+			useHTML: true
+		},
+		plotOptions: {
+			column: {
+				pointPadding: 0.2,
+				borderWidth: 0
+			}
+		},
+		series: series
+	};
+
 	return (
 		<div className="separator">
 			<div className="d-flex pt-4">
@@ -49,12 +108,14 @@ export function StatisticQuest(props: {
 						prefix
 					/>
 					<TextProgressBar
-						now={props.questProgress.attempts[index].requiredTime}
-						max={props.questStats.maxTime}
-						label="Sekunden benötigt"
+						now={
+							props.questStats.maxTime -
+							props.questProgress.attempts[index].requiredTime
+						}
+						max={props.questStats.maxTime - props.questStats.minTimePossible}
+						label="Sekunden eingespart "
 						onClick={() => setFocus("time")}
 						prefix
-						noColorCoding
 					/>
 					<TextProgressBar
 						now={props.questProgress.attempts[index].achievedBonusPoints}
@@ -70,7 +131,7 @@ export function StatisticQuest(props: {
 					</div>
 				</Col>
 				<Col sm="8">
-					<AttemptsVisualization data={data} yAxis={dataName} />
+					<HighchartsReact highcharts={Highcharts} options={options} />
 				</Col>
 			</Row>
 		</div>
@@ -97,58 +158,13 @@ export function StatisticQuest(props: {
 				break;
 			}
 			case "time": {
-				dataName = "Zeit in s";
+				dataName = "Zeit eingespart";
 				props.questProgress.attempts.forEach((elem) => {
-					data.push(elem.requiredTime);
+					data.push(props.questStats.maxTime - elem.requiredTime);
 				});
 				break;
 			}
 		}
 		return [data, dataName];
 	}
-}
-
-function AttemptsVisualization(props: { data: number[]; yAxis: string }) {
-	const options = {
-		chart: {
-			type: "spline",
-			height: 300
-		},
-		title: {
-			text: undefined
-		},
-		xAxis: {
-			categories: props.data.map((_, i) => `Versuch ${i + 1}`),
-			crosshair: true
-		},
-		yAxis: {
-			min: 0,
-			title: {
-				text: props.yAxis
-			}
-		},
-		tooltip: {
-			headerFormat: "{point.key}:<br/>",
-			pointFormat:
-				'<span style="color:{series.color};">{series.name}: </span>' +
-				"<b>{point.y:.1f}</b>",
-			shared: true,
-			useHTML: true
-		},
-		plotOptions: {
-			column: {
-				pointPadding: 0.2,
-				borderWidth: 0
-			}
-		},
-		series: [
-			{
-				name: props.yAxis,
-				data: props.data,
-				color: "#4c83e0"
-			}
-		]
-	};
-
-	return <HighchartsReact highcharts={Highcharts} options={options} />;
 }

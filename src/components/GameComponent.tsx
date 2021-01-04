@@ -82,6 +82,7 @@ export default class GameComponent extends React.Component<
 	public gameEnded = (
 		goal: boolean,
 		trap: boolean,
+		terrainTrap: boolean,
 		requiredTime: number,
 		bonusPoints: number,
 		maxBonusPoints: number,
@@ -99,15 +100,18 @@ export default class GameComponent extends React.Component<
 				? max(this.props.settings.pointsPerAttempt)
 				: -1;
 
-		if (trap) {
+		if (trap || terrainTrap) {
 			// Case: collided with trap
 			this.setState({
 				showModal: true,
 				nextBtnCSS: "none",
 				retryBtnVariant: "primary",
 				title: "Quest fehlgeschlagen",
-				text:
-					"Pass auf, du bist in eine Falle getreten! Versuch das nächste mal nicht mit der Falle in berührung zu kommen."
+				text: `Pass auf, ${
+					terrainTrap
+						? "du bist gegen eine Wand gelaufen und hast dir eine blutige Nase geholt"
+						: "du bist in eine Falle getreten! Versuch das nächste mal nicht mit der Falle in berührung zu kommen."
+				}`
 			});
 		} else if (
 			(this.props.settings.pointsToWin && bonusPoints >= this.props.settings.pointsToWin) ||

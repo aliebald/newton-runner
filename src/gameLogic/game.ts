@@ -20,6 +20,7 @@ let cameraWait: number;
 let gameEndModal: (
 	goal: boolean,
 	trap: boolean,
+	terrainTrap: boolean,
 	requiredTime: number,
 	bonusPoints: number,
 	maxBonusPoints: number,
@@ -44,6 +45,7 @@ export default class Game extends Phaser.Scene {
 		gameEnded: (
 			goal: boolean,
 			trap: boolean,
+			terrainTrap: boolean,
 			requiredTime: number,
 			bonusPoints: number,
 			maxBonusPoints: number,
@@ -94,6 +96,9 @@ export default class Game extends Phaser.Scene {
 	/**
 	 * Physics group for all static objects that end (lose) the game if the player collides with them.
 	 *
+	 * The difference between `staticTraps` and `terrainTraps` is the message that will be shown after
+	 * the player collides with the trap.
+	 *
 	 * Add traps to this group by using `this.staticTraps.create(x, y, key)`.
 	 * See `create()` for more information.
 	 */
@@ -106,6 +111,17 @@ export default class Game extends Phaser.Scene {
 	 * See `create()` for more information.
 	 */
 	public dynamicTraps!: Phaser.Physics.Arcade.Group;
+
+	/**
+	 * Physics group for all static objects that end (lose) the game if the player collides with them.
+	 *
+	 * The difference between `staticTraps` and `terrainTraps` is the message that will be shown after
+	 * the player collides with the trap.
+	 *
+	 * Add traps to this group by using `this.dynamicTraps.create(x, y, key)`.
+	 * See `create()` for more information.
+	 */
+	public terrainTraps!: Phaser.Physics.Arcade.StaticGroup;
 
 	/**
 	 * Physics group for all static objects that end (win) the game if the player collides with them.
@@ -275,6 +291,16 @@ export default class Game extends Phaser.Scene {
 		this.dynamicTraps = this.physics.add.group();
 		this.physics.add.overlap(this.player, this.dynamicTraps, collideWithTrap, undefined, this);
 		this.physics.add.collider(this.dynamicTraps, this.platforms);
+
+		// Add terrain traps
+		this.terrainTraps = this.physics.add.staticGroup();
+		this.physics.add.overlap(
+			this.player,
+			this.terrainTraps,
+			collideWithTerrainTrap,
+			undefined,
+			this
+		);
 
 		// Add static goals
 		this.staticGoals = this.physics.add.staticGroup();
@@ -673,6 +699,7 @@ const endGame = function endGame(this: Game): void {
 		gameEndModal(
 			this.collectedGoal,
 			false,
+			false,
 			index,
 			this.score,
 			getMaxBonusPoints.call(this),
@@ -684,11 +711,7 @@ const endGame = function endGame(this: Game): void {
 /**
  * This function gets called when the player collides with a trap.
  */
-const collideWithTrap = function collideWithTrap(
-	this: Game,
-	player: Phaser.GameObjects.GameObject,
-	trap: Phaser.GameObjects.GameObject
-) {
+const collideWithTrap = function collideWithTrap(this: Game) {
 	if (this.gameRunning) {
 		updateGameState("ended");
 		this.gameRunning = false;
@@ -697,6 +720,26 @@ const collideWithTrap = function collideWithTrap(
 
 		gameEndModal(
 			this.collectedGoal,
+			true,
+			false,
+			index,
+			this.score,
+			getMaxBonusPoints.call(this),
+			restartGame.bind(this)
+		);
+	}
+};
+
+const collideWithTerrainTrap = function collideWithTerrainTrap(this: Game) {
+	if (this.gameRunning) {
+		updateGameState("ended");
+		this.gameRunning = false;
+		this.player.setVelocityX(0);
+		this.player.anims.play("idle", true);
+
+		gameEndModal(
+			this.collectedGoal,
+			false,
 			true,
 			index,
 			this.score,

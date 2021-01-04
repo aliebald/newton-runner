@@ -127,6 +127,10 @@ function afterCreate(this: Game): void {
 	});
 	this.physics.add.collider(this.player, dynamicPlatform);
 
+	this.terrainTraps.create(520, 235, "spikes").setScale(0.25).refreshBody();
+	this.terrainTraps.create(680, 235, "spikes").setScale(0.25).refreshBody();
+	this.terrainTraps.create(870, 285, "spikes").setScale(0.25).refreshBody();
+
 	this.platforms.create(530, 250, "grassHalfLeft");
 	this.platforms.create(600, 250, "grassHalfMid");
 	this.platforms.create(670, 250, "grassHalfRight");

@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { Col, ProgressBar, Row } from "react-bootstrap";
 import { QuestProgress } from "../userdata";
 import "./../css/style.statistics.css";
+import TextProgressBar from "./TextProgressBar";
 
 export interface QuestStats {
 	title: string;
@@ -31,43 +32,31 @@ export function StatisticQuest(props: {
 			</div>
 			<Row className="pt-2">
 				<Col>
-					<div>
-						{props.questProgress.attempts[index].achievedPoints} von{" "}
-						{props.questStats.maxPoints} Punkten
-					</div>
-					<ProgressBar
-						variant="success"
+					<TextProgressBar
 						now={props.questProgress.attempts[index].achievedPoints}
 						max={props.questStats.maxPoints}
-						className="smallProgress"
+						label={props.questStats.maxPoints === 1 ? "Punkt" : "Punkten"}
+						prefix
 					/>
 					<div className="pb-2">
 						{props.questProgress.attempts.length + 1} Versuche ben&ouml;tigt
 					</div>
 				</Col>
 				<Col>
-					<div>
-						{props.questProgress.attempts[index].achievedBonusPoints} von{" "}
-						{props.questStats.maxBonuspoints}
-						{props.questStats.maxBonuspoints > 1 ? " Bonuspunkten" : " Bonuspunkt"}
-					</div>
-					<ProgressBar
-						variant="success"
+					<TextProgressBar
 						now={props.questProgress.attempts[index].achievedBonusPoints}
 						max={props.questStats.maxBonuspoints}
-						className="smallProgress"
+						label={props.questStats.maxBonuspoints > 1 ? "Bonuspunkt" : "Bonuspunkten"}
+						prefix
 					/>
 				</Col>
 				<Col>
-					<div>
-						{props.questProgress.attempts[index].requiredTime} von{" "}
-						{props.questStats.maxTime} Sekunden ben&ouml;tigt
-					</div>
-					<ProgressBar
-						variant="success"
+					<TextProgressBar
 						now={props.questProgress.attempts[index].requiredTime}
 						max={props.questStats.maxTime}
-						className="smallProgress"
+						label="Sekunden benötigt"
+						prefix
+						noColorCoding
 					/>
 				</Col>
 			</Row>

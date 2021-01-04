@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { Col, ProgressBar, Row } from "react-bootstrap";
 import { QuizProgress } from "../userdata";
 import { QuizConfig } from "./Quiz";
+import TextProgressBar from "./TextProgressBar";
 
 export default function StatisticQuiz(props: {
 	quizProgress: QuizProgress | undefined;
@@ -39,25 +40,19 @@ export default function StatisticQuiz(props: {
 			</div>
 			<Row className="pt-2">
 				<Col>
-					<div>
-						{solved} von {props.quizConfig.questions.length} Aufgaben bearbeitet
-					</div>
-					<ProgressBar
-						variant="success"
+					<TextProgressBar
 						now={solved}
 						max={props.quizConfig.questions.length}
-						className="smallProgress"
+						label="Aufgaben bearbeitet"
+						prefix
 					/>
 				</Col>
 				<Col>
-					<div>
-						{points} von {props.quizConfig.questions.length} Punkten
-					</div>
-					<ProgressBar
-						variant="success"
+					<TextProgressBar
 						now={points}
 						max={props.quizConfig.questions.length}
-						className="smallProgress"
+						label="Punkten"
+						prefix
 					/>
 				</Col>
 				<Col></Col>

@@ -38,7 +38,7 @@ export function Statistics(): ReactElement {
 	});
 
 	return (
-		<Container className="mb-5">
+		<Container fluid="lg" className="mb-5">
 			<StatisticsLevel quests={quests} quizzes={quizzes} level={1} />
 		</Container>
 	);
@@ -90,7 +90,7 @@ function StatisticsLevel(props: {
 		<div className="mx-auto mt-3 px-3 boxWrapper">
 			<h3 className="text-center">Level {props.level}</h3>
 			<ProgressBar
-				animated
+				animated={completion / maxCompletion < 0.998}
 				striped
 				variant="success"
 				now={completion}

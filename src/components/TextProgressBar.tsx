@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { ProgressBar } from "react-bootstrap";
+import "./../css/style.statistics.css";
 
 export default function TextProgressBar(props: {
 	now: number;
@@ -13,6 +14,7 @@ export default function TextProgressBar(props: {
 	 * Fixes color of progress bar to green
 	 */
 	noColorCoding?: boolean;
+	onClick?: () => void;
 }): ReactElement {
 	const text = props.prefix ? `${props.now} von ${props.max} ${props.label}` : <>props.label</>;
 	const progress = props.now / props.max;
@@ -23,8 +25,10 @@ export default function TextProgressBar(props: {
 		variant = "warning";
 	}
 
+	const css = `textProgressBar${props.onClick !== undefined ? " textProgressBarClickable" : ""}`;
+
 	return (
-		<>
+		<div onClick={props.onClick} className={css}>
 			<div>{text}</div>
 			<ProgressBar
 				variant={variant}
@@ -32,6 +36,6 @@ export default function TextProgressBar(props: {
 				max={props.max}
 				className="smallProgress"
 			/>
-		</>
+		</div>
 	);
 }

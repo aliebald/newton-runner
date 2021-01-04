@@ -91,7 +91,7 @@ export default class GameComponent extends React.Component<
 		let won = false;
 		const points =
 			this.props.settings.pointsPerAttempt &&
-			this.props.settings.pointsPerAttempt.length > this.state.attempt
+			this.props.settings.pointsPerAttempt.length >= this.state.attempt
 				? this.props.settings.pointsPerAttempt[this.state.attempt - 1]
 				: 0;
 		// maxPoints is -1 if pointsPerAttempt is undefined, this is used bellow as a compact check if pointsPerAttempt is defined
@@ -150,7 +150,7 @@ export default class GameComponent extends React.Component<
 			solved: won,
 			requiredTime: requiredTime,
 			achievedBonusPoints: bonusPoints,
-			achievedPoints: points
+			achievedPoints: won ? points : 0
 		});
 
 		if (won) {

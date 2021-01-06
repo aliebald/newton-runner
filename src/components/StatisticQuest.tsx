@@ -41,7 +41,17 @@ export function StatisticQuest(props: {
 	const series = [
 		{
 			name: dataName,
-			data: data,
+			data: data.map((y, i) =>
+				i === index
+					? {
+							y: y,
+							name: `<span style="color:green">Erster erfolgreicher Versuch</span><br/>Versuch ${
+								i + 1
+							}`,
+							color: "green"
+					  }
+					: y
+			),
 			color: "#4c83e0"
 		}
 	];
@@ -53,7 +63,17 @@ export function StatisticQuest(props: {
 		});
 		series.push({
 			name: "Benötigte Zeit",
-			data: timeRequired,
+			data: timeRequired.map((y, i) =>
+				i === index
+					? {
+							y: y,
+							name: `<span style="color:green">Erster erfolgreicher Versuch</span><br/>Versuch ${
+								i + 1
+							}`,
+							color: "green"
+					  }
+					: y
+			),
 			color: "grey"
 		});
 	}
@@ -133,10 +153,10 @@ export function StatisticQuest(props: {
 						className="pb-2 statisticsBox statisticsBoxClickable"
 						onClick={() => setFocus("distance")}
 					>
-						{metersWalked} Meter gelaufen
+						{metersWalked.toFixed(2)} Meter gelaufen
 					</div>
 					<div className="pb-2 statisticsBox">
-						{attempts} {attempts === 1 ? "Versuch" : "Versuche"} ben&ouml;tigt
+						{index + 1} {index === 0 ? "Versuch" : "Versuche"} ben&ouml;tigt
 					</div>
 				</Col>
 				<Col sm="8">

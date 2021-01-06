@@ -122,7 +122,7 @@ export function StatisticQuest(props: {
 				</div>
 			</div>
 			<Row className="pt-2">
-				<Col sm="4">
+				<Col sm="12" md="4">
 					<TextProgressBar
 						now={props.questProgress.attempts[index].achievedPoints}
 						max={props.questStats.maxPoints}
@@ -159,7 +159,7 @@ export function StatisticQuest(props: {
 						{index + 1} {index === 0 ? "Versuch" : "Versuche"} ben&ouml;tigt
 					</div>
 				</Col>
-				<Col sm="8">
+				<Col sm="12" md="8">
 					<HighchartsReact highcharts={Highcharts} options={options} />
 				</Col>
 			</Row>

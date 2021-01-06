@@ -28,6 +28,7 @@ let gameEndModal: (
 	metersWalked: number,
 	restart: () => void
 ) => void;
+let restartCalled: (requiredTime: number, bonusPoints: number, metersWalked: number) => void;
 let graphProgress: (x: number) => void;
 let updateGameState: (state: "ready" | "running" | "ended") => void;
 
@@ -54,6 +55,11 @@ export default class Game extends Phaser.Scene {
 			metersWalked: number,
 			restart: () => void
 		) => void,
+		notifyRestartCalled: (
+			requiredTime: number,
+			bonusPoints: number,
+			metersWalked: number
+		) => void,
 		setGraphProgress: (x: number) => void,
 		setGameState: (state: "ready" | "running" | "ended") => void
 	) {
@@ -75,6 +81,7 @@ export default class Game extends Phaser.Scene {
 		settings = gameSettings;
 		inputData = data;
 		gameEndModal = gameEnded;
+		restartCalled = notifyRestartCalled;
 
 		this.variables = new Map();
 	}
@@ -677,6 +684,8 @@ function checkForEarlyEnd(this: Game, t_v: boolean): boolean {
  * Restarts the game
  */
 const restartGame = function restartGame(this: Game): void {
+	this.gameRunning = false;
+	restartCalled(index, this.score, getMetersWalked.call(this));
 	const fadeOutTime = 1500;
 
 	setTimeout(function () {
@@ -689,7 +698,6 @@ const restartGame = function restartGame(this: Game): void {
 	}, fadeOutTime);
 
 	graphProgress(0);
-	this.gameRunning = false;
 	index = 0;
 	this.cameras.main.fade(fadeOutTime, 255, 255, 255);
 };

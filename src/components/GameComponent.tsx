@@ -79,6 +79,21 @@ export default class GameComponent extends React.Component<
 		this.props.setAttempt(this.state.attempt);
 	}
 
+	// saves the current attempt if restart game was called before the previous game ended
+	public restartCalled = (
+		requiredTime: number,
+		bonusPoints: number,
+		metersWalked: number
+	): void => {
+		saveQuestAttempt(this.props.id, {
+			solved: false,
+			requiredTime: requiredTime,
+			achievedBonusPoints: bonusPoints,
+			achievedPoints: 0,
+			metersWalked: metersWalked
+		});
+	};
+
 	public gameEnded = (
 		goal: boolean,
 		trap: boolean,
@@ -89,7 +104,6 @@ export default class GameComponent extends React.Component<
 		metersWalked: number,
 		restart: () => void
 	): void => {
-		console.log("meters walked: " + metersWalked);
 		let won = false;
 		const points =
 			this.props.settings.pointsPerAttempt &&
@@ -194,6 +208,7 @@ export default class GameComponent extends React.Component<
 			this.props.settings,
 			this.props.data,
 			this.gameEnded.bind(this),
+			this.restartCalled.bind(this),
 			this.props.setGraphProgress,
 			this.props.setGameState
 		);

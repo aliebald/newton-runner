@@ -86,8 +86,10 @@ export default class GameComponent extends React.Component<
 		requiredTime: number,
 		bonusPoints: number,
 		maxBonusPoints: number,
+		metersWalked: number,
 		restart: () => void
 	): void => {
+		console.log("meters walked: " + metersWalked);
 		let won = false;
 		const points =
 			this.props.settings.pointsPerAttempt &&
@@ -150,7 +152,8 @@ export default class GameComponent extends React.Component<
 			solved: won,
 			requiredTime: requiredTime,
 			achievedBonusPoints: bonusPoints,
-			achievedPoints: won ? points : 0
+			achievedPoints: won ? points : 0,
+			metersWalked: metersWalked
 		});
 
 		if (won) {

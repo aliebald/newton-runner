@@ -5,6 +5,7 @@ let settings: GameConfig;
 let inputData: { y: number }[];
 // inputDataCopy is a copy of inputData when the game started
 let inputDataCopy: { y: number }[];
+let positionHistory: number[] = [];
 
 // moveCamRight & moveCamLeft are true if the move camera buttons are clicked
 let moveCamRight: boolean;
@@ -24,6 +25,7 @@ let gameEndModal: (
 	requiredTime: number,
 	bonusPoints: number,
 	maxBonusPoints: number,
+	metersWalked: number,
 	restart: () => void
 ) => void;
 let graphProgress: (x: number) => void;
@@ -49,6 +51,7 @@ export default class Game extends Phaser.Scene {
 			requiredTime: number,
 			bonusPoints: number,
 			maxBonusPoints: number,
+			metersWalked: number,
 			restart: () => void
 		) => void,
 		setGraphProgress: (x: number) => void,
@@ -580,10 +583,15 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 	const time = new Date().getTime();
 	let timeDiff = time - timeStamp;
 	if (timeDiff > 1000) {
+		positionHistory.push(this.player.x);
 		index++;
 
 		// end the game if all datapoints are processed
 		if (index >= inputDataCopy.length - 1 || checkForEarlyEnd.call(this, t_v)) {
+			if (!t_v) {
+				// Set final position
+				this.player.x = inputDataCopy[index].y * 50;
+			}
 			this.player.setVelocityX(0);
 			this.player.anims.play("idle", true);
 
@@ -703,6 +711,7 @@ const endGame = function endGame(this: Game): void {
 			index,
 			this.score,
 			getMaxBonusPoints.call(this),
+			getMetersWalked.call(this),
 			restartGame.bind(this)
 		);
 	}
@@ -725,6 +734,7 @@ const collideWithTrap = function collideWithTrap(this: Game) {
 			index,
 			this.score,
 			getMaxBonusPoints.call(this),
+			getMetersWalked.call(this),
 			restartGame.bind(this)
 		);
 	}
@@ -744,9 +754,40 @@ const collideWithTerrainTrap = function collideWithTerrainTrap(this: Game) {
 			index,
 			this.score,
 			getMaxBonusPoints.call(this),
+			getMetersWalked.call(this),
 			restartGame.bind(this)
 		);
 	}
+};
+
+/**
+ * Calculates the total distance the player walked in meters
+ */
+const getMetersWalked = function getMetersWalked(this: Game): number {
+	let distance = 0;
+	if (settings.controls == controlType.t_x_graph) {
+		// Accurate calculation for t_x graph
+		if (index < inputDataCopy.length - 1) {
+			// In this case we have an early ending but we still want to count the last few meters
+			distance = Math.abs(this.player.x / 50 - inputDataCopy[index].y);
+		}
+		for (let i = 1; i <= index; i++) {
+			distance += Math.abs(inputDataCopy[i].y - inputDataCopy[i - 1].y);
+		}
+		return distance;
+	}
+
+	if (index < inputDataCopy.length - 1) {
+		// In this case we have an early ending but we still want to count the last few meters
+		distance = Math.abs(this.player.x - positionHistory[index]);
+	}
+
+	// A less accurate approximation for t-v controls.
+	// There is a slight error in this calculation, because the positions are slightly off
+	for (let i = 1; i <= index; i++) {
+		distance += Math.abs(positionHistory[i] - positionHistory[i - 1]);
+	}
+	return distance / 50;
 };
 
 /**
@@ -773,6 +814,7 @@ const startGame = function startGame(this: Game) {
 	for (let i = 0; i < inputData.length; i++) {
 		inputDataCopy.push({ y: inputData[i].y });
 	}
+	positionHistory = [this.player.x];
 
 	// Start game
 	updateGameState("running");

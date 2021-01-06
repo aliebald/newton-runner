@@ -25,6 +25,7 @@ export interface QuestAttempt {
 	requiredTime: number;
 	achievedPoints: number;
 	achievedBonusPoints: number;
+	metersWalked: number;
 }
 
 export interface QuizProgress {

@@ -25,7 +25,7 @@ export default function TextProgressBar(props: {
 		variant = "warning";
 	}
 
-	const css = `textProgressBar${props.onClick !== undefined ? " textProgressBarClickable" : ""}`;
+	const css = `statisticsBox${props.onClick !== undefined ? " statisticsBoxClickable" : ""}`;
 
 	return (
 		<div onClick={props.onClick} className={css}>

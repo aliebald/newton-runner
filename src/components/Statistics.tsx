@@ -37,6 +37,9 @@ export function Statistics(): ReactElement {
 		config: level1Quiz2
 	});
 
+	console.log("Quests:");
+	console.log(quests);
+
 	return (
 		<Container fluid="lg" className="mb-5">
 			<StatisticsLevel quests={quests} quizzes={quizzes} level={1} />

@@ -16,7 +16,7 @@ export interface QuestStats {
 	maxTime: number;
 }
 
-type focusType = "" | "points" | "bonuspoints" | "time";
+type focusType = "" | "points" | "bonuspoints" | "time" | "distance";
 
 // Statistics for a single quest. Named StatisticQuest for better overview in components folder
 export function StatisticQuest(props: {
@@ -27,6 +27,9 @@ export function StatisticQuest(props: {
 	const solved = props.questProgress.attempts.length >= 0;
 	const attempts = props.questProgress.attempts.length;
 	const [data, dataName] = getData(focus);
+	const metersWalked = props.questProgress.attempts
+		.map((a) => a.metersWalked)
+		.reduce((x1, x2) => x1 + x2, 0);
 
 	// temporary index, only showing the first successful attempt
 	const index = props.questProgress.solvedAt;
@@ -126,7 +129,13 @@ export function StatisticQuest(props: {
 						onClick={() => setFocus("bonuspoints")}
 						prefix
 					/>
-					<div className="pb-2">
+					<div
+						className="pb-2 statisticsBox statisticsBoxClickable"
+						onClick={() => setFocus("distance")}
+					>
+						{metersWalked} Meter gelaufen
+					</div>
+					<div className="pb-2 statisticsBox">
 						{attempts} {attempts === 1 ? "Versuch" : "Versuche"} ben&ouml;tigt
 					</div>
 				</Col>
@@ -161,6 +170,13 @@ export function StatisticQuest(props: {
 				dataName = "Zeit eingespart";
 				props.questProgress.attempts.forEach((elem) => {
 					data.push(props.questStats.maxTime - elem.requiredTime);
+				});
+				break;
+			}
+			case "distance": {
+				dataName = "Gelaufene Distanz in m";
+				props.questProgress.attempts.forEach((elem) => {
+					data.push(elem.metersWalked);
 				});
 				break;
 			}

@@ -15,12 +15,13 @@ export default class GameComponent extends React.Component<
 		title: string;
 		id: string;
 		nextPage: string;
-		setGameState: (state: "ready" | "running" | "ended") => void;
+		setGameState: (state: "ready" | "running" | "ended" | "restarting") => void;
 		setSolvedAtAttempt: (solved: number) => void;
 		setAttempt: (attempt: number) => void;
 	},
 	{
 		showModal: boolean;
+		gameState: "ready" | "running" | "ended" | "restarting";
 		restart: undefined | (() => void);
 		title: string;
 		text: string;
@@ -38,7 +39,7 @@ export default class GameComponent extends React.Component<
 		title: string;
 		id: string;
 		nextPage: string;
-		setGameState: (state: "ready" | "running" | "ended") => void;
+		setGameState: (state: "ready" | "running" | "ended" | "restarting") => void;
 		setSolvedAtAttempt: (solved: number) => void;
 		setAttempt: (attempt: number) => void;
 	}) {
@@ -52,6 +53,7 @@ export default class GameComponent extends React.Component<
 		const attempt = progress.attempts[progress.solvedAt];
 		this.state = {
 			showModal: solved,
+			gameState: "ready",
 			restart: () => {
 				this.setState({ showModal: false });
 			},
@@ -79,12 +81,18 @@ export default class GameComponent extends React.Component<
 		this.props.setAttempt(this.state.attempt);
 	}
 
-	// saves the current attempt if restart game was called before the previous game ended
+	/**
+	 * Saves the current attempt if restart game was called before the previous game ended
+	 */
 	public restartCalled = (
 		requiredTime: number,
 		bonusPoints: number,
 		metersWalked: number
 	): void => {
+		if (this.state.gameState !== "running") {
+			// Abort restartCalled if game is not running to avoid saving an attempt more than once
+			return;
+		}
 		saveQuestAttempt(this.props.id, {
 			solved: false,
 			requiredTime: requiredTime,
@@ -92,6 +100,8 @@ export default class GameComponent extends React.Component<
 			achievedPoints: 0,
 			metersWalked: metersWalked
 		});
+		this.setState({ attempt: this.state.attempt + 1 });
+		this.props.setAttempt(this.state.attempt);
 	};
 
 	public gameEnded = (
@@ -203,6 +213,17 @@ export default class GameComponent extends React.Component<
 		this.setState({ showModal: false, redirect: this.props.nextPage });
 	};
 
+	/**
+	 * Updates game state in GameComponent and QuestComponent
+	 */
+	private setGameComponentState = function (
+		this: GameComponent,
+		state: "ready" | "running" | "ended" | "restarting"
+	) {
+		this.setState({ gameState: state });
+		this.props.setGameState(state);
+	};
+
 	componentDidMount(): void {
 		new Game(
 			this.props.settings,
@@ -210,7 +231,7 @@ export default class GameComponent extends React.Component<
 			this.gameEnded.bind(this),
 			this.restartCalled.bind(this),
 			this.props.setGraphProgress,
-			this.props.setGameState
+			this.setGameComponentState.bind(this)
 		);
 	}
 

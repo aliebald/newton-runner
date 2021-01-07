@@ -14,7 +14,9 @@ export interface QuestConfig {
 }
 
 export default function Quest(props: { config: QuestConfig; nextPage: string }): ReactElement {
-	const [gameState, setGameState] = useState<"ready" | "running" | "ended">("ready");
+	const [gameState, setGameState] = useState<"ready" | "running" | "ended" | "restarting">(
+		"ready"
+	);
 	const [attempt, setAttempt] = useState(1);
 	// solvedAtAttempt is -1 if Quest is unsolved and a positive number if it is saved. This number is the attempt at which the quest was solved
 	const [solvedAtAttempt, setSolvedAtAttempt] = useState<number>(-1);
@@ -90,7 +92,7 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 								variant="primary"
 								id="restartGameBtn"
 								className="px-3"
-								disabled={gameState === "ready"}
+								disabled={gameState === "ready" || gameState === "restarting"}
 							>
 								Nochmal&nbsp;versuchen
 							</Button>

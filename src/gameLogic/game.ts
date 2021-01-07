@@ -30,7 +30,7 @@ let gameEndModal: (
 ) => void;
 let restartCalled: (requiredTime: number, bonusPoints: number, metersWalked: number) => void;
 let graphProgress: (x: number) => void;
-let updateGameState: (state: "ready" | "running" | "ended") => void;
+let updateGameState: (state: "ready" | "running" | "ended" | "restarting") => void;
 
 // variables for t_v_graph controls
 let timeStamp: number | undefined;
@@ -61,7 +61,7 @@ export default class Game extends Phaser.Scene {
 			metersWalked: number
 		) => void,
 		setGraphProgress: (x: number) => void,
-		setGameState: (state: "ready" | "running" | "ended") => void
+		setGameState: (state: "ready" | "running" | "ended" | "restarting") => void
 	) {
 		super("Game");
 		console.log("%cInitiated new Game", "color: green");
@@ -686,6 +686,7 @@ function checkForEarlyEnd(this: Game, t_v: boolean): boolean {
 const restartGame = function restartGame(this: Game): void {
 	this.gameRunning = false;
 	restartCalled(index, this.score, getMetersWalked.call(this));
+	updateGameState("restarting");
 	const fadeOutTime = 1500;
 
 	setTimeout(function () {

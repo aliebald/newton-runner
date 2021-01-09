@@ -329,6 +329,10 @@ body {
 	color: green;
 }
 
+.red {
+	color: red;
+}
+
 .infoBoxOuter {
 	display: flex;
 	cursor: default;

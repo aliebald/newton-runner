@@ -62,13 +62,13 @@ export default class GraphInput extends React.Component<
 					const maxY: string = props.cfg.maxY.toFixed(1);
 					const minY: string = props.cfg.minY.toFixed(1);
 					if (this.x === 0 && props.cfg.fixedStart) {
-						y = y.concat(" (FIXIERT)");
+						y = y.concat(" (fixiert)");
 					}
 
 					if (y === maxY) {
-						y = y.concat(" (MAXIMUM)");
+						y = y.concat(" (max)");
 					} else if (y === minY) {
-						y = y.concat(" (MINIMUM)");
+						y = y.concat(" (min)");
 					}
 
 					return y;

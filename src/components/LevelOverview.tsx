@@ -52,6 +52,13 @@ const barConfig1: Array<LevelOverviewCardConfig> = [
 		buttonName: "Solve"
 	},
 	{
+		title: "Erklärung der Spielsteuerung",
+		badge: BadgeType.THEORIE,
+		text: "Wie du den Platformer mithilfe eines t-x Diagramms steuerst",
+		buttonLink: "/level1GameMechanics1",
+		buttonName: "Learn"
+	},
+	{
 		title: "Quest 1 : Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Lerne die Steuerung anhand einer einfachen Quest",

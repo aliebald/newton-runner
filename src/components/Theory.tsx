@@ -8,7 +8,7 @@ export function Slide(props: { element: JSX.Element; idx: number }): ReactElemen
 		<Carousel.Item className="carouselSlide" key={props.idx.toString()}>
 			<MathJax.Provider>
 				<div className="carouselSlideBox">
-					<div>{props.element}</div>
+					<div className=".overflow-auto">{props.element}</div>
 				</div>
 			</MathJax.Provider>
 		</Carousel.Item>

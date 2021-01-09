@@ -273,6 +273,11 @@ body {
 	color: white;
 }
 
+.badgeExplanation {
+	background-color: rgb(0, 174, 255);
+	color: white;
+}
+
 .carouselSlide {
 	color: black;
 	background-color: white;

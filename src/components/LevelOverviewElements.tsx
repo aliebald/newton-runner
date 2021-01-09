@@ -35,6 +35,8 @@ function getCode(type: BadgeType): ReactElement {
 		return <Badge className="badgeQuiz">&#x1F914; Quiz</Badge>;
 	} else if (type === BadgeType.STORY) {
 		return <Badge className="badgeStory">&#x1F4DC; Story</Badge>;
+	} else if (type === BadgeType.ERKLÄRUNG) {
+		return <Badge className="badgeExplanation">&#129327; Erklärung</Badge>;
 	}
 	return <></>;
 }

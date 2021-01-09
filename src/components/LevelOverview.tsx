@@ -45,6 +45,13 @@ const barConfig1: Array<LevelOverviewCardConfig> = [
 		buttonName: "Learn"
 	},
 	{
+		title: "Erklärung Quiz",
+		badge: BadgeType.ERKLÄRUNG,
+		text: "Hier erklären wir dir alle Teile des Quiz",
+		buttonLink: "/level1Quiz1Explanation1",
+		buttonName: "Learn"
+	},
+	{
 		title: "Quiz 1",
 		badge: BadgeType.QUIZ,
 		text: "Überprüfe ob du die Theorie verstanden hast",
@@ -53,7 +60,7 @@ const barConfig1: Array<LevelOverviewCardConfig> = [
 	},
 	{
 		title: "Erklärung der Spielsteuerung",
-		badge: BadgeType.THEORIE,
+		badge: BadgeType.ERKLÄRUNG,
 		text: "Wie du den Platformer mithilfe eines t-x Diagramms steuerst",
 		buttonLink: "/level1GameMechanics1",
 		buttonName: "Learn"

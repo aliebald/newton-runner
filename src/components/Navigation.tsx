@@ -56,6 +56,9 @@ export default function Navigation(): ReactElement {
 					</NavDropdown>
 				</Nav>
 				<Nav className="ml-auto">
+					<Nav.Link as={Link} to="/login" className="navElem">
+						Login
+					</Nav.Link>
 					<Nav.Link as={Link} to="/Statistics" className="navElem">
 						Statistik
 					</Nav.Link>

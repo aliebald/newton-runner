@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import { Quiz } from "./components/Quiz";
 import { Theory } from "./components/Theory";
 import { Statistics } from "./components/Statistics";
+import Login from "./components/Login";
 
 import exampleStory1 from "./levels/exampleLevels/exampleStory1";
 import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
@@ -48,6 +49,7 @@ function App(): ReactElement {
 				<Route path="/" exact component={LandingPage} />
 				<Route path="/LevelOverview" exact component={LevelOverview} />
 				<Route path="/Statistics" exact component={Statistics} />
+				<Route path="/login" exact component={Login} />
 				<Route
 					path="/exampleStory1"
 					exact

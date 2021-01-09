@@ -269,6 +269,7 @@ function goLeft(object: any, timeStart: number, timeEnd: number) {
 	}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function goRight(object: any, timeStart: number, timeEnd: number) {
 	const time = new Date().getTime();
 	if (time < timeEnd && time >= timeStart) {

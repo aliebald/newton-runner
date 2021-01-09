@@ -73,6 +73,7 @@ function onPreload(this: Phaser.Scene): void {
 		"assets/PlatformerAssetsBuildings/Items/windowHighCheckeredBottom.png"
 	);
 	this.load.image("spikes", "assets/PlatformerAssetsBase/Items/spikes.png");
+	this.load.image("bomb", "assets/PlatformerAssetsBase/Items/bomb.png");
 	this.load.image("keyYellow", "assets/PlatformerAssetsBase/Items/keyYellow.png");
 	this.load.image("brick", "/assets/PlatformerAssetsBase/Items/particleBrick1a.png");
 }
@@ -150,35 +151,35 @@ function afterCreate(this: Game): void {
 		allowGravity: false,
 		immovable: true
 	});
-	const spike = this.dynamicTraps.create(0, 433, "spikes").setScale(0.5).refreshBody();
+	const bomb = this.dynamicTraps.create(0, 433, "bomb").setScale(0.5).refreshBody();
 	this.physics.add.collider(this.player, dynamicTraps);
-	this.variables.set("spike", spike);
+	this.variables.set("bomb", bomb);
 
-	this.dynamicTraps.create(1150, 433, "spikes").setScale(0.5).refreshBody();
-	const spike2 = this.dynamicTraps.create(700, 433, "spikes").setScale(0.5).refreshBody();
-	this.variables.set("spike2", spike2);
+	this.dynamicTraps.create(1150, 433, "bomb").setScale(0.5).refreshBody();
+	const spike = this.dynamicTraps.create(700, 433, "spikes").setScale(0.5).refreshBody();
+	this.variables.set("spikes", spike);
 }
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
-		if (this.player.x >= 100 && !this.variables.get("spike_start")) {
-			this.variables.set("spike_start", new Date().getTime());
-			this.variables.set("spike_end", new Date().getTime() + 50000);
-			this.variables.set("spikeStartX", 0);
-			this.variables.set("spikeEndX", 1000);
+		if (this.player.x >= 100 && !this.variables.get("bomb_start")) {
+			this.variables.set("bomb_start", new Date().getTime());
+			this.variables.set("bomb_end", new Date().getTime() + 50000);
+			this.variables.set("bombStartX", 0);
+			this.variables.set("bombEndX", 1000);
 		}
-		if (this.variables.get("spike_start")) {
-			const spike = this.variables.get("spike");
-			const startTime1 = this.variables.get("spike_start");
-			const endTime1 = this.variables.get("spike_end");
-			goRight(spike, startTime1, endTime1);
+		if (this.variables.get("bomb_start")) {
+			const bomb = this.variables.get("bomb");
+			const startTime1 = this.variables.get("bomb_start");
+			const endTime1 = this.variables.get("bomb_end");
+			goRight(bomb, startTime1, endTime1);
 		}
 		if (this.player.x >= 600) {
 			this.variables.set("wait", new Date().getTime() + 300);
 		}
 		if (this.variables.get("wait")) {
-			this.variables.get("spike2");
-			const spike2 = this.variables.get("spike2");
-			spike2.setScale(0.5, -0.5).refreshBody();
+			this.variables.get("spikes");
+			const spikes = this.variables.get("spikes");
+			spikes.setScale(0.5, -0.5).refreshBody();
 		}
 	}
 }

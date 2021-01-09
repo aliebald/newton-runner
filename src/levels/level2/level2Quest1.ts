@@ -106,6 +106,7 @@ function onPreload(this: Phaser.Scene): void {
 	this.load.image("grayHouseTR", "assets/PlatformerAssetsBuildings/Items/houseGrayTopRight.png");
 
 	this.load.image("spikes", "assets/PlatformerAssetsBase/Items/spikes.png");
+	this.load.image("bomb", "assets/PlatformerAssetsBase/Items/bomb.png");
 	this.load.image("keyYellow", "assets/PlatformerAssetsBase/Items/keyYellow.png");
 	this.load.image("coinGold", "assets/PlatformerAssetsBase/Items/coinGold.png");
 }
@@ -318,25 +319,25 @@ function afterCreate(this: Game): void {
 		allowGravity: false,
 		immovable: true
 	});
-	const spike = this.dynamicTraps.create(400, 433, "spikes").setScale(0.5).refreshBody();
+	const bomb = this.dynamicTraps.create(400, 433, "bomb").setScale(0.5).refreshBody();
 	this.physics.add.collider(this.player, dynamicTraps);
-	this.variables.set("spike", spike);
+	this.variables.set("bomb", bomb);
 	this.points.create(1000, 400, "coinGold");
 }
 
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
-		if (this.player.x >= 200 && !this.variables.get("spike_start")) {
-			this.variables.set("spike_start", new Date().getTime());
-			this.variables.set("spike_end", new Date().getTime() + 5000);
-			this.variables.set("spikeStartX", 400);
-			this.variables.set("spikeEndX", 1000);
+		if (this.player.x >= 200 && !this.variables.get("bomb_start")) {
+			this.variables.set("bomb_start", new Date().getTime());
+			this.variables.set("bomb_end", new Date().getTime() + 5000);
+			this.variables.set("bombStartX", 400);
+			this.variables.set("bombEndX", 1000);
 		}
-		if (this.variables.get("spike_start")) {
-			const spike = this.variables.get("spike");
-			const startTime1 = this.variables.get("spike_start");
-			const endTime1 = this.variables.get("spike_end");
-			goRight(spike, startTime1, endTime1);
+		if (this.variables.get("bomb_start")) {
+			const bomb = this.variables.get("bomb");
+			const startTime1 = this.variables.get("bomb_start");
+			const endTime1 = this.variables.get("bomb_end");
+			goRight(bomb, startTime1, endTime1);
 		}
 	}
 }

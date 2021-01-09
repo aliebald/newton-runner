@@ -8,6 +8,7 @@
  * - resetUserdata(): resets all local userdata
  */
 
+import { get, post } from "./backendCommunication";
 import { questionStateType } from "./components/Question";
 
 export interface QuestProgress {
@@ -64,11 +65,8 @@ export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
 		console.log(progress);
 		return false;
 	}
-	// Save on server if possible
 
-	// TODO
-
-	// Save local
+	saveUserdataServer(progress);
 	saveUserdataLocal(progress);
 	return true;
 }
@@ -80,14 +78,38 @@ export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
  * @param `attempt`
  */
 export function saveQuestAttempt(id: string, attempt: QuestAttempt): void {
-	// TODO Communicate with server
+	// Communicate with server
+	saveQuestAttemptServer(id, attempt);
 
+	// Save local
 	const quest = loadQuestProgress(id);
 	if (quest.solvedAt < 0 && attempt.solved) {
 		quest.solvedAt = quest.attempts.length;
 	}
 	quest.attempts.push(attempt);
 	saveProgress(quest);
+}
+
+/**
+ * Saves a single attempt in the backend
+ *
+ * @param `id` id of the QuestProgress this attempt is part of
+ * @param `attempt`
+ */
+export function saveQuestAttemptServer(id: string, attempt: QuestAttempt): void {
+	if (!isLoggedIn()) {
+		return;
+	}
+
+	post(
+		"/quest-attempt",
+		JSON.stringify({ userId: getUserId(), questId: id, questAttempt: attempt })
+	)
+		.then(() => console.log("%cSaveQuestAttempt success", "color: green"))
+		.catch((error) => {
+			// TODO: error handling
+			console.error(error);
+		});
 }
 
 /**
@@ -122,19 +144,35 @@ export function saveSingleQuestion(quiz: QuizProgress, question: QuestionProgres
 
 		// Only update if something changed
 		if (changed) {
-			// Save the question on server if possible
-
-			// TODO
-
-			// Save local
+			saveSingleQuestionServer(quiz, question);
 			saveUserdataLocal(quiz);
 		}
 	} else {
 		// Case: quizProgress was not found. Save thw whole quiz instead
+		saveProgress(quiz);
 		saveUserdataLocal(quiz);
 	}
 
 	return true;
+}
+
+/**
+ * Updates or saves the given QuestionProgress in the backend. The given `quiz` __must contain__ the given `question`.
+ *
+ * @param quiz - QuizProgress `question` is a part of. This will saved instead of the single question if this QuizProgress does not yet exist
+ * @param question - QuestionProgress to save
+ */
+export function saveSingleQuestionServer(quiz: QuizProgress, question: QuestionProgress): void {
+	if (!isLoggedIn()) {
+		return;
+	}
+
+	post("/question-progress", JSON.stringify({ userId: getUserId(), quizProgress: question }))
+		.then(() => console.log("%csaveSingleQuestion success", "color: green"))
+		.catch((error) => {
+			// In case of an error: try to save the whole quiz
+			saveProgress(quiz);
+		});
 }
 
 /**
@@ -185,6 +223,33 @@ export function loadQuestProgress(id: string): QuestProgress {
 export function resetUserdata(): void {
 	if (confirm("Fortschritt und Nutzerdaten löschen?")) {
 		localStorage.removeItem("userdata");
+	}
+}
+
+/**
+ * Saves / updates a __valid__ QuizProgress or QuestProgress in local storage
+ *
+ * @param progress QuizProgress or QuestProgress to be saved or updated. Must be validated beforehand using `valid()`, `validQuest()`, or `validQuiz()`.
+ */
+function saveUserdataServer(progress: QuizProgress | QuestProgress): void {
+	if (!valid(progress) || !isLoggedIn()) {
+		return;
+	}
+
+	if (isQuizProgress(progress)) {
+		post("/quiz-progress", JSON.stringify({ userId: getUserId(), quizProgress: progress }))
+			.then(() => console.log("%csaveUserdataServer success", "color: green"))
+			.catch((error) => {
+				// TODO: error handling
+				console.error(error);
+			});
+	} else {
+		post("/quest-progress", JSON.stringify({ userId: getUserId(), questProgress: progress }))
+			.then(() => console.log("%csaveUserdataServer success", "color: green"))
+			.catch((error) => {
+				// TODO: error handling
+				console.error(error);
+			});
 	}
 }
 
@@ -293,4 +358,57 @@ function validQuest(quest: QuestProgress): boolean {
  */
 function validQuiz(quiz: QuizProgress): boolean {
 	return quiz.questions.length > 0 && quiz.id != ""; // TODO check if this id exists / is valid
+}
+
+/**
+ * Checks if a user is logged in
+ */
+function isLoggedIn(): boolean {
+	return sessionStorage.userData && JSON.parse(sessionStorage.userData).userId;
+}
+
+function getUserId(): string {
+	if (isLoggedIn()) {
+		return JSON.parse(sessionStorage.userData).userId;
+	} else {
+		// TODO
+		throw new Error("No User logged in");
+	}
+}
+
+/**
+ * Tries to log in a user with the given userId and loads userData
+ * @param userId
+ */
+export async function login(userId: string): Promise<void> {
+	let userData;
+	try {
+		userData = await get("/user", [{ name: "userId", value: userId }]);
+	} catch (error) {
+		console.error("Failed to log in: ", error);
+		return;
+	}
+
+	// TODO Check
+	console.log("userData: ", userData);
+
+	sessionStorage.userData = userData;
+}
+
+// TODO: temporary dev method, remove later
+export async function createNewDevUser(): Promise<void> {
+	const getTeacher = JSON.stringify({
+		password: "zh42+2A",
+		name: "Test User"
+	});
+
+	let teacher;
+	try {
+		teacher = await post("/user/teacher", getTeacher);
+	} catch (error) {
+		console.error("in catch: ", error);
+		return;
+	}
+	console.log(teacher);
+	sessionStorage.userData = JSON.stringify({ userId: JSON.parse(teacher).userId });
 }

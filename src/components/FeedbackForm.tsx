@@ -6,12 +6,7 @@ import { getUserId, isLoggedIn } from "../userdata";
 import Toast from "./Toast";
 
 export default function FeedbackForm(props: { active: boolean; close(): void }): ReactElement {
-	if ("event" in localStorage) console.log(JSON.parse(localStorage.event));
 	const [success, setSuccess] = useState<"success" | "error" | "unattempted">("unattempted");
-
-	/*
-	 * TODO: buchstabenlimit für textfelder
-	 */
 
 	let toast = <></>;
 	if (success === "success") {

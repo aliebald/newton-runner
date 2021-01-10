@@ -87,7 +87,7 @@ export function saveQuestAttempt(id: string, attempt: QuestAttempt): void {
 		quest.solvedAt = quest.attempts.length;
 	}
 	quest.attempts.push(attempt);
-	saveProgress(quest);
+	saveUserdataLocal(quest);
 }
 
 /**
@@ -148,9 +148,8 @@ export function saveSingleQuestion(quiz: QuizProgress, question: QuestionProgres
 			saveUserdataLocal(quiz);
 		}
 	} else {
-		// Case: quizProgress was not found. Save thw whole quiz instead
+		// Case: quizProgress was not found. Save the whole quiz instead
 		saveProgress(quiz);
-		saveUserdataLocal(quiz);
 	}
 
 	return true;

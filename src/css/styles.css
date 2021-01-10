@@ -330,12 +330,11 @@ body {
 	color: var(--secondaryColor);
 }
 
-.green {
-	color: green;
-}
-
-.red {
-	color: red;
+.customToast {
+	position: fixed;
+	top: 1rem;
+	width: 100%;
+	z-index: 5;
 }
 
 .infoBoxOuter {
@@ -363,12 +362,16 @@ body {
 	padding-right: 0.7rem;
 }
 
-.correct {
+.green,
+.correct,
+.success {
 	color: green;
 	border-color: green;
 }
 
-.incorrect {
+.red,
+.incorrect,
+.error {
 	color: red;
 	border-color: red;
 }

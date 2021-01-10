@@ -363,11 +363,11 @@ function validQuiz(quiz: QuizProgress): boolean {
 /**
  * Checks if a user is logged in
  */
-function isLoggedIn(): boolean {
+export function isLoggedIn(): boolean {
 	return sessionStorage.userData && JSON.parse(sessionStorage.userData).userId;
 }
 
-function getUserId(): string {
+export function getUserId(): string {
 	if (isLoggedIn()) {
 		return JSON.parse(sessionStorage.userData).userId;
 	} else {

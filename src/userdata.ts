@@ -382,7 +382,7 @@ export function getUserId(): string {
 export async function login(userId: string): Promise<void> {
 	let userData;
 	try {
-		userData = await get("/user", [{ name: "userId", value: userId }]);
+		userData = await get("/user", new Map([["userId", userId]]));
 	} catch (error) {
 		console.error("Failed to log in: ", error);
 		return;

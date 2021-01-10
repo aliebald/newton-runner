@@ -9,15 +9,15 @@ const backendServer = "http://localhost:8080";
  */
 export async function get<T>(
 	path: string,
-	args: { name: string; value: string }[],
+	args: Map<string, string>,
 	charset?: "UTF-8" | "UTF-16"
 ): Promise<T> {
 	if (!charset) {
 		charset = "UTF-8";
 	}
-
-	const params = args.map((arg) => arg.name + "=" + arg.value).join("&");
-	const pathWithArgs = `${backendServer}${path}${params.length ? "?" : ""}${params}`;
+	const params: string[] = [];
+	args.forEach((key, value) => params.push(`${key}=${value}`));
+	const pathWithArgs = `${backendServer}${path}${params.length ? "?" : ""}${params.join("&")}`;
 
 	const returnObj = await fetch(pathWithArgs, {
 		mode: "cors",

@@ -16,7 +16,7 @@ export async function get<T>(
 		charset = "UTF-8";
 	}
 	const params: string[] = [];
-	args.forEach((key, value) => params.push(`${key}=${value}`));
+	args.forEach((value, key) => params.push(`${key}=${value}`));
 	const pathWithArgs = `${backendServer}${path}${params.length ? "?" : ""}${params.join("&")}`;
 
 	const returnObj = await fetch(pathWithArgs, {

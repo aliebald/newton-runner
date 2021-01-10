@@ -1,10 +1,9 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Question, QuestionConfig, questionStateType } from "./Question";
 import "./../css/style.quiz.css";
 import { saveSingleQuestion, loadQuizProgress, QuestionProgress, QuizProgress } from "../userdata";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 export interface QuizConfig {
 	id: string;
@@ -20,8 +19,22 @@ export function Quiz(props: {
 	nextPage: string;
 	theoryLink?: string;
 }): ReactElement {
-	const progress = getQuizProgress(props.config.id, props.config.questions);
+	const [requested, setRequested] = useState(false); // true if the progress was already requested from the server
+	const [progress, setProgress] = useState(
+		getEmptyQuizProgress(props.config.id, props.config.questions)
+	);
 	const [allSolved, setallSolved] = useState(checkAllSolved());
+
+	// Try to load the progress from the server. Update progress if the server had a save.
+	if (!requested) {
+		// make sure this only gets executed once by setting requested to true
+		setRequested(true);
+		loadQuizProgress(props.config.id).then((response) => {
+			if (response) {
+				setProgress(response);
+			}
+		});
+	}
 
 	const navButtons = (
 		<div className="d-flex">
@@ -94,24 +107,16 @@ export function Quiz(props: {
 	 * of the question if found, otherwise `Unsolved` is returned
 	 */
 	function getQuestionProgress(questionId: string): questionStateType {
-		if (progress) {
-			for (let i = 0; i < progress.questions.length; i++) {
-				if (progress.questions[i].id === questionId) {
-					return progress.questions[i].state;
-				}
+		for (let i = 0; i < progress.questions.length; i++) {
+			if (progress.questions[i].id === questionId) {
+				return progress.questions[i].state;
 			}
 		}
 		return "unsolved";
 	}
 
-	// Loads either the QuizProgress or creates a new one if none was saved
-	function getQuizProgress(id: string, questions: QuestionConfig[]): QuizProgress {
-		const progress = loadQuizProgress(id);
-		if (progress) {
-			return progress;
-		}
-
-		// Create new QuizProgress
+	/** Creates a new QuizProgress based on the QuestionConfig and id given */
+	function getEmptyQuizProgress(id: string, questions: QuestionConfig[]): QuizProgress {
 		const questionProgress: QuestionProgress[] = [];
 		for (let i = 0; i < questions.length; i++) {
 			questionProgress.push({

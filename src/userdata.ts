@@ -61,8 +61,7 @@ interface Userdata {
  */
 export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
 	if (!valid(progress)) {
-		console.log("%cERROR: cannot save invalid progress", "color: red");
-		console.log(progress);
+		console.error("ERROR: cannot save invalid progress", progress);
 		return false;
 	}
 
@@ -82,12 +81,13 @@ export function saveQuestAttempt(id: string, attempt: QuestAttempt): void {
 	saveQuestAttemptServer(id, attempt);
 
 	// Save local
-	const quest = loadQuestProgress(id);
-	if (quest.solvedAt < 0 && attempt.solved) {
-		quest.solvedAt = quest.attempts.length;
-	}
-	quest.attempts.push(attempt);
-	saveUserdataLocal(quest);
+	loadQuestProgress(id).then((quest) => {
+		if (quest.solvedAt < 0 && attempt.solved) {
+			quest.solvedAt = quest.attempts.length;
+		}
+		quest.attempts.push(attempt);
+		saveUserdataLocal(quest);
+	});
 }
 
 /**
@@ -120,8 +120,11 @@ export function saveQuestAttemptServer(id: string, attempt: QuestAttempt): void 
  * @param question - QuestionProgress to save
  * @returns false if the given QuestionProgress is invalid, the QuizProgress with the given quiz.id does not contain the question or if there was an error while saving, else true.
  */
-export function saveSingleQuestion(quiz: QuizProgress, question: QuestionProgress): boolean {
-	const quizProgress = loadQuizProgress(quiz.id);
+export async function saveSingleQuestion(
+	quiz: QuizProgress,
+	question: QuestionProgress
+): Promise<boolean> {
+	const quizProgress = await loadQuizProgress(quiz.id);
 	let changed = false;
 	if (quizProgress) {
 		// Replace the question inside userdata. Only required for saving in local storage
@@ -135,10 +138,7 @@ export function saveSingleQuestion(quiz: QuizProgress, question: QuestionProgres
 			}
 		}
 		if (!found) {
-			console.log(
-				"%cERROR: question " + question.id + " is not part of quiz " + quiz.id,
-				"color: red"
-			);
+			console.error("ERROR: question " + question.id + " is not part of quiz " + quiz.id);
 			return false;
 		}
 
@@ -180,10 +180,11 @@ export function saveSingleQuestionServer(quiz: QuizProgress, question: QuestionP
  * @param id id of QuizProgress to load
  * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
  */
-export function loadQuizProgress(id: string): QuizProgress | undefined {
+export async function loadQuizProgress(id: string): Promise<QuizProgress | undefined> {
 	// Load from server if possible
-
-	// TODO
+	if (isLoggedIn()) {
+		return await loadQuizProgressServer(id);
+	}
 
 	// else, load from local storage
 	const userdata = loadUserdataLocal();
@@ -192,27 +193,79 @@ export function loadQuizProgress(id: string): QuizProgress | undefined {
 }
 
 /**
- * Loads the QuestProgress with the given `id`
+ * Requests the QuizProgress with the given `id` from the server
  *
- * @param id id of QuestProgress to load
+ * @param id id of QuizProgress to load
+ * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
+ */
+async function loadQuizProgressServer(id: string): Promise<QuizProgress | undefined> {
+	if (!isLoggedIn()) {
+		return undefined;
+	}
+
+	const parameters = new Map([
+		["userId", getUserId()],
+		["quizProgressId", id]
+	]);
+
+	try {
+		return await get("/quiz-progress", parameters);
+	} catch (error) {
+		//TODO error handling
+		console.error("Failed to load QuizProgress from Server: ", error);
+		return;
+	}
+}
+
+/**
+ * Loads the QuestProgress with the given `questId`
+ *
+ * @param questId id of QuestProgress to load
  * @returns undefined if there is no QuestProgress with the given id. Otherwise it returns the QuestProgress with the given id
  */
-export function loadQuestProgress(id: string): QuestProgress {
-	// Load from server if possible
+export async function loadQuestProgress(questId: string): Promise<QuestProgress> {
+	// Request from server
+	const progress = await loadQuestProgressServer(questId);
+	if (progress) {
+		return progress;
+	}
 
-	// TODO
-
-	// else, load from local storage
+	// If not logged in or no data received, load from local storage
 	const userdata = loadUserdataLocal();
-	const index = find(id, userdata.quests);
+	const index = find(questId, userdata.quests);
 	if (index !== -1) {
 		return userdata.quests[index];
 	} else {
 		return {
-			id: id,
+			id: questId,
 			solvedAt: -1,
 			attempts: []
 		};
+	}
+}
+
+/**
+ * Requests the QuestProgress with the given `questId` from the backend
+ *
+ * @param questId id of QuestProgress to request
+ * @returns undefined if there is no QuestProgress with the given id. Otherwise it returns the QuestProgress with the given id
+ */
+async function loadQuestProgressServer(questId: string): Promise<QuestProgress | undefined> {
+	if (!isLoggedIn()) {
+		return undefined;
+	}
+
+	const parameters = new Map([
+		["userId", getUserId()],
+		["questId", questId]
+	]);
+
+	try {
+		return await get("/quest-progress", parameters);
+	} catch (error) {
+		// TODO error handling
+		console.error("Failed to load QuestProgress from Server: ", error);
+		return;
 	}
 }
 

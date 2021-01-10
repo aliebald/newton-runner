@@ -14,28 +14,30 @@ import { QuizConfig } from "./Quiz";
 
 export function Statistics(): ReactElement {
 	const quests: { progress: QuestProgress; stats: QuestStats }[] = [];
-	quests.push({
-		progress: loadQuestProgress("level1Quest1"),
-		stats: level1Quest1
-	});
-	quests.push({
-		progress: loadQuestProgress("level1Quest2"),
-		stats: level1Quest2
-	});
-	quests.push({
-		progress: loadQuestProgress("level1Quest3"),
-		stats: level1Quest3
-	});
+	// TODO
+	// quests.push({
+	// 	progress: loadQuestProgress("level1Quest1"),
+	// 	stats: level1Quest1
+	// });
+	// quests.push({
+	// 	progress: loadQuestProgress("level1Quest2"),
+	// 	stats: level1Quest2
+	// });
+	// quests.push({
+	// 	progress: loadQuestProgress("level1Quest3"),
+	// 	stats: level1Quest3
+	// });
 
 	const quizzes: { progress: QuizProgress | undefined; config: QuizConfig }[] = [];
-	quizzes.push({
-		progress: loadQuizProgress("level1Quiz1"),
-		config: level1Quiz1
-	});
-	quizzes.push({
-		progress: loadQuizProgress("level1Quiz2"),
-		config: level1Quiz2
-	});
+	// TODO
+	// quizzes.push({
+	// 	progress: loadQuizProgress("level1Quiz1"),
+	// 	config: level1Quiz1
+	// });
+	// quizzes.push({
+	// 	progress: loadQuizProgress("level1Quiz2"),
+	// 	config: level1Quiz2
+	// });
 
 	return (
 		<Container fluid="lg" className="mb-5">

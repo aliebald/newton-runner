@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import Game from "../gameLogic/game";
 import { GameConfig } from "../gameLogic/GameConfig";
 import { Redirect } from "react-router-dom";
-import { loadQuestProgress, saveQuestAttempt } from "../userdata";
+import { loadQuestProgress, QuestProgress, saveQuestAttempt } from "../userdata";
 
 // Information about the Error: https://github.com/react-bootstrap/react-bootstrap/issues/5075
 
@@ -44,41 +44,20 @@ export default class GameComponent extends React.Component<
 		setAttempt: (attempt: number) => void;
 	}) {
 		super(props);
-		// check if this game was already won once
-		const progress = loadQuestProgress(props.id);
-		const solved: boolean = progress.solvedAt >= 0;
-		if (solved && progress.attempts) {
-			props.setSolvedAtAttempt(progress.solvedAt);
-		}
-		const attempt = progress.attempts[progress.solvedAt];
 		this.state = {
-			showModal: solved,
+			showModal: false,
 			gameState: "ready",
 			restart: () => {
 				this.setState({ showModal: false });
 			},
-			title: solved ? "Quest bereits geschafft" : "",
-			text: solved
-				? `Du hast diese Quest bereits 
-				${props.settings.pointsPerAttempt ? `mit ${attempt?.achievedPoints} Punkten ` : ""}
-				${
-					attempt?.achievedBonusPoints && attempt?.achievedBonusPoints > 0
-						? "und " + attempt?.achievedBonusPoints + " Bonuspunkten"
-						: ""
-				}
-				geschafft. Du kannst ${
-					props.settings.pointsPerAttempt
-						? "deine verdienten Punkte nicht mehr ändern, aber "
-						: ""
-				} die Quest trotzdem noch einmal versuchen (unbewertet).`
-				: "",
+			title: "lädt",
+			text: "lädt",
 			redirect: null,
-			nextBtnCSS: solved ? "inline-block" : "none",
+			nextBtnCSS: "none",
 			retryBtnVariant: "outline-primary",
-			attempt: progress.attempts.length + 1,
-			solved: solved
+			attempt: 1,
+			solved: false
 		};
-		this.props.setAttempt(this.state.attempt);
 	}
 
 	/**
@@ -224,7 +203,49 @@ export default class GameComponent extends React.Component<
 		this.props.setGameState(state);
 	};
 
-	componentDidMount(): void {
+	/**
+	 * Tries to load data and updates the state accordingly
+	 */
+	private loadAndApplyProgress = async () => {
+		// check if this game was already won once
+		const progress = await loadQuestProgress(this.props.id);
+		const solved: boolean = progress.solvedAt >= 0;
+		if (solved && progress.attempts) {
+			this.props.setSolvedAtAttempt(progress.solvedAt);
+		}
+		const attempt = progress.attempts[progress.solvedAt];
+		this.setState({
+			showModal: solved,
+			gameState: "ready",
+			restart: () => {
+				this.setState({ showModal: false });
+			},
+			title: solved ? "Quest bereits geschafft" : "",
+			text: solved
+				? `Du hast diese Quest bereits 
+				${this.props.settings.pointsPerAttempt ? `mit ${attempt?.achievedPoints} Punkten ` : ""}
+				${
+					attempt?.achievedBonusPoints && attempt?.achievedBonusPoints > 0
+						? "und " + attempt?.achievedBonusPoints + " Bonuspunkten"
+						: ""
+				}
+				geschafft. Du kannst ${
+					this.props.settings.pointsPerAttempt
+						? "deine verdienten Punkte nicht mehr ändern, aber "
+						: ""
+				} die Quest trotzdem noch einmal versuchen (unbewertet).`
+				: "",
+			redirect: null,
+			nextBtnCSS: solved ? "inline-block" : "none",
+			retryBtnVariant: "outline-primary",
+			attempt: progress.attempts.length + 1,
+			solved: solved
+		});
+		this.props.setAttempt(this.state.attempt);
+	};
+
+	async componentDidMount(): Promise<void> {
+		await this.loadAndApplyProgress();
 		new Game(
 			this.props.settings,
 			this.props.data,

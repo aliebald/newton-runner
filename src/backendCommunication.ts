@@ -1,4 +1,4 @@
-const backendServer = "http://localhost:8080/api";
+const backendServer = "http://localhost:8080";
 
 /**
  * Sends a GET request to the backend server

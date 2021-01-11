@@ -143,6 +143,7 @@ export async function saveSingleQuestion(
 	quiz: QuizProgress,
 	question: QuestionProgress
 ): Promise<boolean> {
+	console.log("saveSingleQuestion");
 	quiz.lastSave = Date.now();
 
 	const quizProgress = await loadQuizProgress(quiz.id);
@@ -208,16 +209,29 @@ export function saveSingleQuestionServer(quiz: QuizProgress, question: QuestionP
  * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
  */
 export async function loadQuizProgress(id: string): Promise<QuizProgress | undefined> {
+	console.log("loadQuizProgress");
 	// Load from server if possible
 	if (isLoggedIn()) {
 		const quiz = await loadQuizProgressServer(id);
 		// return if data was revived from the server
+		console.warn(quiz);
 		if (quiz) {
 			return quiz;
 		}
 	}
 
 	// else, try to load from local storage
+	return loadQuizProgressLocal(id);
+}
+
+/**
+ * Loads the QuizProgress with the given `id` from local storage
+ *
+ * @param id id of QuizProgress to load
+ * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
+ */
+function loadQuizProgressLocal(id: string): QuizProgress | undefined {
+	console.log("loadQuizProgressLocal");
 	const userdata = loadUserdataLocal();
 	const index = find(id, userdata.quizzes);
 	return index !== -1 ? userdata.quizzes[index] : undefined;
@@ -230,6 +244,7 @@ export async function loadQuizProgress(id: string): Promise<QuizProgress | undef
  * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
  */
 async function loadQuizProgressServer(id: string): Promise<QuizProgress | undefined> {
+	console.warn("loadQuizProgressServer");
 	if (!isLoggedIn()) {
 		return undefined;
 	}

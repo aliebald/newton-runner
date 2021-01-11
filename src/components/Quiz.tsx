@@ -30,12 +30,9 @@ export function Quiz(props: {
 		// make sure this only gets executed once by setting requested to true
 		setRequested(true);
 		loadQuizProgress(props.config.id).then((response) => {
-			console.log("loaded: ", response);
 			if (response) {
-				console.log("applying");
 				setProgress(response);
 			}
-			console.warn(response);
 		});
 	}
 

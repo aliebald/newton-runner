@@ -127,6 +127,7 @@ export function Quiz(props: {
 
 		return {
 			id: id,
+			lastSave: new Date(),
 			rated: true, // TODO
 			questions: questionProgress
 		};

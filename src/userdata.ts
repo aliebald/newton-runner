@@ -13,6 +13,7 @@ import { questionStateType } from "./components/Question";
 
 export interface QuestProgress {
 	id: string;
+	lastSave: Date;
 	/**
 	 * -1 if not yet solved. Refers to index of attempt, so the actual successful attempt is `solvedAt + 1`.
 	 * The first successful attempt can be found at `attempts[solvedAt]`.
@@ -31,6 +32,7 @@ export interface QuestAttempt {
 
 export interface QuizProgress {
 	id: string;
+	lastSave: Date;
 	rated: boolean;
 	questions: QuestionProgress[];
 }
@@ -65,8 +67,8 @@ export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
 		return false;
 	}
 
-	saveUserdataServer(progress);
-	saveUserdataLocal(progress);
+	saveProgressServer(progress);
+	saveProgressLocal(progress);
 	return true;
 }
 
@@ -86,7 +88,7 @@ export function saveQuestAttempt(id: string, attempt: QuestAttempt): void {
 			quest.solvedAt = quest.attempts.length;
 		}
 		quest.attempts.push(attempt);
-		saveUserdataLocal(quest);
+		saveProgressLocal(quest);
 	});
 }
 
@@ -138,14 +140,17 @@ export async function saveSingleQuestion(
 			}
 		}
 		if (!found) {
-			console.error("ERROR: question " + question.id + " is not part of quiz " + quiz.id);
+			console.error(
+				"ERROR: question " + question.id + " is not part of quiz " + quiz.id,
+				quiz
+			);
 			return false;
 		}
 
 		// Only update if something changed
 		if (changed) {
 			saveSingleQuestionServer(quiz, question);
-			saveUserdataLocal(quiz);
+			saveProgressLocal(quiz);
 		}
 	} else {
 		// Case: quizProgress was not found. Save the whole quiz instead
@@ -183,10 +188,14 @@ export function saveSingleQuestionServer(quiz: QuizProgress, question: QuestionP
 export async function loadQuizProgress(id: string): Promise<QuizProgress | undefined> {
 	// Load from server if possible
 	if (isLoggedIn()) {
-		return await loadQuizProgressServer(id);
+		const quiz = await loadQuizProgressServer(id);
+		// return if data was revived from the server
+		if (quiz) {
+			return quiz;
+		}
 	}
 
-	// else, load from local storage
+	// else, try to load from local storage
 	const userdata = loadUserdataLocal();
 	const index = find(id, userdata.quizzes);
 	return index !== -1 ? userdata.quizzes[index] : undefined;
@@ -211,7 +220,13 @@ async function loadQuizProgressServer(id: string): Promise<QuizProgress | undefi
 	try {
 		return await get("/quiz-progress", parameters);
 	} catch (error) {
-		//TODO error handling
+		// 434: no progress for this Quiz
+		if (error.returnObj.status === 434) {
+			console.log("Received no progress for " + id);
+			return undefined;
+		}
+
+		// TODO further error handling
 		console.error("Failed to load QuizProgress from Server: ", error);
 		return;
 	}
@@ -225,9 +240,12 @@ async function loadQuizProgressServer(id: string): Promise<QuizProgress | undefi
  */
 export async function loadQuestProgress(questId: string): Promise<QuestProgress> {
 	// Request from server
-	const progress = await loadQuestProgressServer(questId);
-	if (progress) {
-		return progress;
+	if (isLoggedIn()) {
+		const progress = await loadQuestProgressServer(questId);
+		// return if data was revived from the server
+		if (progress) {
+			return progress;
+		}
 	}
 
 	// If not logged in or no data received, load from local storage
@@ -238,6 +256,7 @@ export async function loadQuestProgress(questId: string): Promise<QuestProgress>
 	} else {
 		return {
 			id: questId,
+			lastSave: new Date(),
 			solvedAt: -1,
 			attempts: []
 		};
@@ -263,7 +282,12 @@ async function loadQuestProgressServer(questId: string): Promise<QuestProgress |
 	try {
 		return await get("/quest-progress", parameters);
 	} catch (error) {
-		// TODO error handling
+		// 434: no progress for this Quest
+		if (error.returnObj.status === 434) {
+			console.log("Received no progress for " + questId);
+			return undefined;
+		}
+		// TODO further  error handling
 		console.error("Failed to load QuestProgress from Server: ", error);
 		return;
 	}
@@ -275,6 +299,7 @@ async function loadQuestProgressServer(questId: string): Promise<QuestProgress |
 export function resetUserdata(): void {
 	if (confirm("Fortschritt und Nutzerdaten löschen?")) {
 		localStorage.removeItem("userdata");
+		localStorage.removeItem("synchronized");
 	}
 }
 
@@ -283,21 +308,28 @@ export function resetUserdata(): void {
  *
  * @param progress QuizProgress or QuestProgress to be saved or updated. Must be validated beforehand using `valid()`, `validQuest()`, or `validQuiz()`.
  */
-function saveUserdataServer(progress: QuizProgress | QuestProgress): void {
-	if (!valid(progress) || !isLoggedIn()) {
+function saveProgressServer(progress: QuizProgress | QuestProgress): void {
+	console.log("saveProgressServer");
+	if (!valid(progress)) {
+		console.warn("invalid ", progress);
+		return;
+	}
+
+	if (!isLoggedIn()) {
+		console.warn("Not logged in");
 		return;
 	}
 
 	if (isQuizProgress(progress)) {
 		post("/quiz-progress", JSON.stringify({ userId: getUserId(), quizProgress: progress }))
-			.then(() => console.log("%csaveUserdataServer success", "color: green"))
+			.then(() => console.log("%csaveProgressServer success", "color: green"))
 			.catch((error) => {
 				// TODO: error handling
 				console.error(error);
 			});
 	} else {
 		post("/quest-progress", JSON.stringify({ userId: getUserId(), questProgress: progress }))
-			.then(() => console.log("%csaveUserdataServer success", "color: green"))
+			.then(() => console.log("%csaveProgressServer success", "color: green"))
 			.catch((error) => {
 				// TODO: error handling
 				console.error(error);
@@ -310,7 +342,8 @@ function saveUserdataServer(progress: QuizProgress | QuestProgress): void {
  *
  * @param progress QuizProgress or QuestProgress to be saved or updated. Must be validated beforehand using `valid()`, `validQuest()`, or `validQuiz()`.
  */
-function saveUserdataLocal(progress: QuizProgress | QuestProgress): void {
+function saveProgressLocal(progress: QuizProgress | QuestProgress): void {
+	console.log("saveProgressLocal");
 	if (!valid(progress)) {
 		return;
 	}
@@ -332,7 +365,7 @@ function saveUserdataLocal(progress: QuizProgress | QuestProgress): void {
 		}
 	}
 
-	localStorage.userdata = JSON.stringify(oldUserdata);
+	saveUserdataLocal(oldUserdata);
 }
 
 /**
@@ -345,7 +378,54 @@ function loadUserdataLocal(): Userdata {
 	}
 
 	return {
-		userId: "local",
+		userId: "",
+		quests: [],
+		quizzes: [],
+		purchasedItems: []
+	};
+}
+
+/**
+ * Saves Userdata locally. Does not test for validity
+ */
+function saveUserdataLocal(userdata: Userdata): void {
+	localStorage.userdata = JSON.stringify(userdata);
+}
+
+/**
+ * Requests the userdata from the server.
+ * If none is saved it will return an empty userdata object
+ *
+ * If the received userdata does not equal the local one, they will be synchronized.
+ * This means that the loaded userdata will already be saved local.
+ */
+async function loadAndSyncUserdataServer(userId: string): Promise<Userdata> {
+	const serverUserData = await loadUserdataServer(userId);
+	const localUserData = loadUserdataLocal();
+
+	// check if the requested userdata is equal to the local saved one
+	// TODO: Check this equation when the server works
+	if (localUserData !== serverUserData) {
+		synchronize(userId, serverUserData, localUserData);
+	}
+
+	return serverUserData;
+}
+
+/**
+ * Requests the userdata from the server.
+ * If none is saved it will return an empty userdata object
+ */
+async function loadUserdataServer(userId: string): Promise<Userdata> {
+	const userData = (await get("/user", new Map([["userId", userId]]))) as Userdata;
+	// TODO check response
+	if (userData) {
+		return userData;
+	}
+
+	// In case there was no userdata
+	return {
+		userId: userId,
 		quests: [],
 		quizzes: [],
 		purchasedItems: []
@@ -416,12 +496,12 @@ function validQuiz(quiz: QuizProgress): boolean {
  * Checks if a user is logged in
  */
 export function isLoggedIn(): boolean {
-	return sessionStorage.userData && JSON.parse(sessionStorage.userData).userId;
+	return localStorage.userdata && JSON.parse(localStorage.userdata).userId.length > 0;
 }
 
 export function getUserId(): string {
 	if (isLoggedIn()) {
-		return JSON.parse(sessionStorage.userData).userId;
+		return JSON.parse(localStorage.userdata).userId;
 	} else {
 		// TODO
 		throw new Error("No User logged in");
@@ -431,20 +511,137 @@ export function getUserId(): string {
 /**
  * Tries to log in a user with the given userId and loads userData
  * @param userId
+ * @return returns "success" if the user successfully logged in, "invalidId" if the given id is invalid and "error" for any other error
  */
-export async function login(userId: string): Promise<void> {
-	let userData;
+export async function login(
+	userId: string,
+	stayLoggedIn: boolean
+): Promise<"success" | "invalidId" | "error"> {
+	console.log('Logging in: "' + userId + '" stayLoggedIn: ' + stayLoggedIn);
+	const userdata = loadUserdataLocal();
+	userdata.userId = userId;
+	saveUserdataLocal(userdata);
 	try {
-		userData = await get("/user", new Map([["userId", userId]]));
+		await loadAndSyncUserdataServer(userId);
 	} catch (error) {
-		console.error("Failed to log in: ", error);
+		logout();
+		if (error.returnObj.status === 432) {
+			return "invalidId";
+		}
+		return "error";
+	}
+
+	return "success";
+}
+
+/** Deletes the userId id. */
+export function logout(): void {
+	const localData = loadUserdataLocal();
+	if (localData.userId) {
+		localData.userId = "";
+	}
+	saveUserdataLocal(localData);
+}
+
+/**
+ * Synchronized local data with data on server
+ */
+async function synchronize(userId: string, serverData?: Userdata, localData?: Userdata) {
+	if (!localData) {
+		localData = loadUserdataLocal();
+	}
+	if (!serverData) {
+		serverData = await loadUserdataServer(userId);
+	}
+
+	// check if already synchronized
+	// TODO: check this equation
+	if (serverData === localData) {
 		return;
 	}
 
-	// TODO Check
-	console.log("userData: ", userData);
+	console.log("synchronizing");
 
-	sessionStorage.userData = userData;
+	// synchronize quests
+	localData.quests.forEach((localQuest) => {
+		synchronizeProgress(
+			localQuest,
+			(serverData as Userdata).quests,
+			saveProgressServer,
+			saveProgressLocal
+		);
+	});
+
+	serverData.quests.forEach((serverQuest) => {
+		synchronizeProgress(
+			serverQuest,
+			(localData as Userdata).quests,
+			saveProgressLocal,
+			saveProgressServer
+		);
+	});
+
+	// synchronize Quizzes
+	localData.quizzes.forEach((localQuiz) => {
+		synchronizeProgress(
+			localQuiz,
+			(serverData as Userdata).quizzes,
+			saveProgressServer,
+			saveProgressLocal
+		);
+	});
+
+	serverData.quizzes.forEach((serverQuiz) => {
+		synchronizeProgress(
+			serverQuiz,
+			(localData as Userdata).quests,
+			saveProgressLocal,
+			saveProgressServer
+		);
+	});
+
+	console.log("%cSuccessfully synchronized", "color: green");
+	return;
+
+	// synchronizes a QuestProgress with an array of QuestProgresses
+	function synchronizeProgress(
+		progress: QuestProgress | QuizProgress,
+		otherProgresses: QuestProgress[] | QuizProgress[],
+		saveProgress: (progress: QuestProgress | QuizProgress) => void,
+		saveOtherProgress: (progress: QuestProgress | QuizProgress) => void
+	): void {
+		const index = find(progress.id, otherProgresses);
+		if (index === -1) {
+			// quest does not exist in otherQuests
+			console.log(
+				"checking " +
+					progress.id +
+					", lastSave: " +
+					progress.lastSave +
+					" -> does not yet exist on other side. "
+			);
+			saveProgress(progress);
+		} else {
+			const otherProgress = otherProgresses[index];
+			console.log(
+				"checking " +
+					progress.id +
+					", lastSave: " +
+					progress.lastSave +
+					" with lastSave: " +
+					otherProgress.lastSave
+			);
+			if (progress.lastSave < otherProgress.lastSave) {
+				// otherProgress is newer
+				console.log("saving " + otherProgress.lastSave);
+				saveOtherProgress(otherProgress);
+			} else if (progress.lastSave > otherProgress.lastSave) {
+				// quest is newer
+				console.log("saving " + progress.lastSave);
+				saveProgress(progress);
+			}
+		}
+	}
 }
 
 // TODO: temporary dev method, remove later
@@ -462,5 +659,8 @@ export async function createNewDevUser(): Promise<void> {
 		return;
 	}
 	console.log(teacher);
-	sessionStorage.userData = JSON.stringify({ userId: JSON.parse(teacher).userId });
+	const userdata = loadUserdataLocal();
+	userdata.userId = JSON.parse(teacher).userId;
+	saveUserdataLocal(userdata);
+	location.reload();
 }

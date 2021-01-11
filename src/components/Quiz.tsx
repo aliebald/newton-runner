@@ -30,9 +30,12 @@ export function Quiz(props: {
 		// make sure this only gets executed once by setting requested to true
 		setRequested(true);
 		loadQuizProgress(props.config.id).then((response) => {
+			console.log("loaded: ", response);
 			if (response) {
+				console.log("applying");
 				setProgress(response);
 			}
+			console.warn(response);
 		});
 	}
 
@@ -82,18 +85,11 @@ export function Quiz(props: {
 					</div>
 				</Col>
 			</Row>
-			{props.config.questions.map((question, index) => (
-				<Row key={question.id}>
-					<Col>
-						<Question
-							config={question}
-							state={getQuestionProgress(question.id)}
-							saveState={updateQuestionProgress}
-							rated={props.config.rated}
-						/>
-					</Col>
-				</Row>
-			))}
+			<QuestionsList
+				questions={props.config.questions}
+				progress={progress}
+				rated={props.config.rated}
+			/>
 			<Row className="pt-2 pb-5">
 				<Col>
 					<div className="boxWrapper px-4">{navButtons}</div>
@@ -101,19 +97,6 @@ export function Quiz(props: {
 			</Row>
 		</Container>
 	);
-
-	/**
-	 * Searches for the question with `questionId` in `progress` and returns the state
-	 * of the question if found, otherwise `Unsolved` is returned
-	 */
-	function getQuestionProgress(questionId: string): questionStateType {
-		for (let i = 0; i < progress.questions.length; i++) {
-			if (progress.questions[i].id === questionId) {
-				return progress.questions[i].state;
-			}
-		}
-		return "unsolved";
-	}
 
 	/** Creates a new QuizProgress based on the QuestionConfig and id given */
 	function getEmptyQuizProgress(id: string, questions: QuestionConfig[]): QuizProgress {
@@ -158,5 +141,47 @@ export function Quiz(props: {
 
 		saveSingleQuestion(progress, question);
 		setallSolved(checkAllSolved());
+	}
+
+	/**
+	 * List containing the Question components.
+	 */
+	function QuestionsList(props: {
+		questions: QuestionConfig[];
+		progress: QuizProgress;
+		rated: boolean;
+	}): ReactElement {
+		return (
+			<>
+				{props.questions.map((question) => (
+					<Row key={question.id}>
+						<Col>
+							<Question
+								config={question}
+								state={getQuestionProgress(question.id, props.progress)}
+								saveState={updateQuestionProgress}
+								rated={props.rated}
+							/>
+						</Col>
+					</Row>
+				))}
+			</>
+		);
+
+		/**
+		 * Searches for the question with `questionId` in `progress` and returns the state
+		 * of the question if found, otherwise `Unsolved` is returned
+		 */
+		function getQuestionProgress(
+			questionId: string,
+			progress: QuizProgress
+		): questionStateType {
+			for (let i = 0; i < progress.questions.length; i++) {
+				if (progress.questions[i].id === questionId) {
+					return progress.questions[i].state;
+				}
+			}
+			return "unsolved";
+		}
 	}
 }

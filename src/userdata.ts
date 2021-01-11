@@ -79,33 +79,50 @@ export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
  * @param `attempt`
  */
 export function saveQuestAttempt(id: string, attempt: QuestAttempt): void {
+	const lastSave = Date.now();
 	// Communicate with server
-	saveQuestAttemptServer(id, attempt);
-
+	saveQuestAttemptServer(id, attempt, lastSave);
 	// Save local
-	loadQuestProgress(id).then((quest) => {
-		if (quest.solvedAt < 0 && attempt.solved) {
-			quest.solvedAt = quest.attempts.length;
-		}
-		quest.attempts.push(attempt);
-		saveProgressLocal(quest);
-	});
+	saveQuestAttemptLocal(id, attempt, lastSave);
+}
+
+/**
+ * Saves a single attempt locally and updates the lastSave value of the corresponding quest
+ *
+ * @param `id` id of the QuestProgress this attempt is part of
+ * @param lastSave timestamp to update in QuestProgress (on the server)
+ * @param `attempt`
+ */
+function saveQuestAttemptLocal(id: string, attempt: QuestAttempt, lastSave: number): void {
+	const quest = loadQuestProgressLocal(id);
+	if (quest.solvedAt === -1 && attempt.solved) {
+		quest.solvedAt = quest.attempts.length;
+	}
+	quest.attempts.push(attempt);
+	quest.lastSave = lastSave;
+	saveProgressLocal(quest);
 }
 
 /**
  * Saves a single attempt in the backend
  *
  * @param `id` id of the QuestProgress this attempt is part of
+ * @param lastSave timestamp to update in QuestProgress (on the server)
  * @param `attempt`
  */
-export function saveQuestAttemptServer(id: string, attempt: QuestAttempt): void {
+function saveQuestAttemptServer(id: string, attempt: QuestAttempt, lastSave: number): void {
 	if (!isLoggedIn()) {
 		return;
 	}
 
 	post(
 		"/quest-attempt",
-		JSON.stringify({ userId: getUserId(), questId: id, questAttempt: attempt })
+		JSON.stringify({
+			userId: getUserId(),
+			questId: id,
+			questAttempt: attempt,
+			lastSave: lastSave
+		})
 	)
 		.then(() => console.log("%cSaveQuestAttempt success", "color: green"))
 		.catch((error) => {
@@ -249,6 +266,16 @@ export async function loadQuestProgress(questId: string): Promise<QuestProgress>
 	}
 
 	// If not logged in or no data received, load from local storage
+	return loadQuestProgressLocal(questId);
+}
+
+/**
+ * Requests the QuestProgress with the given `questId` from local storage
+ *
+ * @param questId id of QuestProgress to request
+ * @returns a empty QuestProgress object if there is no QuestProgress with the given id. Otherwise it returns the QuestProgress with the given id
+ */
+function loadQuestProgressLocal(questId: string): QuestProgress {
 	const userdata = loadUserdataLocal();
 	const index = find(questId, userdata.quests);
 	if (index !== -1) {

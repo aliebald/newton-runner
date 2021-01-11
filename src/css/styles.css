@@ -155,6 +155,10 @@ body {
 	padding: 15px 0px 15px 0px;
 }
 
+.loginScreen {
+	max-width: 768px;
+}
+
 .navbarTitle {
 	font-size: 1.5rem;
 	padding-right: 1rem;

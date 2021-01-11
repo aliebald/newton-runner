@@ -13,7 +13,7 @@ import { questionStateType } from "./components/Question";
 
 export interface QuestProgress {
 	id: string;
-	lastSave: Date;
+	lastSave: number;
 	/**
 	 * -1 if not yet solved. Refers to index of attempt, so the actual successful attempt is `solvedAt + 1`.
 	 * The first successful attempt can be found at `attempts[solvedAt]`.
@@ -32,7 +32,7 @@ export interface QuestAttempt {
 
 export interface QuizProgress {
 	id: string;
-	lastSave: Date;
+	lastSave: number;
 	rated: boolean;
 	questions: QuestionProgress[];
 }
@@ -256,7 +256,7 @@ export async function loadQuestProgress(questId: string): Promise<QuestProgress>
 	} else {
 		return {
 			id: questId,
-			lastSave: new Date(),
+			lastSave: Date.now(),
 			solvedAt: -1,
 			attempts: []
 		};

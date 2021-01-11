@@ -1,3 +1,5 @@
+import { logout } from "./userdata";
+
 const backendServer = "http://localhost:8080";
 
 /**
@@ -27,7 +29,11 @@ export async function get<T>(
 	});
 
 	if (returnObj.status !== 200) {
-		console.log("request:", pathWithArgs);
+		// Do not log the error if its an 434 (there is no progress for ... )
+		if (returnObj.status !== 434) {
+			console.log("request:", pathWithArgs);
+		}
+		defaultErrorActions(returnObj.status);
 		throw {
 			message: "ERROR: Status code " + returnObj.status + ", " + (await returnObj.text()),
 			returnObj: returnObj
@@ -63,6 +69,7 @@ export async function post(
 	});
 
 	if (returnObj.status !== 202 && returnObj.status !== 200) {
+		defaultErrorActions(returnObj.status);
 		console.log("send", JSON.parse(content));
 		throw {
 			message: "ERROR: Status code " + returnObj.status + ", " + (await returnObj.text()),
@@ -71,4 +78,12 @@ export async function post(
 	}
 
 	return await returnObj.text();
+}
+
+function defaultErrorActions(statuscode: number) {
+	// logout if the userId is unknown
+	if (statuscode === 432) {
+		logout();
+		location.reload();
+	}
 }

@@ -330,8 +330,9 @@ async function loadQuestProgressServer(questId: string): Promise<QuestProgress |
  */
 export function resetUserdata(): void {
 	if (confirm("Fortschritt und Nutzerdaten löschen?")) {
-		localStorage.removeItem("userdata");
-		localStorage.removeItem("synchronized");
+		localStorage.clear();
+		sessionStorage.clear();
+		location.reload();
 	}
 }
 
@@ -528,15 +529,23 @@ function validQuiz(quiz: QuizProgress): boolean {
  * Checks if a user is logged in
  */
 export function isLoggedIn(): boolean {
-	return localStorage.userdata && JSON.parse(localStorage.userdata).userId.length > 0;
+	const loggedInPermanent: boolean =
+		localStorage.userdata && JSON.parse(localStorage.userdata).userId;
+	const loggedInTemporary: boolean = sessionStorage.userId;
+	return loggedInPermanent || loggedInTemporary;
 }
 
 export function getUserId(): string {
 	if (isLoggedIn()) {
-		return JSON.parse(localStorage.userdata).userId;
+		if (sessionStorage.userId) {
+			// The user did not check
+			return sessionStorage.userId;
+		} else {
+			return JSON.parse(localStorage.userdata).userId;
+		}
 	} else {
-		// TODO
-		throw new Error("No User logged in");
+		// If this error is thrown, isLoggedIn was not checked before calling this function
+		throw new Error("No User logged in! Check isLoggedIn before calling getUserId");
 	}
 }
 
@@ -550,9 +559,15 @@ export async function login(
 	stayLoggedIn: boolean
 ): Promise<"success" | "invalidId" | "error"> {
 	console.log('Logging in: "' + userId + '" stayLoggedIn: ' + stayLoggedIn);
-	const userdata = loadUserdataLocal();
-	userdata.userId = userId;
-	saveUserdataLocal(userdata);
+
+	if (stayLoggedIn) {
+		const userdata = loadUserdataLocal();
+		userdata.userId = userId;
+		saveUserdataLocal(userdata);
+	} else {
+		sessionStorage.userId = userId;
+	}
+
 	try {
 		await loadAndSyncUserdataServer(userId);
 	} catch (error) {
@@ -572,6 +587,7 @@ export function logout(): void {
 	if (localData.userId) {
 		localData.userId = "";
 	}
+	sessionStorage.removeItem("userId");
 	saveUserdataLocal(localData);
 }
 

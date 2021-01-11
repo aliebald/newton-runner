@@ -143,6 +143,8 @@ export async function saveSingleQuestion(
 	quiz: QuizProgress,
 	question: QuestionProgress
 ): Promise<boolean> {
+	quiz.lastSave = Date.now();
+
 	const quizProgress = await loadQuizProgress(quiz.id);
 	let changed = false;
 	if (quizProgress) {
@@ -188,9 +190,12 @@ export function saveSingleQuestionServer(quiz: QuizProgress, question: QuestionP
 		return;
 	}
 
-	post("/question-progress", JSON.stringify({ userId: getUserId(), quizProgress: question }))
+	post(
+		"/question-progress",
+		JSON.stringify({ userId: getUserId(), quizProgress: question, lastSave: quiz.lastSave })
+	)
 		.then(() => console.log("%csaveSingleQuestion success", "color: green"))
-		.catch((error) => {
+		.catch(() => {
 			// In case of an error: try to save the whole quiz
 			saveProgress(quiz);
 		});

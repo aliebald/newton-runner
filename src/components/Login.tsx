@@ -37,8 +37,6 @@ export default function Login(): ReactElement {
 		</Form>
 	);
 
-	const [content, setContent] = useState(loggedIn ? <></> : loginForm);
-
 	// TODO: The "(Debug) Create new User and login" Button is only temporary (for testing)
 	return (
 		<>
@@ -48,7 +46,7 @@ export default function Login(): ReactElement {
 						<h2 className="text-center">{title}</h2>
 						<p className="text-muted text-center">{subtitle}</p>
 						<div className="text-center error">{errorMessage}</div>
-						{content}
+						{loggedIn ? <></> : loginForm}
 						<div className="d-flex justify-content-center">
 							<Button size="lg" onClick={handleMainButton} variant="primary">
 								{loggedIn ? "Abmelden" : "Anmelden"}
@@ -79,7 +77,7 @@ export default function Login(): ReactElement {
 			login(userId, stayLoggedIn).then((success) => {
 				if (success === "success") {
 					console.log("successfully logged in");
-					setContent(<></>);
+					location.reload();
 				} else if (success === "invalidId") {
 					console.warn("failed to log in: invalid id");
 					setErrorMessage("Die angegeben Benutzer ID kann nicht gefunden werden.");

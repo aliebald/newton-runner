@@ -53,7 +53,7 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 						question="3.c Ich konnte durch die Quests den Inhalt besser verstehen"
 					/>
 
-					<div className="separator py-2"></div>
+					<div className="questionnaireSeparator py-2"></div>
 					<EvenHeader title="Allgemeine Fragen" className="pt-4" />
 					<Option
 						name="generalA"
@@ -72,7 +72,7 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 						question="4.c Ich wünsche mir ein solches Spiel auch in anderen Themenbereichen."
 					/>
 
-					<div className="separator my-4"></div>
+					<div className="questionnaireSeparator my-4"></div>
 					<h3>Weitere Anmerkungen</h3>
 					<Form.Text className="text-muted">
 						Optional: Falls du noch weitere anmerkungen hast.

@@ -1,8 +1,6 @@
 import { QuestConfig } from "../components/Quest";
 import { controlType, GameConfig } from "../gameLogic/GameConfig";
 
-import exampleQuest1 from "../levels/exampleLevels/exampleQuest1";
-import exampleQuest2 from "../levels/exampleLevels/exampleQuest2";
 import { settings as level1Quest1 } from "../levels/level1/level1Quest1";
 import { settings as level1Quest2 } from "../levels/level1/level1Quest2";
 import { settings as level1Quest3 } from "../levels/level1/level1Quest3";
@@ -12,8 +10,6 @@ import level2Quest3 from "../levels/level2/level2Quest3";
 
 // Add each QuestConfig that should be testet to this array
 const questConfigs = [
-	exampleQuest1,
-	exampleQuest2,
 	level1Quest1,
 	level1Quest2,
 	level1Quest3,

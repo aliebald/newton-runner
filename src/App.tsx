@@ -1,4 +1,5 @@
 import React, { ReactElement, useState } from "react";
+import UnknownPageError from "./components/UnknownPageError";
 import { Alert } from "react-bootstrap";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
@@ -155,6 +156,8 @@ function App(): ReactElement {
 					exact
 					component={() => <Questionnaire level={2} nextPage="/" />}
 				/>
+
+				<Route component={UnknownPageError} />
 			</Switch>
 			<Footer />
 		</BrowserRouter>

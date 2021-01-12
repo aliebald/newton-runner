@@ -334,6 +334,23 @@ body {
 	color: var(--secondaryColor);
 }
 
+.bgLightGrey {
+	background-color: rgb(241, 241, 241);
+}
+
+.QuestionnaireLabel {
+	font-size: 0.75rem;
+	color: #6c757d;
+	text-align: center;
+	padding: 0 5px 0 5px;
+}
+
+.separator {
+	border-bottom: 1px solid rgb(214, 214, 214);
+	margin-right: -15px;
+	margin-left: -15px;
+}
+
 .customToast {
 	position: fixed;
 	top: 1rem;

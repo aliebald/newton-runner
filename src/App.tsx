@@ -12,6 +12,7 @@ import { Statistics } from "./components/Statistics";
 import Login from "./components/Login";
 import { isLoggedIn } from "./userdata";
 import LoginPopup from "./components/LoginPopup";
+import Questionnaire from "./components/Questionnaire";
 
 import exampleStory1 from "./levels/exampleLevels/exampleStory1";
 import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
@@ -139,7 +140,14 @@ function App(): ReactElement {
 				<Route
 					path="/level1Quest3"
 					exact
-					component={() => <Quest config={level1Quest3} nextPage="/level2Quest1"></Quest>}
+					component={() => (
+						<Quest config={level1Quest3} nextPage="/level1Questionnaire"></Quest>
+					)}
+				/>
+				<Route
+					path="/level1Questionnaire"
+					exact
+					component={() => <Questionnaire level={1} nextPage="/level2Quest1" />}
 				/>
 				<Route
 					path="/level2Quest1"
@@ -155,8 +163,13 @@ function App(): ReactElement {
 					path="/level2Quest3"
 					exact
 					component={() => (
-						<Quest config={level2Quest3} nextPage="/ExampleQuest1"></Quest>
+						<Quest config={level2Quest3} nextPage="/level2Questionnaire"></Quest>
 					)}
+				/>
+				<Route
+					path="/level2Questionnaire"
+					exact
+					component={() => <Questionnaire level={2} nextPage="/" />}
 				/>
 			</Switch>
 			<Footer />

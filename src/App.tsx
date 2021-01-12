@@ -10,6 +10,8 @@ import { Quiz } from "./components/Quiz";
 import { Theory } from "./components/Theory";
 import { Statistics } from "./components/Statistics";
 import Login from "./components/Login";
+import { isLoggedIn } from "./userdata";
+import LoginPopup from "./components/LoginPopup";
 
 import exampleStory1 from "./levels/exampleLevels/exampleStory1";
 import exampleQuest1 from "./levels/exampleLevels/exampleQuest1";
@@ -28,6 +30,9 @@ import level2Quest3 from "./levels/level2/level2Quest3";
 
 function App(): ReactElement {
 	const [showBetaAlert, setShowBetaAlert] = useState(true);
+	const [showLoginPopup, setShowLoginPopup] = useState(
+		location.pathname !== "/login" && !isLoggedIn()
+	);
 
 	// For deployment to GH Pages:
 	// Change <BrowserRouter> to <HashRouter basename="/">
@@ -44,6 +49,7 @@ function App(): ReactElement {
 				sehr über dein Feedback freuen!{" "}
 				<a href="mailto:physics.game.team@gmail.com">Kontakt</a>
 			</Alert>
+			<LoginPopup show={showLoginPopup} onClose={() => setShowLoginPopup(false)} />
 			<Navigation />
 			<Switch>
 				<Route path="/" exact component={LandingPage} />

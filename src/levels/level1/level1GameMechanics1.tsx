@@ -6,119 +6,92 @@ const config: TheoryConfig = {
 	slides: [
 		<React.Fragment key={0}>
 			<h1 className="centerBox">Level 1 - Erklärung Spielmechanik</h1>
-			<br />
-			<p className="centerBox">
+			<div className="centerBox slideSubText">
 				Hier erklären wir dir wie die Steuerung des Spiels funktioniert
-			</p>
+			</div>
 		</React.Fragment>,
 		<>
 			<Image src={"levels/level1/example_start_boxes.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
+			<div className="centerBox slideSubText">
 				Die Spieloberfläche ist in 2 Teile Unterteilt. Den Steuerungsgraphen links und die
 				Spielszene rechts.
-			</p>
+			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_graph_text.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
+			<div className="centerBox slideSubText">
 				Hier stehen Informationen zum Level. Lies sie dir gut durch, sie helfen dir sicher
 				weiter!
-			</p>
+			</div>
 		</>,
 		<>
-			<Image
-				src={"levels/level1/example_start_graph_versuch.png"}
-				fluid
-				rounded
-				className="d-flex"
-			/>
-			<br />
-			<p className="centerBox">
+			<Image src={"levels/level1/example_start_graph_versuch.png"} fluid rounded />
+			<div className="centerBox slideSubText">
 				Oben Rechts wird angezeigt wie oft du das Level bereits versucht hast.
-			</p>
+			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_graph_bewertung.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
+			<div className="centerBox slideSubText">
 				Um mehr darüber zu erfahren, wie viele Punkte du hier bekommen kannst, hovere über
 				das Feld oben rechts. Es gibt bewertete und unbewertete Aufgaben.
-			</p>
+			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_graph_drag_drop.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
+			<div className="centerBox slideSubText">
 				Um einen Punkt auf der y-Achse zu verschieben (also nach oben oder unten), klicke
 				auf den Punkt ziehe ihn mit gedrückter Maustaste dorthin, wo du ihn hinhaben willst.
 				Möglicherweise passen sich dabei auch andere Punkte an.
-			</p>
+			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_progress_graph.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
+			<div className="centerBox slideSubText">
 				Nachdem du das Spiel gestartet hast, wird sich der Graph rot einfärben damit du die
 				Bewegung der Figur nachvollziehen kannst.
-			</p>
-		</>,
-		<>
-			<Image src={"levels/level1/example_start_game_player.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
-				Dies ist die Spielfigur welche du über den Graphen bewegst nachdem du auf
-				&quot;Start&quot; klickst.
-			</p>
+			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_coin.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
+			<div className="centerBox slideSubText">
 				Sammle die Münzen ein um mehr Punkte zu erhalten. Doch Vorsicht, mit der Zeit warten
 				auch gefährliche Gegenstände auf dich.
-			</p>
+			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_key.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
+			<div className="centerBox slideSubText">
 				Du schaffst das Level wenn du unbeschadet den Schlüssel einsammelst.
-			</p>
+			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_meter.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
-				Als kleine Hilfestellung für die Steuerung siehst du hier wie lang etwa ein Meter in
-				der Spielwelt ist.
-			</p>
+			<div className="centerBox slideSubText">
+				Die Distanzen in der Spielwelt kannst du an diesem Maßstab hier erkennen.
+			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_controls.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
+			<div className="centerBox slideSubText">
 				Einige Level sind länger als dieses hier und du siehst möglicherweise nicht alles
 				von deiner Position aus. Um zu sehen was außerhalb der Sichtweite deiner Figur
 				wartet kannst du diese Kontrollelemente nutzen.
-			</p>
+			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_start.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
+			<div className="centerBox slideSubText">
 				Hast du alle Einstellungen vorgenommen setzt du mit dem Start-Knopf deine Figur in
 				Bewegung.
-			</p>
+			</div>
 		</>,
 		<>
-			<Image src={"levels/level1/example_start_game_nochmal.png"} fluid rounded />
-			<br />
-			<p className="centerBox">
-				Merkst du frühzeitig dass du dich etwas verkalkuliert hast, so kannst du die Aufgabe
-				frühzeitig neu starten.
-			</p>
+			<Image src={"levels/level1/example_progress_game_nochmal.png"} fluid rounded />
+			<div className="centerBox slideSubText">
+				Merkst du dass du dich etwas verkalkuliert hast, so kannst du die Aufgabe frühzeitig
+				neu starten.
+			</div>
 		</>
 	]
 };

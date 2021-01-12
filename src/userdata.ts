@@ -292,7 +292,7 @@ export async function loadQuestProgress(questId: string): Promise<QuestProgress>
  * @param questId id of QuestProgress to request
  * @returns a empty QuestProgress object if there is no QuestProgress with the given id. Otherwise it returns the QuestProgress with the given id
  */
-function loadQuestProgressLocal(questId: string): QuestProgress {
+export function loadQuestProgressLocal(questId: string): QuestProgress {
 	const userdata = loadUserdataLocal();
 	const index = find(questId, userdata.quests);
 	if (index !== -1) {

@@ -3,61 +3,49 @@ import { Button, Modal } from "react-bootstrap";
 import Game from "../gameLogic/game";
 import { GameConfig } from "../gameLogic/GameConfig";
 import { Redirect } from "react-router-dom";
-import { loadQuestProgress, QuestProgress, saveQuestAttempt } from "../userdata";
+import {
+	loadQuestProgress,
+	loadQuestProgressLocal,
+	QuestProgress,
+	saveQuestAttempt
+} from "../userdata";
 
 // Information about the Error: https://github.com/react-bootstrap/react-bootstrap/issues/5075
 
-export default class GameComponent extends React.Component<
-	{
-		settings: GameConfig;
-		data: { y: number }[];
-		setGraphProgress: (x: number) => void;
-		title: string;
-		id: string;
-		nextPage: string;
-		setGameState: (state: "ready" | "running" | "ended" | "restarting") => void;
-		setSolvedAtAttempt: (solved: number) => void;
-		setAttempt: (attempt: number) => void;
-	},
-	{
-		showModal: boolean;
-		gameState: "ready" | "running" | "ended" | "restarting";
-		restart: undefined | (() => void);
-		title: string;
-		text: string;
-		redirect: string | null;
-		nextBtnCSS: "none" | "inline-block";
-		retryBtnVariant: "primary" | "outline-primary";
-		attempt: number;
-		solved: boolean;
-	}
-> {
-	constructor(props: {
-		settings: GameConfig;
-		data: { y: number }[];
-		setGraphProgress: (x: number) => void;
-		title: string;
-		id: string;
-		nextPage: string;
-		setGameState: (state: "ready" | "running" | "ended" | "restarting") => void;
-		setSolvedAtAttempt: (solved: number) => void;
-		setAttempt: (attempt: number) => void;
-	}) {
+type GameComponentState = {
+	showModal: boolean;
+	gameState: "ready" | "running" | "ended" | "restarting";
+	restart: undefined | (() => void);
+	title: string;
+	text: string;
+	redirect: string | null;
+	nextBtnCSS: "none" | "inline-block";
+	retryBtnVariant: "primary" | "outline-primary";
+	attempt: number;
+	solved: boolean;
+};
+
+type GameComponentProps = {
+	settings: GameConfig;
+	data: { y: number }[];
+	setGraphProgress: (x: number) => void;
+	title: string;
+	id: string;
+	nextPage: string;
+	setGameState: (state: "ready" | "running" | "ended" | "restarting") => void;
+	setSolvedAtAttempt: (solved: number) => void;
+	setAttempt: (attempt: number) => void;
+};
+
+export default class GameComponent extends React.Component<GameComponentProps, GameComponentState> {
+	constructor(props: GameComponentProps) {
 		super(props);
-		this.state = {
-			showModal: false,
-			gameState: "ready",
-			restart: () => {
-				this.setState({ showModal: false });
-			},
-			title: "lädt",
-			text: "lädt",
-			redirect: null,
-			nextBtnCSS: "none",
-			retryBtnVariant: "outline-primary",
-			attempt: 1,
-			solved: false
-		};
+		const progress = loadQuestProgressLocal(props.id);
+		this.state = this.generateState(progress);
+		this.props.setAttempt(this.state.attempt);
+		if (progress.solvedAt >= 0) {
+			this.props.setSolvedAtAttempt(progress.solvedAt);
+		}
 	}
 
 	/**
@@ -181,7 +169,7 @@ export default class GameComponent extends React.Component<
 		if (this.state.restart) {
 			this.state.restart();
 		} else {
-			console.log("%cERROR: restart function is not defined", "color: red");
+			console.error("%cERROR: restart function is not defined");
 		}
 	};
 
@@ -209,12 +197,19 @@ export default class GameComponent extends React.Component<
 	private loadAndApplyProgress = async () => {
 		// check if this game was already won once
 		const progress = await loadQuestProgress(this.props.id);
+		if (progress.attempts.length + 1 !== this.state.attempt) {
+			this.setState(this.generateState(progress));
+			this.props.setAttempt(this.state.attempt);
+		}
+	};
+
+	private generateState(progress: QuestProgress): GameComponentState {
 		const solved: boolean = progress.solvedAt >= 0;
 		if (solved && progress.attempts) {
 			this.props.setSolvedAtAttempt(progress.solvedAt);
 		}
 		const attempt = progress.attempts[progress.solvedAt];
-		this.setState({
+		return {
 			showModal: solved,
 			gameState: "ready",
 			restart: () => {
@@ -240,9 +235,8 @@ export default class GameComponent extends React.Component<
 			retryBtnVariant: "outline-primary",
 			attempt: progress.attempts.length + 1,
 			solved: solved
-		});
-		this.props.setAttempt(this.state.attempt);
-	};
+		};
+	}
 
 	async componentDidMount(): Promise<void> {
 		await this.loadAndApplyProgress();

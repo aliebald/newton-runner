@@ -62,6 +62,7 @@ interface Userdata {
  * @returns false if the given QuizProgress or QuestProgress is invalid or if there was an error while saving, else true.
  */
 export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
+	console.log("saveProgress saving:", progress);
 	if (!valid(progress)) {
 		console.error("ERROR: cannot save invalid progress", progress);
 		return false;
@@ -139,14 +140,11 @@ function saveQuestAttemptServer(id: string, attempt: QuestAttempt, lastSave: num
  * @param question - QuestionProgress to save
  * @returns false if the given QuestionProgress is invalid, the QuizProgress with the given quiz.id does not contain the question or if there was an error while saving, else true.
  */
-export async function saveSingleQuestion(
-	quiz: QuizProgress,
-	question: QuestionProgress
-): Promise<boolean> {
+export function saveSingleQuestion(quiz: QuizProgress, question: QuestionProgress): boolean {
 	console.log("saveSingleQuestion");
 	quiz.lastSave = Date.now();
 
-	const quizProgress = await loadQuizProgress(quiz.id);
+	const quizProgress = loadQuizProgressLocal(quiz.id);
 	let changed = false;
 	if (quizProgress) {
 		// Replace the question inside userdata. Only required for saving in local storage
@@ -209,13 +207,12 @@ export function saveSingleQuestionServer(quiz: QuizProgress, question: QuestionP
  * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
  */
 export async function loadQuizProgress(id: string): Promise<QuizProgress | undefined> {
-	console.log("loadQuizProgress");
 	// Load from server if possible
 	if (isLoggedIn()) {
 		const quiz = await loadQuizProgressServer(id);
 		// return if data was revived from the server
-		console.warn(quiz);
 		if (quiz) {
+			console.log("loadQuizProgress returns (from server): ", quiz);
 			return quiz;
 		}
 	}
@@ -244,7 +241,7 @@ function loadQuizProgressLocal(id: string): QuizProgress | undefined {
  * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
  */
 async function loadQuizProgressServer(id: string): Promise<QuizProgress | undefined> {
-	console.warn("loadQuizProgressServer");
+	console.log("loadQuizProgressServer");
 	if (!isLoggedIn()) {
 		return undefined;
 	}
@@ -357,7 +354,6 @@ export function resetUserdata(): void {
  * @param progress QuizProgress or QuestProgress to be saved or updated. Must be validated beforehand using `valid()`, `validQuest()`, or `validQuiz()`.
  */
 function saveProgressServer(progress: QuizProgress | QuestProgress): void {
-	console.log("saveProgressServer");
 	if (!valid(progress)) {
 		console.warn("invalid ", progress);
 		return;

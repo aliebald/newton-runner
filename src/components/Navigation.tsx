@@ -20,13 +20,6 @@ export default function Navigation(): ReactElement {
 						&Uuml;bersicht
 					</Nav.Link>
 					<NavDropdown title="Aufgaben" id="collasible-nav-dropdown" className="navElem">
-						<NavDropdown.Item as={Link} to="/ExampleQuest1" className="navElem">
-							Beispiel Aufgabe 1
-						</NavDropdown.Item>
-						<NavDropdown.Item as={Link} to="/ExampleQuest2" className="navElem">
-							Beispiel Aufgabe 2
-						</NavDropdown.Item>
-						<NavDropdown.Divider />
 						<NavDropdown.Item as={Link} to="/level1Theory1" className="navElem">
 							Level 1 Theorie 1
 						</NavDropdown.Item>

@@ -1,8 +1,10 @@
 import React, { ReactElement, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import { createNewDevUser, isLoggedIn, login, logout } from "../userdata";
 
 export default function Login(): ReactElement {
+	const history = useHistory();
 	const [userId, setUserId] = useState("");
 	const [stayLoggedIn, setStayLoggedIn] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
@@ -15,6 +17,8 @@ export default function Login(): ReactElement {
 		title = "Willkommen zurrück";
 		subtitle = "Melde dich jetzt an um alle Funktionen zu benutzen";
 	}
+
+	autoLogin();
 
 	const loginForm = (
 		<Form>
@@ -63,17 +67,29 @@ export default function Login(): ReactElement {
 		</>
 	);
 
+	function autoLogin() {
+		const urlParams = new URLSearchParams(location.search);
+		const autologinId = urlParams.get("userId");
+		if (autologinId !== null) {
+			checkLogin(autologinId);
+			urlParams.delete("userId");
+			history.replace({
+				search: urlParams.toString()
+			});
+		}
+	}
+
 	function handleMainButton() {
 		if (loggedIn) {
 			logout();
 			location.reload();
 		} else {
-			checkLogin();
+			checkLogin(userId);
 		}
 	}
 
-	function checkLogin() {
-		if (userId.length > 0) {
+	function checkLogin(userId: string) {
+		if (!loggedIn && userId.length > 0) {
 			login(userId, stayLoggedIn).then((success) => {
 				if (success === "success") {
 					console.log("successfully logged in");

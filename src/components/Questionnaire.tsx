@@ -189,11 +189,15 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 		if (isLoggedIn()) {
 			data = {
 				userId: getUserId(),
-				answers: answers
+				level: props.level,
+				answers: answers,
+				remarks: form.elements.remarks.value
 			};
 		} else {
 			data = {
-				answers: answers
+				level: props.level,
+				answers: answers,
+				remarks: form.elements.remarks.value
 			};
 		}
 

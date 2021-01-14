@@ -10,7 +10,7 @@ const pointsPerAttempt = [10, 10, 9, 8, 6, 4, 2];
 const defaultMovement = [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 export const questStatistics: QuestStats = {
-	title: "Level 1 Quest 2",
+	title: "Level 1 Quest 3",
 	maxPoints: pointsPerAttempt[0],
 	maxBonuspoints: 2,
 	minTimePossible: 10,

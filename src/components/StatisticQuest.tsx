@@ -24,17 +24,24 @@ export function StatisticQuest(props: {
 	questStats: QuestStats;
 }): ReactElement {
 	const [focus, setFocus] = useState<focusType>("bonuspoints");
-	const solved = props.questProgress.attempts.length >= 0;
-	const attempts = props.questProgress.attempts.length;
 	const [data, dataName] = getData(focus);
+	const solved = props.questProgress.solvedAt >= 0;
+	const attempts = props.questProgress.attempts.length;
 	const metersWalked = props.questProgress.attempts
 		.map((a) => a.metersWalked)
 		.reduce((x1, x2) => x1 + x2, 0);
 
-	// temporary index, only showing the first successful attempt
-	const index = props.questProgress.solvedAt;
-	if (index < 0) {
-		return <></>;
+	// index of the attempt we show on the left side
+	const index = solved ? props.questProgress.solvedAt : attempts - 1;
+	let achievedPoints, timeSaved, bonuspoints;
+	if (!solved && attempts === 0) {
+		achievedPoints = 0;
+		timeSaved = 0;
+		bonuspoints = 0;
+	} else {
+		achievedPoints = props.questProgress.attempts[index].achievedPoints;
+		timeSaved = props.questStats.maxTime - props.questProgress.attempts[index].requiredTime;
+		bonuspoints = props.questProgress.attempts[index].achievedBonusPoints;
 	}
 
 	// Highcharts options
@@ -42,10 +49,10 @@ export function StatisticQuest(props: {
 		{
 			name: dataName,
 			data: data.map((y, i) =>
-				i === index
+				i === props.questProgress.solvedAt
 					? {
 							y: y,
-							name: `<span style="color:green">Erster erfolgreicher Versuch</span><br/>Versuch ${
+							name: `<span style="color:green">Erster erfolgreicher Versuch (Gewertet)</span><br/>Versuch ${
 								i + 1
 							}`,
 							color: "green"
@@ -64,10 +71,10 @@ export function StatisticQuest(props: {
 		series.push({
 			name: "Benötigte Zeit",
 			data: timeRequired.map((y, i) =>
-				i === index
+				i === props.questProgress.solvedAt
 					? {
 							y: y,
-							name: `<span style="color:green">Erster erfolgreicher Versuch</span><br/>Versuch ${
+							name: `<span style="color:green">Erster erfolgreicher Versuch (Gewertet)</span><br/>Versuch ${
 								i + 1
 							}`,
 							color: "green"
@@ -124,24 +131,21 @@ export function StatisticQuest(props: {
 			<Row className="pt-2">
 				<Col sm="12" md="4">
 					<TextProgressBar
-						now={props.questProgress.attempts[index].achievedPoints}
+						now={achievedPoints}
 						max={props.questStats.maxPoints}
 						label={props.questStats.maxPoints === 1 ? "Punkt" : "Punkten"}
 						onClick={() => setFocus("points")}
 						prefix
 					/>
 					<TextProgressBar
-						now={
-							props.questStats.maxTime -
-							props.questProgress.attempts[index].requiredTime
-						}
+						now={timeSaved}
 						max={props.questStats.maxTime - props.questStats.minTimePossible}
 						label="Sekunden eingespart "
 						onClick={() => setFocus("time")}
 						prefix
 					/>
 					<TextProgressBar
-						now={props.questProgress.attempts[index].achievedBonusPoints}
+						now={bonuspoints}
 						max={props.questStats.maxBonuspoints}
 						label={
 							props.questStats.maxBonuspoints === 1 ? "Bonuspunkt" : "Bonuspunkten"
@@ -156,7 +160,7 @@ export function StatisticQuest(props: {
 						{metersWalked.toFixed(2)} Meter gelaufen
 					</div>
 					<div className="pb-2 statisticsBox">
-						{index + 1} {index === 0 ? "Versuch" : "Versuche"} ben&ouml;tigt
+						{attempts} {attempts === 1 ? "Versuch" : "Versuche"} ben&ouml;tigt
 					</div>
 				</Col>
 				<Col sm="12" md="8">

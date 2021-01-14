@@ -416,7 +416,7 @@ function saveProgressLocal(progress: QuizProgress | QuestProgress): void {
  * Loads userdata from local storage.
  * If none is saved it will return an empty userdata object
  */
-function loadUserdataLocal(): Userdata {
+export function loadUserdataLocal(): Userdata {
 	if (localStorage.userdata) {
 		return JSON.parse(localStorage.userdata);
 	}
@@ -443,7 +443,7 @@ function saveUserdataLocal(userdata: Userdata): void {
  * If the received userdata does not equal the local one, they will be synchronized.
  * This means that the loaded userdata will already be saved local.
  */
-async function loadAndSyncUserdataServer(userId: string): Promise<Userdata> {
+export async function loadAndSyncUserdata(userId: string): Promise<Userdata> {
 	const serverUserData = await loadUserdataServer(userId);
 	const localUserData = loadUserdataLocal();
 
@@ -483,7 +483,7 @@ async function loadUserdataServer(userId: string): Promise<Userdata> {
  * @param array array of QuestProgress or QuizProgress to search in
  * @returns index in `array` of the QuestProgress or QuizProgress with the given `id`, if it exists. If it does not exist it will return -1.
  */
-function find(id: string, array: QuizProgress[] | QuestProgress[]): number {
+export function find(id: string, array: QuizProgress[] | QuestProgress[]): number {
 	for (let i = 0; i < array.length; i++) {
 		if (array[i].id === id) {
 			return i;
@@ -580,7 +580,7 @@ export async function login(
 	}
 
 	try {
-		await loadAndSyncUserdataServer(userId);
+		await loadAndSyncUserdata(userId);
 	} catch (error) {
 		logout();
 		if (error.returnObj.status === 432) {

@@ -1,107 +1,126 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Container, ProgressBar } from "react-bootstrap";
-import { loadQuestProgress, loadQuizProgress, QuestProgress, QuizProgress } from "../userdata";
+import {
+	find,
+	getUserId,
+	isLoggedIn,
+	loadAndSyncUserdata,
+	loadQuestProgress,
+	loadQuizProgress,
+	loadUserdataLocal,
+	QuestProgress,
+	QuizProgress
+} from "../userdata";
 import { StatisticQuest, QuestStats } from "./StatisticQuest";
 import StatisticQuiz from "./StatisticQuiz";
 import "./../css/style.statistics.css";
 
-import { questStatistics as level1Quest1 } from "../levels/level1/level1Quest1";
-import { questStatistics as level1Quest2 } from "../levels/level1/level1Quest2";
-import { questStatistics as level1Quest3 } from "../levels/level1/level1Quest3";
+import { questStatistics as level1QuestStats1 } from "../levels/level1/level1Quest1";
+import { questStatistics as level1QuestStats2 } from "../levels/level1/level1Quest2";
+import { questStatistics as level1QuestStats3 } from "../levels/level1/level1Quest3";
 import level1Quiz1 from "../levels/level1/level1Quiz1";
 import level1Quiz2 from "../levels/level1/level1Quiz2";
 import { QuizConfig } from "./Quiz";
+import StatisticLevel from "./StatisticLevel";
+
+type levelStatistics = {
+	quests: { progress: QuestProgress; stats: QuestStats }[];
+	quizzes: {
+		progress: QuizProgress | undefined;
+		config: QuizConfig;
+	}[];
+};
 
 export function Statistics(): ReactElement {
-	const quests: { progress: QuestProgress; stats: QuestStats }[] = [];
-	// TODO
-	// quests.push({
-	// 	progress: loadQuestProgress("level1Quest1"),
-	// 	stats: level1Quest1
-	// });
-	// quests.push({
-	// 	progress: loadQuestProgress("level1Quest2"),
-	// 	stats: level1Quest2
-	// });
-	// quests.push({
-	// 	progress: loadQuestProgress("level1Quest3"),
-	// 	stats: level1Quest3
-	// });
+	// const [level1, setLevel1] = useState();
+	const [loaded, setLoaded] = useState(false);
+	const localData = loadUserdataLocal();
+	const [levelOne, setLevelOne] = useState<levelStatistics>({
+		quests: loadQuestLevelOne(localData.quests),
+		quizzes: loadQuizzesLevelOne(localData.quizzes)
+	});
 
-	const quizzes: { progress: QuizProgress | undefined; config: QuizConfig }[] = [];
-	// TODO
-	// quizzes.push({
-	// 	progress: loadQuizProgress("level1Quiz1"),
-	// 	config: level1Quiz1
-	// });
-	// quizzes.push({
-	// 	progress: loadQuizProgress("level1Quiz2"),
-	// 	config: level1Quiz2
-	// });
+	const loggedIn = isLoggedIn();
+
+	if (loggedIn && !loaded) {
+		setLoaded(true);
+		const userId = getUserId();
+		loadAndSyncUserdata(userId).then((userdata) => {
+			console.log("loadAndSyncUserdata returned: ", userdata);
+
+			// Add level 1
+			setLevelOne({
+				quests: loadQuestLevelOne(userdata.quests),
+				quizzes: loadQuizzesLevelOne(userdata.quizzes)
+			});
+		});
+	}
+
+	function loadQuestLevelOne(quests: QuestProgress[]) {
+		const ret: { progress: QuestProgress; stats: QuestStats }[] = [];
+		ret.push(getQuest("level1Quest1", quests, level1QuestStats1));
+		ret.push(getQuest("level1Quest2", quests, level1QuestStats2));
+		ret.push(getQuest("level1Quest3", quests, level1QuestStats3));
+		return ret;
+	}
+
+	function loadQuizzesLevelOne(quizzes: QuizProgress[]) {
+		const ret: {
+			progress: QuizProgress | undefined;
+			config: QuizConfig;
+		}[] = [];
+		ret.push({
+			progress: quizzes[find("level1Quiz1", quizzes)],
+			config: level1Quiz1
+		});
+		ret.push({
+			progress: quizzes[find("level1Quiz2", quizzes)],
+			config: level1Quiz2
+		});
+		return ret;
+	}
+
+	function loadQuizzesLocal() {
+		const quizzes: {
+			progress: QuizProgress | undefined;
+			config: QuizConfig;
+		}[] = [];
+		const userdata = loadUserdataLocal();
+		// TODO
+		return quizzes;
+	}
+
+	/** Loads the quest with the given id from quests and packs it in an object together with stats */
+	function getQuest(
+		questId: string,
+		quests: QuestProgress[],
+		stats: QuestStats
+	): {
+		progress: QuestProgress;
+		stats: QuestStats;
+	} {
+		let quest;
+		const index = find(questId, quests);
+		if (index !== -1) {
+			quest = quests[index];
+		} else {
+			quest = {
+				id: questId,
+				lastSave: Date.now(),
+				solvedAt: -1,
+				attempts: []
+			};
+		}
+
+		return {
+			progress: quest,
+			stats: stats
+		};
+	}
 
 	return (
 		<Container fluid="lg" className="mb-5">
-			<StatisticsLevel quests={quests} quizzes={quizzes} level={1} />
+			<StatisticLevel quests={levelOne.quests} quizzes={levelOne.quizzes} level={1} />
 		</Container>
-	);
-}
-
-function StatisticsLevel(props: {
-	quests: { progress: QuestProgress; stats: QuestStats }[];
-	quizzes: { progress: QuizProgress | undefined; config: QuizConfig }[];
-	level: number;
-}): JSX.Element {
-	let completion = 0;
-	const maxCompletion = props.quests.length + props.quizzes.length;
-	// Count solved quests
-	for (let i = 0; i < props.quests.length; i++) {
-		if (props.quests[i].progress.solvedAt >= 0) {
-			completion++;
-		}
-	}
-	// Count solved questions. Each Quest is 1 point for completion
-	for (let i = 0; i < props.quizzes.length; i++) {
-		if (props.quizzes[i].progress) {
-			const progress = props.quizzes[i].progress as QuizProgress;
-			const questionValue = 1 / progress.questions.length;
-			for (let j = 0; j < progress.questions.length; j++) {
-				if (progress.questions[j].state !== "unsolved") {
-					completion += questionValue;
-				}
-			}
-		}
-	}
-
-	const quests = props.quests.map((elem) => (
-		<StatisticQuest
-			questProgress={elem.progress}
-			questStats={elem.stats}
-			key={"stat-lvl-" + elem.progress.id}
-		/>
-	));
-
-	const quizzes = props.quizzes.map((elem) => (
-		<StatisticQuiz
-			quizProgress={elem.progress}
-			quizConfig={elem.config}
-			key={"stat-lvl-" + elem.config.id}
-		/>
-	));
-
-	return (
-		<div className="mx-auto mt-3 px-3 boxWrapper">
-			<h3 className="text-center">Level {props.level}</h3>
-			<ProgressBar
-				animated={completion / maxCompletion < 0.998}
-				striped
-				variant="success"
-				now={completion}
-				max={maxCompletion}
-				key={1}
-				label={((completion / maxCompletion) * 100).toFixed(2) + "%"}
-			/>
-			{quests}
-			{quizzes}
-		</div>
 	);
 }

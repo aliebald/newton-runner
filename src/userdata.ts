@@ -48,11 +48,6 @@ interface Userdata {
 
 	quests: QuestProgress[];
 	quizzes: QuizProgress[];
-	// purchasedItems is currently unused and simply a proposal for later on
-	purchasedItems: {
-		name: string;
-		cost: number;
-	}[];
 }
 
 /**
@@ -424,8 +419,7 @@ export function loadUserdataLocal(): Userdata {
 	return {
 		userId: "",
 		quests: [],
-		quizzes: [],
-		purchasedItems: []
+		quizzes: []
 	};
 }
 
@@ -447,11 +441,7 @@ export async function loadAndSyncUserdata(userId: string): Promise<Userdata> {
 	const serverUserData = await loadUserdataServer(userId);
 	const localUserData = loadUserdataLocal();
 
-	// check if the requested userdata is equal to the local saved one
-	// TODO: Check this equation when the server works
-	if (localUserData !== serverUserData) {
-		synchronize(userId, serverUserData, localUserData);
-	}
+	synchronize(serverUserData, localUserData);
 
 	return serverUserData;
 }
@@ -471,8 +461,7 @@ async function loadUserdataServer(userId: string): Promise<Userdata> {
 	return {
 		userId: userId,
 		quests: [],
-		quizzes: [],
-		purchasedItems: []
+		quizzes: []
 	};
 }
 
@@ -592,35 +581,23 @@ export async function login(
 	return "success";
 }
 
-/** Deletes the userId id. */
+/** Deletes the userId id and all progress made locally. */
 export function logout(): void {
-	const localData = loadUserdataLocal();
-	if (localData.userId) {
-		localData.userId = "";
-	}
-	sessionStorage.removeItem("userId");
-	saveUserdataLocal(localData);
+	sessionStorage.clear();
+	localStorage.clear();
 }
 
 /**
  * Synchronized local data with data on server
  */
-async function synchronize(userId: string, serverData?: Userdata, localData?: Userdata) {
-	if (!localData) {
-		localData = loadUserdataLocal();
-	}
-	if (!serverData) {
-		serverData = await loadUserdataServer(userId);
-	}
-
+async function synchronize(serverData: Userdata, localData: Userdata) {
 	// check if already synchronized
-	// TODO: check this equation
-	if (serverData === localData) {
+	if (equalsUserdata(serverData, localData)) {
 		return;
 	}
 
 	console.log("synchronizing");
-
+	console.log("Quest: local -> server");
 	// synchronize quests
 	localData.quests.forEach((localQuest) => {
 		synchronizeProgress(
@@ -630,7 +607,7 @@ async function synchronize(userId: string, serverData?: Userdata, localData?: Us
 			saveProgressLocal
 		);
 	});
-
+	console.log("Quest: server -> local");
 	serverData.quests.forEach((serverQuest) => {
 		synchronizeProgress(
 			serverQuest,
@@ -639,7 +616,7 @@ async function synchronize(userId: string, serverData?: Userdata, localData?: Us
 			saveProgressServer
 		);
 	});
-
+	console.log("Quiz: local -> server");
 	// synchronize Quizzes
 	localData.quizzes.forEach((localQuiz) => {
 		synchronizeProgress(
@@ -649,11 +626,11 @@ async function synchronize(userId: string, serverData?: Userdata, localData?: Us
 			saveProgressLocal
 		);
 	});
-
+	console.log("Quiz: server -> local");
 	serverData.quizzes.forEach((serverQuiz) => {
 		synchronizeProgress(
 			serverQuiz,
-			(localData as Userdata).quests,
+			(localData as Userdata).quizzes,
 			saveProgressLocal,
 			saveProgressServer
 		);
@@ -673,11 +650,12 @@ async function synchronize(userId: string, serverData?: Userdata, localData?: Us
 		if (index === -1) {
 			// quest does not exist in otherQuests
 			console.log(
-				"checking " +
+				"%csaving " +
 					progress.id +
 					", lastSave: " +
 					progress.lastSave +
-					" -> does not yet exist on other side. "
+					" -> does not yet exist on other side. ",
+				"color: orange"
 			);
 			saveProgress(progress);
 		} else {
@@ -692,15 +670,106 @@ async function synchronize(userId: string, serverData?: Userdata, localData?: Us
 			);
 			if (progress.lastSave < otherProgress.lastSave) {
 				// otherProgress is newer
-				console.log("saving " + otherProgress.lastSave);
+				console.log("%csaving " + otherProgress.lastSave, "color: orange");
 				saveOtherProgress(otherProgress);
 			} else if (progress.lastSave > otherProgress.lastSave) {
 				// quest is newer
-				console.log("saving " + progress.lastSave);
+				console.log("%csaving " + progress.lastSave, "color: orange");
 				saveProgress(progress);
 			}
 		}
 	}
+}
+
+/**
+ * Checks if two Userdata objects are equal. Does not check the id to avoid errors when not logged in permanent (=> userId is "" in localStorage)
+ */
+function equalsUserdata(a: Userdata, b: Userdata): boolean {
+	// check quests
+	if (a.quests.length === b.quests.length) {
+		const sortedA = [...a.quests].sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+		const sortedB = [...b.quests].sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+		for (let i = 0; i < a.quests.length; i++) {
+			if (!equalsQuestProgress(sortedA[i], sortedB[i])) {
+				return false;
+			}
+		}
+	} else {
+		return false;
+	}
+
+	// check quizzes
+	if (a.quizzes.length === b.quizzes.length) {
+		const sortedA = [...a.quizzes].sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+		const sortedB = [...b.quizzes].sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+		for (let i = 0; i < a.quizzes.length; i++) {
+			if (!equalsQuizProgress(sortedA[i], sortedB[i])) {
+				return false;
+			}
+		}
+	} else {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Checks if two QuestProgress objects are equal
+ */
+function equalsQuestProgress(a: QuestProgress, b: QuestProgress): boolean {
+	if (a.attempts.length === b.attempts.length) {
+		for (let i = 0; i < a.attempts.length; i++) {
+			if (!equalsQuestAttempt(a.attempts[i], b.attempts[i])) {
+				return false;
+			}
+		}
+	} else {
+		return false;
+	}
+
+	return a.id === b.id && a.lastSave === b.lastSave && a.solvedAt === b.solvedAt;
+}
+
+/**
+ * Checks if two QuizProgress objects are equal
+ */
+function equalsQuestAttempt(a: QuestAttempt, b: QuestAttempt): boolean {
+	return (
+		a.solved === b.solved &&
+		a.requiredTime === b.requiredTime &&
+		a.achievedPoints === b.achievedPoints &&
+		a.achievedBonusPoints === b.achievedBonusPoints &&
+		a.metersWalked === b.metersWalked
+	);
+}
+
+/**
+ * Checks if two QuizProgress objects are equal
+ */
+function equalsQuizProgress(a: QuizProgress, b: QuizProgress): boolean {
+	if (a.questions.length === b.questions.length) {
+		const sortedA = [...a.questions].sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+		const sortedB = [...b.questions].sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+
+		for (let i = 0; i < a.questions.length; i++) {
+			if (!equalsQuestionProgress(sortedA[i], sortedB[i])) {
+				return false;
+			}
+		}
+	} else {
+		return false;
+	}
+	return a.id === b.id && a.lastSave === b.lastSave && a.rated === b.rated;
+}
+
+/**
+ * Checks if two QuestionProgress objects are equal
+ */
+function equalsQuestionProgress(a: QuestionProgress, b: QuestionProgress): boolean {
+	return a.id === b.id && a.state === b.state;
 }
 
 // TODO: temporary dev method, remove later
@@ -721,5 +790,5 @@ export async function createNewDevUser(): Promise<void> {
 	const userdata = loadUserdataLocal();
 	userdata.userId = JSON.parse(teacher).userId;
 	saveUserdataLocal(userdata);
-	location.reload();
+	// location.reload();
 }

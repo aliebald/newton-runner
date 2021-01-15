@@ -30,8 +30,9 @@ import level2Quest3 from "./levels/level2/level2Quest3";
 
 function App(): ReactElement {
 	const [showBetaAlert, setShowBetaAlert] = useState(true);
+	const [loggedIn, setLoggedIn] = useState(isLoggedIn());
 	const [showLoginPopup, setShowLoginPopup] = useState(
-		location.pathname !== "/login" && !isLoggedIn()
+		location.pathname !== "/login" && !loggedIn
 	);
 
 	// For deployment to GH Pages:
@@ -50,12 +51,16 @@ function App(): ReactElement {
 				<a href="mailto:physics.game.team@gmail.com">Kontakt</a>
 			</Alert>
 			<LoginPopup show={showLoginPopup} onClose={() => setShowLoginPopup(false)} />
-			<Navigation />
+			<Navigation loggedIn={loggedIn} />
 			<Switch>
 				<Route path="/" exact component={LandingPage} />
 				<Route path="/LevelOverview" exact component={LevelOverview} />
 				<Route path="/Statistics" exact component={Statistics} />
-				<Route path="/login" exact component={Login} />
+				<Route
+					path="/login"
+					exact
+					component={() => <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
+				/>
 				<Route
 					path="/exampleStory1"
 					exact

@@ -1,16 +1,26 @@
 import React, { ReactElement, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { createNewDevUser, isLoggedIn, login, logout } from "../userdata";
+import {
+	createNewDevUser,
+	getNameLocal,
+	getUserId,
+	isLoggedIn,
+	login,
+	logout,
+	setName
+} from "../userdata";
 
-export default function Login(): ReactElement {
+export default function Login(props: {
+	loggedIn: boolean;
+	setLoggedIn: (loggedIn: boolean) => void;
+}): ReactElement {
 	const history = useHistory();
 	const [userId, setUserId] = useState("");
 	const [stayLoggedIn, setStayLoggedIn] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
-	const loggedIn = isLoggedIn();
 	let title, subtitle;
-	if (loggedIn) {
+	if (props.loggedIn) {
 		title = "Erfolgreich Angemeldet";
 		subtitle = "Du bist jetzt angemeldet. Möchtest du dich wieder abmelden?";
 	} else {
@@ -41,6 +51,31 @@ export default function Login(): ReactElement {
 		</Form>
 	);
 
+	const oldName = getNameLocal();
+	const changeNameForm = (
+		<Form onSubmit={changeName}>
+			<Form.Group controlId="changeNameForm">
+				<Form.Label>Name</Form.Label>
+				<div className="d-flex">
+					<Form.Control
+						type="text"
+						name="newName"
+						className="mr-1"
+						placeholder="Anonym"
+						defaultValue={oldName}
+					/>
+					<Button type="submit" variant="primary">
+						Speichern
+					</Button>
+				</div>
+				<Form.Text className="text-muted pb-3">
+					Hier kannst du deinen Namen &auml;ndern. Der Name wird nur für das Leaderboard
+					verwendet.
+				</Form.Text>
+			</Form.Group>
+		</Form>
+	);
+
 	// TODO: The "(Debug) Create new User and login" Button is only temporary (for testing)
 	return (
 		<>
@@ -50,10 +85,10 @@ export default function Login(): ReactElement {
 						<h2 className="text-center">{title}</h2>
 						<p className="text-muted text-center">{subtitle}</p>
 						<div className="text-center error">{errorMessage}</div>
-						{loggedIn ? <></> : loginForm}
+						{props.loggedIn ? changeNameForm : loginForm}
 						<div className="d-flex justify-content-center">
 							<Button size="lg" onClick={handleMainButton} variant="primary">
-								{loggedIn ? "Abmelden" : "Anmelden"}
+								{props.loggedIn ? "Abmelden" : "Anmelden"}
 							</Button>
 						</div>
 					</Col>
@@ -80,20 +115,22 @@ export default function Login(): ReactElement {
 	}
 
 	function handleMainButton() {
-		if (loggedIn) {
+		if (props.loggedIn) {
 			logout();
-			location.reload();
+			props.setLoggedIn(false);
+			// location.reload();
 		} else {
 			checkLogin(userId);
 		}
 	}
 
 	function checkLogin(userId: string) {
-		if (!loggedIn && userId.length > 0) {
+		if (!props.loggedIn && userId.length > 0) {
 			login(userId, stayLoggedIn).then((success) => {
 				if (success === "success") {
 					console.log("successfully logged in");
-					location.reload();
+					props.setLoggedIn(true);
+					// location.reload();
 				} else if (success === "invalidId") {
 					console.warn("failed to log in: invalid id");
 					setErrorMessage("Die angegeben Benutzer ID kann nicht gefunden werden.");
@@ -106,6 +143,30 @@ export default function Login(): ReactElement {
 			});
 		} else {
 			setErrorMessage("Bitte gib deine Benutzer ID in dem Feld an.");
+		}
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	function changeName(event: any) {
+		event.preventDefault();
+		if (!isLoggedIn()) {
+			return;
+		}
+		const form = event.target;
+		if (!form.checkValidity()) {
+			event.stopPropagation();
+			return;
+		}
+
+		const newName = form.elements.newName.value;
+		if (!newName || newName === oldName) {
+			return;
+		}
+
+		if (!setName(newName)) {
+			setErrorMessage("Fehler bei der Namensänderung zu: " + newName);
+		} else {
+			setErrorMessage("");
 		}
 	}
 }

@@ -45,7 +45,7 @@ export interface QuestionProgress {
 /** Internal representation of userdata. Will later on include other things, like purchased items etc. */
 interface Userdata {
 	userId: string;
-
+	name: string;
 	quests: QuestProgress[];
 	quizzes: QuizProgress[];
 }
@@ -418,6 +418,7 @@ export function loadUserdataLocal(): Userdata {
 
 	return {
 		userId: "",
+		name: "",
 		quests: [],
 		quizzes: []
 	};
@@ -460,6 +461,7 @@ async function loadUserdataServer(userId: string): Promise<Userdata> {
 	// In case there was no userdata
 	return {
 		userId: userId,
+		name: "",
 		quests: [],
 		quizzes: []
 	};
@@ -579,6 +581,38 @@ export async function login(
 	}
 
 	return "success";
+}
+
+/**
+ * Updates the name locally and on server
+ *
+ * @returns false if an error occurred, true otherwise
+ */
+export async function setName(name: string): Promise<boolean> {
+	console.log("setName", name);
+	const userData = loadUserdataLocal();
+	// check if name did not change
+	if (userData.name === name) {
+		return true;
+	}
+	userData.name = name;
+	saveUserdataLocal(userData);
+
+	if (isLoggedIn()) {
+		const data = { name: name, userId: getUserId() };
+		try {
+			await post("/user/name", JSON.stringify(data));
+		} catch (error) {
+			console.error(error);
+			return false;
+		}
+	}
+	return true;
+}
+
+/** Loads the userdame from localStorage */
+export function getNameLocal(): string {
+	return loadUserdataLocal().name;
 }
 
 /** Deletes the userId id and all progress made locally. */
@@ -845,5 +879,5 @@ export async function createNewDevUser(): Promise<void> {
 	const userdata = loadUserdataLocal();
 	userdata.userId = JSON.parse(teacher).userId;
 	saveUserdataLocal(userdata);
-	// location.reload();
+	location.reload();
 }

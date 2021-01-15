@@ -1,10 +1,8 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { isLoggedIn } from "../userdata";
 
-export default function Navigation(): ReactElement {
-	const loggedIn = isLoggedIn();
+export default function Navigation(props: { loggedIn: boolean }): ReactElement {
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="light" variant="light">
 			<Navbar.Brand as={Link} to="/" className="navbarTitle">
@@ -52,15 +50,11 @@ export default function Navigation(): ReactElement {
 				</Nav>
 				<Nav className="ml-auto">
 					<Nav.Link as={Link} to="/login" className="navElem">
-						{loggedIn ? "Abmelden" : "Anmelden"}
+						{props.loggedIn ? "Profil" : "Anmelden"}
 					</Nav.Link>
-					{loggedIn ? (
-						<Nav.Link as={Link} to="/Statistics" className="navElem">
-							Statistik
-						</Nav.Link>
-					) : (
-						<></>
-					)}
+					<Nav.Link as={Link} to="/Statistics" className="navElem">
+						Statistik
+					</Nav.Link>
 				</Nav>
 			</Navbar.Collapse>
 		</Navbar>

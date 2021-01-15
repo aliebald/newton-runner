@@ -140,8 +140,8 @@ function afterCreate(this: Game): void {
 	this.platforms.create(950, 300, "grassHalfMid");
 	this.platforms.create(1020, 300, "grassHalfRight");
 
-	const bridge1 = dynamicPlatform.create(420, 483, "bridge_down");
-	const bridge2 = dynamicPlatform.create(773, 233, "bridge_down");
+	const bridge1 = dynamicPlatform.create(420, 477, "bridge_down");
+	const bridge2 = dynamicPlatform.create(773, 228, "bridge_down");
 
 	this.variables.set("bridge1", bridge1);
 	this.variables.set("bridge2", bridge2);
@@ -174,20 +174,20 @@ function afterCreate(this: Game): void {
 
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
-		if (this.player.x >= 380 && !this.variables.get("bridge1_start")) {
-			this.variables.set("bridge1_start", new Date().getTime());
+		if (this.player.x >= 380 && !this.variables.get("bridge1_started")) {
+			this.variables.set("bridge1_started", true);
 		}
-		if (this.player.x >= 740 && !this.variables.get("bridge2_start")) {
-			this.variables.set("bridge2_start", new Date().getTime());
+		if (this.player.x >= 740 && !this.variables.get("bridge2_started")) {
+			this.variables.set("bridge2_started", true);
 		}
 
-		if (this.variables.get("bridge1_start")) {
+		if (this.variables.get("bridge1_started")) {
 			const bridge1 = this.variables.get("bridge1");
-			goUp(bridge1, 225);
+			goUp(bridge1, 230);
 		}
-		if (this.variables.get("bridge2_start")) {
+		if (this.variables.get("bridge2_started")) {
 			const bridge2 = this.variables.get("bridge2");
-			goDown(bridge2, 490);
+			goDown(bridge2, 476);
 		}
 	}
 }

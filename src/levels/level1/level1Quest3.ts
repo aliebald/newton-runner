@@ -176,36 +176,25 @@ function onUpdate(this: Game): void {
 	if (this.gameRunning) {
 		if (this.player.x >= 380 && !this.variables.get("bridge1_start")) {
 			this.variables.set("bridge1_start", new Date().getTime());
-			this.variables.set("bridge1_end", new Date().getTime() + 2600);
-			this.variables.set("bridge1StartY", 483);
-			this.variables.set("bridge1EndY", 225);
 		}
 		if (this.player.x >= 740 && !this.variables.get("bridge2_start")) {
 			this.variables.set("bridge2_start", new Date().getTime());
-			this.variables.set("bridge2_end", new Date().getTime() + 2450);
-			this.variables.set("bridge2StartY", 233);
-			this.variables.set("bridge2EndY", 490);
 		}
 
 		if (this.variables.get("bridge1_start")) {
 			const bridge1 = this.variables.get("bridge1");
-			const startTime1 = this.variables.get("bridge1_start");
-			const endTime1 = this.variables.get("bridge1_end");
-			goUp(bridge1, startTime1, endTime1);
+			goUp(bridge1, 225);
 		}
 		if (this.variables.get("bridge2_start")) {
 			const bridge2 = this.variables.get("bridge2");
-			const startTime2 = this.variables.get("bridge2_start");
-			const endTime2 = this.variables.get("bridge2_end");
-			goDown(bridge2, startTime2, endTime2);
+			goDown(bridge2, 490);
 		}
 	}
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goDown(object: any, timeStart: number, timeEnd: number) {
-	const time = new Date().getTime();
-	if (time < timeEnd && time >= timeStart) {
+function goDown(object: any, yEnd: number) {
+	if (object.y < yEnd) {
 		object.setVelocityY(100);
 	} else {
 		object.setVelocityY(0);
@@ -213,9 +202,8 @@ function goDown(object: any, timeStart: number, timeEnd: number) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goUp(object: any, timeStart: number, timeEnd: number) {
-	const time = new Date().getTime();
-	if (time < timeEnd && time >= timeStart) {
+function goUp(object: any, yEnd: number) {
+	if (object.y > yEnd) {
 		object.setVelocityY(-100);
 	} else {
 		object.setVelocityY(0);

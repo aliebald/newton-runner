@@ -80,16 +80,6 @@ export function Statistics(): ReactElement {
 		return ret;
 	}
 
-	function loadQuizzesLocal() {
-		const quizzes: {
-			progress: QuizProgress | undefined;
-			config: QuizConfig;
-		}[] = [];
-		const userdata = loadUserdataLocal();
-		// TODO
-		return quizzes;
-	}
-
 	/** Loads the quest with the given id from quests and packs it in an object together with stats */
 	function getQuest(
 		questId: string,

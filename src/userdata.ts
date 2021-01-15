@@ -600,18 +600,20 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 	console.log("Quest: local -> server");
 	// synchronize quests
 	localData.quests.forEach((localQuest) => {
-		synchronizeProgress(
+		synchronizeQuest(
 			localQuest,
 			(serverData as Userdata).quests,
+			false,
 			saveProgressServer,
 			saveProgressLocal
 		);
 	});
 	console.log("Quest: server -> local");
 	serverData.quests.forEach((serverQuest) => {
-		synchronizeProgress(
+		synchronizeQuest(
 			serverQuest,
 			(localData as Userdata).quests,
+			true,
 			saveProgressLocal,
 			saveProgressServer
 		);
@@ -619,7 +621,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 	console.log("Quiz: local -> server");
 	// synchronize Quizzes
 	localData.quizzes.forEach((localQuiz) => {
-		synchronizeProgress(
+		synchronizeQuiz(
 			localQuiz,
 			(serverData as Userdata).quizzes,
 			saveProgressServer,
@@ -628,7 +630,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 	});
 	console.log("Quiz: server -> local");
 	serverData.quizzes.forEach((serverQuiz) => {
-		synchronizeProgress(
+		synchronizeQuiz(
 			serverQuiz,
 			(localData as Userdata).quizzes,
 			saveProgressLocal,
@@ -639,43 +641,96 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 	console.log("%cSuccessfully synchronized", "color: green");
 	return;
 
-	// synchronizes a QuestProgress with an array of QuestProgresses
-	function synchronizeProgress(
-		progress: QuestProgress | QuizProgress,
-		otherProgresses: QuestProgress[] | QuizProgress[],
-		saveProgress: (progress: QuestProgress | QuizProgress) => void,
-		saveOtherProgress: (progress: QuestProgress | QuizProgress) => void
+	/** synchronizes a QuizProgress with an array of QuizProgresses */
+	function synchronizeQuiz(
+		quiz: QuizProgress,
+		otherQuizzes: QuizProgress[],
+		saveQuiz: (quiz: QuizProgress) => void,
+		saveOtherQuiz: (quiz: QuizProgress) => void
 	): void {
-		const index = find(progress.id, otherProgresses);
+		const index = find(quiz.id, otherQuizzes);
 		if (index === -1) {
 			// quest does not exist in otherQuests
 			console.log(
 				"%csaving " +
-					progress.id +
+					quiz.id +
 					", lastSave: " +
-					progress.lastSave +
+					quiz.lastSave +
 					" -> does not yet exist on other side. ",
 				"color: orange"
 			);
-			saveProgress(progress);
+			saveQuiz(quiz);
 		} else {
-			const otherProgress = otherProgresses[index];
+			const otherQuiz = otherQuizzes[index];
 			console.log(
 				"checking " +
-					progress.id +
+					quiz.id +
 					", lastSave: " +
-					progress.lastSave +
+					quiz.lastSave +
 					" with lastSave: " +
-					otherProgress.lastSave
+					otherQuiz.lastSave
 			);
-			if (progress.lastSave < otherProgress.lastSave) {
-				// otherProgress is newer
-				console.log("%csaving " + otherProgress.lastSave, "color: orange");
-				saveOtherProgress(otherProgress);
-			} else if (progress.lastSave > otherProgress.lastSave) {
+			if (quiz.lastSave < otherQuiz.lastSave) {
+				// otherQuiz is newer
+				console.log("%csaving " + otherQuiz.lastSave, "color: orange");
+				saveOtherQuiz(otherQuiz);
+			} else if (quiz.lastSave > otherQuiz.lastSave) {
+				// quiz is newer
+				console.log("%csaving " + quiz.lastSave, "color: orange");
+				saveQuiz(quiz);
+			}
+		}
+	}
+
+	/** synchronizes a QuestProgress with an array of QuestProgresses */
+	function synchronizeQuest(
+		quest: QuestProgress,
+		otherQuests: QuestProgress[],
+		/** in case there is no clear newer version: if preferQuest is true, quest will be saved, otherwise otherQuest */
+		preferQuest: boolean,
+		saveQuest: (Quest: QuestProgress) => void,
+		saveOtherQuest: (Quest: QuestProgress) => void
+	): void {
+		const index = find(quest.id, otherQuests);
+		if (index === -1) {
+			// quest does not exist in otherQuests
+			console.log(
+				"%csaving " +
+					quest.id +
+					", lastSave: " +
+					quest.lastSave +
+					" -> does not yet exist on other side. ",
+				"color: orange"
+			);
+			saveQuest(quest);
+		} else {
+			const otherQuest = otherQuests[index];
+			console.log(
+				"checking " +
+					quest.id +
+					", lastSave: " +
+					quest.lastSave +
+					" with lastSave: " +
+					otherQuest.lastSave
+			);
+			if (
+				quest.lastSave < otherQuest.lastSave &&
+				quest.attempts.length <= otherQuest.attempts.length
+			) {
+				// otherQuest is newer
+				console.log("%csaving " + otherQuest.lastSave, "color: orange");
+				saveOtherQuest(otherQuest);
+			} else if (
+				(quest.lastSave > otherQuest.lastSave &&
+					quest.attempts.length >= otherQuest.attempts.length) ||
+				(quest.lastSave !== otherQuest.lastSave && preferQuest)
+			) {
 				// quest is newer
-				console.log("%csaving " + progress.lastSave, "color: orange");
-				saveProgress(progress);
+				console.log("%csaving " + quest.lastSave, "color: orange");
+				saveQuest(quest);
+			} else if (quest.lastSave !== otherQuest.lastSave && !preferQuest) {
+				console.log("%csaving " + otherQuest.lastSave, "color: orange");
+				saveOtherQuest(otherQuest);
 			}
 		}
 	}

@@ -3,6 +3,17 @@ import { GraphInputConfig } from "../../components/GraphInput";
 import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
+import { QuestStats } from "../../components/StatisticQuest";
+
+const defaultMovement = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+export const questStatistics: QuestStats = {
+	title: "Level 2 Quest 1",
+	maxPoints: 0,
+	maxBonuspoints: 1,
+	minTimePossible: 6,
+	maxTime: defaultMovement.length
+};
 
 // TODO adjust GraphInputConfig
 const graph: GraphInputConfig = {
@@ -10,7 +21,7 @@ const graph: GraphInputConfig = {
 	yTitle: "velocity in m/s",
 	minY: 0,
 	maxY: 5,
-	data: convertDataArray([0, 0, 0, 0, 0, 0, 0, 0, 0])
+	data: convertDataArray(defaultMovement)
 };
 
 const width = 1200;

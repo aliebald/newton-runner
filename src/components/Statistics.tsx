@@ -1,23 +1,23 @@
 import React, { ReactElement, useState } from "react";
-import { Container, ProgressBar } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import {
 	find,
 	getUserId,
 	isLoggedIn,
 	loadAndSyncUserdata,
-	loadQuestProgress,
-	loadQuizProgress,
 	loadUserdataLocal,
 	QuestProgress,
 	QuizProgress
 } from "../userdata";
-import { StatisticQuest, QuestStats } from "./StatisticQuest";
-import StatisticQuiz from "./StatisticQuiz";
+import { QuestStats } from "./StatisticQuest";
 import "./../css/style.statistics.css";
 
 import { questStatistics as level1QuestStats1 } from "../levels/level1/level1Quest1";
 import { questStatistics as level1QuestStats2 } from "../levels/level1/level1Quest2";
 import { questStatistics as level1QuestStats3 } from "../levels/level1/level1Quest3";
+import { questStatistics as level2QuestStats1 } from "../levels/level2/level2Quest1";
+import { questStatistics as level2QuestStats2 } from "../levels/level2/level2Quest2";
+// TODO import { questStatistics as level2QuestStats3 } from "../levels/level1/level2Quest3";
 import level1Quiz1 from "../levels/level1/level1Quiz1";
 import level1Quiz2 from "../levels/level1/level1Quiz2";
 import { QuizConfig } from "./Quiz";
@@ -39,6 +39,10 @@ export function Statistics(): ReactElement {
 		quests: loadQuestLevelOne(localData.quests),
 		quizzes: loadQuizzesLevelOne(localData.quizzes)
 	});
+	const [levelTwo, setLevelTwo] = useState<levelStatistics>({
+		quests: loadQuestLevelTwo(localData.quests),
+		quizzes: []
+	});
 
 	const loggedIn = isLoggedIn();
 
@@ -53,6 +57,11 @@ export function Statistics(): ReactElement {
 				quests: loadQuestLevelOne(userdata.quests),
 				quizzes: loadQuizzesLevelOne(userdata.quizzes)
 			});
+
+			setLevelTwo({
+				quests: loadQuestLevelTwo(userdata.quests),
+				quizzes: []
+			});
 		});
 	}
 
@@ -61,6 +70,14 @@ export function Statistics(): ReactElement {
 		ret.push(getQuest("level1Quest1", quests, level1QuestStats1));
 		ret.push(getQuest("level1Quest2", quests, level1QuestStats2));
 		ret.push(getQuest("level1Quest3", quests, level1QuestStats3));
+		return ret;
+	}
+
+	function loadQuestLevelTwo(quests: QuestProgress[]) {
+		const ret: { progress: QuestProgress; stats: QuestStats }[] = [];
+		ret.push(getQuest("level2Quest1", quests, level2QuestStats1));
+		ret.push(getQuest("level2Quest2", quests, level2QuestStats2));
+		// TODO: ret.push(getQuest("level2Quest3", quests, level2QuestStats3));
 		return ret;
 	}
 
@@ -111,6 +128,7 @@ export function Statistics(): ReactElement {
 	return (
 		<Container fluid="lg" className="mb-5">
 			<StatisticLevel quests={levelOne.quests} quizzes={levelOne.quizzes} level={1} />
+			<StatisticLevel quests={levelTwo.quests} quizzes={levelTwo.quizzes} level={2} />
 		</Container>
 	);
 }

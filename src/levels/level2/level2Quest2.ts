@@ -3,7 +3,17 @@ import { GraphInputConfig } from "../../components/GraphInput";
 import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
-import { objectEach } from "highcharts";
+import { QuestStats } from "../../components/StatisticQuest";
+
+const defaultMovement = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+export const questStatistics: QuestStats = {
+	title: "Level 2 Quest 2",
+	maxPoints: 0,
+	maxBonuspoints: 0,
+	minTimePossible: 4,
+	maxTime: defaultMovement.length
+};
 
 // TODO adjust GraphInputConfig
 const graph: GraphInputConfig = {

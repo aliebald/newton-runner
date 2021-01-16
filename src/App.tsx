@@ -16,6 +16,7 @@ import LoginPopup from "./components/LoginPopup";
 import Questionnaire from "./components/Questionnaire";
 
 import exampleStory1 from "./levels/exampleLevels/exampleStory1";
+import level1Story1 from "./levels/level1/level1Story1";
 import level1Theory1 from "./levels/level1/level1Theory1";
 import level1QuizExplanation1 from "./levels/level1/level1QuizIntro1";
 import level1GameMechanics1 from "./levels/level1/level1GameMechanics1";
@@ -68,6 +69,17 @@ function App(): ReactElement {
 						<Theory
 							config={exampleStory1}
 							nextPage="/level1Quiz1"
+							isStory={true}
+						></Theory>
+					)}
+				/>
+				<Route
+					path="/level1Story1"
+					exact
+					component={() => (
+						<Theory
+							config={level1Story1}
+							nextPage="/level1Theory1"
 							isStory={true}
 						></Theory>
 					)}

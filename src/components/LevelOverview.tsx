@@ -38,6 +38,13 @@ const barConfigExample: Array<LevelOverviewCardConfig> = [
 
 const barConfig1: Array<LevelOverviewCardConfig> = [
 	{
+		title: "Die Geschichte beginnt ...",
+		badge: BadgeType.STORY,
+		text: "Ein Geheimnis wartet darauf entdeckt zu werden.",
+		buttonLink: "/level1Story1",
+		buttonName: "Lesen"
+	},
+	{
 		title: "Grundlagen",
 		badge: BadgeType.THEORIE,
 		text: "Bewegung, das 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagramme",

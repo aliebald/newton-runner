@@ -17,6 +17,7 @@ import Questionnaire from "./components/Questionnaire";
 
 import exampleStory1 from "./levels/exampleLevels/exampleStory1";
 import level1Story1 from "./levels/level1/level1Story1";
+import level1Story2 from "./levels/level1/level1Story2";
 import level1Theory1 from "./levels/level1/level1Theory1";
 import level1QuizExplanation1 from "./levels/level1/level1QuizIntro1";
 import level1GameMechanics1 from "./levels/level1/level1GameMechanics1";
@@ -25,6 +26,10 @@ import level1Quiz2 from "./levels/level1/level1Quiz2";
 import { settings as level1Quest1 } from "./levels/level1/level1Quest1";
 import { settings as level1Quest2 } from "./levels/level1/level1Quest2";
 import { settings as level1Quest3 } from "./levels/level1/level1Quest3";
+import level2Story1 from "./levels/level2/level2Story1";
+import level2Theory1 from "./levels/level2/level2Theory1";
+import level2Quiz1 from "./levels/level2/level2Quiz1";
+import level2Quiz2 from "./levels/level2/level2Quiz2";
 import level2Quest1 from "./levels/level2/level2Quest1";
 import level2Quest2 from "./levels/level2/level2Quest2";
 import level2Quest3 from "./levels/level2/level2Quest3";
@@ -142,14 +147,52 @@ function App(): ReactElement {
 				<Route
 					path="/level1Quest3"
 					exact
+					component={() => <Quest config={level1Quest3} nextPage="/level1Story2"></Quest>}
+				/>
+				<Route
+					path="/level1Story2"
+					exact
 					component={() => (
-						<Quest config={level1Quest3} nextPage="/level1Questionnaire"></Quest>
+						<Theory
+							config={level1Story2}
+							nextPage="/level1Questionnaire"
+							isStory={true}
+						></Theory>
 					)}
 				/>
 				<Route
 					path="/level1Questionnaire"
 					exact
-					component={() => <Questionnaire level={1} nextPage="/level2Quest1" />}
+					component={() => <Questionnaire level={1} nextPage="/level2Story1" />}
+				/>
+				<Route
+					path="/level2Story1"
+					exact
+					component={() => (
+						<Theory
+							config={level2Story1}
+							nextPage="/level2Theory1"
+							isStory={true}
+						></Theory>
+					)}
+				/>
+				<Route
+					path="/level2Theory1"
+					exact
+					component={() => (
+						<Theory config={level2Theory1} nextPage="/level2Quiz1"></Theory>
+					)}
+				/>
+				<Route
+					path="/level2Quiz1"
+					exact
+					component={() => (
+						<Quiz
+							config={level2Quiz1}
+							nextPage="/level2Quest1"
+							theoryLink="/level2Theory1"
+						></Quiz>
+					)}
 				/>
 				<Route
 					path="/level2Quest1"
@@ -159,7 +202,18 @@ function App(): ReactElement {
 				<Route
 					path="/level2Quest2"
 					exact
-					component={() => <Quest config={level2Quest2} nextPage="/level2Quest3"></Quest>}
+					component={() => <Quest config={level2Quest2} nextPage="/level2Quiz2"></Quest>}
+				/>
+				<Route
+					path="/level2Quiz2"
+					exact
+					component={() => (
+						<Quiz
+							config={level2Quiz2}
+							nextPage="/level2Quest3"
+							theoryLink="/level2Theory1"
+						></Quiz>
+					)}
 				/>
 				<Route
 					path="/level2Quest3"

@@ -45,7 +45,7 @@ const barConfig1: Array<LevelOverviewCardConfig> = [
 		buttonName: "Lesen"
 	},
 	{
-		title: "Grundlagen",
+		title: "Gleichförmige Bewegung",
 		badge: BadgeType.THEORIE,
 		text: "Bewegung, das 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagramme",
 		buttonLink: "/level1Theory1",
@@ -99,10 +99,38 @@ const barConfig1: Array<LevelOverviewCardConfig> = [
 		text: "Schaffst du diese Quest?",
 		buttonLink: "/level1Quest3",
 		buttonName: "Play"
+	},
+	{
+		title: "Das Abenteuer geht weiter.",
+		badge: BadgeType.STORY,
+		text: "Was hast du bisher erreicht?",
+		buttonLink: "/level1Story2",
+		buttonName: "Lesen"
 	}
 ];
 
 const barConfig2: Array<LevelOverviewCardConfig> = [
+	{
+		title: "Neuer Ort, neues Glück.",
+		badge: BadgeType.STORY,
+		text: "Setze dein Abenteuer fort.",
+		buttonLink: "/level2Story1",
+		buttonName: "Lesen"
+	},
+	{
+		title: "Beschleunigte Bewegung",
+		badge: BadgeType.THEORIE,
+		text: "Bewegung, das 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagramme",
+		buttonLink: "/level2Theory1",
+		buttonName: "Learn"
+	},
+	{
+		title: "Quiz 1",
+		badge: BadgeType.QUIZ,
+		text: "Überprüfe ob du die Theorie verstanden hast",
+		buttonLink: "/level2Quiz1",
+		buttonName: "Solve"
+	},
 	{
 		title: "Quest 1: Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
@@ -116,6 +144,13 @@ const barConfig2: Array<LevelOverviewCardConfig> = [
 		text: "TODO",
 		buttonLink: "/level2Quest2",
 		buttonName: "Play"
+	},
+	{
+		title: "Quiz 2",
+		badge: BadgeType.QUIZ,
+		text: "Überprüfe ob du die Theorie verstanden hast",
+		buttonLink: "/level2Quiz2",
+		buttonName: "Solve"
 	},
 	{
 		title: "Quest 3: TODO",

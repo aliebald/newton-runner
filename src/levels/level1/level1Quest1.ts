@@ -43,8 +43,12 @@ export const settings: QuestConfig = {
 	title: "Quest 1",
 	id: "level1Quest1",
 	graph: graph,
-	description:
-		'Versuche den Schlüssel zwischen den beiden Häusern einzusammeln. Um dich zu bewegen, kannst du das Zeit-Geschwindigkeit-Diagramm anpassen, indem du die Punkte nach oben oder unten ziehst. Wenn du bereit bist, drück einfach auf "Spiel Starten". Um einen neuen versuch zu starten, drück auf "Nochmal versuchen". Du kannst dich auch bevor du loslegst mit den Pfeiltasten unter dem Spiel etwas umschauen',
+	description: `Der erste Schlüssel befindet sich zwischen zwei Häusern in einer nahegelegenen Siedlung. Versuche
+		diesen einzusammeln. Um dich zu bewegen, kannst du das Zeit-Orts-Diagramm anpassen, indem du
+		die Punkte nach oben oder unten ziehst. Wenn du bereit bist, drück einfach auf "Spiel Starten".
+		Solltest du nicht gleich erfolgreich sein, kannst du durch Klicken auf "Nochmal versuchen" die Quest
+		beliebig oft wiederholen. Bevor du loslegst kannst du dich auch mit den Pfeiltasten unter dem Spiel
+		etwas umschauen.`,
 	game: game
 };
 

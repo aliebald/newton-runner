@@ -49,7 +49,9 @@ const settings: QuestConfig = {
 	title: "Level 2 Quest 1",
 	id: "level2Quest1",
 	graph: graph,
-	description: "Sieht aus als wären da Stacheln. Vielleicht bewegen sie sich ja weit genug.", // cspell: disable-line
+	description: `Pass auf, dass du nicht in gefährliche Stacheln läufst! Wer aber geduldig ist wird sehen, dass diese
+		sich weg bewegen. Sammel den Schlüssel ein und vielleicht erreichst du auch den Bonuspunkt. Aber
+		Achtung! Wer zu weit geht, landet am Ende doch in den Stacheln.`, // cspell: disable-line
 	game: game
 };
 

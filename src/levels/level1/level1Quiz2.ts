@@ -4,8 +4,8 @@ const config: QuizConfig = {
 	id: "level1Quiz2",
 	title: "Level 1 - Quiz 2",
 	rated: true,
-	description:
-		"Ein Quiz zu Bewegung, dem 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagrammen",
+	description: `Gratuliere! Du hast schon zwei Schlüssel auf deiner Reise eingesammelt. Aber Achtung! Die nächsten
+		Fragen werden schwieriger. Wenn du diese richtig löst, gibt es diesmal Punkte.`,
 	questions: [
 		{
 			id: "level1Quiz2Question1",

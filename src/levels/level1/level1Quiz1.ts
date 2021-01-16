@@ -5,7 +5,7 @@ const config: QuizConfig = {
 	title: "Level 1 - Quiz 1",
 	rated: false,
 	description:
-		"Ein Quiz zu Bewegung, dem 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagrammen",
+		"Kannst du dich noch daran erinnern, was du dir gerade durchgelesen hast? Zeige hier, dass du deine Reise erfolgreich fortsetzen kannst, indem du das Quiz beantwortest. Diesmal gibt es noch keine Punkte, aber vielleicht helfen dir die Fragen später auf deinem Weg.",
 	questions: [
 		{
 			id: "level1Quiz1Question1",

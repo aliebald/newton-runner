@@ -45,8 +45,9 @@ const settings: QuestConfig = {
 	title: "Level 2 Quest 2",
 	id: "level2Quest2",
 	graph: graph,
-	description:
-		"Dieser Stein sieht merkwürdig aus. Vielleicht hiflt es ihn zu erreichen, um den dich jagenden Stacheln zu entkommen.", // cspell: disable-line
+	description: `Dein Weg führt dich zu einem großen Wohnhaus. Als du dich umsiehst, erkennst du Stacheln auf dich
+		zukommen. Laufe also schnell weg Richtung Schlüssel. Wenn Stacheln in deinem Weg sind, reicht es
+		vielleicht diesen merkwürdigen Stein zu erreichen.`, // cspell: disable-line
 	game: game
 };
 

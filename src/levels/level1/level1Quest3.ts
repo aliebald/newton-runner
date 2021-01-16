@@ -45,8 +45,12 @@ const game: GameConfig = {
 export const settings: QuestConfig = {
 	title: "Quest 3",
 	id: "level1Quest3",
-	description:
-		"Mit deinen schweren Stiefeln springst du eher ungern. Wozu gibt es denn automatische Aufzüge?",
+	description: `Um jetzt auch noch den letzten Schlüssel für dieses Level einzusammeln, bleibt dir eine weitere
+		Aufgabe. Diese sieht jetzt schon um einiges schwerer aus als die Vorherigen, aber du bist dir sicher,
+		dass du auch diese schaffen kannst. Da du mit deinen schweren Stiefeln ungerne springen möchtest,
+		kannst du ganz einfach die automatischen Aufzüge aus Holzbalken nutzen. Stelle dich auf diese und
+		warte ab, bis sie dich zu der gewünschten Höhe bringen. Auch hier kannst du wieder einen
+		Bonuspunkt einsammeln.`,
 	graph: graph,
 	game: game
 };

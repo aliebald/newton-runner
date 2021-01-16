@@ -47,8 +47,12 @@ const game: GameConfig = {
 export const settings: QuestConfig = {
 	title: "Quest 2",
 	id: "level1Quest2",
-	description:
-		"Diese knarzige Brücke sieht so aus, als könnte es kurz dauern, bis sie vollständig heruntergelassen ist. Versuche den Schlüssel auf der anderen Seite der Brücke einzusammeln, aber pass auf! Hinter dem Schlüssel sieht es gefährlich aus. Eventuell kannst du ja noch einen Bonuspunkt auf dem Weg einsammeln.",
+	description: `
+		Da du die erste Aufgabe erfolgreich gemeistert hast, wirfst du erneut einen Blick auf die Karte. Auf
+		dieser siehst du, dass du für den zweiten Schlüssel über eine knarzige Brücke gehen musst. Diese sieht
+		so aus, als könnte es kurz dauern, bis sie vollständig heruntergelassen ist. Versuche den Schlüssel auf
+		der anderen Seite der Brücke einzusammeln, aber pass auf! Dahinter wird es gefährlich. Vielleicht
+		schaffst du es auch einen Bonuspunkt auf dem Weg einzusammeln.`,
 	graph: graph,
 	game: game
 };

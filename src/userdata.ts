@@ -33,7 +33,6 @@ export interface QuestAttempt {
 export interface QuizProgress {
 	id: string;
 	lastSave: number;
-	rated: boolean;
 	questions: QuestionProgress[];
 }
 
@@ -851,7 +850,7 @@ function equalsQuizProgress(a: QuizProgress, b: QuizProgress): boolean {
 	} else {
 		return false;
 	}
-	return a.id === b.id && a.lastSave === b.lastSave && a.rated === b.rated;
+	return a.id === b.id && a.lastSave === b.lastSave;
 }
 
 /**

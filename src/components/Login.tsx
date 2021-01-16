@@ -1,15 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import {
-	createNewDevUser,
-	getNameLocal,
-	getUserId,
-	isLoggedIn,
-	login,
-	logout,
-	setName
-} from "../userdata";
+import { createNewDevUser, getNameLocal, isLoggedIn, login, logout, setName } from "../userdata";
 
 export default function Login(props: {
 	loggedIn: boolean;
@@ -19,6 +11,7 @@ export default function Login(props: {
 	const [userId, setUserId] = useState("");
 	const [stayLoggedIn, setStayLoggedIn] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
+	const [successMessage, setSuccessMessage] = useState("");
 	let title, subtitle;
 	if (props.loggedIn) {
 		title = "Erfolgreich Angemeldet";
@@ -85,6 +78,7 @@ export default function Login(props: {
 						<h2 className="text-center">{title}</h2>
 						<p className="text-muted text-center">{subtitle}</p>
 						<div className="text-center error">{errorMessage}</div>
+						<div className="text-center success">{successMessage}</div>
 						{props.loggedIn ? changeNameForm : loginForm}
 						<div className="d-flex justify-content-center">
 							<Button size="lg" onClick={handleMainButton} variant="primary">
@@ -160,13 +154,15 @@ export default function Login(props: {
 
 		const newName = form.elements.newName.value;
 		if (!newName || newName === oldName) {
+			setErrorMessage("Neuer Name stimmt mit deinem alten Namen überein.");
 			return;
 		}
 
 		if (!setName(newName)) {
 			setErrorMessage("Fehler bei der Namensänderung zu: " + newName);
 		} else {
-			setErrorMessage("");
+			setSuccessMessage("Name erfolgreich angepasst.");
+			setTimeout(() => setSuccessMessage(""), 3000);
 		}
 	}
 }

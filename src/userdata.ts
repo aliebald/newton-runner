@@ -589,13 +589,7 @@ export async function login(
  */
 export async function setName(name: string): Promise<boolean> {
 	console.log("setName", name);
-	const userData = loadUserdataLocal();
-	// check if name did not change
-	if (userData.name === name) {
-		return true;
-	}
-	userData.name = name;
-	saveUserdataLocal(userData);
+	setNameLocal(name);
 
 	if (isLoggedIn()) {
 		const data = { name: name, userId: getUserId() };
@@ -607,6 +601,19 @@ export async function setName(name: string): Promise<boolean> {
 		}
 	}
 	return true;
+}
+
+/**
+ * Updates the name locally and on server
+ */
+function setNameLocal(name: string) {
+	const userData = loadUserdataLocal();
+	// check if name did not change
+	if (userData.name === name) {
+		return true;
+	}
+	userData.name = name;
+	saveUserdataLocal(userData);
 }
 
 /** Loads the userdame from localStorage */
@@ -627,6 +634,10 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 	// check if already synchronized
 	if (equalsUserdata(serverData, localData)) {
 		return;
+	}
+
+	if (localData.name !== serverData.name) {
+		setNameLocal(serverData.name);
 	}
 
 	console.log("synchronizing");
@@ -801,7 +812,7 @@ function equalsUserdata(a: Userdata, b: Userdata): boolean {
 		return false;
 	}
 
-	return true;
+	return a.name === b.name;
 }
 
 /**

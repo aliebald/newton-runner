@@ -112,19 +112,6 @@
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233421ff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
 }
 
-.nav-tabs .nav-item.show .nav-link,
-.nav-tabs .nav-link.active {
-	color: white;
-	background-color: var(--secondaryColor);
-	border-color: var(--secondaryColor);
-}
-
-.nav-justified .nav-link:hover {
-	background-color: var(--tertiaryColor);
-	border-color: var(--tertiaryColor);
-	color: white;
-}
-
 /*****************
 	Custom CSS
 ******************/
@@ -251,6 +238,18 @@ body {
 	border-top-left-radius: 0.25rem;
 	border-top-right-radius: 0.25rem;
 	border-bottom: 0px;
+}
+
+.overviewTab .overviewNavLink.active {
+	color: white;
+	background-color: var(--secondaryColor) !important;
+	border-color: var(--secondaryColor) !important;
+}
+
+.overviewTab .overviewNavLink:hover {
+	background-color: var(--tertiaryColor);
+	border-color: var(--tertiaryColor);
+	color: white;
 }
 
 .overviewNavLink {

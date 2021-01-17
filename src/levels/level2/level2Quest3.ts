@@ -47,6 +47,7 @@ function onPreload(this: Phaser.Scene): void {
 	this.load.image("castleCenter", "assets/PlatformerAssetsBase/Tiles/castleCenter.png");
 	this.load.image("box", "assets/PlatformerAssetsBase/Tiles/boxAlt.png");
 	this.load.image("bridge", "assets/PlatformerAssetsBase/Tiles/bridge_cut.png");
+	this.load.image("bridge_down", "assets/PlatformerAssetsBase/Tiles/bridge_cut_down.png");
 
 	//beige house
 	this.load.image("houseBL", "assets/PlatformerAssetsBuildings/Items/houseBeigeBottomLeft.png");
@@ -297,12 +298,10 @@ function preCreate(this: Phaser.Scene): void {
 
 	const tileWidth = 70;
 	for (let i = 0; i * tileWidth < 300; i++) {
-		this.add.image(520, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
-		this.add.image(520, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
-		this.add.image(660, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
-		this.add.image(660, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
-		this.add.image(800, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
-		this.add.image(800, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
+		this.add.image(590, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
+		this.add.image(590, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
+		this.add.image(730, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
+		this.add.image(730, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
 		this.add.image(940, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
 		this.add.image(940, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
 		this.add.image(1080, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
@@ -325,6 +324,8 @@ function afterCreate(this: Game): void {
 	this.staticTraps.create(638, 540, "spikes").setScale(0);
 	this.staticTraps.create(902, 540, "spikes").setScale(0);
 	this.staticTraps.create(1250, 433, "spikes").setScale(0.5, 0.5).refreshBody();
+	this.staticTraps.create(735, 505, "spikes").setScale(0.5, 0.5).refreshBody();
+	this.staticTraps.create(805, 505, "spikes").setScale(0.5, 0.5).refreshBody();
 
 	const dynamicTraps = this.physics.add.group({
 		allowGravity: false,
@@ -355,8 +356,8 @@ function afterCreate(this: Game): void {
 	this.physics.add.collider(this.points, dynamicPlatform);
 	this.physics.add.collider(this.player, dynamicPlatform);
 	const ground1 = dynamicPlatform.create(385, 500, "box");
-	const ground2 = dynamicPlatform.create(735, 475, "bridge");
-	const ground3 = dynamicPlatform.create(805, 475, "bridge");
+	const ground2 = this.platforms.create(700, 475, "bridge").setOrigin(0, 0.5).refreshBody();
+	const ground3 = this.platforms.create(840, 475, "bridge").setOrigin(1, 0.5).refreshBody();
 	const weight = dynamicObjects.create(770, 400, "weight").setScale(0.3, 0.3).refreshBody();
 	const chain = staticObjects.create(770, -100, "chain").setScale(0.5, 0.5).refreshBody();
 
@@ -370,6 +371,10 @@ function afterCreate(this: Game): void {
 	this.variables.set("key", key);
 
 	this.platforms.create(-100, 270, "castleMid");
+	const ground6 = this.platforms.create(-710, 500, "bridge_down");
+	const ground7 = this.platforms.create(-830, 500, "bridge_down");
+	this.variables.set("ground6", ground6);
+	this.variables.set("ground7", ground7);
 }
 
 function onUpdate(this: Game): void {
@@ -385,9 +390,13 @@ function onUpdate(this: Game): void {
 			const chain = this.variables.get("chain");
 			chain.setY(500);
 			const ground2 = this.variables.get("ground2");
-			ground2.setX(710).setY(500).setAngle(90);
+			this.platforms.remove(ground2, true);
 			const ground3 = this.variables.get("ground3");
-			ground3.setX(830).setY(500).setAngle(90);
+			this.platforms.remove(ground3, true);
+			const ground6 = this.variables.get("ground6");
+			ground6.setX(710);
+			const ground7 = this.variables.get("ground7");
+			ground7.setX(830);
 		}
 		if (
 			this.player.x >= 750 &&
@@ -415,7 +424,7 @@ function onUpdate(this: Game): void {
 		const bomb2 = this.variables.get("bomb2");
 		goRight(bomb2, 750);
 	}
-	if (this.collectedGoal == true) {
+	if (this.player.x >= 900) {
 		const bomb3 = this.variables.get("bomb3");
 		bomb3.setX(950);
 	}
@@ -437,12 +446,12 @@ function onUpdate(this: Game): void {
 	}
 	const weight = this.variables.get("weight");
 	if (weight.y <= 450 && this.player.x > 420) {
-		const ground3 = this.variables.get("ground3");
-		ground3.setAngle(180);
-		ground3.setX(805).setY(475);
-		const ground2 = this.variables.get("ground2");
-		ground2.setAngle(180);
-		ground2.setX(735).setY(475);
+		const ground6 = this.variables.get("ground6");
+		this.platforms.remove(ground6, true);
+		const ground7 = this.variables.get("ground7");
+		this.platforms.remove(ground7, true);
+		this.platforms.create(700, 475, "bridge").setOrigin(0, 0.5).refreshBody();
+		this.platforms.create(840, 475, "bridge").setOrigin(1, 0.5).refreshBody();
 	}
 }
 

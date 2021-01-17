@@ -35,7 +35,7 @@ const settings: QuestConfig = {
 	id: "level2Quest3",
 	graph: graph,
 	description:
-		"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", // cspell: disable-line
+		"Sieht so aus als würden die Kiste und das Gewicht aneinander hängen, wenn sich doch nur die Klappen rechtzeitig öfnnen würden", // cspell: disable-line
 	game: game
 };
 

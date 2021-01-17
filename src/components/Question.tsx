@@ -102,7 +102,7 @@ export function Question(props: {
 	return (
 		<Card className="questionBox">
 			<Card.Body>
-				<Card.Text className="mb-4">{props.config.question}</Card.Text>
+				<div className="mb-4">{props.config.question}</div>
 				<fieldset>
 					<Card.Subtitle className="mb-2 text-muted">{subtitle}</Card.Subtitle>
 					<Form className="questionOptionsWrapper">

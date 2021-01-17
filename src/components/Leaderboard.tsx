@@ -1,9 +1,10 @@
 import React, { ReactElement, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import Achievement from "./Achievement";
+import { getLeaderboard } from "../userdata";
 import "../css/style.leaderboard.css";
 
-type Leaderboard = {
+export type LeaderboardType = {
 	position: number;
 	entries: LeaderboardEntry[];
 };
@@ -16,7 +17,9 @@ type LeaderboardEntry = {
 };
 
 export default function Leaderboard(): ReactElement {
-	const [data, setData] = useState<Leaderboard>({
+	const [requestedData, setRequestedData] = useState(false);
+	// TODO: Remove sample data
+	const [data, setData] = useState<LeaderboardType>({
 		position: 2,
 		entries: [
 			{
@@ -107,6 +110,17 @@ export default function Leaderboard(): ReactElement {
 		list.push(
 			<Entry entry={data.entries[i]} position={position} key={"leaderboardEntry-" + i} />
 		);
+	}
+
+	// Request data from server
+	if (!requestedData) {
+		setRequestedData(true);
+		getLeaderboard().then((leaderboard) => {
+			console.log("received Leaderboard", leaderboard);
+			if (leaderboard && leaderboard.entries.length > 0) {
+				setData(leaderboard);
+			}
+		});
 	}
 
 	return <div className="py-2">{list}</div>;

@@ -9,6 +9,7 @@
  */
 
 import { get, post } from "./backendCommunication";
+import { LeaderboardType } from "./components/Leaderboard";
 import { questionStateType } from "./components/Question";
 
 export interface QuestProgress {
@@ -45,6 +46,7 @@ export interface QuestionProgress {
 interface Userdata {
 	userId: string;
 	name: string;
+	completedTheory: string[]; // id's for all completed theory (or story / explanation) parts
 	quests: QuestProgress[];
 	quizzes: QuizProgress[];
 }
@@ -418,6 +420,7 @@ export function loadUserdataLocal(): Userdata {
 	return {
 		userId: "",
 		name: "",
+		completedTheory: [],
 		quests: [],
 		quizzes: []
 	};
@@ -461,6 +464,7 @@ async function loadUserdataServer(userId: string): Promise<Userdata> {
 	return {
 		userId: userId,
 		name: "",
+		completedTheory: [],
 		quests: [],
 		quizzes: []
 	};
@@ -781,6 +785,23 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 }
 
 /**
+ * Requests leaderboard from backend
+ */
+export async function getLeaderboard(): Promise<undefined | LeaderboardType> {
+	if (!isLoggedIn()) {
+		return undefined;
+	}
+
+	try {
+		return await get<LeaderboardType>("/leaderboard", new Map([["userId", getUserId()]]));
+	} catch (error) {
+		// TODO further error handling
+		console.error("Failed to get Leaderboard from Server: ", error);
+		return;
+	}
+}
+
+/**
  * Checks if two Userdata objects are equal. Does not check the id to avoid errors when not logged in permanent (=> userId is "" in localStorage)
  */
 function equalsUserdata(a: Userdata, b: Userdata): boolean {
@@ -812,7 +833,10 @@ function equalsUserdata(a: Userdata, b: Userdata): boolean {
 		return false;
 	}
 
-	return a.name === b.name;
+	return (
+		a.name === b.name &&
+		JSON.stringify(a.completedTheory.sort()) === JSON.stringify(b.completedTheory.sort())
+	);
 }
 
 /**

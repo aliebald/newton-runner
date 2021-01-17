@@ -124,6 +124,10 @@ nav {
 	min-height: 7vh;
 }
 
+.w-33 {
+	width: 33%;
+}
+
 body {
 	background-color: var(--primaryColor) !important;
 }
@@ -408,6 +412,14 @@ body {
 
 .unknownPageText {
 	font-weight: 500;
+}
+
+.achievementImage {
+	transition: transform 0.2s;
+}
+
+.achievementImage:hover {
+	transform: scale(1.5);
 }
 
 /*

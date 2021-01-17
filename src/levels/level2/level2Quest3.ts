@@ -99,6 +99,13 @@ function onPreload(this: Phaser.Scene): void {
 
 	this.load.image("chain", "assets/PlatformPackRedux/chain.png");
 	this.load.image("weight", "assets/PlatformPackRedux/weightAttached.png");
+
+	this.load.image("windowB", "assets/PlatformerAssetsBuildings/Items/windowHighBottom.png");
+	this.load.image("windowM", "assets/PlatformerAssetsBuildings/Items/windowHighMid.png");
+	this.load.image(
+		"window",
+		"assets/PlatformerAssetsBuildings/Items/windowHighCheckeredBottom.png"
+	);
 }
 
 function preCreate(this: Phaser.Scene): void {
@@ -242,6 +249,65 @@ function preCreate(this: Phaser.Scene): void {
 	this.add.image(770, 145, "chain").setScale(0.5, 0.5);
 	this.add.image(770, 85, "chain").setScale(0.5, 0.5);
 	this.add.image(770, 25, "chain").setScale(0.5, 0.5);
+
+	this.add.image(35, 220, "windowB");
+	this.add.image(35, 150, "windowM");
+	this.add.image(35, 80, "windowB").setScale(1, -1);
+	this.add.image(90, 220, "windowB");
+	this.add.image(90, 150, "windowM");
+	this.add.image(90, 80, "windowB").setScale(1, -1);
+	this.add.image(145, 220, "windowB");
+	this.add.image(145, 150, "windowM");
+	this.add.image(145, 80, "windowB").setScale(1, -1);
+	this.add.image(200, 220, "windowB");
+	this.add.image(200, 150, "windowM");
+	this.add.image(200, 80, "windowB").setScale(1, -1);
+	this.add.image(255, 220, "windowB");
+	this.add.image(255, 150, "windowM");
+	this.add.image(255, 80, "windowB").setScale(1, -1);
+	this.add.image(310, 220, "windowB");
+	this.add.image(310, 150, "windowM");
+	this.add.image(310, 80, "windowB").setScale(1, -1);
+
+	this.add.image(35, 420, "windowB");
+	this.add.image(35, 350, "windowM");
+	this.add.image(35, 280, "windowB").setScale(1, -1);
+	this.add.image(90, 420, "windowB");
+	this.add.image(90, 350, "windowM");
+	this.add.image(90, 280, "windowB").setScale(1, -1);
+	this.add.image(145, 420, "windowB");
+	this.add.image(145, 350, "windowM");
+	this.add.image(145, 280, "windowB").setScale(1, -1);
+	this.add.image(200, 420, "windowB");
+	this.add.image(200, 350, "windowM");
+	this.add.image(200, 280, "windowB").setScale(1, -1);
+	this.add.image(255, 420, "windowB");
+	this.add.image(255, 350, "windowM");
+	this.add.image(255, 280, "windowB").setScale(1, -1);
+	this.add.image(310, 420, "windowB");
+	this.add.image(310, 350, "windowM");
+	this.add.image(310, 280, "windowB").setScale(1, -1);
+
+	this.add.image(35, 20, "windowB");
+	this.add.image(90, 20, "windowB");
+	this.add.image(145, 20, "windowB");
+	this.add.image(200, 20, "windowB");
+	this.add.image(255, 20, "windowB");
+	this.add.image(310, 20, "windowB");
+
+	const tileWidth = 70;
+	for (let i = 0; i * tileWidth < 300; i++) {
+		this.add.image(520, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
+		this.add.image(520, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
+		this.add.image(660, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
+		this.add.image(660, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
+		this.add.image(800, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
+		this.add.image(800, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
+		this.add.image(940, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
+		this.add.image(940, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
+		this.add.image(1080, -10 + tileWidth * i * 1.5, "window").setScale(0.7, 0.7);
+		this.add.image(1080, -20 + tileWidth * i * 1.5, "window").setScale(0.7, -0.7);
+	}
 }
 
 function afterCreate(this: Game): void {
@@ -392,7 +458,7 @@ function goDown(object: any, yEnd: number) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function goDownSlow(object: any, yEnd: number) {
 	if (object.y < yEnd) {
-		object.setVelocityY(30);
+		object.setVelocityY(35);
 	} else {
 		object.setVelocityY(0);
 	}
@@ -410,7 +476,7 @@ function goUp(object: any, yEnd: number) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function goUpSlow(object: any, yEnd: number) {
 	if (object.y > yEnd) {
-		object.setVelocityY(-30);
+		object.setVelocityY(-35);
 	} else {
 		object.setVelocityY(0);
 	}

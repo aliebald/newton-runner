@@ -22,6 +22,7 @@ import level1Quiz1 from "../levels/level1/level1Quiz1";
 import level1Quiz2 from "../levels/level1/level1Quiz2";
 import { QuizConfig } from "./Quiz";
 import StatisticLevel from "./StatisticLevel";
+import Leaderboard from "./Leaderboard";
 
 type levelStatistics = {
 	quests: { progress: QuestProgress; stats: QuestStats }[];
@@ -164,7 +165,9 @@ export function Statistics(): ReactElement {
 							level={2}
 						/>
 					</Tab.Pane>
-					<Tab.Pane eventKey="leaderboard">Leaderboard</Tab.Pane>
+					<Tab.Pane eventKey="leaderboard">
+						<Leaderboard />
+					</Tab.Pane>
 				</Tab.Content>
 			</Tab.Container>
 		</Container>

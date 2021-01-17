@@ -19,7 +19,7 @@ const config: TheoryConfig = {
 				die Parabel. Bei ungleichmä&szlig;iger Beschleunigung ist der Graph weder eine
 				Parabel noch eine Gerade.
 			</p>
-			<Image src={"levels/level1/zeit-ort2.png"} fluid rounded />
+			<Image src={"levels/level2/zeit-ort2.png"} fluid rounded />
 		</>,
 		<>
 			<p>
@@ -59,11 +59,11 @@ const config: TheoryConfig = {
 				</span>{" "}
 				r&uuml;ckw&auml;rts.
 			</p>
-			<Image src={"levels/level1/zeit-geschwindigkeit1.png"} fluid rounded />
+			<Image src={"levels/level2/zeit-geschwindigkeit1.png"} fluid rounded />
 		</>,
 		<>
 			<p>Das zugeh&ouml;rige Zeit-Orts-Diagramm sieht folgenderma&szlig;en aus:</p>
-			<Image src={"levels/level1/zeit-geschwindigkeit2.png"} fluid rounded />
+			<Image src={"levels/level2/zeit-geschwindigkeit2.png"} fluid rounded />
 		</>,
 		<>
 			<p>
@@ -81,7 +81,7 @@ const config: TheoryConfig = {
 				R&uuml;ckw&auml;rtsbewegung, beschleunigt. Die steigende gelbe Strecke zeigt ein
 				Abbremsen der R&uuml;ckw&auml;rtsbewegung bis zum Stillstand.
 			</p>
-			<Image src={"levels/level1/zeit-geschwindigkeit3.png"} fluid rounded />
+			<Image src={"levels/level2/zeit-geschwindigkeit3.png"} fluid rounded />
 		</>
 	]
 };

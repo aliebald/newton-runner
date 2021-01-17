@@ -4,6 +4,7 @@ import { Question, QuestionConfig, questionStateType } from "./Question";
 import "./../css/style.quiz.css";
 import { saveSingleQuestion, loadQuizProgress, QuestionProgress, QuizProgress } from "../userdata";
 import { Link } from "react-router-dom";
+import MathJax from "react-mathjax";
 
 export interface QuizConfig {
 	id: string;
@@ -73,20 +74,22 @@ export function Quiz(props: {
 
 	return (
 		<Container fluid="lg">
-			<Row>
-				<Col>
-					<div className="quizPageTextBox pt-3">
-						<h2 className="px-3">{props.config.title}</h2>
-						<p className="px-3">{props.config.description}</p>
-						<div className="px-3 card-footer">{navButtons}</div>
-					</div>
-				</Col>
-			</Row>
-			<QuestionsList
-				questions={props.config.questions}
-				progress={progress}
-				rated={props.config.rated}
-			/>
+			<MathJax.Provider>
+				<Row>
+					<Col>
+						<div className="quizPageTextBox pt-3">
+							<h2 className="px-3">{props.config.title}</h2>
+							<p className="px-3">{props.config.description}</p>
+							<div className="px-3 card-footer">{navButtons}</div>
+						</div>
+					</Col>
+				</Row>
+				<QuestionsList
+					questions={props.config.questions}
+					progress={progress}
+					rated={props.config.rated}
+				/>
+			</MathJax.Provider>
 			<Row className="pt-2 pb-5">
 				<Col>
 					<div className="boxWrapper px-4">{navButtons}</div>

@@ -75,6 +75,19 @@ const config: TheoryConfig = {
 				bleibt er 1s liegen und rollt dann mit doppelter Geschwindigkeit wieder zur&uuml;ck.
 			</p>
 			<Image src={"levels/level1/zeit-ort1.png"} fluid rounded />
+			<table>
+				<tr>
+					<td className="blue">Graph steigt -&gt; Vorw&auml;rtsbewegung</td>
+					<td className="blue">Graph flach -&gt; langsame Bewegung</td>
+				</tr>
+				<tr>
+					<td className="green">Graph f&auml;llt -&gt; R&uuml;ckw&auml;rtsbewegung</td>
+					<td className="green">Graph steil -&gt; schnelle Bewegung</td>
+				</tr>
+				<tr>
+					<td className="orange">Graph waagerecht -&gt; keine Bewegung</td>
+				</tr>
+			</table>
 		</>
 	]
 };

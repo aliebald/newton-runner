@@ -46,11 +46,18 @@ const config: TheoryConfig = {
 		<>
 			<p>
 				Ein Gegenstand bewegt sich zuerst mit der konstanten Geschwindigkeit{" "}
-				<MathJax.Node inline formula={"v_1 = 4 \\frac{m}{s}"} /> vorw&auml;rts. Anschlie
-				&szlig;end bleibt er stehen mit der Geschwindigkeit{" "}
-				<MathJax.Node inline formula={"v_2 = 0 \\frac{m}{s}"} />. Danach bewegt er sich mit
-				konstanter Geschwindigkeit von{" "}
-				<MathJax.Node inline formula={"v_3 = -6 \\frac{m}{s}"} /> r&uuml;ckw&auml;rts.
+				<span className="blue">
+					<MathJax.Node inline formula={"v_1 = 4 \\frac{m}{s}"} />{" "}
+				</span>{" "}
+				vorw&auml;rts. Anschlie &szlig;end bleibt er stehen mit der Geschwindigkeit{" "}
+				<span className="orange">
+					<MathJax.Node inline formula={"v_2 = 0 \\frac{m}{s}"} />
+				</span>
+				. Danach bewegt er sich mit konstanter Geschwindigkeit von{" "}
+				<span className="green">
+					<MathJax.Node inline formula={"v_3 = -6 \\frac{m}{s}"} />
+				</span>{" "}
+				r&uuml;ckw&auml;rts.
 			</p>
 			<Image src={"levels/level1/zeit-geschwindigkeit1.png"} fluid rounded />
 		</>,

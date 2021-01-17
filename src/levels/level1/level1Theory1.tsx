@@ -8,62 +8,73 @@ const config: TheoryConfig = {
 		<>
 			<h1 className="centerBox">Level 1 - Theorie 1</h1>
 			<br />
-			<p className="centerBox">
-				Bewegung, das 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagramme
+			<p className="centerBox">Bewegung und Zeit-Orts-Diagramme</p>
+		</>,
+		<>
+			<h3 className="centerBox">Bewegung</h3>
+			<br />
+			<p>
+				Es gibt zwei Arten von Bewegung. Die gleichf&ouml;rmige Bewegung und die
+				beschleunigte Bewegung. F&uuml;r beide gibt es jeweils ein Diagramm, um sie zu
+				veranschaulichen. Hier in Level 1 wirst du das Zeit-Orts-Diagramm kennenlernen.
+				Sp&auml;ter in Level 2 geht es um das Zeit-Geschwindigkeits- Diagramm.
 			</p>
 		</>,
 		<>
 			<h3 className="centerBox">Bewegung</h3>
 			<br />
 			<p>
-				Gleichf&ouml;rmige Bewegung: ein K&ouml;rper bewegt sich mit konstanter
-				Geschwindigkeit vorw&auml;rts, er ist immer gleich schnell
+				Gleichf&ouml;rmige Bewegung: Ein K&ouml;rper bewegt sich mit konstanter
+				Geschwindigkeit vorw&auml;rts, er ist immer gleich schnell. F&uuml;r eine
+				gleichf&ouml;rmige Bewegung gelten die folgenden Bewegungsgesetze:
 			</p>
 			<p>
-				Beschleunigte Bewegung (nicht gleichf&ouml;rmig): K&ouml;rper &auml;ndert seine
-				Geschwindigkeit, er wird schneller oder langsamer
+				Zeit-Ort-Gesetz: <MathJax.Node inline formula={"x(t) = v*t + x_0"} />
+			</p>
+			<p>
+				Zeit-Beschleunigung-Gesetz: <MathJax.Node inline formula={"a(t) = 0"} />
+			</p>
+			<p>
+				Zeit-Geschwindigkeit-Gesetz: <MathJax.Node inline formula={"v(t) = v"} />
+			</p>
+			<p>
+				Beschleunigte Bewegung (nicht gleichf&ouml;rmig): Ein K&ouml;rper &auml;ndert seine
+				Geschwindigkeit, er wird schneller oder langsamer.
 			</p>
 		</>,
 		<>
-			<h3 className="centerBox">1. Newtonsche Gesetz</h3>
-			<br />
 			<p>
-				Was ist die Ursache einer Bewegung? (Dynamik) Die Ursache einer Bewegung ist immer
-				eine Kraft.
-			</p>
-			<p>
-				Massepunkt: Die Geometrie des K&ouml;rpers wird vernachl&auml;ssigt. Er wird durch
-				einen Massepunkt mit der Masse m des K&ouml;rpers modelliert. Die Masse ist das
-				einzige unver&auml;nderliche Attribut eines K&ouml;rpers.
-			</p>
-			<p>
-				<b>1. Newtonsches Gesetz:</b> In einem Inertialsystem bleibt jeder K&ouml;rper in
-				Ruhe oder im Zustand gleichf&ouml;rmiger Bewegung, auf den keine Kraft wirkt.
-			</p>
-			<p>(Inertialsystem: Bezugssystem, in dem das 1. Newtonsche Gesetz gilt)</p>
-		</>,
-		<>
-			<p>
-				Wir schauen uns vereinfacht nur eindimensionale Bewegungen an. <br /> Das Objekt
-				(dessen Massepunkt) bewegt sich entlang einer Geraden.
+				Wir schauen uns vereinfacht nur eindimensionale Bewegungen an. Ein Gegenstand (z.B.
+				ein Auto) bewegt sich entlang einer Geraden. Zur Vereinfachung betrachten wir den
+				Gegenstand als Punkt.
 			</p>
 		</>,
 		<>
 			<h3 className="centerBox">Diagramme</h3>
 			<br />
 			<p>
-				In einem Zeit-Geschwindigkeits-Diagramm kann man Geschwindigkeiten anschaulich
-				darstellen. Hierbei ist die Zeit auf der Rechtswertachse und die Geschwindigkeit auf
-				der Hochwertsachse dargestellt.
+				In einem Zeit-Orts-Diagramm kann man eine Bewegung anschaulich darstellen. Hierbei
+				ist die Zeit auf der Rechtswertachse und der Ort auf der Hochwertsachse dargestellt.
+				Die Zeit (engl. Time) wird mit t abgek&uuml;rzt und der Ort wird durch ein x
+				dargestellt.
 			</p>
 			<p>
-				<u>Hinweis:</u> Bei den Namen eines Diagramms ist die zuerst genannte Achse immer
+				<u>Hinweis:</u> Bei dem Namen eines Diagramms ist die zuerst genannte Achse immer
 				die Rechtswertachse (horizontal) und die zweite Achse die Hochwertsache (vertikal).
-				(t-v-Diagramm)
+				(t-x-Diagramm)
+			</p>
+			<p>
+				<u>Hinweis:</u> „Knicke“ in einem Zeit-Orts-Diagramm sind in der Realit&auml;t nicht
+				logisch, da diese eine ruckartige Bewegung (ein abruptes Stehenbleiben aus voller
+				Fahrt) bedeuten w&uuml;rden.
 			</p>
 		</>,
 		<>
-			<Image src={"levels/level1/diagramme_2_slide.png"} key={5} fluid rounded />
+			<p>
+				<u>Beispiel:</u> Ein Ball rollt mit konstanter Geschwindigkeit in 2s 8m weit. Dort
+				bleibt er 1s liegen und rollt dann mit doppelter Geschwindigkeit wieder zur&uuml;ck.
+			</p>
+			<Image src={"levels/level1/zeit-ort1.png"} fluid rounded />
 		</>
 	]
 };

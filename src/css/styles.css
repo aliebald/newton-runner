@@ -299,9 +299,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 2rem 4rem 2rem 4rem;
-	margin-left: 3rem;
-	margin-right: 3rem;
+	padding: 2rem 10% 2rem 10%;
 	font-size: large;
 	height: 100%;
 }

@@ -20,3 +20,21 @@
 .separator {
 	border-bottom: 1px solid rgb(0, 0, 0, 0.2);
 }
+
+div.tabNavWrapper {
+	border-color: var(--secondaryColor);
+}
+
+.tabNav a.tabNavElem {
+	color: rgb(61, 61, 61);
+	border-color: transparent transparent var(--secondaryColor);
+}
+
+.tabNav a.tabNavElem.active {
+	color: var(--secondaryColor);
+	border-color: var(--secondaryColor) var(--secondaryColor) #fff;
+}
+
+.tabNav a.tabNavElem:not(.active):hover {
+	border-color: var(--tertiaryColor);
+}

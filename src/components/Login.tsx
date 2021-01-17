@@ -27,13 +27,16 @@ export default function Login(props: {
 		<Form>
 			<Form.Group controlId="loginForm">
 				<Form.Label>Benutzer&nbsp;ID</Form.Label>
-				<Form.Control type="text" onChange={(event) => setUserId(event.target.value)} />
+				<Form.Control
+					type="text"
+					onChange={(event) => setUserId(event.target.value)}
+					maxLength={36}
+				/>
 				<Form.Text className="text-muted">
 					Solltest du keine eigene Benutzer ID haben, wende dich bitte an deinen Betreuer
 					oder Lehrer.
 				</Form.Text>
 			</Form.Group>
-
 			<Form.Group controlId="stayLoggedInCheckbox">
 				<Form.Check
 					label="Angemeldet bleiben"
@@ -53,6 +56,7 @@ export default function Login(props: {
 					<Form.Control
 						type="text"
 						name="newName"
+						maxLength={10}
 						className="mr-1"
 						placeholder="Anonym"
 						defaultValue={oldName}

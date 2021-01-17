@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Nav, Tab } from "react-bootstrap";
 import {
 	find,
 	getUserId,
@@ -22,6 +22,7 @@ import level1Quiz1 from "../levels/level1/level1Quiz1";
 import level1Quiz2 from "../levels/level1/level1Quiz2";
 import { QuizConfig } from "./Quiz";
 import StatisticLevel from "./StatisticLevel";
+import Leaderboard from "./Leaderboard";
 
 type levelStatistics = {
 	quests: { progress: QuestProgress; stats: QuestStats }[];
@@ -32,7 +33,6 @@ type levelStatistics = {
 };
 
 export function Statistics(): ReactElement {
-	// const [level1, setLevel1] = useState();
 	const [loaded, setLoaded] = useState(false);
 	const localData = loadUserdataLocal();
 	const [levelOne, setLevelOne] = useState<levelStatistics>({
@@ -126,9 +126,50 @@ export function Statistics(): ReactElement {
 	}
 
 	return (
-		<Container fluid="lg" className="mb-5">
-			<StatisticLevel quests={levelOne.quests} quizzes={levelOne.quizzes} level={1} />
-			<StatisticLevel quests={levelTwo.quests} quizzes={levelTwo.quizzes} level={2} />
+		<Container fluid="lg" className="my-3 boxWrapper">
+			<Tab.Container defaultActiveKey="leaderboard">
+				<Nav
+					justify
+					variant="tabs"
+					defaultActiveKey="statisticsLevel1"
+					className="tabNavWrapper px-sm-2 px-lg-5"
+				>
+					<Nav.Item className="tabNav">
+						<Nav.Link className="tabNavElem" eventKey="statisticsLevel1">
+							Level&nbsp;1
+						</Nav.Link>
+					</Nav.Item>
+					<Nav.Item className="tabNav">
+						<Nav.Link className="tabNavElem" eventKey="statisticsLevel2">
+							Level&nbsp;2
+						</Nav.Link>
+					</Nav.Item>
+					<Nav.Item className="tabNav">
+						<Nav.Link className="tabNavElem" eventKey="leaderboard">
+							Bestenliste
+						</Nav.Link>
+					</Nav.Item>
+				</Nav>
+				<Tab.Content>
+					<Tab.Pane eventKey="statisticsLevel1">
+						<StatisticLevel
+							quests={levelOne.quests}
+							quizzes={levelOne.quizzes}
+							level={1}
+						/>
+					</Tab.Pane>
+					<Tab.Pane eventKey="statisticsLevel2">
+						<StatisticLevel
+							quests={levelTwo.quests}
+							quizzes={levelTwo.quizzes}
+							level={2}
+						/>
+					</Tab.Pane>
+					<Tab.Pane eventKey="leaderboard">
+						<Leaderboard />
+					</Tab.Pane>
+				</Tab.Content>
+			</Tab.Container>
 		</Container>
 	);
 }

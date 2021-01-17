@@ -124,6 +124,10 @@ nav {
 	min-height: 7vh;
 }
 
+.w-33 {
+	width: 33%;
+}
+
 body {
 	background-color: var(--primaryColor) !important;
 }
@@ -295,9 +299,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 2rem 4rem 2rem 4rem;
-	margin-left: 3rem;
-	margin-right: 3rem;
+	padding: 0% 10% 0% 10%;
 	font-size: large;
 	height: 100%;
 }
@@ -400,6 +402,14 @@ body {
 	border-color: red;
 }
 
+.blue {
+	color: blue;
+}
+
+.orange {
+	color: orange;
+}
+
 .unknownPageCode {
 	font-size: 15vh;
 	font-weight: 500;
@@ -408,6 +418,14 @@ body {
 
 .unknownPageText {
 	font-weight: 500;
+}
+
+.achievementImage {
+	transition: transform 0.2s;
+}
+
+.achievementImage:hover {
+	transform: scale(1.5);
 }
 
 /*

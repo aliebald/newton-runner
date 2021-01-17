@@ -1,0 +1,61 @@
+.leaderboardEntry {
+	border-radius: 0.5rem;
+	border: 3px solid var(--secondaryColor);
+	padding: 5px 5px 5px 5px;
+	margin: 0.5rem 0 0.5rem 0;
+}
+
+.leaderboardEntry.first {
+	border-color: gold;
+}
+
+.leaderboardEntry.second {
+	border-color: silver;
+}
+
+.leaderboardEntry.third {
+	border-color: #c87c30;
+}
+
+.leaderboardEntry .rank {
+	display: flex;
+	border-radius: 50%;
+	justify-content: center;
+	height: 30px;
+	width: 30px;
+	margin-right: 0.5rem;
+	background-color: var(--primaryColor);
+	font-weight: 500;
+	font-size: larger;
+}
+
+.leaderboardEntry .rank.first {
+	background-color: gold;
+}
+
+.leaderboardEntry .rank.second {
+	background-color: silver;
+}
+
+.leaderboardEntry .rank.third {
+	background-color: #c87c30;
+}
+
+.leaderboardEntry .leaderboardName {
+	margin-right: 0.5rem;
+	font-weight: 500;
+	font-size: larger;
+}
+
+.valueDescription {
+	font-size: small;
+	line-height: 1;
+	color: #6c757d;
+	padding-bottom: 5px;
+}
+
+@media only screen and (max-width: 575px) {
+	.leaderboardAchievements {
+		padding: 0.25rem 0 0.25rem 0;
+	}
+}

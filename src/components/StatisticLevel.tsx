@@ -48,7 +48,7 @@ export default function StatisticLevel(props: {
 	));
 
 	return (
-		<div className="mx-auto mt-3 px-3 boxWrapper">
+		<div className="mx-auto mt-3 px-3">
 			<h3 className="text-center">Level {props.level}</h3>
 			<ProgressBar
 				animated={completion / maxCompletion < 0.998}

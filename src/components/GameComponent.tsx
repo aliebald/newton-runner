@@ -279,7 +279,7 @@ export default class GameComponent extends React.Component<GameComponentProps, G
 							variant="primary"
 							onClick={this.handleNext}
 						>
-							N&auml;chste&nbsp;Quest
+							Weiter
 						</Button>
 					</Modal.Footer>
 				</Modal>

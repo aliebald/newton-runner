@@ -3,7 +3,7 @@ import { GraphInputConfig } from "../../components/GraphInput";
 import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
-
+import GameComponent from "../../components/GameComponent";
 // TODO adjust GraphInputConfig
 const graph: GraphInputConfig = {
 	xTitle: "time in s",
@@ -45,6 +45,8 @@ function onPreload(this: Phaser.Scene): void {
 
 	this.load.image("castleMid", "assets/PlatformerAssetsBase/Tiles/castleMid.png");
 	this.load.image("castleCenter", "assets/PlatformerAssetsBase/Tiles/castleCenter.png");
+	this.load.image("box", "assets/PlatformerAssetsBase/Tiles/boxAlt.png");
+	this.load.image("bridge", "assets/PlatformerAssetsBase/Tiles/bridge_cut.png");
 
 	//beige house
 	this.load.image("houseBL", "assets/PlatformerAssetsBuildings/Items/houseBeigeBottomLeft.png");
@@ -245,7 +247,6 @@ function preCreate(this: Phaser.Scene): void {
 function afterCreate(this: Game): void {
 	// TODO: add platforms / ground, coins, goals, traps etc.
 
-	this.platforms.create(385, 500, "castleCenter");
 	const tileWidth = 70;
 	for (let i = 0; i * tileWidth < width; i++) {
 		this.platforms.create(35 + tileWidth * i, 570, "castleCenter");
@@ -267,138 +268,121 @@ function afterCreate(this: Game): void {
 		allowGravity: true,
 		immovable: false
 	});
-	const bomb = this.dynamicTraps.create(450, 433, "bomb").setScale(0.5).refreshBody();
+	const staticObjects = this.physics.add.group({
+		allowGravity: false,
+		immovable: true
+	});
 	this.physics.add.collider(this.player, dynamicTraps);
+	const bomb = this.dynamicTraps.create(450, 433, "bomb").setScale(0.5).refreshBody();
 	this.variables.set("bomb", bomb);
+	const bomb2 = this.dynamicTraps.create(450, 433, "bomb").setScale(0.5).refreshBody();
+	this.variables.set("bomb2", bomb2);
+	const bomb3 = this.dynamicTraps.create(-100, 200, "bomb");
+	this.variables.set("bomb3", bomb3);
 
 	const dynamicPlatform = this.physics.add.group({
 		allowGravity: false,
 		immovable: true
 	});
+	this.physics.add.collider(dynamicObjects, this.platforms);
 	this.physics.add.collider(dynamicObjects, dynamicPlatform);
 	this.physics.add.collider(this.points, dynamicPlatform);
 	this.physics.add.collider(this.player, dynamicPlatform);
-	const ground1 = dynamicPlatform.create(385, 500, "castleMid");
-	const ground2 = dynamicPlatform.create(735, 500, "castleMid");
-	const ground3 = dynamicPlatform.create(805, 500, "castleMid");
-	dynamicObjects.create(770, 400, "weight").setScale(0.5, 0.5).refreshBody();
+	const ground1 = dynamicPlatform.create(385, 500, "box");
+	const ground2 = dynamicPlatform.create(735, 475, "bridge");
+	const ground3 = dynamicPlatform.create(805, 475, "bridge");
+	const weight = dynamicObjects.create(770, 400, "weight").setScale(0.3, 0.3).refreshBody();
+	const chain = staticObjects.create(770, -100, "chain").setScale(0.5, 0.5).refreshBody();
 
 	this.variables.set("ground1", ground1);
 	this.variables.set("ground2", ground2);
 	this.variables.set("ground3", ground3);
+	this.variables.set("weight", weight);
+	this.variables.set("chain", chain);
 
-	this.dynamicGoals.create(960, 300, "keyYellow");
+	const key = this.dynamicGoals.create(960, 300, "keyYellow");
+	this.variables.set("key", key);
+
+	this.platforms.create(-100, 270, "castleMid");
 }
 
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
-		if (this.player.x >= 350 && !this.variables.get("ground1_start")) {
-			this.variables.set("ground1_start", new Date().getTime());
-			this.variables.set("ground1_end", new Date().getTime() + 720);
-			this.variables.set("ground1StartY", 500);
-			this.variables.set("ground1EndY", 430);
+		if (this.player.x >= 350 && !this.variables.get("ground1_started")) {
+			this.variables.set("ground1_started", true);
 		}
-		if (this.player.x >= 350 && !this.variables.get("ground2_start")) {
-			this.variables.set("ground2_start", new Date().getTime());
-			this.variables.set("ground2_end", new Date().getTime() + 720);
-			this.variables.set("ground2StartY", 500);
-			this.variables.set("ground2EndY", 570);
-		}
-		if (this.player.x >= 350 && !this.variables.get("ground3_start")) {
-			this.variables.set("ground3_start", new Date().getTime());
-			this.variables.set("ground3_end", new Date().getTime() + 720);
-			this.variables.set("ground3StartY", 500);
-			this.variables.set("ground3EndY", 570);
-		}
-
-		if (this.variables.get("ground1_start")) {
+		if (this.variables.get("ground1_started")) {
 			const ground1 = this.variables.get("ground1");
-			const startTime1 = this.variables.get("ground1_start");
-			const endTime1 = this.variables.get("ground1_end");
-			goUp(ground1, startTime1, endTime1);
+			goUp(ground1, 439);
 		}
-		if (this.variables.get("ground2_start")) {
+		if (this.variables.get("ground1_started")) {
+			const chain = this.variables.get("chain");
+			chain.setY(500);
 			const ground2 = this.variables.get("ground2");
-			const startTime2 = this.variables.get("ground2_start");
-			const endTime2 = this.variables.get("ground2_end");
-			goDown(ground2, startTime2, endTime2);
-		}
-		if (this.variables.get("ground3_start")) {
+			ground2.setX(710).setY(500).setAngle(90);
 			const ground3 = this.variables.get("ground3");
-			const startTime3 = this.variables.get("ground3_start");
-			const endTime3 = this.variables.get("ground3_end");
-			goDown(ground3, startTime3, endTime3);
+			ground3.setX(830).setY(500).setAngle(90);
 		}
-		if (this.player.x >= 750 && this.player.y >= 470 && !this.variables.get("ground4_start")) {
-			this.variables.set("ground4_start", new Date().getTime());
-			this.variables.set("ground4_end", new Date().getTime() + 720);
-			this.variables.set("ground4StartY", 570);
-			this.variables.set("ground4EndY", 500);
+		if (
+			this.player.x >= 750 &&
+			this.player.y >= 470 &&
+			!this.variables.get("ground4_started")
+		) {
+			this.variables.set("ground4_started", true);
 		}
-		if (this.player.x >= 750 && this.player.y >= 470 && !this.variables.get("ground5_start")) {
-			this.variables.set("ground5_start", new Date().getTime());
-			this.variables.set("ground5_end", new Date().getTime() + 720);
-			this.variables.set("ground5StartY", 570);
-			this.variables.set("ground5EndY", 500);
-		}
-		if (this.player.x >= 750 && this.player.y >= 470 && !this.variables.get("ground6_start")) {
-			this.variables.set("ground6_start", new Date().getTime());
-			this.variables.set("ground6_end", new Date().getTime() + 720);
-			this.variables.set("ground6StartY", 500);
-			this.variables.set("ground6EndY", 570);
-		}
-		if (this.variables.get("ground4_start")) {
-			const ground4 = this.variables.get("ground2");
-			const startTime4 = this.variables.get("ground4_start");
-			const endTime4 = this.variables.get("ground4_end");
-			goUp(ground4, startTime4, endTime4);
-		}
-		if (this.variables.get("ground5_start")) {
-			const ground5 = this.variables.get("ground3");
-			const startTime5 = this.variables.get("ground5_start");
-			const endTime5 = this.variables.get("ground5_end");
-			goUp(ground5, startTime5, endTime5);
-		}
-		if (this.variables.get("ground6_start")) {
-			const ground6 = this.variables.get("ground1");
-			const startTime6 = this.variables.get("ground6_start");
-			const endTime6 = this.variables.get("ground6_end");
-			goDown(ground6, startTime6, endTime6);
-		}
-		if (this.player.y <= 370 && !this.variables.get("bomb_start")) {
-			this.variables.set("bomb_start", new Date().getTime());
-			this.variables.set("bomb_end", new Date().getTime() + 1200);
-			this.variables.set("bombStartX", 450);
-			this.variables.set("bombEndX", 310);
-		}
-		if (this.variables.get("bomb_start")) {
-			const bomb = this.variables.get("bomb");
-			const startTime6 = this.variables.get("bomb_start");
-			const endTime6 = this.variables.get("bomb_end");
-			goLeft(bomb, startTime6, endTime6);
-		}
-		if (this.player.x >= 750 && !this.variables.get("bomb2_start")) {
-			this.variables.set("bomb2_start", new Date().getTime());
-			this.variables.set("bomb2_end", new Date().getTime() + 2400);
-			this.variables.set("bomb2StartX", 450);
-			this.variables.set("bomb2EndX", 310);
-		}
-		if (this.variables.get("bomb2_start")) {
-			const bomb = this.variables.get("bomb");
-			const startTime7 = this.variables.get("bomb2_start");
-			const endTime7 = this.variables.get("bomb2_end");
-			goRight(bomb, startTime7, endTime7);
-		}
-		if (this.player.x >= 900 && this.player.x <= 904) {
-			this.dynamicTraps.create(950, 200, "bomb");
-		}
+	}
+	if (this.variables.get("ground4_started")) {
+		const ground4 = this.variables.get("ground1");
+		goDown(ground4, 430);
+	}
+	if (this.player.y <= 370 && !this.variables.get("bomb_started")) {
+		this.variables.set("bomb_started", true);
+	}
+	if (this.variables.get("bomb_started")) {
+		const bomb = this.variables.get("bomb");
+		goLeft(bomb, 350);
+	}
+	if (this.player.x >= 650 && !this.variables.get("bomb2_started")) {
+		this.variables.set("bomb2_started", true);
+	}
+	if (this.variables.get("bomb2_started")) {
+		const bomb2 = this.variables.get("bomb2");
+		goRight(bomb2, 750);
+	}
+	if (this.collectedGoal == true) {
+		const bomb3 = this.variables.get("bomb3");
+		bomb3.setX(950);
+	}
+	if (this.player.x > 420 && this.player.y > 370 && !this.variables.get("ground5_started")) {
+		this.variables.set("ground5_started", true);
+	}
+	if (this.variables.get("ground5_started")) {
+		const ground5 = this.variables.get("ground1");
+		goDownSlow(ground5, 495);
+	}
+	if (this.player.x > 420 && this.player.x < 450 && !this.variables.get("weight_started")) {
+		this.variables.set("weight_started", true);
+	}
+	if (this.variables.get("weight_started")) {
+		const weight = this.variables.get("weight");
+		goUpSlow(weight, 450);
+		const chain = this.variables.get("chain");
+		chain.setY(-500);
+	}
+	const weight = this.variables.get("weight");
+	if (weight.y <= 450 && this.player.x > 420) {
+		const ground3 = this.variables.get("ground3");
+		ground3.setAngle(180);
+		ground3.setX(805).setY(475);
+		const ground2 = this.variables.get("ground2");
+		ground2.setAngle(180);
+		ground2.setX(735).setY(475);
 	}
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goDown(object: any, timeStart: number, timeEnd: number) {
-	const time = new Date().getTime();
-	if (time < timeEnd && time >= timeStart) {
+function goDown(object: any, yEnd: number) {
+	if (object.y < yEnd) {
 		object.setVelocityY(100);
 	} else {
 		object.setVelocityY(0);
@@ -406,9 +390,17 @@ function goDown(object: any, timeStart: number, timeEnd: number) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goUp(object: any, timeStart: number, timeEnd: number) {
-	const time = new Date().getTime();
-	if (time < timeEnd && time >= timeStart) {
+function goDownSlow(object: any, yEnd: number) {
+	if (object.y < yEnd) {
+		object.setVelocityY(30);
+	} else {
+		object.setVelocityY(0);
+	}
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function goUp(object: any, yEnd: number) {
+	if (object.y > yEnd) {
 		object.setVelocityY(-100);
 	} else {
 		object.setVelocityY(0);
@@ -416,20 +408,27 @@ function goUp(object: any, timeStart: number, timeEnd: number) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goLeft(object: any, timeStart: number, timeEnd: number) {
-	const time = new Date().getTime();
-	if (time < timeEnd && time >= timeStart) {
-		object.setVelocityX(-50);
+function goUpSlow(object: any, yEnd: number) {
+	if (object.y > yEnd) {
+		object.setVelocityY(-30);
+	} else {
+		object.setVelocityY(0);
+	}
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function goLeft(object: any, xEnd: number) {
+	if (object.x > xEnd) {
+		object.setVelocityX(-100);
 	} else {
 		object.setVelocityX(0);
 	}
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goRight(object: any, timeStart: number, timeEnd: number) {
-	const time = new Date().getTime();
-	if (time < timeEnd && time >= timeStart) {
-		object.setVelocityX(200);
+function goRight(object: any, xEnd: number) {
+	if (object.x < xEnd) {
+		object.setVelocityX(100);
 	} else {
 		object.setVelocityX(0);
 	}

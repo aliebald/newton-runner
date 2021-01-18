@@ -2,16 +2,26 @@ import { GameConfig, controlType, character } from "../../gameLogic/GameConfig";
 import { GraphInputConfig } from "../../components/GraphInput";
 import { QuestConfig } from "../../components/Quest";
 import convertDataArray from "../../questSetupHelper";
+import { QuestStats } from "../../components/StatisticQuest";
 import Game from "../../gameLogic/game";
 
 const pointsPerAttempt = [10, 10, 9, 8, 6, 4, 2];
+const defaultMovement = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+export const questStatistics: QuestStats = {
+	title: "Level 2 Quest 3",
+	maxPoints: pointsPerAttempt[0],
+	maxBonuspoints: 0,
+	minTimePossible: 7,
+	maxTime: defaultMovement.length
+};
 
 const graph: GraphInputConfig = {
 	xTitle: "time in s",
 	yTitle: "velocity in m/s",
 	minY: 0,
 	maxY: 5,
-	data: convertDataArray([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+	data: convertDataArray(defaultMovement)
 };
 
 const width = 1300;

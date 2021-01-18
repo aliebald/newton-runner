@@ -17,7 +17,7 @@ import { questStatistics as level1QuestStats2 } from "../levels/level1/level1Que
 import { questStatistics as level1QuestStats3 } from "../levels/level1/level1Quest3";
 import { questStatistics as level2QuestStats1 } from "../levels/level2/level2Quest1";
 import { questStatistics as level2QuestStats2 } from "../levels/level2/level2Quest2";
-// TODO import { questStatistics as level2QuestStats3 } from "../levels/level1/level2Quest3";
+import { questStatistics as level2QuestStats3 } from "../levels/level2/level2Quest3";
 import level1Quiz1 from "../levels/level1/level1Quiz1";
 import level1Quiz2 from "../levels/level1/level1Quiz2";
 import { QuizConfig } from "./Quiz";
@@ -77,7 +77,7 @@ export function Statistics(): ReactElement {
 		const ret: { progress: QuestProgress; stats: QuestStats }[] = [];
 		ret.push(getQuest("level2Quest1", quests, level2QuestStats1));
 		ret.push(getQuest("level2Quest2", quests, level2QuestStats2));
-		// TODO: ret.push(getQuest("level2Quest3", quests, level2QuestStats3));
+		ret.push(getQuest("level2Quest3", quests, level2QuestStats3));
 		return ret;
 	}
 

@@ -1,55 +1,35 @@
-.btnImage {
-	height: 100%;
-	border: 0;
-	background: transparent;
-	text-align: center;
-	transition: all 0.5s ease-in-out;
-	position: relative;
-	outline: none !important;
-}
-
-.btnImage::-moz-focus-inner {
-	border: 0;
-}
-
-.btnImage:hover {
-	transform: scale(1.2);
-}
-
-.btnImage .btnImageText {
-	position: absolute;
-	font-size: 1rem;
-	letter-spacing: 1px;
-	top: 60%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 2;
-}
-
-.btnImage .btnImageText.large {
-	font-size: 1.2rem;
-}
-
-.btnImage img {
-	height: 8rem;
-	vertical-align: middle;
-	justify-content: center;
-	position: relative;
-	z-index: 1;
-}
-
-.btnImage.large img {
-	height: 10rem;
-}
-
 .landingpage {
 	top: 0 !important;
-	height: 80vh;
+	height: 100%;
 	background-image: linear-gradient(#afe4e4, #d4f4f4);
 }
 
-.landingpageBg {
-	position: fixed;
-	width: 100%;
-	bottom: 0;
+.devBadge {
+	background-color: blue;
+	color: white;
+}
+
+.managementBadge {
+	background-color: orange;
+	color: white;
+}
+
+.designBadge {
+	background-color: limegreen;
+	color: white;
+}
+
+.storyBadge {
+	background-color: rgb(50, 200, 205);
+	color: white;
+}
+
+.ghLink img {
+	height: 1.15rem;
+	width: 1.15rem;
+	transition: transform 0.2s;
+}
+
+.ghLink img:hover {
+	transform: scale(1.2);
 }

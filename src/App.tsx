@@ -59,7 +59,7 @@ function App(): ReactElement {
 			<LoginPopup show={showLoginPopup} onClose={() => setShowLoginPopup(false)} />
 			<Navigation loggedIn={loggedIn} />
 			<Switch>
-				<Route path="/" exact component={LandingPage} />
+				<Route path="/" exact component={() => <LandingPage loggedIn={loggedIn} />} />
 				<Route path="/LevelOverview" exact component={LevelOverview} />
 				<Route path="/Statistics" exact component={Statistics} />
 				<Route

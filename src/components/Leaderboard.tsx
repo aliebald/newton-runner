@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import Achievement from "./Achievement";
-import { getLeaderboard } from "../userdata";
+import { getLeaderboard, isLoggedIn } from "../userdata";
 import "../css/style.leaderboard.css";
 
 export type LeaderboardType = {
@@ -20,95 +20,34 @@ export default function Leaderboard(): ReactElement {
 	const [requestedData, setRequestedData] = useState(false);
 	// TODO: Remove sample data
 	const [data, setData] = useState<LeaderboardType>({
-		position: 2,
-		entries: [
-			{
-				name: "James",
-				points: 22,
-				bonusPoints: 3,
-				achievements: [
-					"PointCollectorLevel1",
-					"PointCollectorLevel2",
-					"BonusCollectorLevel1",
-					"BonusCollectorLevel2",
-					"QuizmasterLevel1",
-					"QuizmasterLevel2"
-				]
-			},
-			{
-				name: "Carl",
-				points: 20,
-				bonusPoints: 2,
-				achievements: [
-					"PointCollectorLevel1",
-					"PointCollectorLevel2",
-					"BonusCollectorLevel1",
-					"QuizmasterLevel1"
-				]
-			},
-			{
-				name: "Ben",
-				points: 18,
-				bonusPoints: 1,
-				achievements: ["PointCollectorLevel1", "BonusCollectorLevel1", "QuizmasterLevel1"]
-			},
-			{
-				name: "Emma",
-				points: 15,
-				bonusPoints: 2,
-				achievements: ["PointCollectorLevel1", "BonusCollectorLevel1"]
-			},
-			{
-				name: "Opa",
-				points: 15,
-				bonusPoints: 1,
-				achievements: ["BonusCollectorLevel1", "QuizmasterLevel1", "QuizmasterLevel2"]
-			},
-			{
-				name: "Hans",
-				points: 15,
-				bonusPoints: 1,
-				achievements: ["PointCollectorLevel2", "BonusCollectorLevel1"]
-			},
-			{
-				name: "Fred",
-				points: 14,
-				bonusPoints: 1,
-				achievements: ["BonusCollectorLevel1", "QuizmasterLevel1"]
-			},
-			{
-				name: "Vroni",
-				points: 12,
-				bonusPoints: 3,
-				achievements: ["PointCollectorLevel2", "BonusCollectorLevel1"]
-			},
-			{
-				name: "Noah",
-				points: 10,
-				bonusPoints: 1,
-				achievements: ["QuizmasterLevel1"]
-			},
-			{
-				name: "Ben",
-				points: 4,
-				bonusPoints: 0,
-				achievements: []
-			}
-		]
+		position: -1,
+		entries: []
 	});
 
-	let position = 1;
-	let lastPoints = data.entries[0].points + data.entries[0].bonusPoints;
 	const list = [];
-	for (let i = 0; i < data.entries.length; i++) {
-		// Increase user position if he has more points than the last user
-		const pointsSum = data.entries[i].points + data.entries[i].bonusPoints;
-		if (lastPoints > pointsSum) {
-			position++;
-			lastPoints = pointsSum;
+	if (data.entries.length > 0) {
+		let position = 1;
+		let lastPoints = data.entries[0].points + data.entries[0].bonusPoints;
+		for (let i = 0; i < data.entries.length; i++) {
+			// Increase user position if he has more points than the last user
+			const pointsSum = data.entries[i].points + data.entries[i].bonusPoints;
+			if (lastPoints > pointsSum) {
+				position++;
+				lastPoints = pointsSum;
+			}
+			list.push(
+				<Entry entry={data.entries[i]} position={position} key={"leaderboardEntry-" + i} />
+			);
 		}
+	} else {
 		list.push(
-			<Entry entry={data.entries[i]} position={position} key={"leaderboardEntry-" + i} />
+			isLoggedIn() ? (
+				<p className="text-center px-3 error">
+					Es wurde keine Bestenliste f&uuml;r deine Klasse gefunden.
+				</p>
+			) : (
+				<p className="text-center px-3 error">Melde dich an um die Bestenliste zu sehen</p>
+			)
 		);
 	}
 

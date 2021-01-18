@@ -60,7 +60,7 @@ export function Statistics(): ReactElement {
 
 			setLevelTwo({
 				quests: loadQuestLevelTwo(userdata.quests),
-				quizzes: []
+				quizzes: loadQuizzesLevelTwo(userdata.quizzes)
 			});
 		});
 	}
@@ -92,6 +92,22 @@ export function Statistics(): ReactElement {
 		});
 		ret.push({
 			progress: quizzes[find("level1Quiz2", quizzes)],
+			config: level1Quiz2
+		});
+		return ret;
+	}
+
+	function loadQuizzesLevelTwo(quizzes: QuizProgress[]) {
+		const ret: {
+			progress: QuizProgress | undefined;
+			config: QuizConfig;
+		}[] = [];
+		ret.push({
+			progress: quizzes[find("level2Quiz1", quizzes)],
+			config: level1Quiz1
+		});
+		ret.push({
+			progress: quizzes[find("level2Quiz2", quizzes)],
 			config: level1Quiz2
 		});
 		return ret;

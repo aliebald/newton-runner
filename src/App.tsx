@@ -52,8 +52,8 @@ function App(): ReactElement {
 				style={{ margin: "0" }}
 				show={showBetaAlert}
 			>
-				Danke fürs testen der <b>Betaversion vom 15. Dezember 2020</b>. Wir w&uuml;rden uns
-				sehr über dein Feedback freuen!{" "}
+				Danke f&uuml;rs testen der <b>Betaversion vom 19. Januar 2021</b>. Wir w&uuml;rden
+				uns sehr &uuml;ber dein Feedback freuen!&nbsp;
 				<a href="mailto:physics.game.team@gmail.com">Kontakt</a>
 			</Alert>
 			<LoginPopup show={showLoginPopup} onClose={() => setShowLoginPopup(false)} />

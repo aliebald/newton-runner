@@ -5,11 +5,12 @@ import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 import { QuestStats } from "../../components/StatisticQuest";
 
+const pointsPerAttempt = [10, 10, 9, 8, 6, 4, 2];
 const defaultMovement = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 export const questStatistics: QuestStats = {
 	title: "Level 2 Quest 1",
-	maxPoints: 0,
+	maxPoints: pointsPerAttempt[0],
 	maxBonuspoints: 1,
 	minTimePossible: 6,
 	maxTime: defaultMovement.length
@@ -41,7 +42,8 @@ const game: GameConfig = {
 	characterSpawnXY: {
 		x: 100,
 		y: 400
-	}
+	},
+	pointsPerAttempt: pointsPerAttempt
 };
 
 // This is the settings json we export

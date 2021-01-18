@@ -5,17 +5,17 @@ import convertDataArray from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 import { QuestStats } from "../../components/StatisticQuest";
 
+const pointsPerAttempt = [10, 10, 9, 8, 6, 4, 2];
 const defaultMovement = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 export const questStatistics: QuestStats = {
 	title: "Level 2 Quest 2",
-	maxPoints: 0,
+	maxPoints: pointsPerAttempt[0],
 	maxBonuspoints: 0,
 	minTimePossible: 4,
 	maxTime: defaultMovement.length
 };
 
-// TODO adjust GraphInputConfig
 const graph: GraphInputConfig = {
 	xTitle: "time in s",
 	yTitle: "velocity in m/s",
@@ -26,7 +26,6 @@ const graph: GraphInputConfig = {
 
 const width = 1200;
 
-// TODO adjust GameConfig
 const game: GameConfig = {
 	gameWorld: {
 		height: 600,
@@ -37,7 +36,8 @@ const game: GameConfig = {
 	afterCreate: afterCreate,
 	onUpdate: onUpdate,
 	controls: controlType.t_v_graph,
-	character: character.hiker
+	character: character.hiker,
+	pointsPerAttempt: pointsPerAttempt
 };
 
 // This is the settings json we export

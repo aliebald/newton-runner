@@ -35,6 +35,7 @@ import level2Quest2 from "./levels/level2/level2Quest2";
 import level2Quest3 from "./levels/level2/level2Quest3";
 
 function App(): ReactElement {
+	const [networkError, setNetworkError] = useState(checkNetworkError());
 	const [showBetaAlert, setShowBetaAlert] = useState(true);
 	const [loggedIn, setLoggedIn] = useState(isLoggedIn());
 	const [showLoginPopup, setShowLoginPopup] = useState(
@@ -55,6 +56,16 @@ function App(): ReactElement {
 				Danke f&uuml;rs testen der <b>Betaversion vom 19. Januar 2021</b>. Wir w&uuml;rden
 				uns sehr &uuml;ber dein Feedback freuen!&nbsp;
 				<a href="mailto:physics.game.team@gmail.com">Kontakt</a>
+			</Alert>
+			<Alert
+				variant="danger"
+				onClose={removeNetworkError}
+				dismissible
+				style={{ margin: "0" }}
+				show={networkError}
+			>
+				Ein Netzwerkfehler ist aufgetreten und du wurdest automatisch abgemeldet. Bitte
+				versuche es sp&auml;ter erneut.
 			</Alert>
 			<LoginPopup show={showLoginPopup} onClose={() => setShowLoginPopup(false)} />
 			<Navigation loggedIn={loggedIn} />
@@ -233,6 +244,16 @@ function App(): ReactElement {
 			<Footer />
 		</BrowserRouter>
 	);
+
+	function checkNetworkError(): boolean {
+		const urlParams = new URLSearchParams(location.search);
+		return urlParams.has("networkError");
+	}
+
+	function removeNetworkError() {
+		window.history.pushState({}, document.title, location.pathname);
+		setNetworkError(false);
+	}
 }
 
 export default App;

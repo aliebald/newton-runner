@@ -21,12 +21,16 @@ export async function get<T>(
 	args.forEach((value, key) => params.push(`${key}=${value}`));
 	const pathWithArgs = `${backendServer}${path}${params.length ? "?" : ""}${params.join("&")}`;
 
-	const returnObj = await fetch(pathWithArgs, {
+	const returnObj = (await fetch(pathWithArgs, {
 		mode: "cors",
 		headers: {
 			"Content-Type": `application/json;charset=${charset}`
 		}
-	});
+	}).catch((error) => {
+		// in case of an Network error
+		executeNetworkError(error);
+		return;
+	})) as Response;
 
 	if (returnObj.status !== 200) {
 		// Do not log the error if its an 434 (there is no progress for ... )
@@ -59,14 +63,18 @@ export async function post(
 		charset = "UTF-8";
 	}
 
-	const returnObj = await fetch(`${backendServer}${path}`, {
+	const returnObj = (await fetch(`${backendServer}${path}`, {
 		mode: "cors",
 		method: "POST",
 		headers: {
 			"Content-Type": `application/json;charset=${charset}`
 		},
 		body: content
-	});
+	}).catch((error) => {
+		// in case of an Network error
+		executeNetworkError(error);
+		return;
+	})) as Response;
 
 	if (returnObj.status !== 202 && returnObj.status !== 200) {
 		defaultErrorActions(returnObj.status);
@@ -86,4 +94,11 @@ function defaultErrorActions(statuscode: number) {
 		logout();
 		location.reload();
 	}
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function executeNetworkError(error: any) {
+	console.error(error);
+	logout();
+	location.href = location.href + "?networkError";
 }

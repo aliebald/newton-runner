@@ -124,6 +124,13 @@ const barConfig2: Array<LevelOverviewCardConfig> = [
 		text: "Eine echte Herausforderung!",
 		buttonLink: "/level2Quest3",
 		buttonName: "Spielen"
+	},
+	{
+		title: "Das Ende",
+		badge: BadgeType.STORY,
+		text: "Wie geht die Geschichte wohl aus?",
+		buttonLink: "/level2Story",
+		buttonName: "Lesen"
 	}
 ];
 

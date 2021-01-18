@@ -54,7 +54,10 @@ const config: QuizConfig = {
 			id: "level1Quiz1Question3",
 			type: "singleChoice",
 			question: "Was bedeutet es, wenn der Graph in einem Zeit-Orts-Diagramm steigt?",
-			solutionHint: "Vorwärtsbewegung",
+			solutionHint: `Wenn der Graph steigt, bedeutet das eine Vorwärtsbewegung. Man befindet sich zu
+				Beginn der Bewegung an einem niedrigeren Punkt auf der Hochwertsachse und bewegt
+				sich zu einem höheren. Dies bedeutet, dass sich ein Gegenstand von z.B. 0m zu 8m
+				vorwärtsbewegt.`,
 			options: [
 				{
 					answer: "Vorwärtsbewegung",
@@ -74,7 +77,8 @@ const config: QuizConfig = {
 			id: "level1Quiz1Question4",
 			type: "singleChoice",
 			question: "Was bedeutet es, wenn der Graph in einem Zeit-Orts-Diagramm steil verläuft?",
-			solutionHint: "Schnelle Bewegung",
+			solutionHint:
+				"Wenn der Graph steil ist, bedeutet das eine schnelle Bewegung. Um seinen Ort zu ändern, braucht der Gegenstand weniger Zeit.",
 			options: [
 				{
 					answer: "Keine Bewegung",
@@ -99,7 +103,7 @@ const config: QuizConfig = {
 					<div>Was wird von der orangen Strecke dargestellt?</div>
 				</>
 			),
-			solutionHint: "Schnelle Bewegung",
+			solutionHint: "Die orangene Strecke stellt den Stillstand dar, da sie waagerecht ist.",
 			options: [
 				{
 					answer: "Vorwärtsbewegung",

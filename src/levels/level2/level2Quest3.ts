@@ -45,8 +45,9 @@ const settings: QuestConfig = {
 	title: "Level 2 Quest 3",
 	id: "level2Quest3",
 	graph: graph,
-	description:
-		"Sieht so aus als würden die Kiste und das Gewicht aneinander hängen, wenn sich doch nur die Klappen rechtzeitig öfnnen würden", // cspell: disable-line
+	description: `Sieht aus, als würde in der nächsten Straße gebaut werden. Wenn die Kiste nach oben gezogen wird,
+		werden die Klappen durch das Gewicht nach unten gedrückt. Warte ab, bis sich die Klappen wieder
+		schließen, aber nicht zu lang, sonst wirst du noch von einer Bombe von hinten getroffen.`, // cspell: disable-line
 	game: game
 };
 

@@ -36,6 +36,10 @@ const config: QuizConfig = {
 			id: "level1Quiz2Question2",
 			type: "singleChoice",
 			question: "Was bedeutet es, wenn der Graph in einem Zeit-Orts-Diagramm fällt?",
+			solutionHint: `Wenn der Graph fällt, bedeutet das eine Rückwärtsbewegung. Man befindet sich zu
+				Beginn der Bewegung an einem höheren Punkt auf der Hochwertsachse und bewegt sich
+				zu einem niedrigeren. Dies bedeutet, dass sich ein Gegenstand von z.B. 8m zu 0m
+				zurückbewegt.`,
 			options: [
 				{
 					answer: "Vorwärtsbewegung",
@@ -55,6 +59,8 @@ const config: QuizConfig = {
 			id: "level1Quiz2Question3",
 			type: "singleChoice",
 			question: "Was bedeutet es, wenn der Graph in einem Zeit-Orts-Diagramm waagerecht ist?",
+			solutionHint:
+				"Wenn der Graph waagerecht ist, bewegt sich der Gegenstand nicht. Er bleibt an einem Ort stehen.",
 			options: [
 				{
 					answer: "Vorwärtsbewegung",
@@ -74,6 +80,8 @@ const config: QuizConfig = {
 			id: "level1Quiz2Question4",
 			type: "singleChoice",
 			question: "Was bedeutet es, wenn der Graph in einem Zeit-Orts-Diagramm flach verläuft?",
+			solutionHint:
+				"Wenn der Graph flach ist, bedeutet das eine langsame Bewegung. Um seinen Ort zu ändern, braucht der Gegenstand mehr Zeit.",
 			options: [
 				{
 					answer: "Keine Bewegung",

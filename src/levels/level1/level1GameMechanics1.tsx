@@ -5,16 +5,16 @@ import { Image } from "react-bootstrap";
 const config: TheoryConfig = {
 	slides: [
 		<React.Fragment key={0}>
-			<h1 className="centerBox">Level 1 - Erklärung Spielmechanik</h1>
+			<h1 className="centerBox">Level 1 - Erkl&auml;rung Spielmechanik</h1>
 			<div className="centerBox slideSubText">
-				Hier erklären wir dir wie die Steuerung des Spiels funktioniert
+				Hier erkl&auml;ren wir dir wie die Steuerung des Spiels funktioniert
 			</div>
 		</React.Fragment>,
 		<>
 			<Image src={"levels/level1/example_start_boxes.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Die Spieloberfläche ist in 2 Teile Unterteilt. Den Steuerungsgraphen links und die
-				Spielszene rechts.
+				Die Spieloberfl&auml;che ist in 2 Teile Unterteilt. Den Steuerungsgraphen links und
+				die Spielszene rechts.
 			</div>
 		</>,
 		<>
@@ -33,50 +33,50 @@ const config: TheoryConfig = {
 		<>
 			<Image src={"levels/level1/example_start_graph_bewertung.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Um mehr darüber zu erfahren, wie viele Punkte du hier bekommen kannst, hovere über
-				das Feld oben rechts. Es gibt bewertete und unbewertete Aufgaben.
+				Um mehr dar&uuml;ber zu erfahren, wie viele Punkte du hier bekommen kannst, hovere
+				&uuml;ber das Feld oben rechts. Es gibt bewertete und unbewertete Aufgaben.
 			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_graph_drag_drop.png"} fluid rounded />
 			<div className="centerBox slideSubText">
 				Um einen Punkt auf der y-Achse zu verschieben (also nach oben oder unten), klicke
-				auf den Punkt ziehe ihn mit gedrückter Maustaste dorthin, wo du ihn hinhaben willst.
-				Möglicherweise passen sich dabei auch andere Punkte an.
+				auf den Punkt ziehe ihn mit gedr&uuml;ckter Maustaste dorthin, wo du ihn hinhaben
+				willst. M&ouml;glicherweise passen sich dabei auch andere Punkte an.
 			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_progress_graph.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Nachdem du das Spiel gestartet hast, wird sich der Graph rot einfärben damit du die
-				Bewegung der Figur nachvollziehen kannst.
+				Nachdem du das Spiel gestartet hast, wird sich der Graph rot einf&auml;rben damit du
+				die Bewegung der Figur nachvollziehen kannst.
 			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_coin.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Sammle die Münzen ein um mehr Punkte zu erhalten. Doch Vorsicht, mit der Zeit warten
-				auch gefährliche Gegenstände auf dich.
+				Sammle die M&uuml;nzen ein um mehr Punkte zu erhalten. Doch Vorsicht, mit der Zeit
+				warten auch gef&auml;hrliche Gegenst&auml;nde auf dich.
 			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_key.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Du schaffst das Level wenn du unbeschadet den Schlüssel einsammelst.
+				Du schaffst das Level wenn du unbeschadet den Schl&uuml;ssel einsammelst.
 			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_meter.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Die Distanzen in der Spielwelt kannst du an diesem Maßstab hier erkennen.
+				Die Distanzen in der Spielwelt kannst du an diesem Ma&szlig;stab hier erkennen.
 			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_controls.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Einige Level sind länger als dieses hier und du siehst möglicherweise nicht alles
-				von deiner Position aus. Um zu sehen was außerhalb der Sichtweite deiner Figur
-				wartet kannst du diese Kontrollelemente nutzen.
+				Einige Level sind l&auml;nger als dieses hier und du siehst m&ouml;glicherweise
+				nicht alles von deiner Position aus. Um zu sehen was au&szlig;erhalb der Sichtweite
+				deiner Figur wartet kannst du diese Kontrollelemente nutzen.
 			</div>
 		</>,
 		<>
@@ -89,8 +89,8 @@ const config: TheoryConfig = {
 		<>
 			<Image src={"levels/level1/example_progress_game_nochmal.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Merkst du dass du dich etwas verkalkuliert hast, so kannst du die Aufgabe frühzeitig
-				neu starten.
+				Merkst du dass du dich etwas verkalkuliert hast, so kannst du die Aufgabe
+				fr&uuml;hzeitig neu starten.
 			</div>
 		</>
 	]

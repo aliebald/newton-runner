@@ -157,9 +157,9 @@ export default function LevelOverview(): ReactElement {
 							<Card.Body>
 								<h1 className="text-center">St&auml;dtereise</h1>
 								<p className="text-center">
-									In Level 2 wird der Spieler sich auf eine St&auml;dtereise
-									begeben und dort mehr &uuml;ber das
-									Zeit-Geschwindigkeits-Diagramm kennen.
+									In Level 2 begibt sich der Spieler auf eine St&auml;dtereise und
+									erf&auml;hrt dort alles &uuml;ber das
+									Zeit-Geschwindigkeits-Diagramm.
 								</p>
 								<LevelOverviewBar config={barConfig2}></LevelOverviewBar>
 							</Card.Body>

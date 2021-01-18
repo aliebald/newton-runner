@@ -39,13 +39,13 @@ export default function Achievement(props: { type: string }): ReactElement {
 		}
 		case "PointCollectorLevel1": {
 			title = "Punktesammler Level 1";
-			text = "Volle Punktzahl in Level 1 erreicht";
+			text = "Volle Punktzahl bei allen Quests in Level 1 erreicht";
 			imagePath = "./other/achievements/gamepad1.png";
 			break;
 		}
 		case "PointCollectorLevel2": {
 			title = "Punktesammler Level 2";
-			text = "Volle Punktzahl in Level 2 erreicht";
+			text = "Volle Punktzahl bei allen Quests in Level 2 erreicht";
 			imagePath = "./other/achievements/gamepad2.png";
 			break;
 		}

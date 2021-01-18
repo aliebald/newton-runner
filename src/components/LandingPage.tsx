@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "./../css/style.landingpage.css";
 
 export default function LandingPage(props: { loggedIn: boolean }): ReactElement {
-	console.log("loggedIn", props.loggedIn);
 	const loginBtn = props.loggedIn ? (
 		<></>
 	) : (

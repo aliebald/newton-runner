@@ -55,7 +55,6 @@ export default function Leaderboard(): ReactElement {
 	if (!requestedData) {
 		setRequestedData(true);
 		getLeaderboard().then((leaderboard) => {
-			console.log("received Leaderboard", leaderboard);
 			if (leaderboard && leaderboard.entries.length > 0) {
 				setData(leaderboard);
 			}

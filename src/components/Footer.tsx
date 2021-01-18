@@ -15,7 +15,7 @@ export default function Footer(): ReactElement {
 					</div>
 					<div className="footerRight">
 						<a onClick={resetUserdata} className="footerLink">
-							Fortschritt zur&uuml;cksetzen
+							Lokale daten l&ouml;schen
 						</a>
 						<a href="mailto:physics.game.team@gmail.com" className="footerLink">
 							Bug&nbsp;Melden

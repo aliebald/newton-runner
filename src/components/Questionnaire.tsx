@@ -162,7 +162,6 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 	function handleSubmit(event: any) {
 		event.preventDefault();
 		const form = event.target;
-		console.log();
 
 		if (!form.checkValidity()) {
 			event.stopPropagation();

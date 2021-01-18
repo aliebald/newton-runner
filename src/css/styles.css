@@ -258,6 +258,9 @@ body {
 
 .overviewNavLink {
 	color: black;
+	width: 30%;
+	justify-content: center;
+	display: flex;
 }
 
 .badgeTheory {

@@ -2,40 +2,6 @@ import React, { ReactElement } from "react";
 import { Container, Card, Nav, Tab } from "react-bootstrap";
 import { BadgeType, LevelOverviewBar, LevelOverviewCardConfig } from "./LevelOverviewElements";
 
-const barConfigTutorial: Array<LevelOverviewCardConfig> = [
-	{
-		title: "Tutorial",
-		badge: BadgeType.THEORIE,
-		text: "Grundlegende Theorie",
-		buttonLink: "/level1Theory1",
-		buttonName: "Learn"
-	}
-];
-
-const barConfigExample: Array<LevelOverviewCardConfig> = [
-	{
-		title: "Example Story",
-		badge: BadgeType.STORY,
-		text: "So wird die Story vermittelt",
-		buttonLink: "/exampleStory1",
-		buttonName: "Lesen"
-	},
-	{
-		title: "Example 1",
-		badge: BadgeType.SPIEL,
-		text: "Eine Demo, wie das Spiel funktioniert.",
-		buttonLink: "/ExampleQuest1",
-		buttonName: "Play"
-	},
-	{
-		title: "Example 2",
-		badge: BadgeType.SPIEL,
-		text: "Eine weitere Demo, wie das Spiel funktioniert.",
-		buttonLink: "/ExampleQuest2",
-		buttonName: "Play"
-	}
-];
-
 const barConfig1: Array<LevelOverviewCardConfig> = [
 	{
 		title: "Die Geschichte beginnt ...",
@@ -47,58 +13,58 @@ const barConfig1: Array<LevelOverviewCardConfig> = [
 	{
 		title: "Gleichförmige Bewegung",
 		badge: BadgeType.THEORIE,
-		text: "Bewegung, das 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagramme",
+		text: "Bewegung und Zeit-Orts-Diagramme",
 		buttonLink: "/level1Theory1",
-		buttonName: "Learn"
+		buttonName: "Lesen"
 	},
 	{
 		title: "Erklärung Quiz",
 		badge: BadgeType.ERKLÄRUNG,
 		text: "Hier erklären wir dir alle Teile des Quiz",
 		buttonLink: "/level1Quiz1Explanation1",
-		buttonName: "Learn"
+		buttonName: "Lesen"
 	},
 	{
 		title: "Quiz 1",
 		badge: BadgeType.QUIZ,
 		text: "Überprüfe ob du die Theorie verstanden hast",
 		buttonLink: "/level1Quiz1",
-		buttonName: "Solve"
+		buttonName: "Lösen"
 	},
 	{
 		title: "Erklärung der Spielsteuerung",
 		badge: BadgeType.ERKLÄRUNG,
-		text: "Wie du den Platformer mithilfe eines t-x Diagramms steuerst",
+		text: "Wie du den Platformer mithilfe eines Zeit-Orts-Diagramms steuerst",
 		buttonLink: "/level1GameMechanics1",
-		buttonName: "Learn"
+		buttonName: "Lesen"
 	},
 	{
-		title: "Quest 1 : Zeit-Geschwindigkeits-Diagramm",
+		title: "Quest 1 : Zeit-Orts-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Lerne die Steuerung anhand einer einfachen Quest",
 		buttonLink: "/level1Quest1",
-		buttonName: "Play"
+		buttonName: "Spielen"
 	},
 	{
-		title: "Quest 2 : Zeit-Geschwindigkeits-Diagramm",
+		title: "Quest 2 : Zeit-Orts-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Eine etwas schwierigere Quest",
 		buttonLink: "/level1Quest2",
-		buttonName: "Play"
+		buttonName: "Spielen"
 	},
 	{
 		title: "Quiz 2",
 		badge: BadgeType.QUIZ,
 		text: "Eine kleine Auffrischung der Theorie ist sicher hilfreich",
 		buttonLink: "/level1Quiz2",
-		buttonName: "Solve"
+		buttonName: "Lösen"
 	},
 	{
-		title: "Quest 3 : Zeit-Geschwindigkeits-Diagramm",
+		title: "Quest 3 : Zeit-Orts-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Schaffst du diese Quest?",
 		buttonLink: "/level1Quest3",
-		buttonName: "Play"
+		buttonName: "Spielen"
 	},
 	{
 		title: "Das Abenteuer geht weiter.",
@@ -120,93 +86,67 @@ const barConfig2: Array<LevelOverviewCardConfig> = [
 	{
 		title: "Beschleunigte Bewegung",
 		badge: BadgeType.THEORIE,
-		text: "Bewegung, das 1. Newtonsche Gesetz und Zeit-Geschwindigkeits-Diagramme",
+		text: "Beschleunigte Bewegung und Zeit-Geschwindigkeits-Diagramme",
 		buttonLink: "/level2Theory1",
-		buttonName: "Learn"
+		buttonName: "Lesen"
 	},
 	{
 		title: "Quiz 1",
 		badge: BadgeType.QUIZ,
 		text: "Überprüfe ob du die Theorie verstanden hast",
 		buttonLink: "/level2Quiz1",
-		buttonName: "Solve"
+		buttonName: "Lösen"
 	},
 	{
 		title: "Quest 1: Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Lerne die Steuerung anhand einer einfachen Quest",
 		buttonLink: "/level2Quest1",
-		buttonName: "Play"
+		buttonName: "Spielen"
 	},
 	{
-		title: "Quest 2: TODO",
+		title: "Quest 2: Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
-		text: "TODO",
+		text: "Eine etwas schwierigere Quest",
 		buttonLink: "/level2Quest2",
-		buttonName: "Play"
+		buttonName: "Spielen"
 	},
 	{
 		title: "Quiz 2",
 		badge: BadgeType.QUIZ,
 		text: "Überprüfe ob du die Theorie verstanden hast",
 		buttonLink: "/level2Quiz2",
-		buttonName: "Solve"
+		buttonName: "Lösen"
 	},
 	{
-		title: "Quest 3: TODO",
+		title: "Quest 3: Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
-		text: "TODO",
+		text: "Eine echte Herausforderung!",
 		buttonLink: "/level2Quest3",
-		buttonName: "Play"
+		buttonName: "Spielen"
 	}
 ];
 
 export default function LevelOverview(): ReactElement {
 	return (
 		<Container fluid className="overview">
-			<Tab.Container defaultActiveKey="tutorial">
-				<Nav justify className="overviewTab" variant="tabs">
-					<Nav.Link eventKey="tutorial" className="overviewNavLink">
-						Tutorial
-					</Nav.Link>
-					<Nav.Link eventKey="exampleLevel" className="overviewNavLink">
-						Beispiel Level
-					</Nav.Link>
+			<Tab.Container defaultActiveKey="level1">
+				<Nav className="overviewTab" variant="tabs">
 					<Nav.Link eventKey="level1" className="overviewNavLink">
 						Level 1
 					</Nav.Link>
 					<Nav.Link eventKey="level2" className="overviewNavLink">
 						Level 2
 					</Nav.Link>
-					<Nav.Link eventKey="disabled" className="overviewNavLink" disabled>
-						Level 3
-					</Nav.Link>
 				</Nav>
 				<Tab.Content>
-					<Tab.Pane eventKey="tutorial">
-						<Card className="overviewTabCard">
-							<Card.Body className="justify-content-center">
-								<h1 className="text-center">Tutorial</h1>
-								<p className="text-center">Hier lernst du die Grundlagen kennen.</p>
-								<LevelOverviewBar config={barConfigTutorial}></LevelOverviewBar>
-							</Card.Body>
-						</Card>
-					</Tab.Pane>
-					<Tab.Pane eventKey="exampleLevel">
-						<Card className="overviewTabCard">
-							<Card.Body className="justify-content-center">
-								<h1 className="text-center">Beispiel Level</h1>
-								<p className="text-center">Ein paar Beispiele für Quests</p>
-								<LevelOverviewBar config={barConfigExample}></LevelOverviewBar>
-							</Card.Body>
-						</Card>
-					</Tab.Pane>
 					<Tab.Pane eventKey="level1">
 						<Card className="overviewTabCard">
 							<Card.Body>
-								<h1 className="text-center">tv-Diagramm</h1>
+								<h1 className="text-center">Heimat</h1>
 								<p className="text-center">
-									Hier lernst du das Zeit-Geschwindigkeitsdiagramm näher kennen
+									Zu Beginn deiner Reise lernst du das Zeit-Orts-Diagrammm näher
+									kennen.
 								</p>
 								<LevelOverviewBar config={barConfig1}></LevelOverviewBar>
 							</Card.Body>
@@ -218,7 +158,8 @@ export default function LevelOverview(): ReactElement {
 								<h1 className="text-center">St&auml;dtereise</h1>
 								<p className="text-center">
 									In Level 2 wird der Spieler sich auf eine St&auml;dtereise
-									begeben. Schau dir das Setting jetzt schon an!
+									begeben und dort mehr über das Zeit-Geschwindigkeits-Diagramm
+									kennen.
 								</p>
 								<LevelOverviewBar config={barConfig2}></LevelOverviewBar>
 							</Card.Body>

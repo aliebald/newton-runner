@@ -1,14 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { Container, Nav, Tab } from "react-bootstrap";
-import {
-	find,
-	getUserId,
-	isLoggedIn,
-	loadAndSyncUserdata,
-	loadUserdataLocal,
-	QuestProgress,
-	QuizProgress
-} from "../userdata";
+import { find, loadUserdataLocal, QuestProgress, QuizProgress } from "../userdata";
 import { QuestStats } from "./StatisticQuest";
 import "./../css/style.statistics.css";
 
@@ -33,19 +25,30 @@ type levelStatistics = {
 };
 
 export function Statistics(): ReactElement {
-	const [loaded, setLoaded] = useState(false);
 	const localData = loadUserdataLocal();
+	const levelOne = {
+		quests: loadQuestLevelOne(localData.quests),
+		quizzes: loadQuizzesLevelOne(localData.quizzes)
+	};
+	const levelTwo = {
+		quests: loadQuestLevelTwo(localData.quests),
+		quizzes: loadQuizzesLevelTwo(localData.quizzes)
+	};
+
+	// The following is only required if data is requested from server
+	/*
+	const [loaded, setLoaded] = useState(false);
 	const [levelOne, setLevelOne] = useState<levelStatistics>({
 		quests: loadQuestLevelOne(localData.quests),
 		quizzes: loadQuizzesLevelOne(localData.quizzes)
 	});
 	const [levelTwo, setLevelTwo] = useState<levelStatistics>({
 		quests: loadQuestLevelTwo(localData.quests),
-		quizzes: []
+		quizzes: loadQuizzesLevelTwo(localData.quizzes)
 	});
-
+	
+	// Load and sync with server
 	const loggedIn = isLoggedIn();
-
 	if (loggedIn && !loaded) {
 		setLoaded(true);
 		const userId = getUserId();
@@ -64,6 +67,7 @@ export function Statistics(): ReactElement {
 			});
 		});
 	}
+	*/
 
 	function loadQuestLevelOne(quests: QuestProgress[]) {
 		const ret: { progress: QuestProgress; stats: QuestStats }[] = [];

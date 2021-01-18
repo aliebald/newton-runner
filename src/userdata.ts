@@ -535,8 +535,8 @@ function validQuiz(quiz: QuizProgress): boolean {
  */
 export function isLoggedIn(): boolean {
 	const loggedInPermanent: boolean =
-		localStorage.userdata && JSON.parse(localStorage.userdata).userId;
-	const loggedInTemporary: boolean = sessionStorage.userId;
+		"userdata" in localStorage && "userId" in JSON.parse(localStorage.userdata);
+	const loggedInTemporary: boolean = "userId" in sessionStorage;
 	return loggedInPermanent || loggedInTemporary;
 }
 

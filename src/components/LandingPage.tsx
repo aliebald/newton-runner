@@ -39,30 +39,30 @@ export default function LandingPage(props: { loggedIn: boolean }): ReactElement 
 							<img src="other/landingPage/hikerIdle.gif" className="" />
 						</Col>
 						<Col sm="8" md="6" className="text-center my-auto pl-2 pr-3">
-							<h2 className="title">Spiele</h2>
+							<h2 className="title">Lerne</h2>
 							<p>
-								Benutze deine Kenntnisse &uuml;ber gleichf&ouml;rmige Bewegung und
-								Diagramme um durch eine vielzahl von Quests, vorbei an
-								gef&auml;hrlichen Abgr&uuml;nden, spitzen Stacheln und
-								gef&auml;hrlichen Bomben, zu kommen.
-								<br />
-								Sammle auf deiner Reise m&ouml;glichst viele Punkte und lass ja
-								keinen Bonuspunkt aus, um am Ende ganz oben auf der Bestenliste zu
-								stehen! Mit etwas geschick werden dort auch schicke abzeichen und
-								Errungenschaften deinen Listenplatz schm&uuml;cken.
+								Auf deiner Reise wirst du die Grundlagen von gleichf&ouml;rmiger und
+								beschleunigter Bewegung kennenlernen. Dabei benutzt du zu Beginn ein
+								Zeit-Orts-Diagramm (t-x-Diagramm), und sp&auml;ter ein
+								Zeit-Geschwindigkeits-Diagramm (t-v-Diagramm), um dich an
+								Hindernissen vorbei durch hin zu deinem Ziel zu f&uuml;hren. Dabei
+								wird dein Wissen auch regelm&auml;ßig in Quizzen gefordert.
 							</p>
 						</Col>
 					</Row>
 					<Row className="py-4">
 						<Col sm="8" md="6" className="text-center my-auto pl-3 pr-2">
-							<h2 className="title">Lerne</h2>
+							<h2 className="title">Spiele</h2>
 							<p>
-								Auf deiner Reise wirst du die Grundlagen von gleichf&ouml;rmiger und
-								beschleunigter Bewegung kennenlernen. Dabei benutzt du zu beginn ein
-								Zeit-Orts-Diagramm (t-x-Diagramm), und sp&auml;ter ein
-								Zeit-Geschwindigkeits-Diagramm(t-v-Diagramm), um dich an
-								Hindernissen vorbei durch hin zu deinem Ziel zu f&uuml;hren. Dabei
-								wird dein Wissen auch regelm&auml;ßig in Quizzes gefordert.
+								Setzte deine Kenntnisse &uuml;ber gleichf&ouml;rmige Bewegung und
+								Diagramme ein, um durch eine Vielzahl von Quests, vorbei an
+								gef&auml;hrlichen Abgr&uuml;nden, spitzen Stacheln und
+								gef&auml;hrlichen Bomben, zu kommen.
+								<br />
+								Sammle auf deiner Reise m&ouml;glichst viele Punkte und lass ja
+								keinen Bonuspunkt aus, um am Ende ganz oben auf der Bestenliste zu
+								stehen! Mit etwas Geschick werden dort auch schicke Abzeichen und
+								Errungenschaften deinen Listenplatz schm&uuml;cken.
 							</p>
 						</Col>
 						<Col sm="4" md="6" className="text-center">
@@ -82,30 +82,31 @@ export default function LandingPage(props: { loggedIn: boolean }): ReactElement 
 											<p>
 												Im Rahmen des Bachelor Praktikums „IT basiertes
 												Lernen“ an der Technischen Universit&auml;t
-												M&uuml;nchen besch&auml;ftigt sich unsere Gruppe mit
-												der Erstellung eines webbasierten Lernspiels
+												M&uuml;nchen, besch&auml;ftigt sich unsere Gruppe
+												mit der Erstellung eines webbasierten Lernspiels
 												f&uuml;r den Physikunterricht. Mit diesem soll das
 												Thema der Bewegung, mit Fokus auf Zeit-Orts- und
 												Zeit-Geschwindigkeits-Diagramme, auf eine
 												spielerische Art eingef&uuml;hrt werden.
 											</p>
 											<p>
-												Das Spiel besteht dabei aus mehreren Levels und drei
+												Das Spiel besteht dabei aus mehreren Leveln und drei
 												zentralen Elementen: der Theorie, Quizzes und
-												Quests. Dabei wird zu Beginn eines Levels zuerst die
+												Quests. Dabei wird zu Beginn eines Leveln zuerst die
 												Theorie vermittelt und durch ein Quiz abgefragt.
 												Danach kann das gelernte durch Quests (das
 												eigentliche Spiel) und zus&auml;tzliche Quizze
-												verinnerlicht werden. Die aktuell zwei level führen
+												verinnerlicht werden. Die aktuell zwei Level führen
 												dabei den Spieler intuitiv in die Grundlagen der
-												Bewegung und den Zusammenhang mit verschiedenen
-												arten von Graphen ein.
+												Bewegung und deren Zusammenhang mit verschiedenen
+												Arten von Graphen ein.
 											</p>
 											<p>
 												Gegen Ende des Praktikums wird das Projekt mit
 												Sch&uuml;lern in mehreren Unterrichtsstunden
-												durchgeführt. Danach wird anhand des so gesammelten
-												Feedbacks und Daten eine Evaluation ausgearbeitet.
+												durchgeführt. Anschließend wird anhand des so
+												gesammelten Feedbacks und Daten eine Evaluation
+												ausgearbeitet.
 											</p>
 										</Card.Body>
 									</Accordion.Collapse>

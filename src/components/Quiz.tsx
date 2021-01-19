@@ -2,7 +2,13 @@ import React, { ReactElement, useState } from "react";
 import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Question, QuestionConfig, questionStateType } from "./Question";
 import "./../css/style.quiz.css";
-import { saveSingleQuestion, loadQuizProgress, QuestionProgress, QuizProgress } from "../userdata";
+import {
+	saveSingleQuestion,
+	loadQuizProgress,
+	QuestionProgress,
+	QuizProgress,
+	isLoggedIn
+} from "../userdata";
 import { Link } from "react-router-dom";
 import MathJax from "react-mathjax";
 
@@ -27,7 +33,7 @@ export function Quiz(props: {
 	const [allSolved, setallSolved] = useState(checkAllSolved());
 
 	// Try to load the progress from the server. Update progress if the server had a save.
-	if (!requested) {
+	if (!requested && isLoggedIn()) {
 		// make sure this only gets executed once by setting requested to true
 		setRequested(true);
 		loadQuizProgress(props.config.id).then((response) => {

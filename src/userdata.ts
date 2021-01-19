@@ -356,7 +356,7 @@ function saveProgressServer(progress: QuizProgress | QuestProgress): void {
 	}
 
 	if (!isLoggedIn()) {
-		console.warn("Not logged in");
+		console.log("Not logged in");
 		return;
 	}
 
@@ -535,8 +535,11 @@ function validQuiz(quiz: QuizProgress): boolean {
  */
 export function isLoggedIn(): boolean {
 	const loggedInPermanent: boolean =
-		"userdata" in localStorage && "userId" in JSON.parse(localStorage.userdata);
-	const loggedInTemporary: boolean = "userId" in sessionStorage;
+		"userdata" in localStorage &&
+		"userId" in JSON.parse(localStorage.userdata) &&
+		JSON.parse(localStorage.userdata).userId.length > 0;
+	const loggedInTemporary: boolean =
+		"userId" in sessionStorage && JSON.parse(sessionStorage.userId).length > 0;
 	return loggedInPermanent || loggedInTemporary;
 }
 

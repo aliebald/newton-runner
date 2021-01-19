@@ -116,55 +116,69 @@ export default function LandingPage(props: { loggedIn: boolean }): ReactElement 
 										Team
 									</Accordion.Toggle>
 									<Accordion.Collapse eventKey="team">
-										<Card.Body className="d-flex">
-											<div className="pr-2">
-												Alexander&nbsp;Liebald:&nbsp;
-												<br />
-												Niclas&nbsp;H&uuml;lsmann:&nbsp;
-												<br />
-												Sandra&nbsp;Graßnick:&nbsp;
-												<br />
-												Philipp&nbsp;Rappolder:&nbsp;
-											</div>
-											<div>
-												<Badge className="managementBadge">
-													&#x1F4C5; Project&nbsp;management
-												</Badge>
-												<Badge className="devBadge ml-1">
-													&#128421; Developer
-												</Badge>
-												<a
-													target="_blank"
-													rel="noreferrer noopener"
-													className="ghLink  ml-1"
-													href="https://github.com/aliebald"
-												>
-													<img src="other/landingPage/GitHub-Mark-32px.png" />
-												</a>
-												<br />
-												<Badge className="designBadge">
-													&#x1F58C; Level&nbsp;Design
-												</Badge>
-												<Badge className="devBadge ml-1">
-													&#128421; Developer
-												</Badge>
-												<a
-													target="_blank"
-													rel="noreferrer noopener"
-													className="ghLink ml-1"
-													href="https://github.com/nhuels"
-												>
-													<img src="other/landingPage/GitHub-Mark-32px.png" />
-												</a>
-												<br />
-												<Badge className="storyBadge">
-													&#128209; Content&nbsp;Creator
-												</Badge>
-												<br />
-												<Badge className="designBadge">
-													&#x1F58C; Level&nbsp;Design
-												</Badge>
-											</div>
+										<Card.Body>
+											<Row>
+												<Col xs="12" sm="4" md="3" xl="2">
+													Alexander&nbsp;Liebald:&nbsp;
+												</Col>
+												<Col xs="12" sm="8" md="9" xl="10">
+													<Badge className="managementBadge">
+														&#x1F4C5; Project&nbsp;management
+													</Badge>
+													<Badge className="devBadge ml-1">
+														&#128421; Developer
+													</Badge>
+													<a
+														target="_blank"
+														rel="noreferrer noopener"
+														className="ghLink  ml-1"
+														href="https://github.com/aliebald"
+													>
+														<img src="other/landingPage/GitHub-Mark-32px.png" />
+													</a>
+												</Col>
+											</Row>
+											<Row>
+												<Col xs="12" sm="4" md="3" xl="2">
+													Niclas&nbsp;H&uuml;lsmann:&nbsp;
+												</Col>
+												<Col xs="12" sm="8" md="9" xl="10">
+													<Badge className="designBadge">
+														&#x1F58C; Level&nbsp;Design
+													</Badge>
+													<Badge className="devBadge ml-1">
+														&#128421; Developer
+													</Badge>
+													<a
+														target="_blank"
+														rel="noreferrer noopener"
+														className="ghLink ml-1"
+														href="https://github.com/nhuels"
+													>
+														<img src="other/landingPage/GitHub-Mark-32px.png" />
+													</a>
+												</Col>
+											</Row>
+											<Row>
+												<Col xs="12" sm="4" md="3" xl="2">
+													Sandra&nbsp;Graßnick:&nbsp;
+												</Col>
+												<Col xs="12" sm="8" md="9" xl="10">
+													<Badge className="storyBadge">
+														&#128209; Content&nbsp;Creator
+													</Badge>
+												</Col>
+											</Row>
+											<Row>
+												<Col xs="12" sm="4" md="3" xl="2">
+													Philipp&nbsp;Rappolder:&nbsp;
+												</Col>
+												<Col xs="12" sm="8" md="9" xl="10">
+													<Badge className="designBadge">
+														&#x1F58C; Level&nbsp;Design
+													</Badge>
+												</Col>
+											</Row>
 										</Card.Body>
 									</Accordion.Collapse>
 								</Card>

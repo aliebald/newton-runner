@@ -630,7 +630,7 @@ export function getNameLocal(): string {
 
 /** Deletes the userId id and all progress made locally. */
 export function logout(): void {
-	sessionStorage.clear();
+	sessionStorage.removeItem("userId");
 	localStorage.clear();
 }
 

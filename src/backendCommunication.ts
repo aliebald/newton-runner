@@ -99,6 +99,7 @@ function defaultErrorActions(statuscode: number) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function executeNetworkError(error: any) {
 	console.error(error);
-	sessionStorage.networkError = "true";
 	logout();
+	sessionStorage.networkError = true;
+	location.reload();
 }

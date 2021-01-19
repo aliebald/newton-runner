@@ -185,10 +185,14 @@ export function saveSingleQuestionServer(quiz: QuizProgress, question: QuestionP
 		return;
 	}
 
-	post(
-		"/question-progress",
-		JSON.stringify({ userId: getUserId(), quizProgress: question, lastSave: quiz.lastSave })
-	)
+	const data = {
+		userId: getUserId(),
+		questionProgress: question,
+		lastSave: quiz.lastSave,
+		quizProgressId: quiz.id
+	};
+
+	post("/question-progress", JSON.stringify(data))
 		.then(() => console.log("%csaveSingleQuestion success", "color: green"))
 		.catch(() => {
 			// In case of an error: try to save the whole quiz

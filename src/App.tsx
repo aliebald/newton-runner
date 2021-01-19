@@ -256,12 +256,11 @@ function App(): ReactElement {
 	);
 
 	function checkNetworkError(): boolean {
-		const urlParams = new URLSearchParams(location.search);
-		return urlParams.has("networkError");
+		return "networkError" in sessionStorage && sessionStorage.networkError === "true";
 	}
 
 	function removeNetworkError() {
-		window.history.pushState({}, document.title, location.pathname);
+		sessionStorage.removeItem("networkError");
 		setNetworkError(false);
 	}
 }

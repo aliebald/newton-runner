@@ -17,7 +17,7 @@ export default function Login(props: {
 		title = "Erfolgreich Angemeldet";
 		subtitle = "Du bist jetzt angemeldet. Möchtest du dich wieder abmelden?";
 	} else {
-		title = "Willkommen zurrück";
+		title = "Willkommen zurück";
 		subtitle = "Melde dich jetzt an um alle Funktionen zu benutzen";
 	}
 
@@ -75,29 +75,22 @@ export default function Login(props: {
 
 	// TODO: The "(Debug) Create new User and login" Button is only temporary (for testing)
 	return (
-		<>
-			<Container fluid="lg" className="d-flex justify-content-center">
-				<Row className="boxWrapper loginScreen mt-3 px-2">
-					<Col>
-						<h2 className="text-center">{title}</h2>
-						<p className="text-muted text-center">{subtitle}</p>
-						<div className="text-center error">{errorMessage}</div>
-						<div className="text-center success">{successMessage}</div>
-						{props.loggedIn ? changeNameForm : loginForm}
-						<div className="d-flex justify-content-center">
-							<Button size="lg" onClick={handleMainButton} variant="primary">
-								{props.loggedIn ? "Abmelden" : "Anmelden"}
-							</Button>
-						</div>
-					</Col>
-				</Row>
-			</Container>
-			<div className="d-flex justify-content-center pt-5">
-				<Button size="sm" onClick={() => createNewDevUser()}>
-					(Debug) Create new User and login
-				</Button>
-			</div>
-		</>
+		<Container fluid="lg" className="d-flex justify-content-center">
+			<Row className="boxWrapper loginScreen mt-3 px-2">
+				<Col>
+					<h2 className="text-center">{title}</h2>
+					<p className="text-muted text-center">{subtitle}</p>
+					<div className="text-center error">{errorMessage}</div>
+					<div className="text-center success">{successMessage}</div>
+					{props.loggedIn ? changeNameForm : loginForm}
+					<div className="d-flex justify-content-center">
+						<Button size="lg" onClick={handleMainButton} variant="primary">
+							{props.loggedIn ? "Abmelden" : "Anmelden"}
+						</Button>
+					</div>
+				</Col>
+			</Row>
+		</Container>
 	);
 
 	function autoLogin() {

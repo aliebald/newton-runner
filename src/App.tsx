@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import UnknownPageError from "./components/UnknownPageError";
 import { Alert } from "react-bootstrap";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
 import Quest from "./components/Quest";
@@ -39,14 +39,12 @@ function App(): ReactElement {
 	const [networkError, setNetworkError] = useState(checkNetworkError());
 	const [showBetaAlert, setShowBetaAlert] = useState(true);
 	const [loggedIn, setLoggedIn] = useState(isLoggedIn());
-	const [showLoginPopup, setShowLoginPopup] = useState(
-		location.pathname !== "/login" && !loggedIn
-	);
+	const [showLoginPopup, setShowLoginPopup] = useState(location.hash !== "#/login" && !loggedIn);
 
 	// For deployment to GH Pages:
 	// Change <BrowserRouter> to <HashRouter basename="/">
 	return (
-		<BrowserRouter>
+		<HashRouter basename="/">
 			<Alert
 				variant="danger"
 				onClose={() => setShowBetaAlert(false)}
@@ -73,7 +71,7 @@ function App(): ReactElement {
 			<Switch>
 				<Route path="/" exact component={() => <LandingPage loggedIn={loggedIn} />} />
 				<Route path="/LevelOverview" exact component={LevelOverview} />
-				<Route path="/Statistics" exact component={Statistics} />
+				<Route path="/statistics" exact component={Statistics} />
 				<Route
 					path="/login"
 					exact
@@ -246,13 +244,13 @@ function App(): ReactElement {
 				<Route
 					path="/level2Questionnaire"
 					exact
-					component={() => <Questionnaire level={2} nextPage="/" />}
+					component={() => <Questionnaire level={2} nextPage="/statistics" />}
 				/>
 
 				<Route component={UnknownPageError} />
 			</Switch>
 			<Footer />
-		</BrowserRouter>
+		</HashRouter>
 	);
 
 	function checkNetworkError(): boolean {

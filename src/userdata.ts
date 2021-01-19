@@ -539,7 +539,7 @@ export function isLoggedIn(): boolean {
 		"userId" in JSON.parse(localStorage.userdata) &&
 		JSON.parse(localStorage.userdata).userId.length > 0;
 	const loggedInTemporary: boolean =
-		"userId" in sessionStorage && JSON.parse(sessionStorage.userId).length > 0;
+		"userId" in sessionStorage && sessionStorage.userId.length > 0;
 	return loggedInPermanent || loggedInTemporary;
 }
 

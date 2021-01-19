@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import { post } from "../backendCommunication";
 import { getUserId, isLoggedIn } from "../userdata";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Toast from "./Toast";
 
 export default function Questionnaire(props: { level: number; nextPage: string }): ReactElement {
@@ -82,6 +82,11 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 						<Button type="submit" variant="primary" className="mt-3">
 							Abschicken und Weiter
 						</Button>
+						<Link to={props.nextPage}>
+							<Button type="submit" variant="primary" className="mt-3 ml-2">
+								&Uuml;berspringen
+							</Button>
+						</Link>
 					</Row>
 				</Form>
 			</Container>

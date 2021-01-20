@@ -1,13 +1,11 @@
 import React, { ReactElement, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import { createNewDevUser, getNameLocal, isLoggedIn, login, logout, setName } from "../userdata";
+import { getNameLocal, isLoggedIn, login, logout, setName } from "../userdata";
 
 export default function Login(props: {
 	loggedIn: boolean;
 	setLoggedIn: (loggedIn: boolean) => void;
 }): ReactElement {
-	const history = useHistory();
 	const [userId, setUserId] = useState("");
 	const [stayLoggedIn, setStayLoggedIn] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
@@ -30,7 +28,7 @@ export default function Login(props: {
 				<Form.Control
 					type="text"
 					onChange={(event) => setUserId(event.target.value)}
-					maxLength={36}
+					maxLength={40}
 				/>
 				<Form.Text className="text-muted">
 					Solltest du keine eigene Benutzer ID haben, wende dich bitte an deinen Betreuer
@@ -98,10 +96,7 @@ export default function Login(props: {
 		const autologinId = urlParams.get("userId");
 		if (autologinId !== null) {
 			checkLogin(autologinId);
-			urlParams.delete("userId");
-			history.replace({
-				search: urlParams.toString()
-			});
+			window.history.pushState({}, document.title, "/" + location.hash);
 		}
 	}
 
@@ -116,7 +111,11 @@ export default function Login(props: {
 	}
 
 	function checkLogin(userId: string) {
-		if (!props.loggedIn && userId.length > 0) {
+		if (props.loggedIn) {
+			return;
+		}
+
+		if (userId.length > 0) {
 			login(userId, stayLoggedIn).then((success) => {
 				if (success === "success") {
 					console.log("successfully logged in");
@@ -155,7 +154,7 @@ export default function Login(props: {
 			return;
 		}
 
-		if (!setName(newName)) {
+		if (newName.length > 10 || !setName(newName)) {
 			setErrorMessage("Fehler bei der Namensänderung zu: " + newName);
 		} else {
 			setSuccessMessage("Name erfolgreich angepasst.");

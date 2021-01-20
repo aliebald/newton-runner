@@ -901,24 +901,3 @@ function equalsQuizProgress(a: QuizProgress, b: QuizProgress): boolean {
 function equalsQuestionProgress(a: QuestionProgress, b: QuestionProgress): boolean {
 	return a.id === b.id && a.state === b.state;
 }
-
-// TODO: temporary dev method, remove later
-export async function createNewDevUser(): Promise<void> {
-	const getTeacher = JSON.stringify({
-		password: "zh42+2A",
-		name: "Test User"
-	});
-
-	let teacher;
-	try {
-		teacher = await post("/user/teacher", getTeacher);
-	} catch (error) {
-		console.error("in catch: ", error);
-		return;
-	}
-	console.log(teacher);
-	const userdata = loadUserdataLocal();
-	userdata.userId = JSON.parse(teacher).userId;
-	saveUserdataLocal(userdata);
-	location.reload();
-}

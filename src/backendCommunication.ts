@@ -37,7 +37,9 @@ export async function get<T>(
 		if (returnObj.status !== 434) {
 			console.log("request:", pathWithArgs);
 		}
-		defaultErrorActions(returnObj.status);
+		if (path !== "/user") {
+			defaultErrorActions(returnObj.status);
+		}
 		throw {
 			message: "ERROR: Status code " + returnObj.status + ", " + (await returnObj.text()),
 			returnObj: returnObj

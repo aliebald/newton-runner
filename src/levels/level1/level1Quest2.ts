@@ -58,8 +58,6 @@ export const settings: QuestConfig = {
 };
 
 function onPreload(this: Phaser.Scene): void {
-	console.log("onPreload called");
-
 	this.load.image("bg", "assets/PlatformerAssetsBase/Background/bg.png");
 
 	this.load.image("grassMid", "assets/PlatformerAssetsBase/Tiles/grassMid.png");
@@ -72,7 +70,6 @@ function onPreload(this: Phaser.Scene): void {
 	this.load.image("grassBush", "assets/PlatformerAssetsBase/Items/grass4.png");
 	this.load.image("signRight", "assets/PlatformerAssetsBase/Tiles/signRight.png");
 
-	this.load.image("sun", "assets/PlatformerAssetsBase/Items/sun.png");
 	this.load.image("cloud1", "assets/PlatformerAssetsBase/Items/cloud1.png");
 	this.load.image("cloud2", "assets/PlatformerAssetsBase/Items/cloud2.png");
 	this.load.image("cloud3", "assets/PlatformerAssetsBase/Items/cloud3.png");
@@ -89,8 +86,6 @@ function onPreload(this: Phaser.Scene): void {
 }
 
 function preCreate(this: Phaser.Scene): void {
-	console.log("preCreate called");
-
 	// Add background
 	for (let i = 0; i < 5; i++) {
 		this.add.image(256 * i, 0, "bg").setOrigin(0);
@@ -124,8 +119,6 @@ function preCreate(this: Phaser.Scene): void {
 }
 
 function afterCreate(this: Game): void {
-	console.log("afterCreate called");
-
 	// Add platforms / ground
 	const tileWidth = 70;
 	for (let i = 0; i * tileWidth < width; i++) {

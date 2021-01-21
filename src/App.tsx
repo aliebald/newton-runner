@@ -34,6 +34,8 @@ import level2Quiz2 from "./levels/level2/level2Quiz2";
 import level2Quest1 from "./levels/level2/level2Quest1";
 import level2Quest2 from "./levels/level2/level2Quest2";
 import level2Quest3 from "./levels/level2/level2Quest3";
+import bonusLevelTheory1 from "./levels/bonus/bonusLevelTheory1";
+import bonusLevelQuiz1 from "./levels/bonus/bonusLevelQuiz1";
 
 function App(): ReactElement {
 	const [networkError, setNetworkError] = useState(checkNetworkError());
@@ -245,6 +247,29 @@ function App(): ReactElement {
 					path="/level2Questionnaire"
 					exact
 					component={() => <Questionnaire level={2} nextPage="/statistics" />}
+				/>
+
+				<Route
+					path="/bonusLevelTheory1"
+					exact
+					component={() => (
+						<Theory
+							config={bonusLevelTheory1}
+							nextPage="/bonusLevelQuiz1"
+							isStory={false}
+						/>
+					)}
+				/>
+				<Route
+					path="/bonusLevelQuiz1"
+					exact
+					component={() => (
+						<Quiz
+							config={bonusLevelQuiz1}
+							nextPage="/statistics"
+							theoryLink="/bonusLevelTheory1"
+						/>
+					)}
 				/>
 
 				<Route component={UnknownPageError} />

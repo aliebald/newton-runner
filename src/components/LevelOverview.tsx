@@ -134,6 +134,23 @@ const barConfig2: Array<LevelOverviewCardConfig> = [
 	}
 ];
 
+const barConfigBonus: Array<LevelOverviewCardConfig> = [
+	{
+		title: "1. Newtonsches Gesetz",
+		badge: BadgeType.THEORIE,
+		text: "Bonus für interessierte: das 1. Newtonsches Gesetz.",
+		buttonLink: "/bonusLevelTheory1",
+		buttonName: "Lesen"
+	},
+	{
+		title: "Quiz",
+		badge: BadgeType.QUIZ,
+		text: "Überprüfe ob du das 1. Newtonsches Gesetz verstanden hast",
+		buttonLink: "/bonusLevelQuiz1",
+		buttonName: "Lösen"
+	}
+];
+
 export default function LevelOverview(): ReactElement {
 	return (
 		<Container fluid className="overview">
@@ -144,6 +161,9 @@ export default function LevelOverview(): ReactElement {
 					</Nav.Link>
 					<Nav.Link eventKey="level2" className="overviewNavLink">
 						Level 2
+					</Nav.Link>
+					<Nav.Link eventKey="bonusLevel" className="overviewNavLink">
+						Bonus: Newton
 					</Nav.Link>
 				</Nav>
 				<Tab.Content>
@@ -169,6 +189,20 @@ export default function LevelOverview(): ReactElement {
 									Zeit-Geschwindigkeits-Diagramm.
 								</p>
 								<LevelOverviewBar config={barConfig2}></LevelOverviewBar>
+							</Card.Body>
+						</Card>
+					</Tab.Pane>
+					<Tab.Pane eventKey="bonusLevel">
+						<Card className="overviewTabCard">
+							<Card.Body>
+								<h1 className="text-center">Bonus: 1. Newtonsche Gesetz</h1>
+								<p className="text-center">
+									Du bist schon fertig, w&uuml;rdest aber gerne noch mehr
+									Erfahren?
+									<br />
+									Kein Problem, schau dir doch noch das 1. Newtonsche Gesetz an.
+								</p>
+								<LevelOverviewBar config={barConfigBonus}></LevelOverviewBar>
 							</Card.Body>
 						</Card>
 					</Tab.Pane>

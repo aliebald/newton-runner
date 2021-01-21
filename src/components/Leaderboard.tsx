@@ -18,10 +18,83 @@ type LeaderboardEntry = {
 
 export default function Leaderboard(): ReactElement {
 	const [requestedData, setRequestedData] = useState(false);
-	// TODO: Remove sample data
+	const [isSampleData, setIsSampleData] = useState(true);
 	const [data, setData] = useState<LeaderboardType>({
 		position: -1,
-		entries: []
+		entries: [
+			{
+				name: "Max Mustermann",
+				points: 22,
+				bonusPoints: 3,
+				achievements: [
+					"PointCollectorLevel1",
+					"PointCollectorLevel2",
+					"BonusCollectorLevel1",
+					"BonusCollectorLevel2",
+					"QuizmasterLevel1",
+					"QuizmasterLevel2"
+				]
+			},
+			{
+				name: "Yvonne Fisher",
+				points: 20,
+				bonusPoints: 2,
+				achievements: [
+					"PointCollectorLevel1",
+					"PointCollectorLevel2",
+					"BonusCollectorLevel1",
+					"QuizmasterLevel1"
+				]
+			},
+			{
+				name: "Erika Mustermann",
+				points: 18,
+				bonusPoints: 1,
+				achievements: ["PointCollectorLevel1", "BonusCollectorLevel1", "QuizmasterLevel1"]
+			},
+			{
+				name: "Leonie Mueller",
+				points: 15,
+				bonusPoints: 2,
+				achievements: ["PointCollectorLevel1", "BonusCollectorLevel1"]
+			},
+			{
+				name: "Jan Janssen",
+				points: 15,
+				bonusPoints: 1,
+				achievements: ["BonusCollectorLevel1", "QuizmasterLevel1", "QuizmasterLevel2"]
+			},
+			{
+				name: "Swen Baumgaertner",
+				points: 15,
+				bonusPoints: 1,
+				achievements: ["PointCollectorLevel2", "BonusCollectorLevel1"]
+			},
+			{
+				name: "Mathias Bieber",
+				points: 14,
+				bonusPoints: 1,
+				achievements: ["BonusCollectorLevel1", "QuizmasterLevel1"]
+			},
+			{
+				name: "Lisa Amsel",
+				points: 12,
+				bonusPoints: 3,
+				achievements: ["PointCollectorLevel2", "BonusCollectorLevel1"]
+			},
+			{
+				name: "Thorsten Kunze",
+				points: 10,
+				bonusPoints: 1,
+				achievements: ["QuizmasterLevel1"]
+			},
+			{
+				name: "Daniela Meier",
+				points: 4,
+				bonusPoints: 0,
+				achievements: []
+			}
+		]
 	});
 
 	const list = [];
@@ -39,24 +112,28 @@ export default function Leaderboard(): ReactElement {
 				<Entry entry={data.entries[i]} position={position} key={"leaderboardEntry-" + i} />
 			);
 		}
+		if (isSampleData) {
+			list.push(
+				<p key="leaderboardEntry-error" className="text-center px-3 mt-2 mb-0">
+					Beispieldaten. Melde dich an um die Bestenliste deiner Klasse zu sehen.
+				</p>
+			);
+		}
 	} else {
 		list.push(
-			isLoggedIn() ? (
-				<p className="text-center px-3 error">
-					Es wurde keine Bestenliste f&uuml;r deine Klasse gefunden.
-				</p>
-			) : (
-				<p className="text-center px-3 error">Melde dich an um die Bestenliste zu sehen</p>
-			)
+			<p key="leaderboardEntry-error" className="text-center px-3 error">
+				Es wurde keine Bestenliste f&uuml;r deine Klasse gefunden.
+			</p>
 		);
 	}
 
 	// Request data from server
-	if (!requestedData) {
+	if (!requestedData && isLoggedIn()) {
 		setRequestedData(true);
 		getLeaderboard().then((leaderboard) => {
 			if (leaderboard && leaderboard.entries.length > 0) {
 				setData(leaderboard);
+				setIsSampleData(false);
 			}
 		});
 	}
@@ -93,21 +170,23 @@ function Entry(props: { position: number; entry: LeaderboardEntry }) {
 		<Row className={`leaderboardEntry d-flex mx-2 ${topCss}`}>
 			<Col
 				xs={{ span: 12, order: 1 }}
-				sm={{ span: 6, order: 1 }}
-				md={{ span: 3, order: 1 }}
-				lg="2"
+				sm={{ span: 7, order: 1 }}
+				md={{ span: 6, order: 1 }}
+				lg={{ span: 4, order: 1 }}
 				className="d-flex pl-2 my-auto"
 			>
-				<div className={`rank ${topCss}`}>{props.position}</div>
+				<div className={`my-auto rank ${topCss}`}>{props.position}</div>
 				{medal ? <div className="mr-2">{medal}</div> : ""}
-				<div className="leaderboardName">{props.entry.name}</div>
+				<div className="leaderboardName">
+					{props.entry.name ? props.entry.name : "Anonym"}
+				</div>
 			</Col>
 
 			<Col
 				xs={{ span: 12, order: 2 }}
 				sm={{ span: 12, order: 3 }}
-				md={{ span: 5, order: 2 }}
-				lg="6"
+				md={{ span: 6, order: 3 }}
+				lg={{ span: 4, order: 2 }}
 				className="d-flex pl-2 ml-0 leaderboardAchievements"
 			>
 				{achievements}
@@ -116,8 +195,9 @@ function Entry(props: { position: number; entry: LeaderboardEntry }) {
 			<Col
 				className="d-flex"
 				xs={{ span: 12, order: 3 }}
-				sm={{ span: 6, order: 2 }}
-				md={{ span: 4, order: 3 }}
+				sm={{ span: 5, order: 2 }}
+				md={{ span: 6, order: 2 }}
+				lg={{ span: 4, order: 3 }}
 			>
 				<div className="text-center w-33">
 					<div>{props.entry.points + props.entry.bonusPoints}</div>

@@ -15,7 +15,6 @@ import { isLoggedIn } from "./userdata";
 import LoginPopup from "./components/LoginPopup";
 import Questionnaire from "./components/Questionnaire";
 
-import exampleStory1 from "./levels/exampleLevels/exampleStory1";
 import level1Story1 from "./levels/level1/level1Story1";
 import level1Story2 from "./levels/level1/level1Story2";
 import level1Theory1 from "./levels/level1/level1Theory1";
@@ -78,17 +77,6 @@ function App(): ReactElement {
 					path="/login"
 					exact
 					component={() => <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
-				/>
-				<Route
-					path="/exampleStory1"
-					exact
-					component={() => (
-						<Theory
-							config={exampleStory1}
-							nextPage="/level1Quiz1"
-							isStory={true}
-						></Theory>
-					)}
 				/>
 				<Route
 					path="/level1Story1"

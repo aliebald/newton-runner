@@ -32,8 +32,8 @@ export function Quiz(props: {
 	);
 	const [allSolved, setallSolved] = useState(checkAllSolved());
 
-	// Try to load the progress from the server. Update progress if the server had a save.
-	if (!requested && isLoggedIn()) {
+	// load the progress. Update progress if loadQuizProgress returned a QuizProgress.
+	if (!requested) {
 		// make sure this only gets executed once by setting requested to true
 		setRequested(true);
 		loadQuizProgress(props.config.id).then((response) => {

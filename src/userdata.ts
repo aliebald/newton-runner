@@ -792,6 +792,66 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 }
 
 /**
+ * saves a id in `userdata.completedTheory`
+ */
+export function saveCompletedTheory(id: string): void {
+	const userdata = loadUserdataLocal();
+	userdata.completedTheory.push(id);
+	saveUserdataLocal(userdata);
+
+	// TODO: save on server
+}
+
+/**
+ * Checks if `id` is in `userdata.completedTheory`
+ */
+function isCompletedTheory(id: string): boolean {
+	const userdata = loadUserdataLocal();
+	for (let i = 0; i < userdata.completedTheory.length; i++) {
+		if (userdata.completedTheory[i] === id) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
+ * Checks if all questions in the Quiz with `id` are solved
+ *
+ * @param id id of the quiz to check
+ */
+function quizIsCompleted(id: string): boolean {
+	const quiz = loadQuizProgressLocal(id);
+	if (quiz) {
+		for (let i = 0; i < quiz.questions.length; i++) {
+			if (quiz.questions[i].state === "unsolved") return false;
+		}
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Checks if a quest is solved
+ *
+ * @param id id of the quest to check
+ */
+function questIsCompleted(id: string): boolean {
+	const quest = loadQuestProgressLocal(id);
+	return quest.solvedAt >= 0;
+}
+
+/**
+ * Checks if one of the following is true:
+ * - `id` is in `userdata.completedTheory`
+ * - `id` is a completed __quiz__
+ * - `id` is a completed __quest__
+ */
+export function isCompleted(id: string): boolean {
+	return isCompletedTheory(id) || quizIsCompleted(id) || questIsCompleted(id);
+}
+
+/**
  * Requests leaderboard from backend
  */
 export async function getLeaderboard(): Promise<undefined | LeaderboardType> {

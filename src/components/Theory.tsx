@@ -1,7 +1,8 @@
 import React, { ReactElement } from "react";
-import { Button, Carousel, Col, Container, Row } from "react-bootstrap";
+import { Button, Carousel, Container, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import MathJax from "react-mathjax";
+import { saveCompletedTheory } from "../userdata";
 
 export function Slide(props: { element: JSX.Element; idx: number }): ReactElement {
 	return (
@@ -16,6 +17,7 @@ export function Slide(props: { element: JSX.Element; idx: number }): ReactElemen
 }
 
 export interface TheoryConfig {
+	id: string;
 	slides: Array<JSX.Element>;
 }
 
@@ -24,7 +26,7 @@ export function Theory(props: {
 	nextPage: string;
 	isStory?: boolean;
 }): ReactElement {
-	const { push } = useHistory();
+	const history = useHistory();
 	const buttonText = props.isStory ? "Auf gehts!" : "Zum Quiz";
 	const lastSlideText = props.isStory ? (
 		<p className="text-center">
@@ -33,14 +35,14 @@ export function Theory(props: {
 		</p>
 	) : (
 		<p className="text-center">
-			Alles verstanden? <br /> Dann teste dein neu erworbenes Wissen doch gleich in einem Quiz{" "}
+			Alles verstanden? <br /> Dann teste dein neu erworbenes Wissen doch gleich in einem Quiz
 			<br />
 			oder nimm dir nochmal Zeit und lies in Ruhe alles durch.
 		</p>
 	);
 
 	return (
-		<Container>
+		<Container fluid="lg">
 			<Carousel interval={null} wrap={false}>
 				{props.config.slides.map((c, idx) => Slide({ element: c, idx: idx }))}
 				{Slide({
@@ -48,11 +50,7 @@ export function Theory(props: {
 						<>
 							<Row className="justify-content-center">{lastSlideText}</Row>
 							<Row className="justify-content-center">
-								<Button
-									className="mr-1"
-									variant="primary"
-									onClick={() => push(props.nextPage)}
-								>
+								<Button className="mr-1" variant="primary" onClick={nextPage}>
 									{buttonText}
 								</Button>
 							</Row>
@@ -63,4 +61,9 @@ export function Theory(props: {
 			</Carousel>
 		</Container>
 	);
+
+	function nextPage() {
+		saveCompletedTheory(props.config.id);
+		history.push(props.nextPage);
+	}
 }

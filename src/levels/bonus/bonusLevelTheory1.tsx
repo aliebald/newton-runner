@@ -2,6 +2,7 @@ import React from "react";
 import { TheoryConfig } from "../../components/Theory";
 
 const config: TheoryConfig = {
+	id: "bonusLevelTheory1",
 	slides: [
 		<>
 			<h1 className="centerBox">BonusLevel: 1. Newtonsches Gesetz</h1>

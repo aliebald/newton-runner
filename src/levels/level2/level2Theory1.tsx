@@ -4,6 +4,7 @@ import { Image } from "react-bootstrap";
 import MathJax from "react-mathjax";
 
 const config: TheoryConfig = {
+	id: "level2Theory1",
 	slides: [
 		<>
 			<h1 className="centerBox">Level 2 - Theorie 1</h1>

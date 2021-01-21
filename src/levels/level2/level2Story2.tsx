@@ -2,6 +2,7 @@ import React from "react";
 import { TheoryConfig } from "../../components/Theory";
 
 const config: TheoryConfig = {
+	id: "level2Story2",
 	slides: [
 		<p className="centerBox" key={0}>
 			Super! Du hast alle Schl&uuml;ssel eingesammelt. Du kannst also zu dem Ort auf der Karte

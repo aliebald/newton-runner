@@ -2,6 +2,7 @@ import React from "react";
 import { TheoryConfig } from "../../components/Theory";
 
 const config: TheoryConfig = {
+	id: "level2Story1",
 	slides: [
 		<p className="centerBox" key={0}>
 			Du l&auml;ufst ein paar Stra&szlig;en entlang, als du zu einem Café kommst, welches auf

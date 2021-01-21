@@ -225,6 +225,15 @@ body {
 	text-align: center;
 }
 
+.overviewCard.completed,
+.overviewCard .completed {
+	border-color: rgba(0, 128, 0, 0.75);
+}
+
+.overviewCard .completed {
+	background-color: rgba(0, 128, 0, 0.07);
+}
+
 .overviewTabCard {
 	border-top-left-radius: 0rem;
 	border-top-right-radius: 0rem;

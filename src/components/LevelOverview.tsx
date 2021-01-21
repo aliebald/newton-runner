@@ -4,149 +4,149 @@ import { BadgeType, LevelOverviewBar, LevelOverviewCardConfig } from "./LevelOve
 
 const barConfig1: Array<LevelOverviewCardConfig> = [
 	{
+		id: "level1Story1",
 		title: "Die Geschichte beginnt ...",
 		badge: BadgeType.STORY,
 		text: "Ein Geheimnis wartet darauf entdeckt zu werden.",
-		buttonLink: "/level1Story1",
 		buttonName: "Lesen"
 	},
 	{
+		id: "level1Theory1",
 		title: "Gleichförmige Bewegung",
 		badge: BadgeType.THEORIE,
 		text: "Bewegung und Zeit-Orts-Diagramme",
-		buttonLink: "/level1Theory1",
 		buttonName: "Lesen"
 	},
 	{
+		id: "level1QuizIntro1",
 		title: "Erklärung Quiz",
 		badge: BadgeType.ERKLÄRUNG,
 		text: "Hier erklären wir dir alle Teile des Quiz",
-		buttonLink: "/level1Quiz1Explanation1",
 		buttonName: "Lesen"
 	},
 	{
+		id: "level1Quiz1",
 		title: "Quiz 1",
 		badge: BadgeType.QUIZ,
 		text: "Überprüfe ob du die Theorie verstanden hast",
-		buttonLink: "/level1Quiz1",
 		buttonName: "Lösen"
 	},
 	{
+		id: "level1GameMechanics1",
 		title: "Erklärung der Spielsteuerung",
 		badge: BadgeType.ERKLÄRUNG,
 		text: "Wie du den Platformer mithilfe eines Zeit-Orts-Diagramms steuerst",
-		buttonLink: "/level1GameMechanics1",
 		buttonName: "Lesen"
 	},
 	{
+		id: "level1Quest1",
 		title: "Quest 1 : Zeit-Orts-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Lerne die Steuerung anhand einer einfachen Quest",
-		buttonLink: "/level1Quest1",
 		buttonName: "Spielen"
 	},
 	{
+		id: "level1Quest2",
 		title: "Quest 2 : Zeit-Orts-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Eine etwas schwierigere Quest",
-		buttonLink: "/level1Quest2",
 		buttonName: "Spielen"
 	},
 	{
+		id: "level1Quiz2",
 		title: "Quiz 2",
 		badge: BadgeType.QUIZ,
 		text: "Eine kleine Auffrischung der Theorie ist sicher hilfreich",
-		buttonLink: "/level1Quiz2",
 		buttonName: "Lösen"
 	},
 	{
+		id: "level1Quest3",
 		title: "Quest 3 : Zeit-Orts-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Schaffst du diese Quest?",
-		buttonLink: "/level1Quest3",
 		buttonName: "Spielen"
 	},
 	{
+		id: "level1Story2",
 		title: "Das Abenteuer geht weiter.",
 		badge: BadgeType.STORY,
 		text: "Was hast du bisher erreicht?",
-		buttonLink: "/level1Story2",
 		buttonName: "Lesen"
 	}
 ];
 
 const barConfig2: Array<LevelOverviewCardConfig> = [
 	{
+		id: "level2Story1",
 		title: "Neuer Ort, neues Glück.",
 		badge: BadgeType.STORY,
 		text: "Setze dein Abenteuer fort.",
-		buttonLink: "/level2Story1",
 		buttonName: "Lesen"
 	},
 	{
+		id: "level2Theory1",
 		title: "Beschleunigte Bewegung",
 		badge: BadgeType.THEORIE,
 		text: "Beschleunigte Bewegung und Zeit-Geschwindigkeits-Diagramme",
-		buttonLink: "/level2Theory1",
 		buttonName: "Lesen"
 	},
 	{
+		id: "level2Quiz1",
 		title: "Quiz 1",
 		badge: BadgeType.QUIZ,
 		text: "Überprüfe ob du die Theorie verstanden hast",
-		buttonLink: "/level2Quiz1",
 		buttonName: "Lösen"
 	},
 	{
+		id: "level2Quest1",
 		title: "Quest 1: Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Lerne die Steuerung anhand einer einfachen Quest",
-		buttonLink: "/level2Quest1",
 		buttonName: "Spielen"
 	},
 	{
+		id: "level2Quest2",
 		title: "Quest 2: Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Eine etwas schwierigere Quest",
-		buttonLink: "/level2Quest2",
 		buttonName: "Spielen"
 	},
 	{
+		id: "level2Quiz2",
 		title: "Quiz 2",
 		badge: BadgeType.QUIZ,
 		text: "Überprüfe ob du die Theorie verstanden hast",
-		buttonLink: "/level2Quiz2",
 		buttonName: "Lösen"
 	},
 	{
+		id: "level2Quest3",
 		title: "Quest 3: Zeit-Geschwindigkeits-Diagramm",
 		badge: BadgeType.SPIEL,
 		text: "Eine echte Herausforderung!",
-		buttonLink: "/level2Quest3",
 		buttonName: "Spielen"
 	},
 	{
+		id: "level2Story2",
 		title: "Das Ende",
 		badge: BadgeType.STORY,
 		text: "Wie geht die Geschichte wohl aus?",
-		buttonLink: "/level2Story",
 		buttonName: "Lesen"
 	}
 ];
 
 const barConfigBonus: Array<LevelOverviewCardConfig> = [
 	{
+		id: "bonusLevelTheory1",
 		title: "1. Newtonsches Gesetz",
 		badge: BadgeType.THEORIE,
 		text: "Bonus für interessierte: das 1. Newtonsches Gesetz.",
-		buttonLink: "/bonusLevelTheory1",
 		buttonName: "Lesen"
 	},
 	{
+		id: "bonusLevelQuiz1",
 		title: "Quiz",
 		badge: BadgeType.QUIZ,
 		text: "Überprüfe ob du das 1. Newtonsches Gesetz verstanden hast",
-		buttonLink: "/bonusLevelQuiz1",
 		buttonName: "Lösen"
 	}
 ];

@@ -3,6 +3,7 @@ import { TheoryConfig } from "../../components/Theory";
 import { Image } from "react-bootstrap";
 
 const config: TheoryConfig = {
+	id: "level1GameMechanics1",
 	slides: [
 		<React.Fragment key={0}>
 			<h1 className="centerBox">Level 1 - Erkl&auml;rung Spielmechanik</h1>

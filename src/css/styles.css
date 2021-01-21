@@ -185,20 +185,13 @@ body {
 	font-size: 0.8rem;
 }
 
-.footer .footerRight,
-.footer .footerLeft {
+.footer .footerRight {
 	position: relative;
 	align-self: center;
 	text-align: center;
-}
 
-.footer .footerRight {
 	padding-right: 1rem;
 	margin-left: auto;
-}
-
-.footer .footerLeft {
-	padding-left: 1rem;
 }
 
 .footer .footerText {

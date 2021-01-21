@@ -1,5 +1,4 @@
 import React, { ReactElement, useState } from "react";
-import { resetUserdata } from "../userdata";
 import FeedbackForm from "./FeedbackForm";
 
 export default function Footer(): ReactElement {
@@ -10,13 +9,7 @@ export default function Footer(): ReactElement {
 			<FeedbackForm active={feedbackModal} close={() => setFeedbackModal(false)} />
 			<div className="pt-4">
 				<div className="footer">
-					<div className="footerLeft">
-						<p className="footerText">&copy; copyright 2020</p>
-					</div>
 					<div className="footerRight">
-						<a onClick={resetUserdata} className="footerLink">
-							Lokale daten l&ouml;schen
-						</a>
 						<a href="mailto:physics.game.team@gmail.com" className="footerLink">
 							Bug&nbsp;Melden
 						</a>

@@ -54,7 +54,7 @@ export default function Login(props: {
 					<Form.Control
 						type="text"
 						name="newName"
-						maxLength={10}
+						maxLength={20}
 						className="mr-1"
 						placeholder="Anonym"
 						defaultValue={oldName}
@@ -71,7 +71,6 @@ export default function Login(props: {
 		</Form>
 	);
 
-	// TODO: The "(Debug) Create new User and login" Button is only temporary (for testing)
 	return (
 		<Container fluid="lg" className="d-flex justify-content-center">
 			<Row className="boxWrapper loginScreen mt-3 px-2">
@@ -154,7 +153,7 @@ export default function Login(props: {
 			return;
 		}
 
-		if (newName.length > 10 || !setName(newName)) {
+		if (newName.length > 20 || !setName(newName)) {
 			setErrorMessage("Fehler bei der Namensänderung zu: " + newName);
 		} else {
 			setSuccessMessage("Name erfolgreich angepasst.");

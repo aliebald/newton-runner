@@ -94,7 +94,7 @@ export default function Login(props: {
 		const urlParams = new URLSearchParams(location.search);
 		const autologinId = urlParams.get("userId");
 		if (autologinId !== null) {
-			checkLogin(autologinId);
+			checkLogin(autologinId, true);
 			window.history.pushState({}, document.title, "/" + location.hash);
 		}
 	}
@@ -105,11 +105,11 @@ export default function Login(props: {
 			props.setLoggedIn(false);
 			// location.reload();
 		} else {
-			checkLogin(userId);
+			checkLogin(userId, stayLoggedIn);
 		}
 	}
 
-	function checkLogin(userId: string) {
+	function checkLogin(userId: string, stayLoggedIn: boolean) {
 		if (props.loggedIn) {
 			return;
 		}

@@ -799,7 +799,18 @@ export function saveCompletedTheory(id: string): void {
 	userdata.completedTheory.push(id);
 	saveUserdataLocal(userdata);
 
-	// TODO: save on server
+	// save on server
+	if (isLoggedIn()) {
+		const data = {
+			userId: getUserId(),
+			theoryId: id
+		};
+
+		post("/theory-progress", JSON.stringify(data)).catch((error) => {
+			// TODO: error handling
+			console.error(error);
+		});
+	}
 }
 
 /**

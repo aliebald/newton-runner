@@ -633,7 +633,7 @@ export function getNameLocal(): string {
 /** Deletes the userId id and all progress made locally. */
 export function logout(): void {
 	sessionStorage.removeItem("userId");
-	localStorage.clear();
+	localStorage.removeItem("userdata");
 }
 
 /**
@@ -650,6 +650,19 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 	}
 
 	log("synchronizing");
+	// synchronize completedTheory
+	localData.completedTheory.forEach((id) => {
+		if (serverData.completedTheory.indexOf(id) === -1) {
+			saveCompletedTheoryServer(id);
+		}
+	});
+
+	serverData.completedTheory.forEach((id) => {
+		if (localData.completedTheory.indexOf(id) === -1) {
+			saveCompletedTheoryLocal(id);
+		}
+	});
+
 	log("Quest: local -> server");
 	// synchronize quests
 	localData.quests.forEach((localQuest) => {
@@ -794,21 +807,45 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
  */
 export function saveCompletedTheory(id: string): void {
 	const userdata = loadUserdataLocal();
-	userdata.completedTheory.push(id);
-	saveUserdataLocal(userdata);
-
-	// save on server
-	if (isLoggedIn()) {
-		const data = {
-			userId: getUserId(),
-			theoryId: id
-		};
-
-		post("/theory-progress", JSON.stringify(data)).catch((errorMsg) => {
-			// TODO: error handling
-			error(errorMsg);
-		});
+	if (userdata.completedTheory.indexOf(id) !== -1) {
+		log("Theory id is already in userdata.completedTheory");
+		return;
 	}
+
+	saveCompletedTheoryLocal(id, userdata);
+	saveCompletedTheoryServer(id);
+}
+
+/**
+ * saves a id in `userdata.completedTheory` locally
+ *
+ * Doesn't check if this is is already saved
+ */
+function saveCompletedTheoryLocal(id: string, userdata?: Userdata): void {
+	const data = userdata ? userdata : loadUserdataLocal();
+	data.completedTheory.push(id);
+	saveUserdataLocal(data);
+}
+
+/**
+ * sends the given theory id to the server
+ *
+ * Doesn't check if this is is already saved
+ */
+function saveCompletedTheoryServer(id: string): void {
+	if (!isLoggedIn()) {
+		return;
+	}
+
+	const data = {
+		userId: getUserId(),
+		theoryId: id
+	};
+
+	post("/theory-progress", JSON.stringify(data)).catch((errorMsg) => {
+		// TODO: error handling
+		error(errorMsg);
+	});
 }
 
 /**

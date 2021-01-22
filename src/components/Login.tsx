@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { log, warn } from "../logger";
 import { getNameLocal, isLoggedIn, login, logout, setName } from "../userdata";
 
 export default function Login(props: {
@@ -117,14 +118,14 @@ export default function Login(props: {
 		if (userId.length > 0) {
 			login(userId, stayLoggedIn).then((success) => {
 				if (success === "success") {
-					console.log("successfully logged in");
+					log("successfully logged in");
 					props.setLoggedIn(true);
 					// location.reload();
 				} else if (success === "invalidId") {
-					console.warn("failed to log in: invalid id");
+					warn("failed to log in: invalid id");
 					setErrorMessage("Die angegeben Benutzer ID kann nicht gefunden werden.");
 				} else {
-					console.warn("failed to log in");
+					warn("failed to log in");
 					setErrorMessage(
 						"Beim login ist ein fehler aufgetreten. Bitte versuche es später nochmal."
 					);

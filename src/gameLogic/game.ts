@@ -1,4 +1,5 @@
 import "phaser";
+import { error, log } from "../logger";
 import { GameConfig, controlType, character } from "./GameConfig";
 
 let settings: GameConfig;
@@ -64,7 +65,7 @@ export default class Game extends Phaser.Scene {
 		setGameState: (state: "ready" | "running" | "ended" | "restarting") => void
 	) {
 		super("Game");
-		console.log("%cInitiated new Game", "color: green");
+		log("%cInitiated new Game", "color: green");
 		moveCamRight = false;
 		moveCamLeft = false;
 		moveCamUp = false;
@@ -284,7 +285,6 @@ export default class Game extends Phaser.Scene {
 			this.player,
 			this.points,
 			(player: Phaser.GameObjects.GameObject, point: Phaser.GameObjects.GameObject) => {
-				console.log("collectPoint()");
 				const p = point as Phaser.Physics.Arcade.Image;
 				p.disableBody(true, true);
 				this.score++;
@@ -374,7 +374,7 @@ const cameraRideFunc = function cameraRideFunc(this: Game) {
 	if (cameraRideIndex >= settings.cameraRide.length) {
 		// Ends the camera ride
 		cameraRide = false;
-		console.log("%cFinished cameraRide", "color: green");
+		log("%cFinished cameraRide", "color: green");
 		return;
 	}
 
@@ -415,22 +415,11 @@ const cameraRideFunc = function cameraRideFunc(this: Game) {
 		return;
 	}
 
-	/*
-	// Debug output
-	console.log(
-		"x: " + this.cameras.main.scrollX,
-		"y: " + this.cameras.main.scrollY,
-		"width: " + canvasWidth,
-		"index: " + cameraRideIndex
-	);
-	*/
-
 	let error = false;
-
 	// check if the current x value can be reached
 	if (xUnreachable && (yReached || yUnreachable)) {
 		// value unreachable because it is outside the game bounds
-		console.log(
+		log(
 			"%cWARNING:\nThe x coordinate " +
 				settings.cameraRide[cameraRideIndex].x +
 				" is outside of the game bounds.\nMax x value with the current window size is: " +
@@ -444,7 +433,7 @@ const cameraRideFunc = function cameraRideFunc(this: Game) {
 	// check if the current y value can be reached
 	if (yUnreachable && (xReached || xUnreachable)) {
 		// value unreachable because it is outside the game bounds
-		console.log(
+		log(
 			"%cWARNING:\nThe y coordinate " +
 				settings.cameraRide[cameraRideIndex].y +
 				" is outside of the game bounds.\nMax y value size is: " +
@@ -619,9 +608,6 @@ const diagram_controls = function t_v_controls(this: Game, t_v: boolean): void {
 
 	// set progress in graph
 	graphProgress(index + progress);
-
-	// Debug output
-	// console.log("inputDataCopy[" + index + "] = " + inputDataCopy[index].y);
 
 	// Scale up to meters: 1m = 50px.
 	input *= 50;
@@ -892,7 +878,7 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 			restartGame.call(this);
 		});
 	} else {
-		console.log("%cERROR: restartGameBtn not found!", "color: red");
+		error("restartGameBtn not found!");
 	}
 
 	// Add the start game button
@@ -902,7 +888,7 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 			startGame.call(this);
 		});
 	} else {
-		console.log("%cERROR: startGameBtn not found!", "color: red");
+		error("startGameBtn not found!");
 	}
 
 	// Add camera buttons
@@ -950,7 +936,7 @@ const loadExternalButtons = function loadExternalButtons(this: Game) {
 				btn.addEventListener(event, action);
 			});
 		} else {
-			console.log("%cERROR: " + buttonId + " not found!", "color: red");
+			error(buttonId + " not found!");
 		}
 	}
 };

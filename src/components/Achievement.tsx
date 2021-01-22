@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { Popover, OverlayTrigger } from "react-bootstrap";
+import { error } from "../logger";
 
 /**
  * Possible types:
@@ -75,7 +76,7 @@ export default function Achievement(props: { type: string }): ReactElement {
 		}
 
 		default: {
-			console.error(`Achievement ${props.type} does not exist`);
+			error(`Achievement ${props.type} does not exist`);
 			return <></>;
 		}
 	}

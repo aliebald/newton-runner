@@ -1,4 +1,5 @@
 import { logout } from "./userdata";
+import { log, error } from "./logger";
 
 const backendServer = "http://localhost:8080";
 
@@ -35,7 +36,7 @@ export async function get<T>(
 	if (returnObj.status !== 200) {
 		// Do not log the error if its an 434 (there is no progress for ... )
 		if (returnObj.status !== 434) {
-			console.log("request:", pathWithArgs);
+			log("request:", pathWithArgs);
 		}
 		if (path !== "/user") {
 			defaultErrorActions(returnObj.status);
@@ -80,7 +81,7 @@ export async function post(
 
 	if (returnObj.status !== 202 && returnObj.status !== 200) {
 		defaultErrorActions(returnObj.status);
-		console.log("send", JSON.parse(content));
+		log("send", JSON.parse(content));
 		throw {
 			message: "ERROR: Status code " + returnObj.status + ", " + (await returnObj.text()),
 			returnObj: returnObj
@@ -99,8 +100,8 @@ function defaultErrorActions(statuscode: number) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function executeNetworkError(error: any) {
-	console.error(error);
+function executeNetworkError(errorMsg: any) {
+	error(errorMsg);
 	logout();
 	sessionStorage.networkError = true;
 	location.reload();

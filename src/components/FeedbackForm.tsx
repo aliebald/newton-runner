@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { post } from "../backendCommunication";
+import { error } from "../logger";
 import { getUserId, isLoggedIn } from "../userdata";
 import Toast from "./Toast";
 
@@ -114,8 +115,8 @@ export default function FeedbackForm(props: { active: boolean; close(): void }):
 				setSuccess("success");
 				props.close();
 			})
-			.catch((error) => {
-				console.error(error);
+			.catch((errorMsg) => {
+				error(errorMsg);
 				setSuccess("error");
 				props.close();
 			});

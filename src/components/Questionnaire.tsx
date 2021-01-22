@@ -4,6 +4,7 @@ import { post } from "../backendCommunication";
 import { getUserId, isLoggedIn } from "../userdata";
 import { Link, useHistory } from "react-router-dom";
 import Toast from "./Toast";
+import { error as logError } from "../logger";
 
 export default function Questionnaire(props: { level: number; nextPage: string }): ReactElement {
 	const [error, setError] = useState(false);
@@ -209,8 +210,8 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 			.then(() => {
 				history.push(props.nextPage);
 			})
-			.catch((error) => {
-				console.error(error);
+			.catch((errorMsg) => {
+				logError(errorMsg);
 				setError(true);
 			});
 	}

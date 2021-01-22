@@ -9,6 +9,7 @@ import {
 	QuestProgress,
 	saveQuestAttempt
 } from "../userdata";
+import { error } from "../logger";
 
 // Information about the Error: https://github.com/react-bootstrap/react-bootstrap/issues/5075
 
@@ -169,7 +170,7 @@ export default class GameComponent extends React.Component<GameComponentProps, G
 		if (this.state.restart) {
 			this.state.restart();
 		} else {
-			console.error("%cERROR: restart function is not defined");
+			error("Restart function is not defined");
 		}
 	};
 

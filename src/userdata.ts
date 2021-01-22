@@ -8,6 +8,7 @@
  * - resetUserdata(): resets all local userdata
  */
 
+import { log, warn, error } from "./logger";
 import { get, post } from "./backendCommunication";
 import { LeaderboardType } from "./components/Leaderboard";
 import { questionStateType } from "./components/Question";
@@ -58,9 +59,9 @@ interface Userdata {
  * @returns false if the given QuizProgress or QuestProgress is invalid or if there was an error while saving, else true.
  */
 export function saveProgress(progress: QuizProgress | QuestProgress): boolean {
-	console.log("saveProgress saving:", progress);
+	log("saveProgress saving:", progress);
 	if (!valid(progress)) {
-		console.error("ERROR: cannot save invalid progress", progress);
+		error("ERROR: cannot save invalid progress", progress);
 		return false;
 	}
 
@@ -121,10 +122,10 @@ function saveQuestAttemptServer(id: string, attempt: QuestAttempt, lastSave: num
 			lastSave: lastSave
 		})
 	)
-		.then(() => console.log("%cSaveQuestAttempt success", "color: green"))
-		.catch((error) => {
+		.then(() => log("%cSaveQuestAttempt success", "color: green"))
+		.catch((errorMsg) => {
 			// TODO: error handling
-			console.error(error);
+			error(errorMsg);
 		});
 }
 
@@ -137,7 +138,7 @@ function saveQuestAttemptServer(id: string, attempt: QuestAttempt, lastSave: num
  * @returns false if the given QuestionProgress is invalid, the QuizProgress with the given quiz.id does not contain the question or if there was an error while saving, else true.
  */
 export function saveSingleQuestion(quiz: QuizProgress, question: QuestionProgress): boolean {
-	console.log("saveSingleQuestion");
+	log("saveSingleQuestion");
 	quiz.lastSave = Date.now();
 
 	const quizProgress = loadQuizProgressLocal(quiz.id);
@@ -154,10 +155,7 @@ export function saveSingleQuestion(quiz: QuizProgress, question: QuestionProgres
 			}
 		}
 		if (!found) {
-			console.error(
-				"ERROR: question " + question.id + " is not part of quiz " + quiz.id,
-				quiz
-			);
+			error("ERROR: question " + question.id + " is not part of quiz " + quiz.id, quiz);
 			return false;
 		}
 
@@ -193,7 +191,7 @@ export function saveSingleQuestionServer(quiz: QuizProgress, question: QuestionP
 	};
 
 	post("/question-progress", JSON.stringify(data))
-		.then(() => console.log("%csaveSingleQuestion success", "color: green"))
+		.then(() => log("%csaveSingleQuestion success", "color: green"))
 		.catch(() => {
 			// In case of an error: try to save the whole quiz
 			saveProgress(quiz);
@@ -212,7 +210,7 @@ export async function loadQuizProgress(id: string): Promise<QuizProgress | undef
 		const quiz = await loadQuizProgressServer(id);
 		// return if data was revived from the server
 		if (quiz) {
-			console.log("loadQuizProgress returns (from server): ", quiz);
+			log("loadQuizProgress returns (from server): ", quiz);
 			return quiz;
 		}
 	}
@@ -228,7 +226,7 @@ export async function loadQuizProgress(id: string): Promise<QuizProgress | undef
  * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
  */
 function loadQuizProgressLocal(id: string): QuizProgress | undefined {
-	console.log("loadQuizProgressLocal");
+	log("loadQuizProgressLocal");
 	const userdata = loadUserdataLocal();
 	const index = find(id, userdata.quizzes);
 	return index !== -1 ? userdata.quizzes[index] : undefined;
@@ -241,7 +239,7 @@ function loadQuizProgressLocal(id: string): QuizProgress | undefined {
  * @returns undefined if there is no QuizProgress with the given id. Otherwise it returns the QuizProgress with the given id
  */
 async function loadQuizProgressServer(id: string): Promise<QuizProgress | undefined> {
-	console.log("loadQuizProgressServer");
+	log("loadQuizProgressServer");
 	if (!isLoggedIn()) {
 		return undefined;
 	}
@@ -253,15 +251,15 @@ async function loadQuizProgressServer(id: string): Promise<QuizProgress | undefi
 
 	try {
 		return await get("/quiz-progress", parameters);
-	} catch (error) {
+	} catch (errorMsg) {
 		// 434: no progress for this Quiz
-		if (error.returnObj.status === 434) {
-			console.log("Received no progress for " + id);
+		if (errorMsg.returnObj.status === 434) {
+			log("Received no progress for " + id);
 			return undefined;
 		}
 
 		// TODO further error handling
-		console.error("Failed to load QuizProgress from Server: ", error);
+		error("Failed to load QuizProgress from Server: ", errorMsg);
 		return;
 	}
 }
@@ -325,14 +323,14 @@ async function loadQuestProgressServer(questId: string): Promise<QuestProgress |
 
 	try {
 		return await get("/quest-progress", parameters);
-	} catch (error) {
+	} catch (errorMsg) {
 		// 434: no progress for this Quest
-		if (error.returnObj.status === 434) {
-			console.log("Received no progress for " + questId);
+		if (errorMsg.returnObj.status === 434) {
+			log("Received no progress for " + questId);
 			return undefined;
 		}
 		// TODO further  error handling
-		console.error("Failed to load QuestProgress from Server: ", error);
+		error("Failed to load QuestProgress from Server: ", errorMsg);
 		return;
 	}
 }
@@ -355,28 +353,28 @@ export function resetUserdata(): void {
  */
 function saveProgressServer(progress: QuizProgress | QuestProgress): void {
 	if (!valid(progress)) {
-		console.warn("invalid ", progress);
+		warn("invalid ", progress);
 		return;
 	}
 
 	if (!isLoggedIn()) {
-		console.log("Not logged in");
+		log("Not logged in");
 		return;
 	}
 
 	if (isQuizProgress(progress)) {
 		post("/quiz-progress", JSON.stringify({ userId: getUserId(), quizProgress: progress }))
-			.then(() => console.log("%csaveProgressServer success", "color: green"))
-			.catch((error) => {
+			.then(() => log("%csaveProgressServer success", "color: green"))
+			.catch((errorMsg) => {
 				// TODO: error handling
-				console.error(error);
+				error(errorMsg);
 			});
 	} else {
 		post("/quest-progress", JSON.stringify({ userId: getUserId(), questProgress: progress }))
-			.then(() => console.log("%csaveProgressServer success", "color: green"))
-			.catch((error) => {
+			.then(() => log("%csaveProgressServer success", "color: green"))
+			.catch((errorMsg) => {
 				// TODO: error handling
-				console.error(error);
+				error(errorMsg);
 			});
 	}
 }
@@ -387,7 +385,7 @@ function saveProgressServer(progress: QuizProgress | QuestProgress): void {
  * @param progress QuizProgress or QuestProgress to be saved or updated. Must be validated beforehand using `valid()`, `validQuest()`, or `validQuiz()`.
  */
 function saveProgressLocal(progress: QuizProgress | QuestProgress): void {
-	console.log("saveProgressLocal");
+	log("saveProgressLocal");
 	if (!valid(progress)) {
 		return;
 	}
@@ -570,7 +568,7 @@ export async function login(
 	userId: string,
 	stayLoggedIn: boolean
 ): Promise<"success" | "invalidId" | "error"> {
-	console.log('Logging in: "' + userId + '" stayLoggedIn: ' + stayLoggedIn);
+	log('Logging in: "' + userId + '" stayLoggedIn: ' + stayLoggedIn);
 
 	if (stayLoggedIn) {
 		const userdata = loadUserdataLocal();
@@ -599,15 +597,15 @@ export async function login(
  * @returns false if an error occurred, true otherwise
  */
 export async function setName(name: string): Promise<boolean> {
-	console.log("setName", name);
+	log("setName", name);
 	setNameLocal(name);
 
 	if (isLoggedIn()) {
 		const data = { name: name, userId: getUserId() };
 		try {
 			await post("/user/name", JSON.stringify(data));
-		} catch (error) {
-			console.error(error);
+		} catch (errorMsg) {
+			error(errorMsg);
 			return false;
 		}
 	}
@@ -651,8 +649,8 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 		setNameLocal(serverData.name);
 	}
 
-	console.log("synchronizing");
-	console.log("Quest: local -> server");
+	log("synchronizing");
+	log("Quest: local -> server");
 	// synchronize quests
 	localData.quests.forEach((localQuest) => {
 		synchronizeQuest(
@@ -663,7 +661,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 			saveProgressLocal
 		);
 	});
-	console.log("Quest: server -> local");
+	log("Quest: server -> local");
 	serverData.quests.forEach((serverQuest) => {
 		synchronizeQuest(
 			serverQuest,
@@ -673,7 +671,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 			saveProgressServer
 		);
 	});
-	console.log("Quiz: local -> server");
+	log("Quiz: local -> server");
 	// synchronize Quizzes
 	localData.quizzes.forEach((localQuiz) => {
 		synchronizeQuiz(
@@ -683,7 +681,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 			saveProgressLocal
 		);
 	});
-	console.log("Quiz: server -> local");
+	log("Quiz: server -> local");
 	serverData.quizzes.forEach((serverQuiz) => {
 		synchronizeQuiz(
 			serverQuiz,
@@ -693,7 +691,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 		);
 	});
 
-	console.log("%cSuccessfully synchronized", "color: green");
+	log("%cSuccessfully synchronized", "color: green");
 	return;
 
 	/** synchronizes a QuizProgress with an array of QuizProgresses */
@@ -706,7 +704,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 		const index = find(quiz.id, otherQuizzes);
 		if (index === -1) {
 			// quest does not exist in otherQuests
-			console.log(
+			log(
 				"%csaving " +
 					quiz.id +
 					", lastSave: " +
@@ -717,7 +715,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 			saveQuiz(quiz);
 		} else {
 			const otherQuiz = otherQuizzes[index];
-			console.log(
+			log(
 				"checking " +
 					quiz.id +
 					", lastSave: " +
@@ -727,11 +725,11 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 			);
 			if (quiz.lastSave < otherQuiz.lastSave) {
 				// otherQuiz is newer
-				console.log("%csaving " + otherQuiz.lastSave, "color: orange");
+				log("%csaving " + otherQuiz.lastSave, "color: orange");
 				saveOtherQuiz(otherQuiz);
 			} else if (quiz.lastSave > otherQuiz.lastSave) {
 				// quiz is newer
-				console.log("%csaving " + quiz.lastSave, "color: orange");
+				log("%csaving " + quiz.lastSave, "color: orange");
 				saveQuiz(quiz);
 			}
 		}
@@ -749,7 +747,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 		const index = find(quest.id, otherQuests);
 		if (index === -1) {
 			// quest does not exist in otherQuests
-			console.log(
+			log(
 				"%csaving " +
 					quest.id +
 					", lastSave: " +
@@ -760,7 +758,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 			saveQuest(quest);
 		} else {
 			const otherQuest = otherQuests[index];
-			console.log(
+			log(
 				"checking " +
 					quest.id +
 					", lastSave: " +
@@ -773,7 +771,7 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 				quest.attempts.length <= otherQuest.attempts.length
 			) {
 				// otherQuest is newer
-				console.log("%csaving " + otherQuest.lastSave, "color: orange");
+				log("%csaving " + otherQuest.lastSave, "color: orange");
 				saveOtherQuest(otherQuest);
 			} else if (
 				(quest.lastSave > otherQuest.lastSave &&
@@ -781,10 +779,10 @@ async function synchronize(serverData: Userdata, localData: Userdata) {
 				(quest.lastSave !== otherQuest.lastSave && preferQuest)
 			) {
 				// quest is newer
-				console.log("%csaving " + quest.lastSave, "color: orange");
+				log("%csaving " + quest.lastSave, "color: orange");
 				saveQuest(quest);
 			} else if (quest.lastSave !== otherQuest.lastSave && !preferQuest) {
-				console.log("%csaving " + otherQuest.lastSave, "color: orange");
+				log("%csaving " + otherQuest.lastSave, "color: orange");
 				saveOtherQuest(otherQuest);
 			}
 		}
@@ -806,9 +804,9 @@ export function saveCompletedTheory(id: string): void {
 			theoryId: id
 		};
 
-		post("/theory-progress", JSON.stringify(data)).catch((error) => {
+		post("/theory-progress", JSON.stringify(data)).catch((errorMsg) => {
 			// TODO: error handling
-			console.error(error);
+			error(errorMsg);
 		});
 	}
 }
@@ -872,9 +870,9 @@ export async function getLeaderboard(): Promise<undefined | LeaderboardType> {
 
 	try {
 		return await get<LeaderboardType>("/leaderboard", new Map([["userId", getUserId()]]));
-	} catch (error) {
+	} catch (errorMsg) {
 		// TODO further error handling
-		console.error("Failed to get Leaderboard from Server: ", error);
+		error("Failed to get Leaderboard from Server: ", errorMsg);
 		return;
 	}
 }

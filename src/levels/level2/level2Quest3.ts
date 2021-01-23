@@ -1,7 +1,14 @@
 import { GameConfig, controlType, character } from "../../gameLogic/GameConfig";
 import { GraphInputConfig } from "../../components/GraphInput";
 import { QuestConfig } from "../../components/Quest";
-import convertDataArray from "../../questSetupHelper";
+import convertDataArray, {
+	goDown,
+	goDownSlow,
+	goLeft,
+	goRight,
+	goUp,
+	goUpSlow
+} from "../../questSetupHelper";
 import { QuestStats } from "../../components/StatisticQuest";
 import Game from "../../gameLogic/game";
 
@@ -462,60 +469,6 @@ function onUpdate(this: Game): void {
 		this.platforms.remove(ground7, true);
 		this.platforms.create(700, 475, "bridge").setOrigin(0, 0.5).refreshBody();
 		this.platforms.create(840, 475, "bridge").setOrigin(1, 0.5).refreshBody();
-	}
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goDown(object: any, yEnd: number) {
-	if (object.y < yEnd) {
-		object.setVelocityY(100);
-	} else {
-		object.setVelocityY(0);
-	}
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goDownSlow(object: any, yEnd: number) {
-	if (object.y < yEnd) {
-		object.setVelocityY(35);
-	} else {
-		object.setVelocityY(0);
-	}
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goUp(object: any, yEnd: number) {
-	if (object.y > yEnd) {
-		object.setVelocityY(-100);
-	} else {
-		object.setVelocityY(0);
-	}
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goUpSlow(object: any, yEnd: number) {
-	if (object.y > yEnd) {
-		object.setVelocityY(-35);
-	} else {
-		object.setVelocityY(0);
-	}
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goLeft(object: any, xEnd: number) {
-	if (object.x > xEnd) {
-		object.setVelocityX(-100);
-	} else {
-		object.setVelocityX(0);
-	}
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goRight(object: any, xEnd: number) {
-	if (object.x < xEnd) {
-		object.setVelocityX(100);
-	} else {
-		object.setVelocityX(0);
 	}
 }
 

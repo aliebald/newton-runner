@@ -197,8 +197,16 @@ function onUpdate(this: Game): void {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function goDown(object: any, yEnd: number) {
-	if (object.y < yEnd) {
+	if (object.y + 10 < yEnd) {
 		object.setVelocityY(100);
+	} else if (object.y + 4 < yEnd) {
+		object.setVelocityY(50);
+	} else if (object.y + 2 < yEnd) {
+		object.setVelocityY(25);
+	} else if (object.y + 1 < yEnd) {
+		object.setVelocityY(12.5);
+	} else if (object.y < yEnd) {
+		object.setVelocityY(2.5);
 	} else {
 		object.setVelocityY(0);
 	}
@@ -206,8 +214,16 @@ function goDown(object: any, yEnd: number) {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function goUp(object: any, yEnd: number) {
-	if (object.y > yEnd) {
+	if (object.y > yEnd + 10) {
 		object.setVelocityY(-100);
+	} else if (object.y > yEnd + 4) {
+		object.setVelocityY(-50);
+	} else if (object.y > yEnd + 2) {
+		object.setVelocityY(-25);
+	} else if (object.y > yEnd + 1) {
+		object.setVelocityY(-12.5);
+	} else if (object.y > yEnd) {
+		object.setVelocityY(-2.5);
 	} else {
 		object.setVelocityY(0);
 	}

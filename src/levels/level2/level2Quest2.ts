@@ -184,10 +184,10 @@ function onUpdate(this: Game): void {
 			const endTime1 = this.variables.get("bomb_end");
 			goRight(bomb, startTime1, endTime1);
 		}
-		if (this.player.x >= 600) {
-			this.variables.set("wait", new Date().getTime() + 300);
+		if (!this.variables.get("startTime")) {
+			this.variables.set("startTime", new Date().getTime());
 		}
-		if (this.variables.get("wait")) {
+		if (this.variables.get("startTime") + 3000 < new Date().getTime()) {
 			this.variables.get("spikes");
 			const spikes = this.variables.get("spikes");
 			spikes.setScale(0.5, -0.5).refreshBody();

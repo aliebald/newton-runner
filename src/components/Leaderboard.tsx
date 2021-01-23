@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Spinner } from "react-bootstrap";
 import Achievement from "./Achievement";
 import { getLeaderboard, isLoggedIn } from "../userdata";
 import "../css/style.leaderboard.css";
@@ -16,86 +16,90 @@ type LeaderboardEntry = {
 	achievements: string[];
 };
 
+const sampleData = {
+	position: -1,
+	entries: [
+		{
+			name: "Max Mustermann",
+			points: 22,
+			bonusPoints: 3,
+			achievements: [
+				"PointCollectorLevel1",
+				"PointCollectorLevel2",
+				"BonusCollectorLevel1",
+				"BonusCollectorLevel2",
+				"QuizmasterLevel1",
+				"QuizmasterLevel2"
+			]
+		},
+		{
+			name: "Yvonne Fisher",
+			points: 20,
+			bonusPoints: 2,
+			achievements: [
+				"PointCollectorLevel1",
+				"PointCollectorLevel2",
+				"BonusCollectorLevel1",
+				"QuizmasterLevel1"
+			]
+		},
+		{
+			name: "Erika Mustermann",
+			points: 18,
+			bonusPoints: 1,
+			achievements: ["PointCollectorLevel1", "BonusCollectorLevel1", "QuizmasterLevel1"]
+		},
+		{
+			name: "Leonie Mueller",
+			points: 15,
+			bonusPoints: 2,
+			achievements: ["PointCollectorLevel1", "BonusCollectorLevel1"]
+		},
+		{
+			name: "Jan Janssen",
+			points: 15,
+			bonusPoints: 1,
+			achievements: ["BonusCollectorLevel1", "QuizmasterLevel1", "QuizmasterLevel2"]
+		},
+		{
+			name: "Swen Baumgaertner",
+			points: 15,
+			bonusPoints: 1,
+			achievements: ["PointCollectorLevel2", "BonusCollectorLevel1"]
+		},
+		{
+			name: "Mathias Bieber",
+			points: 14,
+			bonusPoints: 1,
+			achievements: ["BonusCollectorLevel1", "QuizmasterLevel1"]
+		},
+		{
+			name: "Lisa Amsel",
+			points: 12,
+			bonusPoints: 3,
+			achievements: ["PointCollectorLevel2", "BonusCollectorLevel1"]
+		},
+		{
+			name: "Thorsten Kunze",
+			points: 10,
+			bonusPoints: 1,
+			achievements: ["QuizmasterLevel1"]
+		},
+		{
+			name: "Daniela Meier",
+			points: 4,
+			bonusPoints: 0,
+			achievements: []
+		}
+	]
+};
+
 export default function Leaderboard(): ReactElement {
 	const [requestedData, setRequestedData] = useState(false);
 	const [isSampleData, setIsSampleData] = useState(true);
-	const [data, setData] = useState<LeaderboardType>({
-		position: -1,
-		entries: [
-			{
-				name: "Max Mustermann",
-				points: 22,
-				bonusPoints: 3,
-				achievements: [
-					"PointCollectorLevel1",
-					"PointCollectorLevel2",
-					"BonusCollectorLevel1",
-					"BonusCollectorLevel2",
-					"QuizmasterLevel1",
-					"QuizmasterLevel2"
-				]
-			},
-			{
-				name: "Yvonne Fisher",
-				points: 20,
-				bonusPoints: 2,
-				achievements: [
-					"PointCollectorLevel1",
-					"PointCollectorLevel2",
-					"BonusCollectorLevel1",
-					"QuizmasterLevel1"
-				]
-			},
-			{
-				name: "Erika Mustermann",
-				points: 18,
-				bonusPoints: 1,
-				achievements: ["PointCollectorLevel1", "BonusCollectorLevel1", "QuizmasterLevel1"]
-			},
-			{
-				name: "Leonie Mueller",
-				points: 15,
-				bonusPoints: 2,
-				achievements: ["PointCollectorLevel1", "BonusCollectorLevel1"]
-			},
-			{
-				name: "Jan Janssen",
-				points: 15,
-				bonusPoints: 1,
-				achievements: ["BonusCollectorLevel1", "QuizmasterLevel1", "QuizmasterLevel2"]
-			},
-			{
-				name: "Swen Baumgaertner",
-				points: 15,
-				bonusPoints: 1,
-				achievements: ["PointCollectorLevel2", "BonusCollectorLevel1"]
-			},
-			{
-				name: "Mathias Bieber",
-				points: 14,
-				bonusPoints: 1,
-				achievements: ["BonusCollectorLevel1", "QuizmasterLevel1"]
-			},
-			{
-				name: "Lisa Amsel",
-				points: 12,
-				bonusPoints: 3,
-				achievements: ["PointCollectorLevel2", "BonusCollectorLevel1"]
-			},
-			{
-				name: "Thorsten Kunze",
-				points: 10,
-				bonusPoints: 1,
-				achievements: ["QuizmasterLevel1"]
-			},
-			{
-				name: "Daniela Meier",
-				points: 4,
-				bonusPoints: 0,
-				achievements: []
-			}
-		]
-	});
+	const [data, setData] = useState<LeaderboardType>(
+		isLoggedIn() ? { position: -1, entries: [] } : sampleData
+	);
 
 	const list = [];
 	if (data.entries.length > 0) {
@@ -121,9 +125,15 @@ export default function Leaderboard(): ReactElement {
 		}
 	} else {
 		list.push(
-			<p key="leaderboardEntry-error" className="text-center px-3 error">
-				Es wurde keine Bestenliste f&uuml;r deine Klasse gefunden.
-			</p>
+			isLoggedIn() && isSampleData ? (
+				<div key="leaderboardLoading" className="pt-3 d-flex justify-content-center">
+					<Spinner animation="border" className="colorSecondary" />
+				</div>
+			) : (
+				<p key="leaderboardEntry-error" className="text-center px-3 error">
+					Es wurde keine Bestenliste f&uuml;r deine Klasse gefunden.
+				</p>
+			)
 		);
 	}
 

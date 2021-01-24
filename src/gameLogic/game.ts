@@ -801,6 +801,8 @@ const startGame = function startGame(this: Game) {
 		return;
 	}
 
+	this.collectedGoal = false;
+
 	// Stop cameraRide
 	cameraRide = false;
 

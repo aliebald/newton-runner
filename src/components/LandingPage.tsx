@@ -123,7 +123,7 @@ export default function LandingPage(props: { loggedIn: boolean }): ReactElement 
 												</Col>
 												<Col xs="12" sm="8" md="9" xl="10">
 													<Badge className="managementBadge">
-														&#x1F4C5; Project&nbsp;management
+														&#x1F4C5; Project&nbsp;Management
 													</Badge>
 													<Badge className="devBadge ml-1">
 														&#128421; Developer
@@ -131,7 +131,7 @@ export default function LandingPage(props: { loggedIn: boolean }): ReactElement 
 													<a
 														target="_blank"
 														rel="noreferrer noopener"
-														className="ghLink  ml-1"
+														className="ghLink ml-1"
 														href="https://github.com/aliebald"
 													>
 														<img src="other/landingPage/GitHub-Mark-32px.png" />
@@ -144,7 +144,7 @@ export default function LandingPage(props: { loggedIn: boolean }): ReactElement 
 												</Col>
 												<Col xs="12" sm="8" md="9" xl="10">
 													<Badge className="designBadge">
-														&#x1F58C; Level&nbsp;Design
+														&#x1F58C; Level&nbsp;Designer
 													</Badge>
 													<Badge className="devBadge ml-1">
 														&#128421; Developer
@@ -175,7 +175,7 @@ export default function LandingPage(props: { loggedIn: boolean }): ReactElement 
 												</Col>
 												<Col xs="12" sm="8" md="9" xl="10">
 													<Badge className="designBadge">
-														&#x1F58C; Level&nbsp;Design
+														&#x1F58C; Level&nbsp;Designer
 													</Badge>
 												</Col>
 											</Row>

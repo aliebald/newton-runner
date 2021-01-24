@@ -2,13 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Question, QuestionConfig, questionStateType } from "./Question";
 import "./../css/style.quiz.css";
-import {
-	saveSingleQuestion,
-	loadQuizProgress,
-	QuestionProgress,
-	QuizProgress,
-	isLoggedIn
-} from "../userdata";
+import { saveSingleQuestion, loadQuizProgress, QuestionProgress, QuizProgress } from "../userdata";
 import { Link } from "react-router-dom";
 import MathJax from "react-mathjax";
 
@@ -30,7 +24,7 @@ export function Quiz(props: {
 	const [progress, setProgress] = useState(
 		getEmptyQuizProgress(props.config.id, props.config.questions)
 	);
-	const [allSolved, setallSolved] = useState(checkAllSolved());
+	const [allSolved, setAllSolved] = useState(false);
 
 	// load the progress. Update progress if loadQuizProgress returned a QuizProgress.
 	if (!requested) {
@@ -39,6 +33,7 @@ export function Quiz(props: {
 		loadQuizProgress(props.config.id).then((response) => {
 			if (response) {
 				setProgress(response);
+				setAllSolved(checkAllSolved(response.questions));
 			}
 		});
 	}
@@ -124,9 +119,10 @@ export function Quiz(props: {
 	/**
 	 * Checks if all questions are solved (correct or incorrect)
 	 */
-	function checkAllSolved() {
+	function checkAllSolved(questions?: QuestionProgress[]) {
+		questions = questions ? questions : progress.questions;
 		let allSolved = true;
-		progress.questions.forEach((question) => {
+		questions.forEach((question) => {
 			allSolved = allSolved && question.state !== "unsolved";
 		});
 		return allSolved;
@@ -145,7 +141,7 @@ export function Quiz(props: {
 		}
 
 		saveSingleQuestion(progress, question);
-		setallSolved(checkAllSolved());
+		setAllSolved(checkAllSolved());
 	}
 
 	/**

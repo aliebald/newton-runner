@@ -143,8 +143,8 @@ function afterCreate(this: Game): void {
 	this.variables.set("switchLeft", switchLeft);
 
 	// Add coinGold as points
-	this.points.create(560, 60, "coinGold");
-	this.dynamicGoals.create(950, 50, "keyYellow");
+	this.points.create(1020, 60, "coinGold");
+	this.dynamicGoals.create(900, 50, "keyYellow");
 
 	// Add a sample trap
 	this.staticTraps.create(1100, 433, "spikes").setScale(0.5).refreshBody();

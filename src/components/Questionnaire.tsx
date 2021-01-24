@@ -78,7 +78,12 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 					<Form.Text className="text-muted">
 						Optional: Falls du noch weitere anmerkungen hast.
 					</Form.Text>
-					<Form.Control as="textarea" name="remarks" rows={4} maxLength={2000} />
+					<Form.Control
+						as="textarea"
+						name="remarks"
+						rows={4}
+						maxLength={2000}
+					></Form.Control>
 					<Row className="d-flex justify-content-center">
 						<Button type="submit" variant="primary" className="mt-3">
 							Abschicken und Weiter

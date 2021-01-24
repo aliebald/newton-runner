@@ -50,7 +50,7 @@ const config: TheoryConfig = {
 				<span className="blue">
 					<MathJax.Node inline formula={"v_1 = 4 \\frac{m}{s}"} />{" "}
 				</span>{" "}
-				vorw&auml;rts. Anschlie &szlig;end bleibt er stehen mit der Geschwindigkeit{" "}
+				vorw&auml;rts. Anschlie&szlig;end bleibt er stehen mit der Geschwindigkeit{" "}
 				<span className="orange">
 					<MathJax.Node inline formula={"v_2 = 0 \\frac{m}{s}"} />
 				</span>

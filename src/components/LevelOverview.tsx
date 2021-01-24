@@ -172,7 +172,7 @@ export default function LevelOverview(): ReactElement {
 							<Card.Body>
 								<h1 className="text-center">Heimat</h1>
 								<p className="text-center">
-									Zu Beginn deiner Reise lernst du das Zeit-Orts-Diagrammm
+									Zu Beginn deiner Reise lernst du das Zeit-Orts-Diagramm
 									n&auml;her kennen.
 								</p>
 								<LevelOverviewBar config={barConfig1}></LevelOverviewBar>

@@ -21,7 +21,7 @@ const config: QuizConfig = {
 					correct: false
 				},
 				{
-					answer: "Strecke auf der x-Achse",
+					answer: "Strecke auf der t-Achse",
 					correct: false
 				},
 				{
@@ -41,7 +41,7 @@ const config: QuizConfig = {
 					correct: false
 				},
 				{
-					answer: "Strecke auf der x-Achse",
+					answer: "Strecke auf der t-Achse",
 					correct: true
 				},
 				{

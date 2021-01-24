@@ -8,7 +8,7 @@ const config: TheoryConfig = {
 		<React.Fragment key={0}>
 			<h1 className="centerBox">Level 1 - Erkl&auml;rung Spielmechanik</h1>
 			<div className="centerBox slideSubText">
-				Hier erkl&auml;ren wir dir wie die Steuerung des Spiels funktioniert
+				Hier erkl&auml;ren wir dir, wie die Steuerung des Spiels funktioniert
 			</div>
 		</React.Fragment>,
 		<>
@@ -28,7 +28,7 @@ const config: TheoryConfig = {
 		<>
 			<Image src={"levels/level1/example_start_graph_versuch.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Oben Rechts wird angezeigt wie oft du das Level bereits versucht hast.
+				Oben Rechts wird angezeigt, wie oft du das Level bereits versucht hast.
 			</div>
 		</>,
 		<>
@@ -49,21 +49,21 @@ const config: TheoryConfig = {
 		<>
 			<Image src={"levels/level1/example_progress_graph.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Nachdem du das Spiel gestartet hast, wird sich der Graph rot einf&auml;rben damit du
-				die Bewegung der Figur nachvollziehen kannst.
+				Nachdem du das Spiel gestartet hast, wird sich der Graph rot einf&auml;rben, damit
+				du die Bewegung der Figur nachvollziehen kannst.
 			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_coin.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Sammle die M&uuml;nzen ein um mehr Punkte zu erhalten. Doch Vorsicht, mit der Zeit
+				Sammle die M&uuml;nzen ein, um mehr Punkte zu erhalten. Doch Vorsicht, mit der Zeit
 				warten auch gef&auml;hrliche Gegenst&auml;nde auf dich.
 			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_key.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Du schaffst das Level wenn du unbeschadet den Schl&uuml;ssel einsammelst.
+				Du schaffst das Level, wenn du unbeschadet den Schl&uuml;ssel einsammelst.
 			</div>
 		</>,
 		<>
@@ -77,20 +77,20 @@ const config: TheoryConfig = {
 			<div className="centerBox slideSubText">
 				Einige Level sind l&auml;nger als dieses hier und du siehst m&ouml;glicherweise
 				nicht alles von deiner Position aus. Um zu sehen was au&szlig;erhalb der Sichtweite
-				deiner Figur wartet kannst du diese Kontrollelemente nutzen.
+				deiner Figur wartet, kannst du diese Kontrollelemente nutzen.
 			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_start_game_start.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Hast du alle Einstellungen vorgenommen setzt du mit dem Start-Knopf deine Figur in
+				Hast du alle Einstellungen vorgenommen, setzt du mit dem Start-Knopf deine Figur in
 				Bewegung.
 			</div>
 		</>,
 		<>
 			<Image src={"levels/level1/example_progress_game_nochmal.png"} fluid rounded />
 			<div className="centerBox slideSubText">
-				Merkst du dass du dich etwas verkalkuliert hast, so kannst du die Aufgabe
+				Merkst du, dass du dich etwas verkalkuliert hast, so kannst du die Aufgabe
 				fr&uuml;hzeitig neu starten.
 			</div>
 		</>

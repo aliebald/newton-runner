@@ -45,8 +45,8 @@ export default function LandingPage(props: { loggedIn: boolean }): ReactElement 
 								beschleunigter Bewegung kennenlernen. Dabei benutzt du zu Beginn ein
 								Zeit-Orts-Diagramm (t-x-Diagramm), und sp&auml;ter ein
 								Zeit-Geschwindigkeits-Diagramm (t-v-Diagramm), um dich an
-								Hindernissen vorbei durch hin zu deinem Ziel zu f&uuml;hren. Dabei
-								wird dein Wissen auch regelm&auml;ßig in Quizzen gefordert.
+								Hindernissen vorbei zu deinem Ziel zu f&uuml;hren. Dabei wird dein
+								Wissen auch regelm&auml;ßig in Quizzen gefordert.
 							</p>
 						</Col>
 					</Row>

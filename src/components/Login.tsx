@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import { log, warn } from "../logger";
 import { getNameLocal, isLoggedIn, login, logout, setName } from "../userdata";
 
@@ -11,6 +12,7 @@ export default function Login(props: {
 	const [stayLoggedIn, setStayLoggedIn] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const [successMessage, setSuccessMessage] = useState("");
+	const history = useHistory();
 	let title, subtitle;
 	if (props.loggedIn) {
 		title = "Erfolgreich Angemeldet";
@@ -72,6 +74,30 @@ export default function Login(props: {
 		</Form>
 	);
 
+	const buttons = (
+		<div className="d-flex justify-content-center">
+			{props.loggedIn ? (
+				<Button
+					size="lg"
+					onClick={() => history.push("/level1Story1")}
+					variant="primary"
+					className="mr-1"
+				>
+					Jetzt Starten
+				</Button>
+			) : (
+				<></>
+			)}
+			<Button
+				size="lg"
+				onClick={handleMainButton}
+				variant={props.loggedIn ? "outline-primary" : "primary"}
+			>
+				{props.loggedIn ? "Abmelden" : "Anmelden"}
+			</Button>
+		</div>
+	);
+
 	return (
 		<Container fluid="lg" className="d-flex justify-content-center">
 			<Row className="boxWrapper loginScreen mt-3 px-2">
@@ -81,11 +107,7 @@ export default function Login(props: {
 					<div className="text-center error">{errorMessage}</div>
 					<div className="text-center success">{successMessage}</div>
 					{props.loggedIn ? changeNameForm : loginForm}
-					<div className="d-flex justify-content-center">
-						<Button size="lg" onClick={handleMainButton} variant="primary">
-							{props.loggedIn ? "Abmelden" : "Anmelden"}
-						</Button>
-					</div>
+					{buttons}
 				</Col>
 			</Row>
 		</Container>

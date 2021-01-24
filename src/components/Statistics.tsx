@@ -12,6 +12,8 @@ import { questStatistics as level2QuestStats2 } from "../levels/level2/level2Que
 import { questStatistics as level2QuestStats3 } from "../levels/level2/level2Quest3";
 import level1Quiz1 from "../levels/level1/level1Quiz1";
 import level1Quiz2 from "../levels/level1/level1Quiz2";
+import level2Quiz1 from "../levels/level2/level2Quiz1";
+import level2Quiz2 from "../levels/level2/level2Quiz2";
 import { QuizConfig } from "./Quiz";
 import StatisticLevel from "./StatisticLevel";
 import Leaderboard from "./Leaderboard";
@@ -108,11 +110,11 @@ export function Statistics(): ReactElement {
 		}[] = [];
 		ret.push({
 			progress: quizzes[find("level2Quiz1", quizzes)],
-			config: level1Quiz1
+			config: level2Quiz1
 		});
 		ret.push({
 			progress: quizzes[find("level2Quiz2", quizzes)],
-			config: level1Quiz2
+			config: level2Quiz2
 		});
 		return ret;
 	}

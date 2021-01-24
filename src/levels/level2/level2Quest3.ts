@@ -24,8 +24,8 @@ export const questStatistics: QuestStats = {
 };
 
 const graph: GraphInputConfig = {
-	xTitle: "time in s",
-	yTitle: "velocity in m/s",
+	xTitle: "Zeit in s",
+	yTitle: "Geschwindigkeit in m/s",
 	minY: 0,
 	maxY: 5,
 	data: convertDataArray(defaultMovement)

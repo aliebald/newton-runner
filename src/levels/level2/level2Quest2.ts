@@ -1,7 +1,7 @@
 import { GameConfig, controlType, character } from "../../gameLogic/GameConfig";
 import { GraphInputConfig } from "../../components/GraphInput";
 import { QuestConfig } from "../../components/Quest";
-import convertDataArray from "../../questSetupHelper";
+import convertDataArray, { goRight } from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 import { QuestStats } from "../../components/StatisticQuest";
 
@@ -167,17 +167,15 @@ function afterCreate(this: Game): void {
 }
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
-		if (this.player.x >= 100 && !this.variables.get("bomb_start")) {
-			this.variables.set("bomb_start", new Date().getTime());
-			this.variables.set("bomb_end", new Date().getTime() + 50000);
-			this.variables.set("bombStartX", 0);
-			this.variables.set("bombEndX", 1000);
+		if (this.player.x >= 100 && !this.variables.get("bomb_started")) {
+			this.variables.set("bomb_started", true);
 		}
-		if (this.variables.get("bomb_start")) {
+		if (this.variables.get("bomb_started")) {
 			const bomb = this.variables.get("bomb");
-			const startTime1 = this.variables.get("bomb_start");
-			const endTime1 = this.variables.get("bomb_end");
-			goRight(bomb, startTime1, endTime1);
+			if (bomb.x < 800) {
+				bomb.rotation += 0.1;
+			}
+			goRight(bomb, 800);
 		}
 		if (!this.variables.get("startTime")) {
 			this.variables.set("startTime", new Date().getTime());
@@ -187,16 +185,6 @@ function onUpdate(this: Game): void {
 			const spikes = this.variables.get("spikes");
 			spikes.setScale(0.5, -0.5).refreshBody();
 		}
-	}
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goRight(object: any, timeStart: number, timeEnd: number) {
-	const time = new Date().getTime();
-	if (time < timeEnd && time >= timeStart) {
-		object.setVelocityX(100);
-	} else {
-		object.setVelocityX(0);
 	}
 }
 

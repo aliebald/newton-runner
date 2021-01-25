@@ -1,7 +1,7 @@
 import { GameConfig, controlType, character } from "../../gameLogic/GameConfig";
 import { GraphInputConfig } from "../../components/GraphInput";
 import { QuestConfig } from "../../components/Quest";
-import convertDataArray from "../../questSetupHelper";
+import convertDataArray, { goRight } from "../../questSetupHelper";
 import Game from "../../gameLogic/game";
 import { QuestStats } from "../../components/StatisticQuest";
 
@@ -337,26 +337,16 @@ function afterCreate(this: Game): void {
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
 		if (this.player.x >= 200 && !this.variables.get("bomb_start")) {
-			this.variables.set("bomb_start", new Date().getTime());
-			this.variables.set("bomb_end", new Date().getTime() + 5000);
-			this.variables.set("bombStartX", 400);
-			this.variables.set("bombEndX", 1000);
+			this.variables.set("bomb_start", true);
 		}
 		if (this.variables.get("bomb_start")) {
 			const bomb = this.variables.get("bomb");
-			const startTime1 = this.variables.get("bomb_start");
-			const endTime1 = this.variables.get("bomb_end");
-			goRight(bomb, startTime1, endTime1);
+			if (bomb.x < 1100) {
+				bomb.rotation += 0.1;
+			}
+			goRight(bomb, 1100);
 		}
 	}
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function goRight(object: any, timeStart: number, timeEnd: number) {
-	const time = new Date().getTime();
-	if (time < timeEnd && time >= timeStart) {
-		object.setVelocityX(130);
-	} else {
-		object.setVelocityX(0);
-	}
-}
+
 export default settings;

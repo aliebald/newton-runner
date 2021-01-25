@@ -421,13 +421,19 @@ function onUpdate(this: Game): void {
 		}
 		if (this.variables.get("bomb_started")) {
 			const bomb = this.variables.get("bomb");
-			goLeft(bomb, 350);
+			if (bomb.x > 370) {
+				bomb.rotation -= 0.1;
+			}
+			goLeft(bomb, 360);
 		}
 		if (this.player.x >= 650 && !this.variables.get("bomb2_started")) {
 			this.variables.set("bomb2_started", true);
 		}
 		if (this.variables.get("bomb2_started")) {
 			const bomb2 = this.variables.get("bomb2");
+			if (bomb2.x < 750) {
+				bomb2.rotation += 0.1;
+			}
 			goRight(bomb2, 750);
 		}
 		if (this.player.x >= 900) {

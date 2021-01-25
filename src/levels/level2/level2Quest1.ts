@@ -50,9 +50,9 @@ const settings: QuestConfig = {
 	title: "Level 2 Quest 1",
 	id: "level2Quest1",
 	graph: graph,
-	description: `Pass auf, dass du nicht in gefährliche Stacheln läufst! Wer aber geduldig ist wird sehen, dass diese
-		sich weg bewegen. Sammel den Schlüssel ein und vielleicht erreichst du auch den Bonuspunkt. Aber
-		Achtung! Wer zu weit geht, landet am Ende doch in den Stacheln.`, // cspell: disable-line
+	description: `Pass auf, dass du nicht zu nah an die gefährliche Bombe kommst! Wer aber geduldig ist wird sehen,
+		dass diese sich mit 3 m/s weg bewegt. Sammel den Schlüssel ein und vielleicht erreichst du auch den
+		Bonuspunkt. Aber Achtung! Wer zu weit geht, tritt am Ende doch in die Bombe.`, // cspell: disable-line
 	game: game
 };
 

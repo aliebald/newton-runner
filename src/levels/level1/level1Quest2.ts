@@ -49,8 +49,8 @@ export const settings: QuestConfig = {
 	id: "level1Quest2",
 	description: `
 		Da du die erste Aufgabe erfolgreich gemeistert hast, wirfst du erneut einen Blick auf die Karte. Auf
-		dieser siehst du, dass du für den zweiten Schlüssel über eine knarzige Brücke gehen musst. Diese sieht
-		so aus, als könnte es kurz dauern, bis sie vollständig heruntergelassen ist. Versuche den Schlüssel auf
+		dieser siehst du, dass du für den zweiten Schlüssel über eine knarzige Brücke gehen musst. 
+		Diese braucht 4 Sekunden bis sie vollständig heruntergelassen ist. Versuche den Schlüssel auf
 		der anderen Seite der Brücke einzusammeln, aber pass auf! Dahinter wird es gefährlich. Vielleicht
 		schaffst du es auch einen Bonuspunkt auf dem Weg einzusammeln.`,
 	graph: graph,
@@ -143,8 +143,8 @@ function afterCreate(this: Game): void {
 	this.variables.set("switchLeft", switchLeft);
 
 	// Add coinGold as points
-	this.points.create(560, 60, "coinGold");
-	this.dynamicGoals.create(950, 50, "keyYellow");
+	this.points.create(1020, 60, "coinGold");
+	this.dynamicGoals.create(900, 50, "keyYellow");
 
 	// Add a sample trap
 	this.staticTraps.create(1100, 433, "spikes").setScale(0.5).refreshBody();

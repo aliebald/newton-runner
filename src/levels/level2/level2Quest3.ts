@@ -357,9 +357,9 @@ function afterCreate(this: Game): void {
 		immovable: true
 	});
 	this.physics.add.collider(this.player, dynamicTraps);
-	const bomb = this.dynamicTraps.create(450, 433, "bomb").setScale(0.5).refreshBody();
+	const bomb = this.dynamicTraps.create(450, 433, "bomb").setScale(0.4).refreshBody();
 	this.variables.set("bomb", bomb);
-	const bomb2 = this.dynamicTraps.create(450, 433, "bomb").setScale(0.5).refreshBody();
+	const bomb2 = this.dynamicTraps.create(450, 433, "bomb").setScale(0.4).refreshBody();
 	this.variables.set("bomb2", bomb2);
 	const bomb3 = this.dynamicTraps.create(-100, 200, "bomb");
 	this.variables.set("bomb3", bomb3);
@@ -372,15 +372,15 @@ function afterCreate(this: Game): void {
 	this.physics.add.collider(dynamicObjects, dynamicPlatform);
 	this.physics.add.collider(this.points, dynamicPlatform);
 	this.physics.add.collider(this.player, dynamicPlatform);
-	const ground1 = dynamicPlatform.create(385, 500, "box");
-	const ground2 = this.platforms.create(700, 475, "bridge").setOrigin(0, 0.5).refreshBody();
-	const ground3 = this.platforms.create(840, 475, "bridge").setOrigin(1, 0.5).refreshBody();
+	const box = dynamicPlatform.create(385, 500, "box");
+	const bridgeL = this.platforms.create(700, 475, "bridge").setOrigin(0, 0.5).refreshBody();
+	const bridgeR = this.platforms.create(840, 475, "bridge").setOrigin(1, 0.5).refreshBody();
 	const weight = dynamicObjects.create(770, 400, "weight").setScale(0.3, 0.3).refreshBody();
 	const chain = staticObjects.create(770, -100, "chain").setScale(0.5, 0.5).refreshBody();
 
-	this.variables.set("ground1", ground1);
-	this.variables.set("ground2", ground2);
-	this.variables.set("ground3", ground3);
+	this.variables.set("box", box);
+	this.variables.set("bridgeL", bridgeL);
+	this.variables.set("bridgeR", bridgeR);
 	this.variables.set("weight", weight);
 	this.variables.set("chain", chain);
 
@@ -388,87 +388,76 @@ function afterCreate(this: Game): void {
 	this.variables.set("key", key);
 
 	this.platforms.create(-100, 270, "castleMid");
-	const ground6 = this.platforms.create(-710, 500, "bridge_down");
-	const ground7 = this.platforms.create(-830, 500, "bridge_down");
-	this.variables.set("ground6", ground6);
-	this.variables.set("ground7", ground7);
+	const bridge_downL = this.platforms.create(-710, 500, "bridge_down");
+	const bridge_downR = this.platforms.create(-830, 500, "bridge_down");
+	this.variables.set("bridge_downL", bridge_downL);
+	this.variables.set("bridge_downR", bridge_downR);
 }
 
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
-		if (this.player.x >= 350 && !this.variables.get("ground1_started")) {
-			this.variables.set("ground1_started", true);
+		if (this.player.x >= 350 && !this.variables.get("box_started")) {
+			this.variables.set("box_started", true);
 		}
-		if (this.variables.get("ground1_started")) {
-			const ground1 = this.variables.get("ground1");
-			goUp(ground1, 439);
+		if (this.variables.get("box_started")) {
+			const box = this.variables.get("box");
+			goUp(box, 439);
 		}
-		if (this.variables.get("ground1_started")) {
+		if (this.variables.get("box_started")) {
 			const chain = this.variables.get("chain");
 			chain.setY(500);
-			const ground2 = this.variables.get("ground2");
-			this.platforms.remove(ground2, true);
-			const ground3 = this.variables.get("ground3");
-			this.platforms.remove(ground3, true);
-			const ground6 = this.variables.get("ground6");
-			ground6.setX(710);
-			const ground7 = this.variables.get("ground7");
-			ground7.setX(830);
+			const bridgeL = this.variables.get("bridgeL");
+			this.platforms.remove(bridgeL, true);
+			const bridgeR = this.variables.get("bridgeR");
+			this.platforms.remove(bridgeR, true);
+			const bridge_downL = this.variables.get("bridge_downL");
+			bridge_downL.setX(710);
+			const bridge_downR = this.variables.get("bridge_downR");
+			bridge_downR.setX(830);
 		}
-		if (
-			this.player.x >= 750 &&
-			this.player.y >= 470 &&
-			!this.variables.get("ground4_started")
-		) {
-			this.variables.set("ground4_started", true);
+		if (this.player.x > 420 && this.player.y > 370 && !this.variables.get("box1_started")) {
+			this.variables.set("box1_started", true);
 		}
-	}
-	if (this.variables.get("ground4_started")) {
-		const ground4 = this.variables.get("ground1");
-		goDown(ground4, 430);
-	}
-	if (this.player.y <= 370 && !this.variables.get("bomb_started")) {
-		this.variables.set("bomb_started", true);
-	}
-	if (this.variables.get("bomb_started")) {
-		const bomb = this.variables.get("bomb");
-		goLeft(bomb, 350);
-	}
-	if (this.player.x >= 650 && !this.variables.get("bomb2_started")) {
-		this.variables.set("bomb2_started", true);
-	}
-	if (this.variables.get("bomb2_started")) {
-		const bomb2 = this.variables.get("bomb2");
-		goRight(bomb2, 750);
-	}
-	if (this.player.x >= 900) {
-		const bomb3 = this.variables.get("bomb3");
-		bomb3.setX(950);
-	}
-	if (this.player.x > 420 && this.player.y > 370 && !this.variables.get("ground5_started")) {
-		this.variables.set("ground5_started", true);
-	}
-	if (this.variables.get("ground5_started")) {
-		const ground5 = this.variables.get("ground1");
-		goDownSlow(ground5, 495);
-	}
-	if (this.player.x > 420 && this.player.x < 450 && !this.variables.get("weight_started")) {
-		this.variables.set("weight_started", true);
-	}
-	if (this.variables.get("weight_started")) {
+		if (this.variables.get("box1_started")) {
+			const box1 = this.variables.get("box");
+			goDownSlow(box1, 500);
+		}
+		if (this.player.y <= 370 && !this.variables.get("bomb_started")) {
+			this.variables.set("bomb_started", true);
+		}
+		if (this.variables.get("bomb_started")) {
+			const bomb = this.variables.get("bomb");
+			goLeft(bomb, 350);
+		}
+		if (this.player.x >= 650 && !this.variables.get("bomb2_started")) {
+			this.variables.set("bomb2_started", true);
+		}
+		if (this.variables.get("bomb2_started")) {
+			const bomb2 = this.variables.get("bomb2");
+			goRight(bomb2, 750);
+		}
+		if (this.player.x >= 900) {
+			const bomb3 = this.variables.get("bomb3");
+			bomb3.setX(950);
+		}
+		if (this.player.x > 420 && this.player.x < 450 && !this.variables.get("weight_started")) {
+			this.variables.set("weight_started", true);
+		}
+		if (this.variables.get("weight_started")) {
+			const weight = this.variables.get("weight");
+			goUpSlow(weight, 448);
+			const chain = this.variables.get("chain");
+			chain.setY(-500);
+		}
 		const weight = this.variables.get("weight");
-		goUpSlow(weight, 450);
-		const chain = this.variables.get("chain");
-		chain.setY(-500);
-	}
-	const weight = this.variables.get("weight");
-	if (weight.y <= 450 && this.player.x > 420) {
-		const ground6 = this.variables.get("ground6");
-		this.platforms.remove(ground6, true);
-		const ground7 = this.variables.get("ground7");
-		this.platforms.remove(ground7, true);
-		this.platforms.create(700, 475, "bridge").setOrigin(0, 0.5).refreshBody();
-		this.platforms.create(840, 475, "bridge").setOrigin(1, 0.5).refreshBody();
+		if (weight.y <= 452 && this.player.x > 420) {
+			const bridge_downL = this.variables.get("bridge_downL");
+			this.platforms.remove(bridge_downL, true);
+			const bridge_downR = this.variables.get("bridge_downR");
+			this.platforms.remove(bridge_downR, true);
+			this.platforms.create(700, 475, "bridge").setOrigin(0, 0.5).refreshBody();
+			this.platforms.create(840, 475, "bridge").setOrigin(1, 0.5).refreshBody();
+		}
 	}
 }
 

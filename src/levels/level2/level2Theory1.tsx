@@ -64,7 +64,7 @@ const config: TheoryConfig = {
 		</>,
 		<>
 			<p>Das zugeh&ouml;rige Zeit-Orts-Diagramm sieht folgenderma&szlig;en aus:</p>
-			<Image src={"levels/level2/zeit-geschwindigkeit2.png"} fluid rounded />
+			<Image src={"levels/level2/zeit-ort3.png"} fluid rounded />
 		</>,
 		<>
 			<p>

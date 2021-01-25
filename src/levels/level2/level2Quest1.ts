@@ -329,12 +329,7 @@ function afterCreate(this: Game): void {
 		this.platforms.create(35 + tileWidth * i, 570, "castleCenter");
 	}
 	this.dynamicGoals.create(950, 300, "keyYellow");
-	const dynamicTraps = this.physics.add.group({
-		allowGravity: false,
-		immovable: true
-	});
 	const bomb = this.dynamicTraps.create(400, 433, "bomb").setScale(0.5).refreshBody();
-	this.physics.add.collider(this.player, dynamicTraps);
 	this.variables.set("bomb", bomb);
 	this.points.create(1000, 400, "coinGold");
 }

@@ -344,10 +344,6 @@ function afterCreate(this: Game): void {
 	this.staticTraps.create(735, 505, "spikes").setScale(0.5, 0.5).refreshBody();
 	this.staticTraps.create(805, 505, "spikes").setScale(0.5, 0.5).refreshBody();
 
-	const dynamicTraps = this.physics.add.group({
-		allowGravity: false,
-		immovable: true
-	});
 	const dynamicObjects = this.physics.add.group({
 		allowGravity: true,
 		immovable: false
@@ -356,7 +352,6 @@ function afterCreate(this: Game): void {
 		allowGravity: false,
 		immovable: true
 	});
-	this.physics.add.collider(this.player, dynamicTraps);
 	const bomb = this.dynamicTraps.create(450, 433, "bomb").setScale(0.4).refreshBody();
 	this.variables.set("bomb", bomb);
 	const bomb2 = this.dynamicTraps.create(450, 433, "bomb").setScale(0.4).refreshBody();
@@ -402,8 +397,7 @@ function onUpdate(this: Game): void {
 		if (this.variables.get("box_started")) {
 			const box = this.variables.get("box");
 			goUp(box, 439);
-		}
-		if (this.variables.get("box_started")) {
+
 			const chain = this.variables.get("chain");
 			chain.setY(500);
 			const bridgeL = this.variables.get("bridgeL");

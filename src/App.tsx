@@ -38,25 +38,11 @@ import bonusLevelQuiz1 from "./levels/bonus/bonusLevelQuiz1";
 
 function App(): ReactElement {
 	const [networkError, setNetworkError] = useState(checkNetworkError());
-	const [showBetaAlert, setShowBetaAlert] = useState(true);
 	const [loggedIn, setLoggedIn] = useState(isLoggedIn());
 	const [showLoginPopup, setShowLoginPopup] = useState(location.hash !== "#/login" && !loggedIn);
 
-	// For deployment to GH Pages:
-	// Change <BrowserRouter> to <HashRouter basename="/">
 	return (
 		<HashRouter basename="/">
-			<Alert
-				variant="danger"
-				onClose={() => setShowBetaAlert(false)}
-				dismissible
-				style={{ margin: "0" }}
-				show={showBetaAlert}
-			>
-				Danke f&uuml;rs testen der <b>Betaversion vom 19. Januar 2021</b>. Wir w&uuml;rden
-				uns sehr &uuml;ber dein Feedback freuen!&nbsp;
-				<a href="mailto:physics.game.team@gmail.com">Kontakt</a>
-			</Alert>
 			<Alert
 				variant="danger"
 				onClose={removeNetworkError}

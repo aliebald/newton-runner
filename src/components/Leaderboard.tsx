@@ -21,8 +21,8 @@ const sampleData = {
 	entries: [
 		{
 			name: "Max Mustermann",
-			points: 22,
-			bonusPoints: 3,
+			points: 72,
+			bonusPoints: 4,
 			achievements: [
 				"PointCollectorLevel1",
 				"PointCollectorLevel2",
@@ -34,8 +34,8 @@ const sampleData = {
 		},
 		{
 			name: "Yvonne Fisher",
-			points: 20,
-			bonusPoints: 2,
+			points: 64,
+			bonusPoints: 3,
 			achievements: [
 				"PointCollectorLevel1",
 				"PointCollectorLevel2",
@@ -45,39 +45,39 @@ const sampleData = {
 		},
 		{
 			name: "Erika Mustermann",
-			points: 18,
-			bonusPoints: 1,
+			points: 72,
+			bonusPoints: 3,
 			achievements: ["PointCollectorLevel1", "BonusCollectorLevel1", "QuizmasterLevel1"]
 		},
 		{
 			name: "Leonie Mueller",
-			points: 15,
-			bonusPoints: 2,
+			points: 55,
+			bonusPoints: 3,
 			achievements: ["PointCollectorLevel1", "BonusCollectorLevel1"]
 		},
 		{
 			name: "Jan Janssen",
-			points: 15,
+			points: 35,
 			bonusPoints: 1,
-			achievements: ["BonusCollectorLevel1", "QuizmasterLevel1", "QuizmasterLevel2"]
+			achievements: ["BonusCollectorLevel2", "QuizmasterLevel1", "QuizmasterLevel2"]
 		},
 		{
 			name: "Swen Baumgaertner",
-			points: 15,
+			points: 19,
 			bonusPoints: 1,
-			achievements: ["PointCollectorLevel2", "BonusCollectorLevel1"]
+			achievements: ["QuizmasterLevel1", "BonusCollectorLevel2"]
 		},
 		{
 			name: "Mathias Bieber",
-			points: 14,
-			bonusPoints: 1,
+			points: 15,
+			bonusPoints: 3,
 			achievements: ["BonusCollectorLevel1", "QuizmasterLevel1"]
 		},
 		{
 			name: "Lisa Amsel",
 			points: 12,
 			bonusPoints: 3,
-			achievements: ["PointCollectorLevel2", "BonusCollectorLevel1"]
+			achievements: ["BonusCollectorLevel1"]
 		},
 		{
 			name: "Thorsten Kunze",

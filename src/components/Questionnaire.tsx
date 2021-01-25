@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import { post } from "../backendCommunication";
 import { getUserId, isLoggedIn } from "../userdata";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Toast from "./Toast";
 import { error as logError } from "../logger";
 
@@ -18,6 +18,10 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 			onClose={() => setError(false)}
 		/>
 	);
+
+	if (!isLoggedIn()) {
+		history.push(props.nextPage);
+	}
 
 	return (
 		<>
@@ -76,7 +80,7 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 					<div className="questionnaireSeparator my-4"></div>
 					<h3>Weitere Anmerkungen</h3>
 					<Form.Text className="text-muted">
-						Optional: Falls du noch weitere anmerkungen hast.
+						Optional: Falls du noch weitere Anmerkungen hast.
 					</Form.Text>
 					<Form.Control
 						as="textarea"
@@ -88,11 +92,6 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 						<Button type="submit" variant="primary" className="mt-3">
 							Abschicken und Weiter
 						</Button>
-						<Link to={props.nextPage}>
-							<Button type="submit" variant="primary" className="mt-3 ml-2">
-								&Uuml;berspringen
-							</Button>
-						</Link>
 					</Row>
 				</Form>
 			</Container>
@@ -204,11 +203,8 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 				remarks: form.elements.remarks.value
 			};
 		} else {
-			data = {
-				level: props.level,
-				answers: answers,
-				remarks: form.elements.remarks.value
-			};
+			logError("Cant send questionnaire data: not logged in");
+			return;
 		}
 
 		post("/questionnaire", JSON.stringify(data))

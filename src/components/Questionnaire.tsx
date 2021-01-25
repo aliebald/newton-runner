@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import { post } from "../backendCommunication";
 import { getUserId, isLoggedIn } from "../userdata";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Toast from "./Toast";
 import { error as logError } from "../logger";
 
@@ -92,6 +92,15 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 						<Button type="submit" variant="primary" className="mt-3">
 							Abschicken und Weiter
 						</Button>
+						{error ? (
+							<Link to={props.nextPage}>
+								<Button type="submit" variant="primary" className="mt-3 ml-2">
+									&Uuml;berspringen
+								</Button>
+							</Link>
+						) : (
+							<></>
+						)}
 					</Row>
 				</Form>
 			</Container>
@@ -212,8 +221,13 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 				history.push(props.nextPage);
 			})
 			.catch((errorMsg) => {
-				logError(errorMsg);
-				setError(true);
+				if (errorMsg.returnObj.status === 400) {
+					// Already saved feedback
+					history.push(props.nextPage);
+				} else {
+					logError(errorMsg);
+					setError(true);
+				}
 			});
 	}
 }

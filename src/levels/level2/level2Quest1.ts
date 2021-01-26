@@ -26,7 +26,6 @@ const graph: GraphInputConfig = {
 
 const width = 1200;
 
-// TODO adjust GameConfig
 const game: GameConfig = {
 	gameWorld: {
 		height: 600,
@@ -57,7 +56,7 @@ const settings: QuestConfig = {
 };
 
 function onPreload(this: Phaser.Scene): void {
-	// TODO: Load all required images
+	// Load all required images
 	this.load.image("bg", "assets/PlatformerAssetsBase/Background/bg.png");
 
 	this.load.image("castleMid", "assets/PlatformerAssetsBase/Tiles/castleMid.png");
@@ -126,7 +125,7 @@ function onPreload(this: Phaser.Scene): void {
 }
 
 function preCreate(this: Phaser.Scene): void {
-	// TODO: Add background
+	// Add background
 	for (let i = 0; i < 5; i++) {
 		this.add.image(256 * i, 0, "bg").setOrigin(0);
 		this.add.image(256 * i, 256, "bg").setOrigin(0);
@@ -322,7 +321,7 @@ function preCreate(this: Phaser.Scene): void {
 }
 
 function afterCreate(this: Game): void {
-	// TODO: add platforms / ground, coins, goals, traps etc.
+	// add platforms / ground, coins, goals, traps etc.
 	const tileWidth = 70;
 	for (let i = 0; i * tileWidth < width; i++) {
 		this.platforms.create(35 + tileWidth * i, 500, "castleMid");

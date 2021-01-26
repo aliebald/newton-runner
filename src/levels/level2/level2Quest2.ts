@@ -45,14 +45,14 @@ const settings: QuestConfig = {
 	title: "Level 2 Quest 2",
 	id: "level2Quest2",
 	graph: graph,
-	description: `Dein Weg führt dich zu einem großen Wohnhaus. Als du dich um siehst, erkennst du eine Bombe mit 3
+	description: `Dein Weg führt dich zu einem großen Wohnhaus. Als du dich um siehst, erkennst du eine Bombe mit 2
 		m/s auf dich zurollen. Laufe also schnell weg Richtung Schlüssel. Wenn Stacheln in deinem Weg sind,
-		reicht es vielleicht diesen merkwürdigen Stein zu erreichen.`, // cspell: disable-line
+		reicht es vielleicht diesen merkwürdigen Stein zu erreichen.`,
 	game: game
 };
 
 function onPreload(this: Phaser.Scene): void {
-	// TODO: Load all required images
+	// Load all required images
 	this.load.image("bg", "assets/PlatformerAssetsBase/Background/bg.png");
 
 	this.load.image("castleMid", "assets/PlatformerAssetsBase/Tiles/castleMid.png");
@@ -90,7 +90,7 @@ function onPreload(this: Phaser.Scene): void {
 }
 
 function preCreate(this: Phaser.Scene): void {
-	// TODO: Add background
+	// Add background
 	for (let i = 0; i < 5; i++) {
 		this.add.image(256 * i, 0, "bg").setOrigin(0);
 		this.add.image(256 * i, 256, "bg").setOrigin(0);
@@ -145,11 +145,11 @@ function preCreate(this: Phaser.Scene): void {
 		this.add.image(tileWidth * i * 2 - 35, 170, "window").setScale(0.7, -0.7);
 	}
 
-	this.add.image(600, 460, "brick");
+	this.add.image(550, 460, "brick").setScale(1.2, 1.2);
 }
 
 function afterCreate(this: Game): void {
-	// TODO: add platforms / ground, coins, goals, traps etc.
+	// add platforms / ground, coins, goals, traps etc.
 	const tileWidth = 70;
 	for (let i = 0; i * tileWidth < width; i++) {
 		this.platforms.create(35 + tileWidth * i, 500, "castleMid");
@@ -165,6 +165,7 @@ function afterCreate(this: Game): void {
 	const spike = this.dynamicTraps.create(700, 433, "spikes").setScale(0.5).refreshBody();
 	this.variables.set("spikes", spike);
 }
+
 function onUpdate(this: Game): void {
 	if (this.gameRunning) {
 		if (this.player.x >= 100 && !this.variables.get("bomb_started")) {
@@ -177,10 +178,10 @@ function onUpdate(this: Game): void {
 			}
 			goRight(bomb, 800);
 		}
-		if (!this.variables.get("startTime")) {
-			this.variables.set("startTime", new Date().getTime());
+		if (this.player.x >= 550 && !this.variables.get("passedBrick")) {
+			this.variables.set("passedBrick", new Date().getTime());
 		}
-		if (this.variables.get("startTime") + 3000 < new Date().getTime()) {
+		if (this.variables.get("passedBrick") + 1500 < new Date().getTime()) {
 			this.variables.get("spikes");
 			const spikes = this.variables.get("spikes");
 			spikes.setScale(0.5, -0.5).refreshBody();

@@ -34,7 +34,7 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 				</p>
 
 				<Form onSubmit={handleSubmit}>
-					<UnevenHeader title="Inhalte" labels className="pt-4" />
+					<EvenHeader title="Inhalte" labels className="pt-4" />
 					<Option
 						name="contentA"
 						question="1.a Die Inhalte des Levels waren Verständlich"
@@ -42,7 +42,7 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 					<Option name="contentB" even question="1.b Der Inhalt war neu für mich " />
 					<Option name="contentC" question="1.c Die Theorie hat mir gut gefallen" />
 
-					<UnevenHeader title="Quiz" className="pt-4" />
+					<EvenHeader title="Quiz" className="pt-4" />
 					<Option name="quizA" question="2.a Die Quizze haben gut zur Theorie gepasst" />
 					<Option name="quizB" even question="2.b Die Quizze waren einfach zu lösen" />
 					<Option
@@ -50,7 +50,7 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 						question="2.c Ich konnte durch die Quizze den Inhalt besser verstehen"
 					/>
 
-					<UnevenHeader title="Quests" className="pt-4" />
+					<EvenHeader title="Quests" className="pt-4" />
 					<Option name="questA" question="3.a Die Quests haben mir gut gefallen" />
 					<Option name="questB" even question="3.b Die Quests waren einfach zu lösen" />
 					<Option
@@ -58,26 +58,23 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 						question="3.c Ich konnte durch die Quests den Inhalt besser verstehen"
 					/>
 
-					<div className="questionnaireSeparator py-2"></div>
 					<EvenHeader title="Allgemeine Fragen" className="pt-4" />
 					<Option
 						name="generalA"
-						max={5}
 						question="4.a Das Spiel war eine gute Ergänzung zum Frontalunterricht"
 					/>
 					<Option
 						name="generalB"
-						max={5}
 						even
 						question="4.b Das Spiel hat mir besser gefallen als Frontalunterricht  "
 					/>
 					<Option
 						name="generalC"
-						max={5}
 						question="4.c Ich wünsche mir ein solches Spiel auch in anderen Themenbereichen."
 					/>
+					<EvenHeader title="" labels className="pt-2" />
 
-					<div className="questionnaireSeparator my-4"></div>
+					<div className="questionnaireSeparator my-3"></div>
 					<h3>Weitere Anmerkungen</h3>
 					<Form.Text className="text-muted">
 						Optional: Falls du noch weitere Anmerkungen hast.
@@ -107,6 +104,7 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 		</>
 	);
 
+	/*
 	function UnevenHeader(props: { title: string; className?: string; labels?: boolean }) {
 		const labels = props.labels ? (
 			<>
@@ -130,26 +128,33 @@ export default function Questionnaire(props: { level: number; nextPage: string }
 			</Row>
 		);
 	}
+	*/
 
-	function EvenHeader(props: { title: string; className?: string }) {
-		return (
-			<Row className={props.className}>
-				<Col sm="6">
-					<h3>{props.title}</h3>
-				</Col>
+	function EvenHeader(props: { title: string; className?: string; labels?: boolean }) {
+		const labels = props.labels ? (
+			<>
 				<Col className="QuestionnaireLabel">Stimme absolut zu</Col>
 				<Col className="QuestionnaireLabel">Stimme eher zu</Col>
 				<Col className="QuestionnaireLabel">weder noch</Col>
 				<Col className="QuestionnaireLabel">Stimme eher nicht zu</Col>
 				<Col className="QuestionnaireLabel">Stimme gar nicht zu</Col>
+			</>
+		) : (
+			<></>
+		);
+		return (
+			<Row className={props.className}>
+				<Col sm="6">
+					<h3>{props.title}</h3>
+				</Col>
+				{labels}
 			</Row>
 		);
 	}
 
-	function Option(props: { question: string; even?: boolean; name: string; max?: number }) {
+	function Option(props: { question: string; even?: boolean; name: string }) {
 		const checkboxes: JSX.Element[] = [];
-		const max = props.max ? props.max : 6;
-		for (let i = 1; i <= max; i++) {
+		for (let i = 1; i <= 5; i++) {
 			checkboxes.push(
 				<Col key={`${props.name}-${i}`} className="d-flex justify-content-center">
 					<Form.Check

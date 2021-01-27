@@ -43,7 +43,7 @@ const game: GameConfig = {
 
 // This is the settings json we export
 export const settings: QuestConfig = {
-	title: "Quest 3",
+	title: "Level 1 Quest 3",
 	id: "level1Quest3",
 	description: `Um jetzt auch noch den letzten Schlüssel für dieses Level einzusammeln, bleibt dir eine weitere
 		Aufgabe. Diese sieht jetzt schon um einiges schwerer aus als die Vorherigen, aber du bist dir sicher,

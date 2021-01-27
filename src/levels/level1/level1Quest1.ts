@@ -40,7 +40,7 @@ const game: GameConfig = {
 
 // This is the settings json we export
 export const settings: QuestConfig = {
-	title: "Quest 1",
+	title: "Level 1 Quest 1",
 	id: "level1Quest1",
 	graph: graph,
 	description: `Der erste Schlüssel befindet sich zwischen zwei Häusern in einer nahegelegenen Siedlung. Versuche

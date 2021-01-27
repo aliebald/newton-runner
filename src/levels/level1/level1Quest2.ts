@@ -45,7 +45,7 @@ const game: GameConfig = {
 
 // This is the settings json we export
 export const settings: QuestConfig = {
-	title: "Quest 2",
+	title: "Level 1 Quest 2",
 	id: "level1Quest2",
 	description: `
 		Da du die erste Aufgabe erfolgreich gemeistert hast, wirfst du erneut einen Blick auf die Karte. Auf

@@ -45,9 +45,7 @@ const settings: QuestConfig = {
 	title: "Level 2 Quest 2",
 	id: "level2Quest2",
 	graph: graph,
-	description: `Dein Weg führt dich zu einem großen Wohnhaus. Als du dich um siehst, erkennst du eine Bombe mit 2
-		m/s auf dich zurollen. Laufe also schnell weg Richtung Schlüssel. Wenn Stacheln in deinem Weg sind,
-		reicht es vielleicht diesen merkwürdigen Stein zu erreichen.`,
+	description: `Dein Weg führt dich zu einem großen Wohnhaus. Als du dich um siehst, erkennst du eine Bombe mit 3 m/s  auf dich zurollen. Laufe also schnell weg Richtung Schlüssel. Wenn Stacheln in deinem Weg sind, bleibe kurz  1 s lang hinter diesem merkwürdigen Stein stehen, damit sie wegklappen können.`,
 	game: game
 };
 

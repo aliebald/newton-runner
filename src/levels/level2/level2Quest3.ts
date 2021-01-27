@@ -53,8 +53,8 @@ const settings: QuestConfig = {
 	id: "level2Quest3",
 	graph: graph,
 	description: `Sieht aus, als würde in der nächsten Straße gebaut werden. Wenn die Kiste nach oben gezogen wird,
-		werden die Klappen durch das Gewicht nach unten gedrückt. Warte ab, bis sich die Klappen wieder
-		schließen, aber nicht zu lang, sonst wirst du noch von einer Bombe von hinten getroffen.`, // cspell: disable-line
+		werden die Klappen durch das Gewicht nach unten gedrückt. Warte 1 s ab, bis sich die Klappen
+		wieder schließen, aber nicht zu lang, sonst wirst du noch von einer Bombe von hinten getroffen.`, // cspell: disable-line
 	game: game
 };
 

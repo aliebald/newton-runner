@@ -45,7 +45,7 @@ const sampleData = {
 		},
 		{
 			name: "Erika Mustermann",
-			points: 72,
+			points: 59,
 			bonusPoints: 3,
 			achievements: ["PointCollectorLevel1", "BonusCollectorLevel1", "QuizmasterLevel1"]
 		},

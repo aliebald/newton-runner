@@ -128,7 +128,13 @@ function App(): ReactElement {
 				<Route
 					path="/level1Quiz2"
 					exact
-					component={() => <Quiz config={level1Quiz2} nextPage="/level1Quest3"></Quiz>}
+					component={() => (
+						<Quiz
+							config={level1Quiz2}
+							nextPage="/level1Quest3"
+							theoryLink="/level1Theory1"
+						></Quiz>
+					)}
 				/>
 				<Route
 					path="/level1Quest3"

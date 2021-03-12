@@ -163,7 +163,7 @@ export default function Quest(props: { config: QuestConfig; nextPage: string }):
 			// Basic description for rated mode
 			text.push(
 				<div key={"description"} className="pb-1">
-					Umso weniger Versuche du f&uuml;r die Quest ben&ouml;tigst, umso mehr Punkte
+					Je weniger Versuche du f&uuml;r die Quest ben&ouml;tigst, desto mehr Punkte
 					bekommst du. Die Punkteverteilung ist Quest abh&auml;ngig.
 					<br />
 				</div>

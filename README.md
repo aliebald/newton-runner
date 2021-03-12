@@ -1,73 +1,39 @@
-# ITBL Physics Game
+# Newton Runner project description
 
-This repository contains a project for the course IT Based Learning at TUM.
+As Part of the bachelor practical course "Designing IT-based Learning" at the Technical University of Munich, Germany our group decided to design a web-based learning game for physics lessons. The goal of this game was to teach the basics of movement, with a focus on time-place and time-velocity-diagrams.
 
-This is very much still work in progress.
+The game consists of two levels (as well as a small bonus level) and three central elements: Theory, Quizzes and Quests. Each level begins with a theory explaining the relevant knowledge for the level and a short quiz to verify that the knowledge was understood. After that, the player can consolidate their knowledge in multiple quests as well as an additional quiz. The goal of those two levels is to introduce the player intuitively to the basics of movement and how different types of diagrams model it.
 
-<br/>
+As a central element in our games, the quests allow the player to navigate a Jump ’n’ Run like game, using the before mentioned diagram types to control their player.
 
-# Development Setup
+At the end of this course, we then evaluated this game with different classes in multiple lessons and wrote an evaluation based on the data and feedback we collected.
 
-## Prerequisites
+The Game can be found at [newton-runner.de](https://newton-runner.de/).<br>
+Please note that logging in or sending any feedback wont work since the backend has stopped.
 
-You need to have Node.js installed.
-To check if Node.js is installed, use `node -v`.
+# Team
 
-<br/>
+Our Team consisted of Alexander Liebald, Niclas Hülsmann, Sandra Graßnick and Philipp Rappolder.
 
-## Install dependencies
+# Backend
 
-Run `npm install` to setup the project.
+To collect feedback, calculate the leaderboard and save the progress of users, we build an backend which can be found here: **TODO LINK**
 
-<br/>
+# Setup
 
-## Install Vscode plugins
+For development setup, see [SETUP.md](https://github.com/aliebald/newton-runner/blob/main/SETUP.md).
 
-Look for `ESLint` and `Prettier - Code formatter` under Extensions in Vscode and install them.
+# Current state of the Game
 
-Optionally, a spell checker (e.g. `Code Spell Checker`) can be installed.
+Since the practical course ended, development is currently not continuing. The backend server is also no longer running, so logging in or sending feedback wont work!
 
-<br/>
+Some parts of the code had to be produced with high time pressure and optimization was not always possible or the main goal. Nevertheless, no major bugs are known.
 
-## Necessary settings
+## known Bugs
 
-For development, please change the following settings in Visual Studio Code:
+-   Starting a Quest and then changing the page to another quest does not stop the previous quest, which can lead to problems. Reloading the page or simply finishing/ending a quest before changing page solves the bug.
 
--   Look for `Default Formatter` and set it to `esbenp.prettier-vscode`
--   Look for `formatOnSave` and check the checkbox
--   Look for `Eol` and set it to `lf` or `\n`
+# Assets
 
-<br/>
-
-# Running a local development server
-
-A local development server can be started using `npm start`. The application will be opened in a new browser tab, which will refresh every time changes are saved.
-
-Major errors will be shown in the terminal and in the browser. For minor errors please also check the browser console.
-
-<br/>
-
-# File structure
-
--   **src** and **public**: [see this](https://create-react-app.dev/docs/folder-structure/)
-
--   **src/css**: global css
-
-    -   This should be the preferred place for css, to keep the style the same over all levels and quests.
-
--   **src/components**: global components. This is where you should put new components. If necessary we can later move them into subdirectories of levels
-
--   **src/\_\_tests\_\_**: this contains all tests
-
--   **src/levels**: contains all levels
-
--   **src/levels/exampleLevels**: contains all quests for the _exampleLevels_ level
-
-    -   Each quest has one .ts file, exporting a QuestConfig constant (see Quest component).
-
-<br>
-
-# Naming conventions
-
--   React Components, Types & Interfaces: _UpperCamelCase_
--   Everything else: _lowerCamelCase_
+-   Kenney Game Assets (version 41) [link](https://kenney.itch.io/kenney-game-assets-1).
+-   Hiker/Adventurer Sprites by The Baldur [link](https://the-baldur.itch.io/pixelart-hiker).

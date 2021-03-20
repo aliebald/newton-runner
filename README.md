@@ -29,11 +29,19 @@ Since the practical course ended, development is currently not continuing. The b
 
 Some parts of the code had to be produced with high time pressure and optimization was not always possible or the main goal. Nevertheless, no major bugs are known.
 
-## known Bugs
+## Known Bugs
 
 -   Starting a Quest and then changing the page to another quest does not stop the previous quest, which can lead to problems. Reloading the page or simply finishing/ending a quest before changing page solves the bug.
 
-# Assets
+# Credits for used assets
 
 -   Kenney Game Assets (version 41) [link](https://kenney.itch.io/kenney-game-assets-1).
 -   Hiker/Adventurer Sprites by The Baldur [link](https://the-baldur.itch.io/pixelart-hiker).
+
+# License
+
+It is planned to release Newton Runner with an open source license, but currently this repository does not yet include a license. If a license is added in the future, the licensed version will be found [on GitHub](https://github.com/aliebald/newton-runner).
+
+Please note that any use of this code, other than the evaluation of our project at the chair of Information Systems and Business Process Management, is therefore currently prohibited. You may however play the game [play the game](https://newton-runner.de) in its current version.
+
+We will do our best to provide a open source license as soon as possible. Feel free to contact us regarding any requests or proposals regarding this matter.

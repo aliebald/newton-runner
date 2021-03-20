@@ -196,7 +196,7 @@ export default class Game extends Phaser.Scene {
 			default: "arcade",
 			arcade: {
 				gravity: { y: 300 },
-				debug: true
+				debug: false
 			}
 		},
 		parent: "gameDestination",

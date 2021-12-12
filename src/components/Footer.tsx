@@ -19,6 +19,24 @@ export default function Footer(): ReactElement {
 						<a href="mailto:physics.game.team@gmail.com" className="footerLink">
 							Kontakt
 						</a>
+						<a
+							className="footerLink"
+							href="https://aliebald.github.io/impressum/"
+							target="_blank"
+							rel="noopener noreferrer"
+							title="Impressum gemäß § 5 TMG"
+						>
+							Impressum
+						</a>
+						<a
+							target="_blank"
+							rel="noreferrer noopener"
+							className="ghLink px-3"
+							href="https://github.com/aliebald/newton-runner"
+							title="GitHub project repository"
+						>
+							<img src="other/landingPage/GitHub-Mark-32px.png" />
+						</a>
 					</div>
 				</div>
 			</div>

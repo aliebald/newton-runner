@@ -39,7 +39,7 @@ import bonusLevelQuiz1 from "./levels/bonus/bonusLevelQuiz1";
 function App(): ReactElement {
 	const [networkError, setNetworkError] = useState(checkNetworkError());
 	const [loggedIn, setLoggedIn] = useState(isLoggedIn());
-	const [showLoginPopup, setShowLoginPopup] = useState(location.hash !== "#/login" && !loggedIn);
+	const [showLoginPopup, setShowLoginPopup] = useState(false); // location.hash !== "#/login" && !loggedIn
 
 	return (
 		<HashRouter basename="/">

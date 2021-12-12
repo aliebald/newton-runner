@@ -17,7 +17,7 @@ Our Team consisted of Alexander Liebald, Niclas Hülsmann, Sandra Graßnick and 
 
 # Backend
 
-To collect feedback, calculate the leaderboard and save the progress of users, we build an backend which can be found here: **TODO LINK**
+To collect feedback, calculate the leaderboard and save the progress of users, we build an backend which can be found here: [link](https://github.com/nhuels/newton-runner-backend)
 
 # Setup
 
@@ -25,7 +25,7 @@ For development setup, see [SETUP.md](https://github.com/aliebald/newton-runner/
 
 # Current state of the Game
 
-Since the practical course ended, development is currently not continuing. The backend server is also no longer running, so logging in or sending feedback wont work!
+Since the practical course ended, development is currently not continuing. The backend server is also no longer running, so logging in or sending feedback wont work.
 
 Some parts of the code had to be produced with high time pressure and optimization was not always possible or the main goal. Nevertheless, no major bugs are known.
 
@@ -33,15 +33,33 @@ Some parts of the code had to be produced with high time pressure and optimizati
 
 -   Starting a Quest and then changing the page to another quest does not stop the previous quest, which can lead to problems. Reloading the page or simply finishing/ending a quest before changing page solves the bug.
 
+# Contact
+
+For bug reports or other project related topics, feel free to create an issue on [GitHub](https://github.com/aliebald/newton-runner/issues).
+
+For other inquiries, please contact us via mail: `physics.game.team (at) gmail.com`.
+
 # Credits for used assets
 
--   Kenney Game Assets (version 41) [link](https://kenney.itch.io/kenney-game-assets-1).
--   Hiker/Adventurer Sprites by The Baldur [link](https://the-baldur.itch.io/pixelart-hiker).
+-   Kenney Game Assets (version 41) by [kenney.nl](https://kenney.nl/), [kenney.itch.io](https://kenney.itch.io/kenney-game-assets-1).
+-   Hiker/Adventurer Sprites by The Baldur [the-baldur.itch.io](https://the-baldur.itch.io).
 
 # License
 
-It is planned to release Newton Runner with an open source license, but currently this repository does not yet include a license. If a license is added in the future, the licensed version will be found [on GitHub](https://github.com/aliebald/newton-runner).
+Note that assets used in this project are licensed independently.
 
-Please note that any use of this code, other than the evaluation of our project at the chair of Information Systems and Business Process Management, is therefore currently prohibited. You may however play the game [play the game](https://newton-runner.de) in its current version.
+    Newton Runner is a gamified teaching approach for the basics of movement by graphs
+    Copyright (C) 2021 Alexander Liebald, Niclas Huelsmann, Sandra Graßnick, Philipp Rappolder
 
-We will do our best to provide a open source license as soon as possible. Feel free to contact us regarding any requests or proposals regarding this matter.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.

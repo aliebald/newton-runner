@@ -23,13 +23,3 @@
 	background-color: rgb(50, 200, 205);
 	color: white;
 }
-
-.ghLink img {
-	height: 1.15rem;
-	width: 1.15rem;
-	transition: transform 0.2s;
-}
-
-.ghLink img:hover {
-	transform: scale(1.2);
-}

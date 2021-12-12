@@ -17,6 +17,10 @@
 	background-color: var(--secondaryColor);
 }
 
+.navbar {
+	padding: .7rem 1rem;
+}
+
 @media (min-width: 992px) {
 	.navbar-expand-lg .navbar-nav .nav-link {
 		padding-right: 1rem;
@@ -120,10 +124,6 @@
 	border: 1px dotted red;
 }
 
-nav {
-	min-height: 7vh;
-}
-
 .w-33 {
 	width: 33.33%;
 }
@@ -189,8 +189,6 @@ body {
 	position: relative;
 	align-self: center;
 	text-align: center;
-
-	padding-right: 1rem;
 	margin-left: auto;
 }
 
@@ -202,7 +200,7 @@ body {
 .footer .footerLink {
 	color: var(--footerText);
 	text-decoration: none;
-	padding-left: 1.5rem;
+	padding-left: 1rem;
 	cursor: pointer;
 }
 
@@ -439,4 +437,14 @@ body {
  */
 #gameDestination {
 	height: 600px !important;
+}
+
+.ghLink img {
+	height: 1.15rem;
+	width: 1.15rem;
+	transition: transform 0.2s;
+}
+
+.ghLink img:hover {
+	transform: scale(1.2);
 }

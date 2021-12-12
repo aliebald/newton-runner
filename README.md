@@ -1,4 +1,4 @@
-# Newton Runner project description
+# Newton Runner
 
 As Part of the bachelor practical course "Designing IT-based Learning" at the Technical University of Munich, Germany our group decided to design a web-based learning game for physics lessons. The goal of this game was to teach the basics of movement, with a focus on time-place and time-velocity-diagrams.
 

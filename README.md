@@ -8,7 +8,7 @@ As a central element in our games, the quests allow the player to navigate a Jum
 
 At the end of this course, we then evaluated this game with different classes in multiple lessons and wrote an evaluation based on the data and feedback we collected.
 
-The Game can be found at [newton-runner.de](https://newton-runner.de/).<br>
+The Game can be found at [newton-runner.liebald.dev](https://newton-runner.liebald.dev/).<br>
 Please note that logging in or sending any feedback wont work since the backend has stopped.
 
 # Team
